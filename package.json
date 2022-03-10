@@ -1,8 +1,8 @@
 {
   "name": "remix-app-template",
   "private": true,
-  "description": "",
-  "license": "",
+  "description": "My personal site",
+  "license": "MIT",
   "sideEffects": false,
   "scripts": {
     "build": "cross-env NODE_ENV=production remix build",

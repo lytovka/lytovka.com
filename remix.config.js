@@ -10,7 +10,7 @@ module.exports = {
   ignoredRouteFiles: [".*"],
   appDirectory: "app",
   assetsBuildDirectory: "public/build",
-  serverBuildPath: "build/index.js",
+  serverBuildPath: "api/index.js",
   publicPath: "/build/",
   devServerPort: 8002,
   serverDependenciesToBundle: ["parse-md"],

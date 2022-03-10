@@ -10,6 +10,7 @@ import {
 import type { MetaFunction } from "remix";
 import globalStylesUrl from "~/styles/global.css";
 import favicon from "~/images/favicon.png";
+import featuredImage from "~/images/featured_image.png";
 
 export const meta: MetaFunction = () => {
   return {
@@ -17,6 +18,7 @@ export const meta: MetaFunction = () => {
     title: "Ivan's desktop",
     description: "Sharing files with you",
     keywords: "lytovka, lytovka.com",
+    image: featuredImage,
   };
 };
 

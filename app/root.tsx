@@ -9,9 +9,11 @@ import {
 } from "remix";
 import type { MetaFunction } from "remix";
 import globalStylesUrl from "~/styles/global.css";
+import favicon from "~/images/favicon.png";
 
 export const meta: MetaFunction = () => {
   return {
+    viewport: "width=device-width,initial-scale=1,viewport-fit=cover",
     title: "Ivan's desktop",
     description: "Sharing files with you",
     keywords: "lytovka, lytovka.com",
@@ -24,6 +26,7 @@ export const links: LinksFunction = () => {
       rel: "stylesheet",
       href: globalStylesUrl,
     },
+    { rel: "icon", href: favicon },
   ];
 };
 
@@ -32,8 +35,6 @@ export default function App() {
     <html lang="en">
       <head>
         <meta charSet="utf-8" />
-        <link rel="icon" type="image/x-icon" href="/public/favicon.ico"></link>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <Meta />
         <Links />
       </head>

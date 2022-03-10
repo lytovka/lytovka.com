@@ -33,7 +33,12 @@ export default function Index() {
   return (
     <div className="main-container">
       {posts.map((post) => (
-        <Link key={post.slug} to={post.slug} className="folder-container">
+        <Link
+          prefetch="intent"
+          key={post.slug}
+          to={post.slug}
+          className="folder-container"
+        >
           <img src={folder} aria-label="folder" />
           <p>{post.title}</p>
         </Link>

@@ -8,7 +8,9 @@ function isValidMetadata(attributes: any): attributes is PostMarkdownMetadata {
   return attributes?.title && attributes?.description;
 }
 
-const postsDirPath = path.join(__dirname, "..", "app/posts");
+const pathToPosts = process.env.NODE_ENV === "development" ? ".." : "../..";
+
+const postsDirPath = path.join(__dirname, pathToPosts, "app/posts");
 
 export async function getPost(slug: string): Promise<Post | null> {
   const filepath = path.join(postsDirPath, slug + ".md");

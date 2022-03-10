@@ -1,0 +1,46 @@
+:root {
+  --color-background: #292f34;
+  --color-text: #ffffff;
+  --media-m: 720px;
+}
+
+html {
+  box-sizing: border-box;
+  font-size: 62.5%; /* Sets up the Base 10 stuff */
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: inherit;
+}
+
+:focus {
+  outline-offset: 2px;
+}
+
+html,
+body {
+  padding: 0;
+  margin: 0;
+  background-color: var(--color-background);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
+  color: var(--color-text);
+  margin: 0;
+  padding: 0;
+  border: 0;
+  outline: 0;
+  vertical-align: baseline;
+}
+
+p {
+  font-family: "Noto Mono", sans-serif;
+}

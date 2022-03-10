@@ -1,4 +1,4 @@
-import { Post, PostMarkdownMetadata } from "src/types/Post";
+import { Post, PostMarkdownMetadata } from "app/types/Post";
 import path from "path";
 import fs from "fs/promises";
 import parseMD from "parse-md";
@@ -8,7 +8,7 @@ function isValidMetadata(attributes: any): attributes is PostMarkdownMetadata {
   return attributes?.title && attributes?.description;
 }
 
-const postsDirPath = path.join(__dirname, "..", "src/posts");
+const postsDirPath = path.join(__dirname, "..", "app/posts");
 
 export async function getPost(slug: string): Promise<Post | null> {
   const filepath = path.join(postsDirPath, slug + ".md");

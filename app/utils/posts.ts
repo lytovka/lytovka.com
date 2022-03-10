@@ -26,7 +26,7 @@ export async function getPost(slug: string): Promise<Post | null> {
   return {
     slug,
     html,
-    metadata,
+    title: metadata.title,
   };
 }
 
@@ -44,7 +44,7 @@ export async function getPosts(): Promise<Array<Post | null>> {
       return {
         slug: filename.replace(/\.md$/, ""),
         html: content,
-        metadata,
+        title: metadata.title,
       };
     })
   );

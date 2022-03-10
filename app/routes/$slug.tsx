@@ -1,7 +1,7 @@
 import { Link, LinksFunction, LoaderFunction, useLoaderData } from "remix";
 import { Post } from "~/types/Post";
 import PostStylesUrl from "~/styles/$slug.css";
-import { getPost } from "~/utils/posts";
+import { getPost } from "~/utils/postsFromDb";
 
 export const links: LinksFunction = () => {
   return [
@@ -25,7 +25,7 @@ export default function PostSlug() {
   return (
     <>
       <nav className="navigation">
-        <h1>{post.metadata.title}</h1>
+        <h1>{post.title}</h1>
         <Link to="/" className="navigation-close-link">
           <svg
             fill="currentColor"
@@ -39,7 +39,7 @@ export default function PostSlug() {
         </Link>
       </nav>
       <article>
-        <p className="last-edited-date">{post.metadata.date}</p>
+        <p className="last-edited-date">{post.date}</p>
         <div
           className="main-section"
           dangerouslySetInnerHTML={{ __html: post.html }}

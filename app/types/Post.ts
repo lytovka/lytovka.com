@@ -1,7 +1,8 @@
 export type Post = {
   html: string;
   slug: string;
-  metadata: PostMarkdownMetadata;
+  title: string;
+  date?: Date;
 };
 
 export type PostMarkdownMetadata = {

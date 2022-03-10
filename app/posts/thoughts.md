@@ -2,7 +2,6 @@
 title: Thoughts
 description: this is a description.
 date: "03/06/2022"
-iconSrc: "../images/home_folder.png"
 ---
 
 Дорогой читатель!

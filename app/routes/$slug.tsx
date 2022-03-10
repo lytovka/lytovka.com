@@ -1,7 +1,15 @@
-import { Link, LinksFunction, LoaderFunction, useLoaderData } from "remix";
-import { Post } from "~/types/Post";
+import {
+  Link,
+  LinksFunction,
+  LoaderFunction,
+  MetaFunction,
+  useLoaderData,
+} from "remix";
 import PostStylesUrl from "~/styles/$slug.css";
+import { Post } from "~/types/Post";
 import { getPost } from "~/utils/postsFromDb";
+
+type LoaderData = Post;
 
 export const links: LinksFunction = () => {
   return [
@@ -10,6 +18,20 @@ export const links: LinksFunction = () => {
       href: PostStylesUrl,
     },
   ];
+};
+
+export const meta: MetaFunction = ({ data }: { data: LoaderData | null }) => {
+  console.log(data);
+  if (!data) {
+    return {
+      title: "No post",
+      description: "No post found",
+    };
+  }
+  return {
+    title: `"${data.title}" post`,
+    description: "What should I put here?",
+  };
 };
 
 export const loader: LoaderFunction = async ({ params }) => {
@@ -21,7 +43,6 @@ export const loader: LoaderFunction = async ({ params }) => {
 
 export default function PostSlug() {
   const post = useLoaderData<Post>();
-  console.log("page", post);
   return (
     <>
       <nav className="navigation">

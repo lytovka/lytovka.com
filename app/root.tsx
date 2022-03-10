@@ -2,6 +2,7 @@ import {
   Links,
   LinksFunction,
   LiveReload,
+  Meta,
   Outlet,
   Scripts,
   ScrollRestoration,
@@ -10,7 +11,11 @@ import type { MetaFunction } from "remix";
 import globalStylesUrl from "~/styles/global.css";
 
 export const meta: MetaFunction = () => {
-  return { title: "New Remix App" };
+  return {
+    title: "Ivan's desktop",
+    description: "Sharing files with you",
+    keywords: "lytovka, lytovka.com",
+  };
 };
 
 export const links: LinksFunction = () => {
@@ -31,7 +36,7 @@ export default function App() {
           name="viewport"
           content="width=device-width, initial-scale=1.0"
         ></meta>
-        <title>Thoughts</title>
+        <Meta />
         <Links />
       </head>
       <body>

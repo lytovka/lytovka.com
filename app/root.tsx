@@ -15,10 +15,9 @@ import featuredImage from "~/images/featured_image.png";
 export const meta: MetaFunction = () => {
   return {
     viewport: "width=device-width,initial-scale=1,viewport-fit=cover",
-    title: "Ivan's desktop",
-    description: "Sharing files with you",
-    keywords: "lytovka, lytovka.com",
-    image: featuredImage,
+    title: "Ivan's shared documents",
+    keywords: "Ivan Lytovka,lytovka.com",
+    "og:image": featuredImage,
   };
 };
 

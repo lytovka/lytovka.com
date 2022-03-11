@@ -21,7 +21,6 @@ export const links: LinksFunction = () => {
 };
 
 export const meta: MetaFunction = ({ data }: { data: LoaderData | null }) => {
-  console.log(data);
   if (!data) {
     return {
       title: "No post",
@@ -45,20 +44,25 @@ export default function PostSlug() {
   const post = useLoaderData<Post>();
   return (
     <>
-      <nav className="navigation">
-        <h1>{post.title}</h1>
-        <Link to="/" className="navigation-close-link">
-          <svg
-            fill="currentColor"
-            className="navigation-icon"
-            height={15}
-            width={15}
-            viewBox="0 0 371.23 371.23"
-          >
-            <path d="m371.23 21.213-21.212-21.213-164.403 164.402-164.402-164.402-21.213 21.213 164.402 164.402-164.402 164.403 21.213 21.212 164.402-164.402 164.403 164.402 21.212-21.212-164.402-164.403z" />
-          </svg>
-        </Link>
-      </nav>
+      <div className="navigation-container">
+        <nav className="navigation">
+          <div className="navigation-items-container">
+            <h1>{post.title}</h1>
+            <Link to="/" className="navigation-close-link">
+              <svg
+                fill="currentColor"
+                className="navigation-icon"
+                height={15}
+                width={15}
+                viewBox="0 0 371.23 371.23"
+              >
+                <path d="m371.23 21.213-21.212-21.213-164.403 164.402-164.402-164.402-21.213 21.213 164.402 164.402-164.402 164.403 21.213 21.212 164.402-164.402 164.403 164.402 21.212-21.212-164.402-164.403z" />
+              </svg>
+            </Link>
+          </div>
+        </nav>
+        <div className="background" />
+      </div>
       <article>
         <p className="last-edited-date">{post.date}</p>
         <div

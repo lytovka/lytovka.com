@@ -1,7 +1,8 @@
 :root {
   --color-background: #292f34;
   --color-text: #ffffff;
-  --media-m: 720px;
+  --header-height: 6rem;
+  --main-content-width: 80rem;
 }
 
 html {

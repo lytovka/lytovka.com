@@ -61,10 +61,8 @@ export default function PostSlug() {
             </Link>
           </div>
         </nav>
-        <div className="background" />
       </div>
       <article>
-        <p className="last-edited-date">{post.date}</p>
         <div
           className="main-section"
           dangerouslySetInnerHTML={{ __html: post.html }}

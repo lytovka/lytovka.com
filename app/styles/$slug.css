@@ -57,7 +57,7 @@ xlarge - 1400px
 }
 
 .main-section {
-  padding: 0 2rem 1rem;
+  padding: 1rem 2rem;
 }
 
 .post-paragraph {
@@ -86,7 +86,7 @@ xlarge - 1400px
 
 @media (min-width: 720px) {
   .main-section {
-    padding: 1.2rem 8rem;
+    padding: 4rem 8rem 2rem;
     max-width: var(--main-content-width);
     margin: 0 auto;
   }

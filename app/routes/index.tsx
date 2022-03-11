@@ -1,10 +1,4 @@
-import {
-  Link,
-  LinksFunction,
-  LoaderFunction,
-  MetaFunction,
-  useLoaderData,
-} from "remix";
+import { Link, LinksFunction, LoaderFunction, useLoaderData } from "remix";
 import indexStylesUrl from "~/styles/index.css";
 import folder from "~/images/home_folder.png";
 import { getPosts } from "~/utils/postsFromDb";
@@ -18,11 +12,6 @@ export const links: LinksFunction = () => {
     },
   ];
 };
-
-export const meta: MetaFunction = () => ({
-  title: "Ivan's desktop",
-  description: "Sharing thoughts with you",
-});
 
 export const loader: LoaderFunction = async () => {
   return getPosts();

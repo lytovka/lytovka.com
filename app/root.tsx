@@ -13,11 +13,16 @@ import favicon from "~/images/favicon.png";
 import featuredImage from "~/images/featured_image.png";
 
 export const meta: MetaFunction = () => {
+  const title = "Ivan's shared documents";
   return {
     viewport: "width=device-width,initial-scale=1,viewport-fit=cover",
-    title: "Ivan's shared documents",
+    title,
     keywords: "Ivan Lytovka,lytovka.com",
+    "og:type": "website",
     "og:image": featuredImage,
+    "og:title": title,
+    "twitter:card": "summary_large_image",
+    "twitter:title": title,
   };
 };
 

@@ -8,12 +8,10 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Post {
+model posts {
   id       String   @id @default(auto()) @map("_id") @db.ObjectId
   date     DateTime @db.Date
   markdown String
   slug     String
   title    String
-
-  @@map("posts")
 }

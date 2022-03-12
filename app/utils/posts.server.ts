@@ -1,12 +1,14 @@
 import { PrismaClient } from "@prisma/client";
 import { marked } from "marked";
-import { Post } from "~/types/Post";
+import { Post, PostUpdate, UpdatePost } from "~/types/Post";
 
 declare global {
   var prismaRead: ReturnType<typeof getClient> | undefined;
+  var prismaWrite: ReturnType<typeof getClient> | undefined;
 }
 
 const prismaRead = global.prismaRead ?? (global.prismaRead = getClient());
+const prismaWrite = global.prismaWrite ?? (global.prismaWrite = getClient());
 
 function getClient(): PrismaClient {
   const client = new PrismaClient();
@@ -32,4 +34,21 @@ export async function getPost(slug: string): Promise<Post | null> {
   const html = marked(foundPost.markdown);
 
   return { slug, title, html, date: foundPost.date };
+}
+
+export async function getPostRaw(slug: string): Promise<PostUpdate | null> {
+  const foundPost = await prismaRead.posts.findFirst({
+    where: {
+      slug,
+    },
+  });
+
+  if (!foundPost) return null;
+
+  return foundPost;
+}
+
+export async function editPost(postId: string, post: UpdatePost) {
+  console.log({ postId, post });
+  await prismaWrite.posts.update({ where: { id: postId }, data: post });
 }

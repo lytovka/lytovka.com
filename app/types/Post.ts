@@ -1,3 +1,5 @@
+import { posts } from "@prisma/client";
+
 export type Post = {
   html: string;
   slug: string;
@@ -5,9 +7,10 @@ export type Post = {
   date: Date;
 };
 
-export type PostMarkdownMetadata = {
+export type PostUpdate = posts;
+
+export type UpdatePost = {
   title: string;
-  description: string;
-  iconSrc: string;
-  date: Date;
+  slug: string;
+  markdown: string;
 };

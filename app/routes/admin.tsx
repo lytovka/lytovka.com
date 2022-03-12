@@ -1,6 +1,23 @@
-import { Link, LoaderFunction, Outlet, redirect, useLoaderData } from "remix";
+import {
+  Link,
+  LinksFunction,
+  LoaderFunction,
+  Outlet,
+  redirect,
+  useLoaderData,
+} from "remix";
 import { Post } from "~/types/Post";
 import { getPosts } from "~/utils/posts.server";
+import AdminStyles from "~/styles/admin.css";
+
+export const links: LinksFunction = () => {
+  return [
+    {
+      rel: "stylesheet",
+      href: AdminStyles,
+    },
+  ];
+};
 
 export const loader: LoaderFunction = async () => {
   if (process.env.NODE_ENV !== "development") redirect("/");
@@ -11,7 +28,7 @@ export const loader: LoaderFunction = async () => {
 export default function Admin() {
   const posts = useLoaderData<Array<Post>>();
   return (
-    <div className="admin">
+    <div className="admin-container">
       <nav>
         <h1>Admin</h1>
         <ul>

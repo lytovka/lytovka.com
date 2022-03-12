@@ -16,6 +16,7 @@ function getClient(): PrismaClient {
 
 export async function getPosts() {
   const allPosts = await prismaRead.post.findMany();
+  console.log(allPosts);
   return allPosts;
 }
 

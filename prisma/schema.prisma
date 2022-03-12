@@ -10,10 +10,7 @@ datasource db {
 
 model Post {
   id       String   @id @default(auto()) @map("_id") @db.ObjectId
-  date     DateTime @db.Date
   markdown String
   slug     String
   title    String
-
-  @@map("posts")
 }

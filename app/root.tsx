@@ -1,16 +1,20 @@
 import {
+  json,
   Links,
   LinksFunction,
   LiveReload,
+  LoaderFunction,
   Meta,
   Outlet,
   Scripts,
   ScrollRestoration,
+  useLoaderData,
 } from "remix";
 import type { MetaFunction } from "remix";
 import globalStylesUrl from "~/styles/global.css";
 import favicon from "~/images/favicon.png";
 import featuredImage from "~/images/featured_image.png";
+import { getEnv } from "~/utils/env.server";
 
 export const meta: MetaFunction = () => {
   const title = "Ivan's shared documents";
@@ -36,7 +40,19 @@ export const links: LinksFunction = () => {
   ];
 };
 
+type LoaderData = {
+  ENV: ReturnType<typeof getEnv>;
+};
+
+export const loader: LoaderFunction = () => {
+  const data: LoaderData = {
+    ENV: getEnv(),
+  };
+  return json(data);
+};
+
 export default function App() {
+  const data = useLoaderData<LoaderData>();
   return (
     <html lang="en">
       <head>
@@ -47,6 +63,11 @@ export default function App() {
       <body>
         <Outlet />
         <ScrollRestoration />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `window.ENV = ${JSON.stringify(data.ENV)};`,
+          }}
+        />
         <Scripts />
         {process.env.NODE_ENV === "development" && <LiveReload />}
       </body>

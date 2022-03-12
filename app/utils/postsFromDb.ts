@@ -15,12 +15,12 @@ function getClient(): PrismaClient {
 }
 
 export async function getPosts() {
-  const allPosts = await prismaRead.post.findMany();
+  const allPosts = await prismaRead.posts.findMany();
   return allPosts;
 }
 
 export async function getPost(slug: string): Promise<Post | null> {
-  const foundSlug = await prismaRead.post.findFirst({
+  const foundSlug = await prismaRead.posts.findFirst({
     where: {
       slug,
     },

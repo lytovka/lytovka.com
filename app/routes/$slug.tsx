@@ -7,7 +7,7 @@ import {
 } from "remix";
 import PostStylesUrl from "~/styles/$slug.css";
 import { Post } from "~/types/Post";
-import { getPost } from "~/utils/postsFromDb";
+import { getPost } from "~/utils/posts.server";
 
 type LoaderData = Post;
 

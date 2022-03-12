@@ -8,6 +8,7 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+// TODO: fix model name
 model posts {
   id       String   @id @default(auto()) @map("_id") @db.ObjectId
   date     DateTime @db.Date

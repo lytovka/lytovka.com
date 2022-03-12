@@ -14,7 +14,7 @@ export const links: LinksFunction = () => {
 };
 
 export const loader: LoaderFunction = async () => {
-  return getPosts();
+  return await getPosts();
 };
 
 export default function Index() {

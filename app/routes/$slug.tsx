@@ -6,8 +6,9 @@ import {
   useLoaderData,
 } from "remix";
 import PostStylesUrl from "~/styles/$slug.css";
+import formatDate from "date-fns/format";
 import { Post } from "~/types/Post";
-import { getPost } from "~/utils/postsFromDb";
+import { getPost } from "~/utils/posts.server";
 
 type LoaderData = Post;
 
@@ -42,6 +43,7 @@ export const loader: LoaderFunction = async ({ params }) => {
 
 export default function PostSlug() {
   const post = useLoaderData<Post>();
+  const postDate = formatDate(new Date(post.date), "dd/MM/yyyy");
   return (
     <>
       <div className="navigation-container">
@@ -62,9 +64,10 @@ export default function PostSlug() {
           </div>
         </nav>
       </div>
-      <article>
+      <article className="main-section">
+        <p className="main-section-date-edited">{postDate}</p>
         <div
-          className="main-section"
+          className="main-section-text"
           dangerouslySetInnerHTML={{ __html: post.html }}
         />
       </article>

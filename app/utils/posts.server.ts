@@ -20,16 +20,16 @@ export async function getPosts() {
 }
 
 export async function getPost(slug: string): Promise<Post | null> {
-  const foundSlug = await prismaRead.posts.findFirst({
+  const foundPost = await prismaRead.posts.findFirst({
     where: {
       slug,
     },
   });
 
-  if (!foundSlug) return null;
+  if (!foundPost) return null;
 
-  const title = foundSlug.title;
-  const html = marked(foundSlug.markdown);
+  const title = foundPost.title;
+  const html = marked(foundPost.markdown);
 
-  return { slug, title, html };
+  return { slug, title, html, date: foundPost.date };
 }

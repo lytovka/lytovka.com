@@ -20,7 +20,7 @@ export const links: LinksFunction = () => {
 };
 
 export const loader: LoaderFunction = async () => {
-  if (process.env.NODE_ENV !== "development") redirect("/");
+  if (process.env.NODE_ENV !== "development") return redirect("/");
 
   return await getPosts();
 };

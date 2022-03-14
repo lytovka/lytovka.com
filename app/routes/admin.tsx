@@ -7,7 +7,7 @@ import {
   useLoaderData,
 } from "remix";
 import { Post } from "~/types/Post";
-import { getPosts } from "~/utils/posts.server";
+import { getMarkdownPostsPreview } from "~/utils/posts.server";
 import AdminStyles from "~/styles/admin.css";
 
 export const links: LinksFunction = () => {
@@ -22,7 +22,7 @@ export const links: LinksFunction = () => {
 export const loader: LoaderFunction = async () => {
   if (process.env.NODE_ENV !== "development") return redirect("/");
 
-  return await getPosts();
+  return await getMarkdownPostsPreview();
 };
 
 export default function Admin() {

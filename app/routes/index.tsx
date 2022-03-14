@@ -1,7 +1,7 @@
 import { Link, LinksFunction, LoaderFunction, useLoaderData } from "remix";
 import indexStylesUrl from "~/styles/index.css";
 import folder from "~/images/home_folder.png";
-import { getPosts } from "~/utils/posts.server";
+import { getMarkdownPostsPreview } from "~/utils/posts.server";
 import { Post } from "~/types/Post";
 
 export const links: LinksFunction = () => {
@@ -14,7 +14,9 @@ export const links: LinksFunction = () => {
 };
 
 export const loader: LoaderFunction = async () => {
-  return await getPosts();
+  const data = await getMarkdownPostsPreview();
+  console.log({ data });
+  return data;
 };
 
 export default function Index() {

@@ -8,7 +8,7 @@ import {
 import PostStylesUrl from "~/styles/$slug.css";
 import formatDate from "date-fns/format";
 import { Post } from "~/types/Post";
-import { getPost } from "~/utils/posts.server";
+import { parseMarkdownPost } from "~/utils/posts.server";
 
 type LoaderData = Post;
 
@@ -38,7 +38,7 @@ export const loader: LoaderFunction = async ({ params }) => {
   if (!params.slug) {
     throw "such a slug does not exist.";
   }
-  return getPost(params.slug);
+  return parseMarkdownPost(params.slug);
 };
 
 export default function PostSlug() {

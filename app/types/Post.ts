@@ -14,3 +14,12 @@ export type UpdatePost = {
   slug: string;
   markdown: string;
 };
+
+// Markdown post
+
+export type MarkdownPost = {
+  html: string;
+  slug: string;
+  title: string;
+  date: string;
+};

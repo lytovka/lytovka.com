@@ -1,4 +1,5 @@
 import {
+  json,
   Link,
   LinksFunction,
   LoaderFunction,
@@ -36,9 +37,12 @@ export const meta: MetaFunction = ({ data }: { data: LoaderData | null }) => {
 
 export const loader: LoaderFunction = async ({ params }) => {
   if (!params.slug) {
-    throw "such a slug does not exist.";
+    throw `params.slug does not exist.`;
   }
-  return parseMarkdownPost(params.slug);
+  const post = parseMarkdownPost(params.slug);
+  if (!post) throw json({ slug: params.slug }, { status: 404 });
+
+  return json(post, { status: 200 });
 };
 
 export default function PostSlug() {

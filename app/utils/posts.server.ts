@@ -2,7 +2,7 @@ import { PrismaClient } from "@prisma/client";
 import { marked } from "marked";
 import { MarkdownPost, Post, PostUpdate, UpdatePost } from "~/types/Post";
 import path from "path";
-import fs from "fs/promises";
+import fs from "fs";
 import parseMD from "parse-md";
 
 type Metadata = {
@@ -77,11 +77,11 @@ const postsTopFolderPath = path.join(process.cwd(), `app/posts`);
 const buildPath = (...p: Array<string>) => path.join(process.cwd(), ...p);
 
 export async function getMarkdownPostsPreview() {
-  const dir = await fs.readdir(postsTopFolderPath);
+  const dir = await fs.promises.readdir(postsTopFolderPath);
   const posts = await Promise.all(
     dir.map(async (postFileName) => {
       const postFilePath = buildPath("app/posts", postFileName);
-      const fileContent = await fs.readFile(postFilePath);
+      const fileContent = await fs.promises.readFile(postFilePath);
       const { metadata } = parseMD(fileContent.toString());
       if (!isMetadataType(metadata)) return null;
       return {
@@ -93,13 +93,16 @@ export async function getMarkdownPostsPreview() {
   return posts.filter((post) => post !== null);
 }
 
-export async function parseMarkdownPost(
-  slug: string
-): Promise<MarkdownPost | null> {
+export function parseMarkdownPost(slug: string): MarkdownPost | null {
   const filePath = buildPath("app/posts", `${slug}.md`);
-  const fileContent = await fs.readFile(filePath);
-  const { metadata, content } = parseMD(fileContent.toString());
-  const html = marked(content);
-  if (!isMetadataType(metadata)) return null;
-  return { html, slug, title: metadata.title, date: metadata.date };
+  try {
+    const fileContent = fs.readFileSync(filePath);
+    const { metadata, content } = parseMD(fileContent.toString());
+    const html = marked(content);
+    if (!isMetadataType(metadata)) return null;
+    return { html, slug, title: metadata.title, date: metadata.date };
+  } catch (error: any) {
+    console.error(error);
+    return null;
+  }
 }

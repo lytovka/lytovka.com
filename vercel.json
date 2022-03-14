@@ -2,10 +2,8 @@
   "build": {
     "env": {
       "ENABLE_FILE_SYSTEM_API": "1"
-    }
-  },
-  "functions": {
-    "./server.js": {
+    },
+    "api/index.js": {
       "includeFiles": "posts/**"
     }
   }

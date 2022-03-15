@@ -5,7 +5,7 @@ import {
   MetaFunction,
   useLoaderData,
 } from "remix";
-import PostStylesUrl from "~/styles/$slug.css";
+import PostStylesUrl from "../../styles/$slug.css";
 import formatDate from "date-fns/format";
 import { Post } from "~/types/Post";
 import { getPost } from "~/utils/posts.server";

@@ -11,7 +11,8 @@ import {
   useLoaderData,
 } from "remix";
 import type { MetaFunction } from "remix";
-import globalStylesUrl from "~/styles/global.css";
+import globalStylesUrl from "../styles/global.css";
+import tailwindStyles from "./styles/tailwind.css";
 import favicon from "~/images/favicon.png";
 import featuredImage from "~/images/featured_image.png";
 import { getEnv } from "~/utils/env.server";
@@ -32,6 +33,10 @@ export const meta: MetaFunction = () => {
 
 export const links: LinksFunction = () => {
   return [
+    {
+      rel: "stylesheet",
+      href: tailwindStyles,
+    },
     {
       rel: "stylesheet",
       href: globalStylesUrl,

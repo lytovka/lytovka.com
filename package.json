@@ -5,8 +5,10 @@
   "license": "MIT",
   "sideEffects": false,
   "scripts": {
-    "build": "cross-env NODE_ENV=production remix build",
-    "dev": "cross-env NODE_ENV=development remix dev",
+    "build": "npm run build:css && cross-env NODE_ENV=production remix build",
+    "build:css": "tailwindcss -m -i ./styles/tailwind.css -o ./app/styles/tailwind.css",
+    "dev": "concurrently \"npm run dev:css\" \"remix dev\"",
+    "dev:css": "tailwindcss -w -i ./styles/tailwind.css -o ./app/styles/tailwind.css",
     "start": "remix-serve api/index.js",
     "postinstall": "remix setup node"
   },
@@ -29,8 +31,12 @@
     "@types/marked": "^4.0.2",
     "@types/react": "^17.0.24",
     "@types/react-dom": "^17.0.9",
+    "autoprefixer": "^10.4.2",
+    "concurrently": "^7.0.0",
     "cross-env": "^7.0.3",
     "eslint": "^8.9.0",
+    "postcss": "^8.4.8",
+    "tailwindcss": "^3.0.23",
     "typescript": "^4.5.5"
   }
 }

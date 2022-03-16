@@ -69,9 +69,9 @@ export default function PostSlug() {
         </nav>
       </div>
       <article className="px-1 py-8 lg:pt-16 lg:px-32 lg:pb-8 lg:max-w-main-content lg:mx-auto">
-        <p className="main-section-date-edited">{postDate}</p>
+        <p className="flex justify-end text-lg italic mb-5">{postDate}</p>
         <div
-          className="main-section-text"
+          className="prose prose-2xl mx-auto lg:max-w-none"
           dangerouslySetInnerHTML={{ __html: post.html }}
         />
       </article>

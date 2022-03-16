@@ -46,14 +46,19 @@ export default function PostSlug() {
   const postDate = formatDate(new Date(post.date), "dd/MM/yyyy");
   return (
     <>
-      <div className="navigation-container">
-        <nav className="navigation">
-          <div className="navigation-items-container">
-            <h1>{post.title}</h1>
-            <Link to="/" className="navigation-close-link">
+      <div className="h-navbar">
+        <nav className="bg-background w-full top-0 py-2 px-5 border-solid border-b border-b-gray-200 fixed">
+          <div className="flex content-center mx-auto max-w-screen-xl items-center">
+            <h1 className="text-3xl lg:text-4xl flex-grow text-center font-bold">
+              {post.title}
+            </h1>
+            <Link
+              to="/"
+              className="group flex content-center items-center w-12 h-12 transition-all duration-200 hover:bg-red-300 hover:rounded-full"
+            >
               <svg
                 fill="currentColor"
-                className="navigation-icon"
+                className="white transition group-hover:text-black"
                 height={15}
                 width={15}
                 viewBox="0 0 371.23 371.23"

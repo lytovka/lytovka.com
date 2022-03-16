@@ -6,33 +6,6 @@ large - 1200px
 xlarge - 1400px
 */
 
-.navigation-container {
-  height: var(--header-height);
-}
-
-.navigation {
-  position: fixed;
-  border-bottom: 0.5px rgb(155, 155, 155) solid;
-  padding: 0.8rem 1.2rem;
-  top: 0;
-  width: 100%;
-  background-color: var(--color-background);
-}
-
-.navigation-items-container {
-  align-items: center;
-  display: flex;
-  margin: 0 auto;
-  max-width: var(--main-content-width);
-}
-
-.navigation-items-container > h1 {
-  flex-grow: 1;
-  font-size: 1.8rem;
-  text-align: center;
-  font-weight: bold;
-}
-
 .navigation-close-link {
   display: flex;
   justify-content: center;
@@ -101,9 +74,5 @@ xlarge - 1400px
 
   .navigation-items-container {
     padding: 0.8rem 8rem;
-  }
-
-  .navigation-items-container > h1 {
-    font-size: 2rem;
   }
 }

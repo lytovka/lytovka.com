@@ -1,5 +1,5 @@
 import { Link, LinksFunction, LoaderFunction, useLoaderData } from "remix";
-import indexStylesUrl from "~/styles/index.css";
+import indexStylesUrl from "../../styles/index.css";
 import folder from "~/images/home_folder.png";
 import { getPosts } from "~/utils/posts.server";
 import { Post } from "~/types/Post";

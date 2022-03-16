@@ -5,7 +5,7 @@ import {
   MetaFunction,
   useLoaderData,
 } from "remix";
-import PostStylesUrl from "~/styles/$slug.css";
+import PostStylesUrl from "../../styles/$slug.css";
 import formatDate from "date-fns/format";
 import { Post } from "~/types/Post";
 import { getPost } from "~/utils/posts.server";
@@ -46,14 +46,18 @@ export default function PostSlug() {
   const postDate = formatDate(new Date(post.date), "dd/MM/yyyy");
   return (
     <>
-      <div className="navigation-container">
-        <nav className="navigation">
-          <div className="navigation-items-container">
-            <h1>{post.title}</h1>
-            <Link to="/" className="navigation-close-link">
+      <div className="h-navbar">
+        <nav className="bg-background w-full top-0 py-2 px-5 border-solid border-b border-b-gray-200 fixed">
+          <div className="flex justify-center mx-auto max-w-main-content items-center">
+            <h1 className="text-3xl lg:text-4xl flex-grow text-center">
+              {post.title}
+            </h1>
+            <Link
+              to="/"
+              className="group flex justify-center items-center w-12 h-12 transition-all duration-200 hover:bg-red-300 hover:rounded-full"
+            >
               <svg
-                fill="currentColor"
-                className="navigation-icon"
+                className="fill-white transition group-hover:fill-black"
                 height={15}
                 width={15}
                 viewBox="0 0 371.23 371.23"
@@ -64,10 +68,10 @@ export default function PostSlug() {
           </div>
         </nav>
       </div>
-      <article className="main-section">
-        <p className="main-section-date-edited">{postDate}</p>
+      <article className="px-1 py-8 lg:pt-16 lg:px-32 lg:pb-8 lg:max-w-main-content lg:mx-auto">
+        <p className="flex justify-end text-lg italic mb-5">{postDate}</p>
         <div
-          className="main-section-text"
+          className="prose prose-2xl mx-auto lg:max-w-none"
           dangerouslySetInnerHTML={{ __html: post.html }}
         />
       </article>

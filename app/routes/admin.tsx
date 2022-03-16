@@ -8,7 +8,7 @@ import {
 } from "remix";
 import { Post } from "~/types/Post";
 import { getPosts } from "~/utils/posts.server";
-import AdminStyles from "~/styles/admin.css";
+import AdminStyles from "../../styles/admin.css";
 
 export const links: LinksFunction = () => {
   return [

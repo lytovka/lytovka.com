@@ -6,31 +6,8 @@ large - 1200px
 xlarge - 1400px
 */
 
-.navigation-close-link {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 3rem;
-  height: 3rem;
-  transition: 0.2s;
-}
-
-.navigation-close-link:hover {
-  background-color: #f08080;
-  border-radius: 100px;
-}
-
-.navigation-icon {
-  color: white;
-  transition: 0.2s;
-}
-
 .navigation-close-link:hover > .navigation-icon {
   color: black;
-}
-
-.main-section {
-  padding: 1rem 2rem;
 }
 
 .post-paragraph {
@@ -66,12 +43,6 @@ xlarge - 1400px
 }
 
 @media (min-width: 720px) {
-  .main-section {
-    padding: 4rem 8rem 2rem;
-    max-width: var(--main-content-width);
-    margin: 0 auto;
-  }
-
   .navigation-items-container {
     padding: 0.8rem 8rem;
   }

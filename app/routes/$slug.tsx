@@ -48,17 +48,16 @@ export default function PostSlug() {
     <>
       <div className="h-navbar">
         <nav className="bg-background w-full top-0 py-2 px-5 border-solid border-b border-b-gray-200 fixed">
-          <div className="flex content-center mx-auto max-w-screen-xl items-center">
-            <h1 className="text-3xl lg:text-4xl flex-grow text-center font-bold">
+          <div className="flex justify-center mx-auto max-w-main-content items-center">
+            <h1 className="text-3xl lg:text-4xl flex-grow text-center">
               {post.title}
             </h1>
             <Link
               to="/"
-              className="group flex content-center items-center w-12 h-12 transition-all duration-200 hover:bg-red-300 hover:rounded-full"
+              className="group flex justify-center items-center w-12 h-12 transition-all duration-200 hover:bg-red-300 hover:rounded-full"
             >
               <svg
-                fill="currentColor"
-                className="white transition group-hover:text-black"
+                className="fill-white transition group-hover:fill-black"
                 height={15}
                 width={15}
                 viewBox="0 0 371.23 371.23"
@@ -69,7 +68,7 @@ export default function PostSlug() {
           </div>
         </nav>
       </div>
-      <article className="main-section">
+      <article className="px-1 py-8 lg:pt-16 lg:px-32 lg:pb-8 lg:max-w-main-content lg:mx-auto">
         <p className="main-section-date-edited">{postDate}</p>
         <div
           className="main-section-text"

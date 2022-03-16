@@ -7,6 +7,9 @@ module.exports = {
       },
       height: {
         navbar: '5rem'
+      },
+      maxWidth: {
+        'main-content': "120rem"
       }
     },
   },

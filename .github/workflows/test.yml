@@ -1,13 +1,12 @@
 name: Learning workflows
-on: 
-  pull_request: [open]
+on: pull_request
 jobs:
   check-bats-version:
     runs-on: ubuntu-latest
-    steps: 
+    steps:
       - uses: actions/checkout@v3
       - uses: actions/ setup-node@3
-      with:
-        node-version: echo "cat .nvmrc"
+        with:
+          node-version: echo "cat .nvmrc"
       - run: npm install -g bats
       - run: bats -v

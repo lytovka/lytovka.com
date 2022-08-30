@@ -13,6 +13,7 @@
     "lint": "eslint --cache --cache-location ./node_modules/.cache/eslint .",
     "lint:fix": "eslint --fix .",
     "test": "vitest",
+    "test:coverage": "vitest run --coverage",
     "typecheck": "tsc --build"
   },
   "dependencies": {
@@ -39,6 +40,7 @@
     "@types/react": "^18.0.11",
     "@types/react-dom": "^18.0.5",
     "@vitejs/plugin-react": "^2.0.1",
+    "@vitest/coverage-c8": "^0.22.1",
     "cross-env": "^7.0.3",
     "eslint": "^8.17.0",
     "happy-dom": "^6.0.4",

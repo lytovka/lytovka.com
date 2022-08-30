@@ -5,8 +5,10 @@ node_modules
 .env
 .vercel
 .output
+.vscode
 
 /build/
+/coverage/
 /public/build
 /api/index.js
 /api/index.js.map

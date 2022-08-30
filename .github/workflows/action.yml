@@ -24,7 +24,7 @@ jobs:
       - name: Setup node
         uses: actions/setup-node@v3
       - name: Find Node version
-        run: echo NVMRC="cat .nvmrc" >> $GITHUB_ENV
+      - run: echo NVMRC="cat .nvmrc" >> $GITHUB_ENV
         with:
           node-version: ${{ env.NVMRC }}
       - name: Download deps
@@ -43,7 +43,7 @@ jobs:
       - name: Setup node
         uses: actions/setup-node@v3
       - name: Find Node version
-        run: echo NVMRC="cat .nvmrc" >> $GITHUB_ENV
+      - run: echo NVMRC="cat .nvmrc" >> $GITHUB_ENV
         with:
           node-version: ${{ env.NVMRC }}
       - name: Download deps

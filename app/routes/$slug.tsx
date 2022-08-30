@@ -1,13 +1,14 @@
-import {
-  Link,
+import type {
   LinksFunction,
   LoaderFunction,
-  MetaFunction,
+  MetaFunction} from "remix";
+import {
+  Link,
   useLoaderData,
 } from "remix";
 import PostStylesUrl from "~/styles/$slug.css";
 import formatDate from "date-fns/format";
-import { Post } from "~/types/Post";
+import type { Post } from "~/types/Post";
 import { getPost } from "~/utils/posts.server";
 
 type LoaderData = Post;

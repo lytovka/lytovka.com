@@ -1,4 +1,4 @@
-import { posts } from "@prisma/client";
+import type { posts } from "@prisma/client";
 
 export type Post = {
   html: string;

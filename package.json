@@ -7,8 +7,12 @@
   "scripts": {
     "build": "cross-env NODE_ENV=production remix build",
     "dev": "cross-env NODE_ENV=development remix dev",
+    "setup:generate": "prisma generate",
     "start": "remix-serve api/index.js",
-    "postinstall": "remix setup node"
+    "postinstall": "remix setup node",
+    "lint": "eslint --cache --cache-location ./node_modules/.cache/eslint .",
+    "lint:fix": "eslint --fix .",
+    "typecheck": "tsc --build"
   },
   "dependencies": {
     "@prisma/client": "^3.14.0",
@@ -27,6 +31,7 @@
     "@remix-run/dev": "^1.5.1",
     "@remix-run/eslint-config": "^1.5.1",
     "@remix-run/serve": "^1.5.1",
+    "@types/eslint": "^8.4.6",
     "@types/marked": "^4.0.3",
     "@types/react": "^18.0.11",
     "@types/react-dom": "^18.0.5",

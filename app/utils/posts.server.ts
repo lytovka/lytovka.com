@@ -1,6 +1,6 @@
 import { PrismaClient } from "@prisma/client";
 import { marked } from "marked";
-import { Post, PostUpdate, UpdatePost } from "~/types/Post";
+import type { Post, PostUpdate, UpdatePost } from "~/types/Post";
 
 declare global {
   var prismaRead: ReturnType<typeof getClient> | undefined;

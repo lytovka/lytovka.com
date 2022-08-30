@@ -38,7 +38,7 @@ jobs:
         uses: bahmutov/npm-install@v1
       - name: Type check
         run: npm run typecheck
-  
+
   vitest:
     name: Vitest
     runs-on: ubuntu-latest
@@ -57,3 +57,5 @@ jobs:
         uses: bahmutov/npm-install@v1
       - name: Run vitest
         run: npm run test:coverage
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}

@@ -1,4 +1,4 @@
-name: Learning workflows
+name: Pull request
 on: pull_request
 jobs:
   lint:

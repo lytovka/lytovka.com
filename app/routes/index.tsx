@@ -1,8 +1,9 @@
-import { Link, LinksFunction, LoaderFunction, useLoaderData } from "remix";
+import type { LinksFunction, LoaderFunction } from "remix";
+import { Link, useLoaderData } from "remix";
 import indexStylesUrl from "~/styles/index.css";
 import folder from "~/images/home_folder.png";
 import { getPosts } from "~/utils/posts.server";
-import { Post } from "~/types/Post";
+import type { Post } from "~/types/Post";
 
 export const links: LinksFunction = () => {
   return [

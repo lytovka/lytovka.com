@@ -1,12 +1,6 @@
-import {
-  ActionFunction,
-  Form,
-  json,
-  LoaderFunction,
-  redirect,
-  useLoaderData,
-} from "remix";
-import { PostUpdate } from "~/types/Post";
+import type { ActionFunction, LoaderFunction } from "remix";
+import { Form, json, redirect, useLoaderData } from "remix";
+import type { PostUpdate } from "~/types/Post";
 import { editPost, getPostRaw } from "~/utils/posts.server";
 
 export const action: ActionFunction = async ({ request }) => {

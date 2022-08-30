@@ -1,16 +1,14 @@
 import {
   json,
   Links,
-  LinksFunction,
   LiveReload,
-  LoaderFunction,
   Meta,
   Outlet,
   Scripts,
   ScrollRestoration,
   useLoaderData,
 } from "remix";
-import type { MetaFunction } from "remix";
+import type { MetaFunction, LinksFunction, LoaderFunction } from "remix";
 import globalStylesUrl from "~/styles/global.css";
 import favicon from "~/images/favicon.png";
 import featuredImage from "~/images/featured_image.png";

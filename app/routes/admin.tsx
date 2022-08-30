@@ -1,12 +1,6 @@
-import {
-  Link,
-  LinksFunction,
-  LoaderFunction,
-  Outlet,
-  redirect,
-  useLoaderData,
-} from "remix";
-import { Post } from "~/types/Post";
+import type { LinksFunction, LoaderFunction } from "remix";
+import { Link, Outlet, redirect, useLoaderData } from "remix";
+import type { Post } from "~/types/Post";
 import { getPosts } from "~/utils/posts.server";
 import AdminStyles from "~/styles/admin.css";
 

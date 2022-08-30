@@ -1,4 +1,4 @@
-import type { LinksFunction, LoaderFunction } from "remix";
+import { json, LinksFunction, LoaderFunction } from "remix";
 import { Link, useLoaderData } from "remix";
 import indexStylesUrl from "~/styles/index.css";
 import folder from "~/images/home_folder.png";
@@ -15,7 +15,8 @@ export const links: LinksFunction = () => {
 };
 
 export const loader: LoaderFunction = async () => {
-  return await getPosts();
+  // throw new Error("booo!")
+  return json(await getPosts());
 };
 
 export default function Index() {

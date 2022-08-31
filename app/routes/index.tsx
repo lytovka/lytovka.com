@@ -1,10 +1,13 @@
 import type { LinksFunction, LoaderFunction } from "remix";
+import type { PointerEvent, DragEvent } from "react";
+import { useState } from "react";
 import { Link, useLoaderData } from "@remix-run/react";
 import { json } from "remix";
 import indexStylesUrl from "~/styles/index.css";
 import folder from "~/images/home_folder.png";
 import { getPosts } from "~/utils/posts.server";
 import type { Post } from "~/types/Post";
+import Draggable from "~/components/Draggable";
 
 export const links: LinksFunction = () => {
   return [
@@ -21,18 +24,33 @@ export const loader: LoaderFunction = async () => {
 
 export default function Index() {
   const posts = useLoaderData<Array<Post>>();
+  const [translate, setTranslate] = useState({
+    x: 0,
+    y: 0,
+  });
+
+  const handleDragMove = (
+    e: PointerEvent<HTMLDivElement> | DragEvent<HTMLDivElement>
+  ) => {
+    setTranslate({
+      x: translate.x + e.pageX,
+      y: translate.y + e.pageY,
+    });
+    console.log({ translate });
+  };
+
   return (
     <div className="main-container">
       {posts.map((post) => (
-        <Link
-          prefetch="intent"
+        <Draggable
           key={post.slug}
-          to={post.slug}
-          className="folder-container"
+          onDragMove={handleDragMove}
         >
-          <img src={folder} aria-label="folder" />
-          <p>{post.title}</p>
-        </Link>
+          <Link prefetch="intent" to={post.slug} className="folder-container">
+            <img src={folder} aria-label="folder" />
+            <p>{post.title}</p>
+          </Link>
+        </Draggable>
       ))}
     </div>
   );

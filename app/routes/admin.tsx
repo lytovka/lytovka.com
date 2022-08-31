@@ -1,5 +1,6 @@
 import type { LinksFunction, LoaderFunction } from "remix";
-import { Link, Outlet, redirect, useLoaderData } from "remix";
+import { redirect } from "remix";
+import { Link, Outlet, useLoaderData } from "@remix-run/react";
 import type { Post } from "~/types/Post";
 import { getPosts } from "~/utils/posts.server";
 import AdminStyles from "~/styles/admin.css";

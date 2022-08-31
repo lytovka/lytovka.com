@@ -1,5 +1,6 @@
+import { redirect, json } from "remix";
 import type { ActionFunction, LoaderFunction } from "remix";
-import { Form, json, redirect, useLoaderData } from "remix";
+import { Form, useLoaderData } from "@remix-run/react";
 import type { PostUpdate } from "~/types/Post";
 import { editPost, getPostRaw } from "~/utils/posts.server";
 

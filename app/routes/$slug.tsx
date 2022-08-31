@@ -1,11 +1,5 @@
-import type {
-  LinksFunction,
-  LoaderFunction,
-  MetaFunction} from "remix";
-import {
-  Link,
-  useLoaderData,
-} from "remix";
+import type { LinksFunction, LoaderFunction, MetaFunction } from "remix";
+import { Link, useLoaderData } from "@remix-run/react";
 import PostStylesUrl from "~/styles/$slug.css";
 import formatDate from "date-fns/format";
 import type { Post } from "~/types/Post";

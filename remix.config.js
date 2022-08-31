@@ -16,4 +16,3 @@ module.exports = {
   devServerPort: 8002,
   serverDependenciesToBundle: ["parse-md"],
 };
-

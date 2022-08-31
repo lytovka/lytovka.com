@@ -10,5 +10,4 @@ node_modules
 /build/
 /coverage/
 /public/build
-/api/index.js
-/api/index.js.map
+/api/

@@ -1,5 +1,4 @@
 import {
-  json,
   Links,
   LiveReload,
   Meta,
@@ -7,7 +6,8 @@ import {
   Scripts,
   ScrollRestoration,
   useLoaderData,
-} from "remix";
+} from "@remix-run/react";
+import { json } from "remix";
 import type { MetaFunction, LinksFunction, LoaderFunction } from "remix";
 import globalStylesUrl from "~/styles/global.css";
 import favicon from "~/images/favicon.png";

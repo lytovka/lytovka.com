@@ -5,4 +5,7 @@ module.exports = {
     "@remix-run/eslint-config/node",
     "prettier",
   ],
+  rules: {
+    "no-console": "warn",
+  },
 };

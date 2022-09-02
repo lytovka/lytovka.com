@@ -37,12 +37,10 @@ export default function Index() {
 
   const handleOnPointerDown = (event: PointerEvent) => {
     idleTime.current.start = +new Date();
-    console.log("link", event.type);
   };
 
   const handleOnPointerUp = (event: PointerEvent) => {
     idleTime.current.end = +new Date();
-    console.log("link", event.type);
   };
 
   return (

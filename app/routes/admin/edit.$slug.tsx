@@ -28,7 +28,6 @@ export const loader: LoaderFunction = async ({ params }) => {
 
 export default function EditPost() {
   const data = useLoaderData<PostUpdate>();
-  console.log(data);
   return (
     <Form method="post">
       <input type="hidden" name="id" value={data.id} />

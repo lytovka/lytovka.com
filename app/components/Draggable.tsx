@@ -19,7 +19,6 @@ export const Draggable = ({ children }: PropsWithChildren<unknown>) => {
 
   const handlePointerMove = (event: PointerEvent) => {
     if (isDragging) {
-      console.log(event.type);
       handleDragMove(event);
       setTranslate({
         x: translate.x + event.movementX,
@@ -48,7 +47,6 @@ export const Draggable = ({ children }: PropsWithChildren<unknown>) => {
   };
 
   const handleOnClick = (event: MouseEvent<HTMLDivElement>) => {
-    console.log(event.type);
     event.preventDefault();
   };
 

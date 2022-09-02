@@ -3,6 +3,7 @@ import type {
   DragEvent,
   MouseEvent,
   PropsWithChildren,
+  TouchEvent,
 } from "react";
 import { useState } from "react";
 
@@ -19,10 +20,21 @@ export const Draggable = ({ children }: PropsWithChildren<unknown>) => {
 
   const handlePointerMove = (event: PointerEvent) => {
     if (isDragging) {
-      handleDragMove(event);
+      // handleDragMove(event);
       setTranslate({
         x: translate.x + event.movementX,
         y: translate.y + event.movementY,
+      });
+    }
+  };
+
+  const handleTouchMove = (event: TouchEvent) => {
+    if (isDragging) {
+      // handleDragMove(event);
+      const touchLocation = event.targetTouches[0];
+      setTranslate({
+        x: translate.x + touchLocation.pageX,
+        y: translate.y + touchLocation.pageY,
       });
     }
   };
@@ -39,13 +51,6 @@ export const Draggable = ({ children }: PropsWithChildren<unknown>) => {
     event.preventDefault();
   };
 
-  const handleDragMove = (e: PointerEvent) => {
-    setTranslate({
-      x: translate.x + e.movementX,
-      y: translate.y + e.movementY,
-    });
-  };
-
   const handleOnClick = (event: MouseEvent<HTMLDivElement>) => {
     event.preventDefault();
   };
@@ -56,6 +61,7 @@ export const Draggable = ({ children }: PropsWithChildren<unknown>) => {
       onPointerDown={handlePointerDown}
       onPointerMove={handlePointerMove}
       onPointerLeave={handlePointerLeave}
+      onTouchMove={handleTouchMove}
       onPointerUp={handlePointerUp}
       onClick={handleOnClick}
       style={{

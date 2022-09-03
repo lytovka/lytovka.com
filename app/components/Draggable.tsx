@@ -1,24 +1,31 @@
 import type {
-  PointerEvent,
   DragEvent,
   MouseEvent,
   PropsWithChildren,
   TouchEvent,
 } from "react";
-import { useState } from "react";
+import { useState, useRef } from "react";
 
 export const Draggable = ({ children }: PropsWithChildren<unknown>) => {
+  const [initial, setInitial] = useState({
+    x: 0,
+    y: 0,
+  });
+
   const [translate, setTranslate] = useState({
     x: 0,
     y: 0,
   });
+
+  const offset = useRef({ x: 0, y: 0 });
+
   const [isDragging, setIsDragging] = useState(false);
 
-  const handlePointerDown = (event: PointerEvent) => {
+  const handleMouseDown = (event: MouseEvent) => {
     setIsDragging(true);
   };
 
-  const handlePointerMove = (event: PointerEvent) => {
+  const handleMouseMove = (event: MouseEvent) => {
     if (isDragging) {
       // handleDragMove(event);
       setTranslate({
@@ -30,20 +37,35 @@ export const Draggable = ({ children }: PropsWithChildren<unknown>) => {
 
   const handleTouchMove = (event: TouchEvent) => {
     if (isDragging) {
-      // handleDragMove(event);
-      const touchLocation = event.targetTouches[0];
+      const touchLocation = event.touches[0];
+
       setTranslate({
-        x: translate.x + touchLocation.pageX,
-        y: translate.y + touchLocation.pageY,
+        x: touchLocation.clientX - initial.x,
+        y: touchLocation.clientY - initial.y,
       });
+
+      offset.current.x = touchLocation.clientX - initial.x;
+      offset.current.y = touchLocation.clientY - initial.y;
     }
   };
 
-  const handlePointerUp = (event: PointerEvent) => {
+  const handleTouchStart = (event: TouchEvent) => {
+    setInitial({
+      x: event.touches[0].clientX - offset.current.x,
+      y: event.touches[0].clientY - offset.current.y,
+    });
+    setIsDragging(true);
+  };
+
+  const handleTouchEnd = (event: TouchEvent) => {
     setIsDragging(false);
   };
 
-  const handlePointerLeave = (event: PointerEvent) => {
+  const handleMouseUp = (event: MouseEvent) => {
+    setIsDragging(false);
+  };
+
+  const handleMouseLeave = (event: MouseEvent) => {
     setIsDragging(false);
   };
 
@@ -58,11 +80,13 @@ export const Draggable = ({ children }: PropsWithChildren<unknown>) => {
   return (
     <div
       onDragStart={handleDragStart}
-      onPointerDown={handlePointerDown}
-      onPointerMove={handlePointerMove}
-      onPointerLeave={handlePointerLeave}
+      onMouseDown={handleMouseDown}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+      onMouseUp={handleMouseUp}
+      onTouchStart={handleTouchStart}
       onTouchMove={handleTouchMove}
-      onPointerUp={handlePointerUp}
+      onTouchEnd={handleTouchEnd}
       onClick={handleOnClick}
       style={{
         position: "absolute",

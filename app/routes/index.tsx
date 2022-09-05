@@ -1,13 +1,13 @@
 import type { LinksFunction, LoaderFunction } from "remix";
 import { json } from "remix";
 import type { PointerEvent, MouseEvent } from "react";
-import { useRef } from "react";
-import { Link, useLoaderData } from "@remix-run/react";
+import React, { useRef } from "react";
+import { Link, useLoaderData, useNavigate } from "@remix-run/react";
 import indexStylesUrl from "~/styles/index.css";
 import folder from "~/images/home_folder.png";
 import { getPosts } from "~/utils/posts.server";
 import type { Post } from "~/types/Post";
-import { Draggable } from "~/components/Draggable";
+import Draggable from "react-draggable";
 
 export const links: LinksFunction = () => {
   return [
@@ -23,41 +23,54 @@ export const loader: LoaderFunction = async () => {
 };
 
 export default function Index() {
+  let navigate = useNavigate();
   const posts = useLoaderData<Array<Post>>();
   const idleTime = useRef<{ start: number; end: number }>({
     start: 0,
     end: 0,
   });
-
-  const handleOnClick = (event: MouseEvent<HTMLAnchorElement>) => {
-    if (idleTime.current.end - idleTime.current.start > 200) {
-      event.preventDefault();
-    }
-  };
+  // const [defaultPosition, setDefaultPosition] = useState({ x: 0, y: 0 });
+  const ref = useRef<HTMLDivElement>(null);
 
   const handleOnPointerDown = (event: PointerEvent) => {
     idleTime.current.start = +new Date();
   };
 
-  const handleOnPointerUp = (event: PointerEvent) => {
+  const handleOnPointerEndCapture = (event: PointerEvent, slug: string) => {
     idleTime.current.end = +new Date();
+    if (idleTime.current.end - idleTime.current.start < 200) {
+      navigate(slug);
+    }
+  };
+
+  const handleOnPointerClick = (event: MouseEvent, slug: string) => {
+    if (idleTime.current.end - idleTime.current.start < 200) {
+      navigate(slug);
+    } else {
+      // this prevents unintentional click on achnor element with a mouse device
+      event.preventDefault();
+    }
+    Object.assign(idleTime.current, { end: 0, start: 0 });
   };
 
   return (
-    <div className="main-container">
+    <div className="main-container" ref={ref}>
       {posts.map((post) => (
-        <Draggable key={post.slug}>
-          <Link
-            onPointerDown={handleOnPointerDown}
-            onPointerUp={handleOnPointerUp}
-            onClick={handleOnClick}
-            prefetch="intent"
-            to={post.slug}
-            className="folder-container"
-          >
-            <img src={folder} aria-label="folder" />
-            <p>{post.title}</p>
-          </Link>
+        <Draggable bounds={"parent"} key={post.slug}>
+          <div className="folder-container">
+            <Link
+              to={post.slug}
+              prefetch="intent"
+              className="link-container"
+              onDragStart={(e) => e.preventDefault()}
+              onPointerDown={handleOnPointerDown}
+              onPointerUp={(e) => handleOnPointerEndCapture(e, post.slug)}
+              onClick={(e) => handleOnPointerClick(e, post.slug)}
+            >
+              <img src={folder} aria-label="folder" />
+              <p>{post.title}</p>
+            </Link>
+          </div>
         </Draggable>
       ))}
     </div>

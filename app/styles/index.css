@@ -1,28 +1,46 @@
+html {
+  height: 100%;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
 .main-container {
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
-  min-height: 100vh;
-  flex: 1;
-  position: relative;
+  height: 100%;
+  width: 100%;
 }
 
 .folder-container {
+  width: 90px;
+  height: 120px;
+  touch-action: none;
+}
+
+.link-container {
   display: flex;
   flex-direction: column;
   align-items: center;
-}
-
-.folder-container {
   text-decoration: none;
 }
 
-.folder-container > img {
+.link-container > img {
+  text-decoration: none;
+}
+
+.link-container > img {
   width: 9.4rem;
   height: 9.4rem;
 }
 
-.folder-container > p {
+.link-container > p {
+  width: 100%;
   font-size: 1.6rem;
   text-align: center;
 }

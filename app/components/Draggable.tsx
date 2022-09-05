@@ -11,48 +11,68 @@ export const Draggable = ({ children }: PropsWithChildren<unknown>) => {
     x: 0,
     y: 0,
   });
-
   const [translate, setTranslate] = useState({
     x: 0,
     y: 0,
   });
+  const [offset, setOffset] = useState({
+    x: 0,
+    y: 0,
+  });
 
-  const offset = useRef({ x: 0, y: 0 });
+  const ref = useRef<HTMLDivElement>(null);
 
   const [isDragging, setIsDragging] = useState(false);
 
   const handleMouseDown = (event: MouseEvent) => {
+    setInitial({
+      x: event.clientX - offset.x,
+      y: event.clientY - offset.y,
+    });
     setIsDragging(true);
   };
 
   const handleMouseMove = (event: MouseEvent) => {
+    const screenHeight = window.innerHeight;
+    const screenWidth = window.innerWidth;
     if (isDragging) {
-      // handleDragMove(event);
+      // console.log(((event.clientX - initial.x) / screenWidth) * 100);
+      // console.log(((event.clientY - initial.y) / screenHeight) * 100);
       setTranslate({
-        x: translate.x + event.movementX,
-        y: translate.y + event.movementY,
+        x: ((event.clientX - initial.x + event.movementX) / screenWidth) * 100,
+        y:
+          ((event.clientY - initial.y + +event.movementY) / screenHeight) * 100,
+      });
+      setOffset({
+        x: event.clientX - initial.x + event.movementX,
+        y: event.clientY - initial.y + event.movementY,
       });
     }
   };
 
   const handleTouchMove = (event: TouchEvent) => {
+    const screenHeight = window.innerHeight;
+    const screenWidth = window.innerWidth;
+
     if (isDragging) {
       const touchLocation = event.touches[0];
+      // console.log(((touchLocation.clientX - initial.x) / screenWidth) * 100);
+      // console.log(((touchLocation.clientY - initial.y) / screenHeight) * 100);
 
       setTranslate({
-        x: touchLocation.clientX - initial.x,
-        y: touchLocation.clientY - initial.y,
+        x: ((touchLocation.clientX - initial.x) / screenWidth) * 100,
+        y: ((touchLocation.clientY - initial.y) / screenHeight) * 100,
       });
 
-      offset.current.x = touchLocation.clientX - initial.x;
-      offset.current.y = touchLocation.clientY - initial.y;
+      offset.x = touchLocation.clientX - initial.x;
+      offset.y = touchLocation.clientY - initial.y;
     }
   };
 
   const handleTouchStart = (event: TouchEvent) => {
     setInitial({
-      x: event.touches[0].clientX - offset.current.x,
-      y: event.touches[0].clientY - offset.current.y,
+      x: event.touches[0].clientX - offset.x,
+      y: event.touches[0].clientY - offset.y,
     });
     setIsDragging(true);
   };
@@ -79,6 +99,7 @@ export const Draggable = ({ children }: PropsWithChildren<unknown>) => {
 
   return (
     <div
+      ref={ref}
       onDragStart={handleDragStart}
       onMouseDown={handleMouseDown}
       onMouseMove={handleMouseMove}
@@ -90,7 +111,9 @@ export const Draggable = ({ children }: PropsWithChildren<unknown>) => {
       onClick={handleOnClick}
       style={{
         position: "absolute",
-        transform: `translateX(${translate.x}px) translateY(${translate.y}px)`,
+        left: `${translate.x}%`,
+        top: `${translate.y}%`,
+        // transform: `translateX(${translate.x}px) translateY(${translate.y}px)`,
       }}
     >
       {children}

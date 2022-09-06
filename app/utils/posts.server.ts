@@ -49,6 +49,5 @@ export async function getPostRaw(slug: string): Promise<PostUpdate | null> {
 }
 
 export async function editPost(postId: string, post: UpdatePost) {
-  console.log({ postId, post });
   await prismaWrite.posts.update({ where: { id: postId }, data: post });
 }

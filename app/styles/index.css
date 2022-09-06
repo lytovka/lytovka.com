@@ -19,7 +19,7 @@ body {
 
 .folder-container {
   width: 90px;
-  height: 120px;
+  height: 90px;
   touch-action: none;
 }
 
@@ -35,8 +35,8 @@ body {
 }
 
 .link-container > img {
-  width: 9.4rem;
-  height: 9.4rem;
+  width: 7.5rem;
+  height: 7rem;
 }
 
 .link-container > p {

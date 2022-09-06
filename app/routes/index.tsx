@@ -34,12 +34,18 @@ export default function Index() {
 
   const handleOnPointerDown = (event: PointerEvent) => {
     idleTime.current.start = +new Date();
+    if (ref.current) {
+      ref.current.style.outline = "1px dotted grey";
+    }
   };
 
   const handleOnPointerEndCapture = (event: PointerEvent, slug: string) => {
     idleTime.current.end = +new Date();
     if (idleTime.current.end - idleTime.current.start < 200) {
       navigate(slug);
+    }
+    if (ref.current) {
+      ref.current.style.outline = "";
     }
   };
 
@@ -54,10 +60,10 @@ export default function Index() {
   };
 
   return (
-    <div className="main-container" ref={ref}>
+    <div className="main-container">
       {posts.map((post) => (
         <Draggable bounds={"parent"} key={post.slug}>
-          <div className="folder-container">
+          <div className="folder-container" ref={ref}>
             <Link
               to={post.slug}
               prefetch="intent"

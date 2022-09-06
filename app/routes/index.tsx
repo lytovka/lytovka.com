@@ -41,7 +41,7 @@ export default function Index() {
 
   const handleOnPointerEndCapture = (event: PointerEvent, slug: string) => {
     idleTime.current.end = +new Date();
-    if (idleTime.current.end - idleTime.current.start < 200) {
+    if (idleTime.current.end - idleTime.current.start < 350) {
       navigate(slug);
     }
     if (ref.current) {
@@ -50,7 +50,7 @@ export default function Index() {
   };
 
   const handleOnPointerClick = (event: MouseEvent, slug: string) => {
-    if (idleTime.current.end - idleTime.current.start < 200) {
+    if (idleTime.current.end - idleTime.current.start < 350) {
       navigate(slug);
     } else {
       // this prevents unintentional click on achnor element with a mouse device

@@ -1,4 +1,5 @@
 import type { LinksFunction, LoaderFunction, MetaFunction } from "remix";
+import { json } from "remix";
 import { Link, useLoaderData } from "@remix-run/react";
 import PostStylesUrl from "~/styles/$slug.css";
 import formatDate from "date-fns/format";
@@ -33,7 +34,7 @@ export const loader: LoaderFunction = async ({ params }) => {
   if (!params.slug) {
     throw "such a slug does not exist.";
   }
-  return getPost(params.slug);
+  return json(await getPost(params.slug));
 };
 
 export default function PostSlug() {

@@ -9,7 +9,7 @@ import {
 } from "@remix-run/react";
 import { json } from "remix";
 import type { MetaFunction, LinksFunction, LoaderFunction } from "remix";
-import globalStylesUrl from "~/styles/global.css";
+import tailwindStyles from "./styles/app.css";
 import favicon from "~/images/favicon.png";
 import featuredImage from "~/images/featured_image.png";
 import { getEnv } from "~/utils/env.server";
@@ -32,7 +32,7 @@ export const links: LinksFunction = () => {
   return [
     {
       rel: "stylesheet",
-      href: globalStylesUrl,
+      href: tailwindStyles,
     },
     { rel: "icon", href: favicon },
   ];

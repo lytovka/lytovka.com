@@ -1,0 +1,32 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+    :root {
+        --color-background: #292f34;
+    }
+
+    html {
+        @apply box-border text-base-10;
+    }
+
+    html,
+    body {
+        @apply p-0 m-0 bg-main;
+    }
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6,
+    p {
+        @apply m-0 p-0 border-0 outline-0 align-baseline text-white;
+    }
+
+    p {
+        @apply font-noto-mono;
+    }
+}

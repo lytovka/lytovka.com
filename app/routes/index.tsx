@@ -60,21 +60,25 @@ export default function Index() {
   };
 
   return (
-    <div className="main-container">
+    <div className="flex flex-col justify-center items-center h-full w-full">
       {posts.map((post) => (
         <Draggable bounds={"parent"} key={post.slug}>
-          <div className="folder-container" ref={ref}>
+          <div className="w-32 h-auto touch-none" ref={ref}>
             <Link
               to={post.slug}
               prefetch="intent"
-              className="link-container"
+              className="flex flex-col items-center no-underline h-full"
               onDragStart={(e) => e.preventDefault()}
               onPointerDown={handleOnPointerDown}
               onPointerUp={(e) => handleOnPointerEndCapture(e, post.slug)}
               onClick={(e) => handleOnPointerClick(e, post.slug)}
             >
-              <img src={folder} aria-label="folder" />
-              <p>{post.title}</p>
+              <img
+                className="w-30 h-28 decoration-none"
+                src={folder}
+                aria-label="folder"
+              />
+              <p className="w-full text-2xl text-center">{post.title}</p>
             </Link>
           </div>
         </Draggable>

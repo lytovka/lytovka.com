@@ -544,12 +544,82 @@ p {
   position: absolute;
 }
 
-.hidden {
-  display: none;
+.flex {
+  display: flex;
+}
+
+.h-full {
+  height: 100%;
+}
+
+.h-24 {
+  height: 6rem;
+}
+
+.h-28 {
+  height: 7rem;
+}
+
+.h-32 {
+  height: 8rem;
+}
+
+.h-auto {
+  height: auto;
+}
+
+.w-full {
+  width: 100%;
+}
+
+.w-24 {
+  width: 6rem;
+}
+
+.w-28 {
+  width: 7rem;
+}
+
+.w-32 {
+  width: 8rem;
 }
 
 .transform {
   transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+}
+
+.touch-none {
+  touch-action: none;
+}
+
+.flex-col {
+  flex-direction: column;
+}
+
+.items-center {
+  align-items: center;
+}
+
+.justify-center {
+  justify-content: center;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.text-3xl {
+  font-size: 1.875rem;
+  line-height: 2.25rem;
+}
+
+.text-2xl {
+  font-size: 1.5rem;
+  line-height: 2rem;
+}
+
+.no-underline {
+  text-decoration-line: none;
 }
 
 .outline {

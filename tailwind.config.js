@@ -11,8 +11,13 @@ module.exports = {
       },
       fontFamily: {
         'noto-mono': "Noto Mono, sans-serif"
+      },
+      maxWidth: {
+        '8xl': "120rem"
       }
     },
   },
-  plugins: [],
+  plugins: [
+    require('@tailwindcss/typography'),
+  ],
 }

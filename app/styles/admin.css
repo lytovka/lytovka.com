@@ -1,5 +1,0 @@
-.admin-container {
-  display: grid;
-  column-gap: 4rem;
-  grid-template-columns: 30rem 1fr;
-}

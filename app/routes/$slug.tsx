@@ -1,21 +1,11 @@
-import type { LinksFunction, LoaderFunction, MetaFunction } from "remix";
+import type { LoaderFunction, MetaFunction } from "remix";
 import { json } from "remix";
 import { Link, useLoaderData } from "@remix-run/react";
-import PostStylesUrl from "~/styles/$slug.css";
 import formatDate from "date-fns/format";
 import type { Post } from "~/types/Post";
 import { getPost } from "~/utils/posts.server";
 
 type LoaderData = Post;
-
-export const links: LinksFunction = () => {
-  return [
-    {
-      rel: "stylesheet",
-      href: PostStylesUrl,
-    },
-  ];
-};
 
 export const meta: MetaFunction = ({ data }: { data: LoaderData | null }) => {
   if (!data) {
@@ -42,14 +32,19 @@ export default function PostSlug() {
   const postDate = formatDate(new Date(post.date), "dd/MM/yyyy");
   return (
     <>
-      <div className="navigation-container">
-        <nav className="navigation">
-          <div className="navigation-items-container">
-            <h1>{post.title}</h1>
-            <Link to="/" className="navigation-close-link">
+      <div className="h-24">
+        <nav className="fixed top-0 w-full bg-main border-solid border-b border-gray-400 py-5 px-5">
+          <div className="flex items-center mx-auto max-w-8xl md:px-32">
+            <h1 className="flex-grow font-bold text-3xl text-center">
+              {post.title}
+            </h1>
+            <Link
+              to="/"
+              className="group flex justify-center items-center w-10 h-10 duration-200 hover:bg-red-300 rounded-full"
+            >
               <svg
                 fill="currentColor"
-                className="navigation-icon"
+                className="fill-white duration-200 group-hover:fill-black"
                 height={15}
                 width={15}
                 viewBox="0 0 371.23 371.23"
@@ -60,10 +55,10 @@ export default function PostSlug() {
           </div>
         </nav>
       </div>
-      <article className="main-section">
-        <p className="main-section-date-edited">{postDate}</p>
+      <article className="py-4 px-8 md:py-8 md:px-32 md:max-w-8xl md:mx-auto">
+        <p className="flex justify-end text-xl mb-3 italic">{postDate}</p>
         <div
-          className="main-section-text"
+          className="prose max-w-none text-3xl md:text-3xl mb-8"
           dangerouslySetInnerHTML={{ __html: post.html }}
         />
       </article>

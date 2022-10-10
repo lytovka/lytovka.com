@@ -58,7 +58,7 @@ export default function PostSlug() {
       <article className="py-4 px-8 md:py-8 md:px-32 md:max-w-8xl md:mx-auto">
         <p className="flex justify-end text-xl mb-3 italic">{postDate}</p>
         <div
-          className="prose max-w-none text-3xl md:text-3xl mb-8"
+          className="prose max-w-none text-3xl mb-8"
           dangerouslySetInnerHTML={{ __html: post.html }}
         />
       </article>

@@ -1,22 +1,20 @@
 import type { LinksFunction, LoaderFunction } from "remix";
-import { json } from "remix";
 import type { PointerEvent, MouseEvent } from "react";
-import { useLayoutEffect } from "react";
-import { useState, useEffect } from "react";
-import { useRef } from "react";
+import type { Post } from "~/types/Post";
+import type { DraggableData, DraggableEvent } from "react-draggable";
+import type { Coordinates } from "~/typings";
+import { json } from "remix";
+import { useState, useEffect, useLayoutEffect, useRef } from "react";
 import { Link, useLoaderData, useNavigate } from "@remix-run/react";
 import indexStylesUrl from "~/styles/index.css";
 import folder from "~/images/home_folder.png";
 import { getPosts } from "~/utils/posts.server";
-import type { Post } from "~/types/Post";
-import type { DraggableData, DraggableEvent } from "react-draggable";
 import Draggable from "react-draggable";
 import {
   localStorageGetItem,
   localStorageSetItem,
 } from "~/utils/local-storage";
-import type { Coordinates } from "~/typings";
-import { LYT } from "~/constants/storage-keys";
+import { LYT_STORAGE_KEY } from "~/constants/storage-keys";
 
 export const links: LinksFunction = () => {
   return [
@@ -42,14 +40,14 @@ export default function Index() {
   const [show, setShow] = useState(false);
   const [defaultPosition, setDefaultPosition] = useState({ x: 0, y: 0 });
 
-  const handleOnPointerDown = (event: PointerEvent) => {
+  const handleOnPointerDown = (_event: PointerEvent) => {
     idleTime.current.start = +new Date();
     if (ref.current) {
       ref.current.style.outline = "1px dotted grey";
     }
   };
 
-  const handleOnPointerEndCapture = (event: PointerEvent, slug: string) => {
+  const handleOnPointerEndCapture = (_event: PointerEvent, slug: string) => {
     idleTime.current.end = +new Date();
     if (idleTime.current.end - idleTime.current.start < 250) {
       navigate(slug);
@@ -70,7 +68,7 @@ export default function Index() {
   };
 
   useLayoutEffect(() => {
-    const lc = localStorageGetItem(LYT);
+    const lc = localStorageGetItem(LYT_STORAGE_KEY);
     if (lc !== null) {
       const coords: Coordinates = JSON.parse(lc);
       setDefaultPosition({
@@ -105,14 +103,6 @@ export default function Index() {
     return () => removeEventListener("resize", listener);
   }, []);
 
-  // useEffect(() => {
-  //   const listener = () => {
-  //     console.log("changed");
-  //   };
-  //   addEventListener("orientationchange", listener);
-  //   return () => removeEventListener("orientationchange", listener);
-  // }, []);
-
   const triggerMouseEvent = (element: any, eventType: string) => {
     const mouseEvent = new Event(eventType, {
       bubbles: true,
@@ -122,14 +112,22 @@ export default function Index() {
   };
 
   const onStop = (e: DraggableEvent, data: DraggableData) => {
-    const { x, y } = data;
-    localStorageSetItem(
-      LYT,
-      JSON.stringify({
-        x: x / document.body.getBoundingClientRect().width,
-        y: y / document.body.getBoundingClientRect().height,
-      })
-    );
+    if (e.isTrusted) {
+      const { x, y } = data;
+      localStorageSetItem(
+        LYT_STORAGE_KEY,
+        JSON.stringify({
+          x: x / document.body.getBoundingClientRect().width,
+          y: y / document.body.getBoundingClientRect().height,
+        })
+      );
+    }
+  };
+
+  const onDrag = (e: DraggableEvent, data: DraggableData) => {
+    if (!e.isTrusted) {
+      e.preventDefault();
+    }
   };
 
   return (
@@ -138,6 +136,7 @@ export default function Index() {
         {show &&
           posts.map((post) => (
             <Draggable
+              onDrag={onDrag}
               onStop={onStop}
               bounds={"body"}
               key={post.slug}

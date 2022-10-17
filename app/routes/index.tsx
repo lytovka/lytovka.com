@@ -131,8 +131,8 @@ export default function Index() {
   };
 
   return (
-    <div className="relative flex flex-col h-full w-full">
-      <div className="absolute inset-0 overflow-hidden select-none z-10">
+    <div className="relative flex flex-col h-full w-full overflow-hidden">
+      <div className="absolute inset-0 select-none z-10">
         {show &&
           posts.map((post) => (
             <Draggable

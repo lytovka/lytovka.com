@@ -139,38 +139,36 @@ export default function Index() {
   };
 
   return (
-    <div className="relative flex flex-col h-full w-full overflow-hidden">
-      <div className="absolute inset-0 select-none z-10">
-        {show &&
-          posts.map((post) => (
-            <Draggable
-              onDrag={onDrag}
-              onStop={onStop}
-              bounds={"body"}
-              key={post.slug}
-              defaultPosition={defaultPosition}
-            >
-              <div className="absolute w-32 h-auto touch-none z-10" ref={ref}>
-                <Link
-                  to={post.slug}
-                  prefetch="intent"
-                  className="flex flex-col items-center no-underline h-full"
-                  onDragStart={(e) => e.preventDefault()}
-                  onPointerDown={handleOnPointerDown}
-                  onPointerUp={(e) => handleOnPointerEndCapture(e, post.slug)}
-                  onClick={(e) => handleOnPointerClick(e, post.slug)}
-                >
-                  <img
-                    className="w-30 h-28 decoration-none"
-                    src={folder}
-                    aria-label="folder"
-                  />
-                  <p className="w-full text-2xl text-center">{post.title}</p>
-                </Link>
-              </div>
-            </Draggable>
-          ))}
-      </div>
+    <div className="flex flex-col h-full w-full overflow-hidden">
+      {show &&
+        posts.map((post) => (
+          <Draggable
+            onDrag={onDrag}
+            onStop={onStop}
+            bounds={"body"}
+            key={post.slug}
+            defaultPosition={defaultPosition}
+          >
+            <div className="w-32 h-auto touch-none z-10" ref={ref}>
+              <Link
+                to={post.slug}
+                prefetch="intent"
+                className="flex flex-col items-center no-underline h-full"
+                onDragStart={(e) => e.preventDefault()}
+                onPointerDown={handleOnPointerDown}
+                onPointerUp={(e) => handleOnPointerEndCapture(e, post.slug)}
+                onClick={(e) => handleOnPointerClick(e, post.slug)}
+              >
+                <img
+                  className="w-30 h-28 decoration-none"
+                  src={folder}
+                  aria-label="folder"
+                />
+                <p className="w-full text-2xl text-center">{post.title}</p>
+              </Link>
+            </div>
+          </Draggable>
+        ))}
     </div>
   );
 }

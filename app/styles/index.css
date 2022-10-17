@@ -1,4 +1,8 @@
+html {
+  height: 100%;
+}
+
 body {
-  height: 100vh;
+  min-height: 100%;
   overflow: hidden;
 }

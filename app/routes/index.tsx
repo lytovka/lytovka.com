@@ -139,7 +139,7 @@ export default function Index() {
   };
 
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col justify-center items-center h-full w-full">
       {show &&
         posts.map((post) => (
           <Draggable
@@ -149,7 +149,7 @@ export default function Index() {
             key={post.slug}
             defaultPosition={defaultPosition}
           >
-            <div className="w-32 h-auto touch-none z-10" ref={ref}>
+            <div className="w-32 h-auto touch-none" ref={ref}>
               <Link
                 to={post.slug}
                 prefetch="intent"

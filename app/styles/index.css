@@ -1,6 +1,8 @@
-body {
-  display: flex;
-  flex-direction: column;
-  height: 100vh;
+html {
+  height: 100%;
 }
 
+body {
+  min-height: 100%;
+  overflow: hidden;
+}

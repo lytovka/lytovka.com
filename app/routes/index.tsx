@@ -1,13 +1,24 @@
 import type { LinksFunction, LoaderFunction } from "remix";
-import { json } from "remix";
 import type { PointerEvent, MouseEvent } from "react";
-import React, { useRef } from "react";
+import type { Post } from "~/types/Post";
+import type { DraggableData, DraggableEvent } from "react-draggable";
+import type { Coordinates } from "~/typings";
+import { json } from "remix";
+import { useState, useEffect, useLayoutEffect, useRef } from "react";
 import { Link, useLoaderData, useNavigate } from "@remix-run/react";
 import indexStylesUrl from "~/styles/index.css";
 import folder from "~/images/home_folder.png";
 import { getPosts } from "~/utils/posts.server";
-import type { Post } from "~/types/Post";
 import Draggable from "react-draggable";
+import {
+  localStorageGetItem,
+  localStorageSetItem,
+} from "~/utils/local-storage";
+import { LYT_STORAGE_KEY } from "~/constants/storage-keys";
+
+const LINK_CLICK_DELAY = 250;
+const LINK_WIDTH_PX = 80;
+const LINK_HEIGHT_PX = 90;
 
 export const links: LinksFunction = () => {
   return [
@@ -23,25 +34,26 @@ export const loader: LoaderFunction = async () => {
 };
 
 export default function Index() {
-  let navigate = useNavigate();
   const posts = useLoaderData<Array<Post>>();
+  let navigate = useNavigate();
+  const ref = useRef<HTMLDivElement>(null);
   const idleTime = useRef<{ start: number; end: number }>({
     start: 0,
     end: 0,
   });
-  // const [defaultPosition, setDefaultPosition] = useState({ x: 0, y: 0 });
-  const ref = useRef<HTMLDivElement>(null);
+  const [show, setShow] = useState(false);
+  const [defaultPosition, setDefaultPosition] = useState({ x: 0, y: 0 });
 
-  const handleOnPointerDown = (event: PointerEvent) => {
+  const handleOnPointerDown = (_event: PointerEvent) => {
     idleTime.current.start = +new Date();
     if (ref.current) {
       ref.current.style.outline = "1px dotted grey";
     }
   };
 
-  const handleOnPointerEndCapture = (event: PointerEvent, slug: string) => {
+  const handleOnPointerEndCapture = (_event: PointerEvent, slug: string) => {
     idleTime.current.end = +new Date();
-    if (idleTime.current.end - idleTime.current.start < 350) {
+    if (idleTime.current.end - idleTime.current.start < LINK_CLICK_DELAY) {
       navigate(slug);
     }
     if (ref.current) {
@@ -50,39 +62,113 @@ export default function Index() {
   };
 
   const handleOnPointerClick = (event: MouseEvent, slug: string) => {
-    if (idleTime.current.end - idleTime.current.start < 350) {
+    if (idleTime.current.end - idleTime.current.start < LINK_CLICK_DELAY) {
       navigate(slug);
     } else {
-      // this prevents unintentional click on achnor element with a mouse device
+      // this prevents unintentional click on anchor element with a mouse device
       event.preventDefault();
     }
     Object.assign(idleTime.current, { end: 0, start: 0 });
   };
 
+  useLayoutEffect(() => {
+    const lc = localStorageGetItem(LYT_STORAGE_KEY);
+    if (lc !== null) {
+      const coords: Coordinates = JSON.parse(lc);
+      setDefaultPosition({
+        x: Math.min(
+          coords.x * document.body.getBoundingClientRect().width,
+          document.body.getBoundingClientRect().width - LINK_WIDTH_PX
+        ),
+        y: Math.min(
+          coords.y * document.body.getBoundingClientRect().height,
+          document.body.getBoundingClientRect().height - LINK_HEIGHT_PX
+        ),
+      });
+    } else {
+      setDefaultPosition({
+        x: Math.min(
+          0.5 * (document.body.getBoundingClientRect().width - LINK_WIDTH_PX)
+        ),
+        y: Math.min(
+          0.5 * (document.body.getBoundingClientRect().height - LINK_HEIGHT_PX)
+        ),
+      });
+    }
+    setShow(true);
+  }, []);
+
+  useEffect(() => {
+    const listener = () => {
+      triggerMouseEvent(ref.current, "mouseover");
+      triggerMouseEvent(ref.current, "mousedown");
+      triggerMouseEvent(ref.current, "mousemove");
+      triggerMouseEvent(ref.current, "mouseup");
+      triggerMouseEvent(ref.current, "click");
+    };
+
+    addEventListener("resize", listener);
+    return () => removeEventListener("resize", listener);
+  }, []);
+
+  const triggerMouseEvent = (element: any, eventType: string) => {
+    const mouseEvent = new Event(eventType, {
+      bubbles: true,
+      cancelable: true,
+    });
+    element.dispatchEvent(mouseEvent);
+  };
+
+  const onStop = (e: DraggableEvent, data: DraggableData) => {
+    if (e.isTrusted) {
+      const { x, y } = data;
+      localStorageSetItem(
+        LYT_STORAGE_KEY,
+        JSON.stringify({
+          x: x / document.body.getBoundingClientRect().width,
+          y: y / document.body.getBoundingClientRect().height,
+        })
+      );
+    }
+  };
+
+  const onDrag = (e: DraggableEvent, data: DraggableData) => {
+    if (!e.isTrusted) {
+      e.preventDefault();
+    }
+  };
+
   return (
-    <div className="flex flex-col justify-center items-center h-full w-full">
-      {posts.map((post) => (
-        <Draggable bounds={"parent"} key={post.slug}>
-          <div className="w-32 h-auto touch-none" ref={ref}>
-            <Link
-              to={post.slug}
-              prefetch="intent"
-              className="flex flex-col items-center no-underline h-full"
-              onDragStart={(e) => e.preventDefault()}
-              onPointerDown={handleOnPointerDown}
-              onPointerUp={(e) => handleOnPointerEndCapture(e, post.slug)}
-              onClick={(e) => handleOnPointerClick(e, post.slug)}
-            >
-              <img
-                className="w-30 h-28 decoration-none"
-                src={folder}
-                aria-label="folder"
-              />
-              <p className="w-full text-2xl text-center">{post.title}</p>
-            </Link>
-          </div>
-        </Draggable>
-      ))}
+    <div className="flex flex-col">
+      {show &&
+        posts.map((post) => (
+          <Draggable
+            onDrag={onDrag}
+            onStop={onStop}
+            bounds={"body"}
+            key={post.slug}
+            defaultPosition={defaultPosition}
+          >
+            <div className="w-32 h-auto touch-none" ref={ref}>
+              <Link
+                to={post.slug}
+                prefetch="intent"
+                className="flex flex-col items-center no-underline h-full"
+                onDragStart={(e) => e.preventDefault()}
+                onPointerDown={handleOnPointerDown}
+                onPointerUp={(e) => handleOnPointerEndCapture(e, post.slug)}
+                onClick={(e) => handleOnPointerClick(e, post.slug)}
+              >
+                <img
+                  className="w-30 h-28 decoration-none"
+                  src={folder}
+                  aria-label="folder"
+                />
+                <p className="w-full text-2xl text-center">{post.title}</p>
+              </Link>
+            </div>
+          </Draggable>
+        ))}
     </div>
   );
 }

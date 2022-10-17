@@ -16,6 +16,10 @@ import {
 } from "~/utils/local-storage";
 import { LYT_STORAGE_KEY } from "~/constants/storage-keys";
 
+const LINK_CLICK_DELAY = 250;
+const LINK_WIDTH_PX = 80;
+const LINK_HEIGHT_PX = 90;
+
 export const links: LinksFunction = () => {
   return [
     {
@@ -49,7 +53,7 @@ export default function Index() {
 
   const handleOnPointerEndCapture = (_event: PointerEvent, slug: string) => {
     idleTime.current.end = +new Date();
-    if (idleTime.current.end - idleTime.current.start < 250) {
+    if (idleTime.current.end - idleTime.current.start < LINK_CLICK_DELAY) {
       navigate(slug);
     }
     if (ref.current) {
@@ -58,7 +62,7 @@ export default function Index() {
   };
 
   const handleOnPointerClick = (event: MouseEvent, slug: string) => {
-    if (idleTime.current.end - idleTime.current.start < 250) {
+    if (idleTime.current.end - idleTime.current.start < LINK_CLICK_DELAY) {
       navigate(slug);
     } else {
       // this prevents unintentional click on anchor element with a mouse device
@@ -74,17 +78,21 @@ export default function Index() {
       setDefaultPosition({
         x: Math.min(
           coords.x * document.body.getBoundingClientRect().width,
-          document.body.getBoundingClientRect().width - 80
+          document.body.getBoundingClientRect().width - LINK_WIDTH_PX
         ),
         y: Math.min(
           coords.y * document.body.getBoundingClientRect().height,
-          document.body.getBoundingClientRect().height - 90
+          document.body.getBoundingClientRect().height - LINK_HEIGHT_PX
         ),
       });
     } else {
       setDefaultPosition({
-        x: Math.min(0.5 * (document.body.getBoundingClientRect().width - 80)),
-        y: Math.min(0.5 * (document.body.getBoundingClientRect().height - 90)),
+        x: Math.min(
+          0.5 * (document.body.getBoundingClientRect().width - LINK_WIDTH_PX)
+        ),
+        y: Math.min(
+          0.5 * (document.body.getBoundingClientRect().height - LINK_HEIGHT_PX)
+        ),
       });
     }
     setShow(true);

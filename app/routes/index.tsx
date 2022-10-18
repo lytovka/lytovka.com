@@ -46,18 +46,12 @@ export default function Index() {
 
   const handleOnPointerDown = (_event: PointerEvent) => {
     idleTime.current.start = +new Date();
-    if (ref.current) {
-      ref.current.style.outline = "1px dotted grey";
-    }
   };
 
   const handleOnPointerEndCapture = (_event: PointerEvent, slug: string) => {
     idleTime.current.end = +new Date();
     if (idleTime.current.end - idleTime.current.start < LINK_CLICK_DELAY) {
       navigate(slug);
-    }
-    if (ref.current) {
-      ref.current.style.outline = "";
     }
   };
 
@@ -153,7 +147,7 @@ export default function Index() {
               <Link
                 to={post.slug}
                 prefetch="intent"
-                className="flex flex-col items-center no-underline h-full"
+                className="flex flex-col items-center no-underline h-full active:outline-dashed outline-1 outline-gray-500"
                 onDragStart={(e) => e.preventDefault()}
                 onPointerDown={handleOnPointerDown}
                 onPointerUp={(e) => handleOnPointerEndCapture(e, post.slug)}

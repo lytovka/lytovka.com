@@ -3,5 +3,12 @@
   "extends": ["config:base"],
   "schedule": ["every weekend"],
   "semanticCommits": "enabled",
-  "timezone": "America/New_York"
+  "timezone": "America/New_York",
+  "packageRules": [
+    {
+      "matchUpdateTypes": ["minor", "patch"],
+      "matchDepTypes": ["devDependencies"],
+      "automerge": true
+    }
+  ]
 }

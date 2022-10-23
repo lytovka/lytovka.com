@@ -22,7 +22,7 @@ const LINK_WIDTH_PX = 90;
 const LINK_HEIGHT_PX = 90;
 const FALLBACK_DEFAULT_POSITIONS: Positions = [
   [0.5, 0.5],
-  [0.5, 0.8],
+  [0.15, 0.75],
 ];
 
 export const links: LinksFunction = () => {
@@ -40,7 +40,7 @@ export const loader: LoaderFunction = async () => {
 
 export default function Index() {
   const posts = useLoaderData<Array<Post>>();
-  const ref = useRef<HTMLDivElement>(null);
+  const draggableElementRefs = useRef<Array<HTMLDivElement>>([]);
   const localStoragePositionsCopy = useRef<Positions>(
     FALLBACK_DEFAULT_POSITIONS
   );
@@ -97,23 +97,28 @@ export default function Index() {
 
   useEffect(() => {
     const listener = () => {
-      triggerMouseEvent(ref.current, "mouseover");
-      triggerMouseEvent(ref.current, "mousedown");
-      triggerMouseEvent(ref.current, "mousemove");
-      triggerMouseEvent(ref.current, "mouseup");
-      triggerMouseEvent(ref.current, "click");
+      triggerMouseEvent(draggableElementRefs.current, "mouseover");
+      triggerMouseEvent(draggableElementRefs.current, "mousedown");
+      triggerMouseEvent(draggableElementRefs.current, "mousemove");
+      triggerMouseEvent(draggableElementRefs.current, "mouseup");
+      triggerMouseEvent(draggableElementRefs.current, "click");
     };
 
     addEventListener("resize", listener);
     return () => removeEventListener("resize", listener);
   }, []);
 
-  const triggerMouseEvent = (element: any, eventType: string) => {
+  const triggerMouseEvent = (
+    elements: Array<HTMLDivElement>,
+    eventType: string
+  ) => {
     const mouseEvent = new Event(eventType, {
       bubbles: true,
       cancelable: true,
     });
-    element.dispatchEvent(mouseEvent);
+    for (const element of elements) {
+      element.dispatchEvent(mouseEvent);
+    }
   };
 
   const onStart = (_e: DraggableEvent, data: DraggableData) => {
@@ -169,7 +174,7 @@ export default function Index() {
                 drag && `pointer-events-none`
               }`}
               style={{ zIndex: zIndexes[0] }}
-              ref={ref}
+              ref={(el) => el && draggableElementRefs.current[0]}
             >
               <Link
                 to={post.slug}

@@ -1,8 +1,7 @@
 import type { LinksFunction, LoaderFunction } from "remix";
-import type { PointerEvent, MouseEvent } from "react";
-import type { Post } from "~/types/Post";
+import type { PointerEvent } from "react";
+import type { Post } from "~/typings/Post";
 import type { DraggableData, DraggableEvent } from "react-draggable";
-import type { Coordinates } from "~/typings";
 import { json } from "remix";
 import { useState, useEffect, useLayoutEffect, useRef } from "react";
 import { Link, useLoaderData, useNavigate } from "@remix-run/react";
@@ -15,10 +14,16 @@ import {
   localStorageSetItem,
 } from "~/utils/local-storage";
 import { LYT_STORAGE_KEY } from "~/constants/storage-keys";
+import useWindowSize from "~/hooks/useWindowSize";
+import type { Position, Positions } from "~/typings/Coordinates";
+import { replaceAt } from "~/utils/array";
 
-const LINK_CLICK_DELAY = 250;
-const LINK_WIDTH_PX = 80;
+const LINK_WIDTH_PX = 90;
 const LINK_HEIGHT_PX = 90;
+const FALLBACK_DEFAULT_POSITIONS: Positions = [
+  [0.5, 0.5],
+  [0.5, 0.8],
+];
 
 export const links: LinksFunction = () => {
   return [
@@ -35,62 +40,60 @@ export const loader: LoaderFunction = async () => {
 
 export default function Index() {
   const posts = useLoaderData<Array<Post>>();
-  let navigate = useNavigate();
   const ref = useRef<HTMLDivElement>(null);
-  const idleTime = useRef<{ start: number; end: number }>({
-    start: 0,
-    end: 0,
-  });
+  const localStoragePositionsCopy = useRef<Positions>(
+    FALLBACK_DEFAULT_POSITIONS
+  );
+  let navigate = useNavigate();
+  const [windowSize] = useWindowSize();
   const [show, setShow] = useState(false);
-  const [defaultPosition, setDefaultPosition] = useState({ x: 0, y: 0 });
-
-  const handleOnPointerDown = (_event: PointerEvent) => {
-    idleTime.current.start = +new Date();
-  };
+  const [drag, setDrag] = useState(false);
+  const [zIndexes, setZIndexes] = useState<Array<number>>(
+    Array(FALLBACK_DEFAULT_POSITIONS.length).fill(0)
+  );
+  const [defaultPositions, setDefaultPosition] = useState<Positions>([
+    [0, 0],
+    [0, 0],
+  ]);
 
   const handleOnPointerEndCapture = (_event: PointerEvent, slug: string) => {
-    idleTime.current.end = +new Date();
-    if (idleTime.current.end - idleTime.current.start < LINK_CLICK_DELAY) {
-      navigate(slug);
+    if (drag) {
+      return;
     }
-  };
-
-  const handleOnPointerClick = (event: MouseEvent, slug: string) => {
-    if (idleTime.current.end - idleTime.current.start < LINK_CLICK_DELAY) {
-      navigate(slug);
-    } else {
-      // this prevents unintentional click on anchor element with a mouse device
-      event.preventDefault();
-    }
-    Object.assign(idleTime.current, { end: 0, start: 0 });
+    navigate(slug);
   };
 
   useLayoutEffect(() => {
+    if (!windowSize.height || !windowSize.width) {
+      return;
+    }
+    const height = windowSize.height;
+    const width = windowSize.width;
+
     const lc = localStorageGetItem(LYT_STORAGE_KEY);
     if (lc !== null) {
-      const coords: Coordinates = JSON.parse(lc);
-      setDefaultPosition({
-        x: Math.min(
-          coords.x * document.body.getBoundingClientRect().width,
-          document.body.getBoundingClientRect().width - LINK_WIDTH_PX
-        ),
-        y: Math.min(
-          coords.y * document.body.getBoundingClientRect().height,
-          document.body.getBoundingClientRect().height - LINK_HEIGHT_PX
-        ),
+      const positions: Positions = JSON.parse(lc);
+      Object.assign(localStoragePositionsCopy.current, positions);
+      const transformedPositions: Positions = positions.map((position) => {
+        return [
+          Math.min(position[0] * width, width - LINK_WIDTH_PX),
+          Math.min(position[1] * height, height - LINK_HEIGHT_PX),
+        ];
       });
+      setDefaultPosition(transformedPositions);
     } else {
-      setDefaultPosition({
-        x: Math.min(
-          0.5 * (document.body.getBoundingClientRect().width - LINK_WIDTH_PX)
-        ),
-        y: Math.min(
-          0.5 * (document.body.getBoundingClientRect().height - LINK_HEIGHT_PX)
-        ),
-      });
+      const transformedPositions: Positions = FALLBACK_DEFAULT_POSITIONS.map(
+        (position) => {
+          return [
+            position[0] * (width - LINK_WIDTH_PX),
+            position[1] * (height - LINK_HEIGHT_PX),
+          ];
+        }
+      );
+      setDefaultPosition(transformedPositions);
     }
     setShow(true);
-  }, []);
+  }, [windowSize.height, windowSize.width]);
 
   useEffect(() => {
     const listener = () => {
@@ -113,52 +116,73 @@ export default function Index() {
     element.dispatchEvent(mouseEvent);
   };
 
-  const onStop = (e: DraggableEvent, data: DraggableData) => {
-    if (e.isTrusted) {
-      const { x, y } = data;
-      localStorageSetItem(
-        LYT_STORAGE_KEY,
-        JSON.stringify({
-          x: x / document.body.getBoundingClientRect().width,
-          y: y / document.body.getBoundingClientRect().height,
-        })
-      );
-    }
+  const onStart = (_e: DraggableEvent, data: DraggableData) => {
+    const { index } = data.node.dataset;
+    if (!index) return;
+    setZIndexes((prev) =>
+      replaceAt<number>(prev, Number(index), Math.max(...prev) + 1)
+    );
   };
 
   const onDrag = (e: DraggableEvent, data: DraggableData) => {
+    setDrag(true);
     if (!e.isTrusted) {
       e.preventDefault();
     }
   };
 
+  const onStop = (e: DraggableEvent, data: DraggableData) => {
+    if (!windowSize.height || !windowSize.width) return;
+    const { index } = data.node.dataset;
+    if (!index) return;
+    if (e.isTrusted) {
+      const { x, y } = data;
+      const newPositions = replaceAt<Position>(
+        localStoragePositionsCopy.current,
+        Number(index),
+        [x / windowSize.width, y / windowSize.height]
+      );
+      localStorageSetItem(LYT_STORAGE_KEY, JSON.stringify(newPositions));
+      Object.assign(localStoragePositionsCopy.current, newPositions);
+    }
+    setDrag(false);
+  };
+
   return (
-    <div className="flex flex-col">
+    <div className="inline-flex flex-col">
       {show &&
         posts.map((post) => (
           <Draggable
+            onStart={onStart}
             onDrag={onDrag}
             onStop={onStop}
             bounds={"body"}
             key={post.slug}
-            defaultPosition={defaultPosition}
+            defaultPosition={{
+              x: defaultPositions[0][0],
+              y: defaultPositions[0][1],
+            }}
           >
-            <div className="w-32 h-auto touch-none" ref={ref}>
+            <div
+              data-index="0"
+              className={`w-36 h-36 touch-none ${
+                drag && `pointer-events-none`
+              }`}
+              style={{ zIndex: zIndexes[0] }}
+              ref={ref}
+            >
               <Link
                 to={post.slug}
                 prefetch="intent"
-                className="flex flex-col items-center no-underline h-full active:outline-dashed outline-1 outline-gray-500"
-                onDragStart={(e) => e.preventDefault()}
-                onPointerDown={handleOnPointerDown}
+                className="flex flex-col items-center no-underline active:outline-dashed outline-1 outline-gray-500"
                 onPointerUp={(e) => handleOnPointerEndCapture(e, post.slug)}
-                onClick={(e) => handleOnPointerClick(e, post.slug)}
               >
                 <img
-                  className="w-30 h-28 decoration-none"
+                  className="w-auto h-28 decoration-none"
                   src={folder}
                   aria-label="folder"
                 />
-                <p className="w-full text-2xl text-center">{post.title}</p>
+                <p className="text-2xl text-center">{post.title}</p>
               </Link>
             </div>
           </Draggable>

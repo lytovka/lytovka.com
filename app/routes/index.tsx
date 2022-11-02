@@ -1,22 +1,23 @@
-import type { LinksFunction, LoaderFunction } from "remix";
-import type { PointerEvent } from "react";
-import type { Post } from "~/typings/Post";
-import type { DraggableData, DraggableEvent } from "react-draggable";
-import { json } from "remix";
-import { useState, useEffect, useLayoutEffect, useRef } from "react";
 import { Link, useLoaderData, useNavigate } from "@remix-run/react";
-import indexStylesUrl from "~/styles/index.css";
-import folder from "~/images/home_folder.png";
-import { getPosts } from "~/utils/posts.server";
+import type { PointerEvent } from "react";
+import { useEffect, useLayoutEffect, useRef,useState } from "react";
+import type { DraggableData, DraggableEvent } from "react-draggable";
 import Draggable from "react-draggable";
+import type { LinksFunction, LoaderFunction } from "remix";
+import { json } from "remix";
+
+import { LYT_STORAGE_KEY } from "~/constants/storage-keys";
+import useWindowSize from "~/hooks/useWindowSize";
+import folder from "~/images/home_folder.png";
+import indexStylesUrl from "~/styles/index.css";
+import type { Position, Positions } from "~/typings/Coordinates";
+import type { Post } from "~/typings/Post";
+import { replaceAt } from "~/utils/array";
 import {
   localStorageGetItem,
   localStorageSetItem,
 } from "~/utils/local-storage";
-import { LYT_STORAGE_KEY } from "~/constants/storage-keys";
-import useWindowSize from "~/hooks/useWindowSize";
-import type { Position, Positions } from "~/typings/Coordinates";
-import { replaceAt } from "~/utils/array";
+import { getPosts } from "~/utils/posts.server";
 
 const LINK_WIDTH_PX = 90;
 const LINK_HEIGHT_PX = 90;

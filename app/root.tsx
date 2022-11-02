@@ -7,12 +7,14 @@ import {
   ScrollRestoration,
   useLoaderData,
 } from "@remix-run/react";
+import type { LinksFunction, LoaderFunction,MetaFunction } from "remix";
 import { json } from "remix";
-import type { MetaFunction, LinksFunction, LoaderFunction } from "remix";
-import tailwindStyles from "./styles/app.css";
+
 import favicon from "~/images/favicon.png";
 import featuredImage from "~/images/featured_image.png";
 import { getEnv } from "~/utils/env.server";
+
+import tailwindStyles from "./styles/app.css";
 
 export const meta: MetaFunction = () => {
   const title = "Ivan's shared documents";

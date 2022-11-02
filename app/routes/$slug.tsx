@@ -1,7 +1,8 @@
-import type { LoaderFunction, MetaFunction } from "remix";
-import { json } from "remix";
 import { Link, useLoaderData } from "@remix-run/react";
 import formatDate from "date-fns/format";
+import type { LoaderFunction, MetaFunction } from "remix";
+import { json } from "remix";
+
 import type { Post } from "~/typings/Post";
 import { getPost } from "~/utils/posts.server";
 

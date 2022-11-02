@@ -1,7 +1,7 @@
-import { renderToString } from "react-dom/server";
 import { RemixServer } from "@remix-run/react";
-import type { EntryContext } from "remix";
 import { config } from "dotenv";
+import { renderToString } from "react-dom/server";
+import type { EntryContext } from "remix";
 
 config();
 

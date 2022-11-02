@@ -1,7 +1,17 @@
 {
-  "name": "remix-app-template",
-  "private": true,
+  "name": "lytovka.com",
+  "version": "1.0.0",
   "description": "My personal site",
+  "author": "Ivan Lytovka <ivanlytovka@gmail.com> (https://github.com/lytovka)",
+  "engines": {
+    "node": "16",
+    "npm": "8"
+  },
+  "main": "server.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lytovka/lytovka.com.git"
+  },
   "license": "MIT",
   "sideEffects": false,
   "scripts": {

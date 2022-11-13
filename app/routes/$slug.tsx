@@ -11,13 +11,11 @@ type LoaderData = Post;
 export const meta: MetaFunction = ({ data }: { data: LoaderData | null }) => {
   if (!data) {
     return {
-      title: "No post",
-      description: "No post found",
+      title: "No post found",
     };
   }
   return {
     title: `"${data.title}" post`,
-    description: "What should I put here?",
   };
 };
 
@@ -34,9 +32,9 @@ export default function PostSlug() {
   return (
     <>
       <div className="h-24">
-        <nav className="fixed top-0 w-full bg-main border-solid border-b border-gray-400 py-5 px-5">
+        <nav className="fixed top-0 w-full backdrop-blur border-solid border-b border-gray-400 py-5 px-5">
           <div className="flex items-center mx-auto max-w-8xl md:px-32">
-            <h1 className="flex-grow font-bold text-3xl text-center">
+            <h1 className="flex-grow font-bold text-3xl text-center ml-6">
               {post.title}
             </h1>
             <Link

@@ -1,6 +1,6 @@
 import { marked } from "marked";
-import { prisma } from "~/db.server";
 
+import { prisma } from "~/db.server";
 import type { Post } from "~/typings/Post";
 
 export async function getPosts() {

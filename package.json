@@ -69,5 +69,8 @@
     "typescript": "4.8.4",
     "vite-tsconfig-paths": "3.5.2",
     "vitest": "0.24.3"
+  },
+  "prisma": {
+    "seed": "ts-node prisma/seed.ts"
   }
 }

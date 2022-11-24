@@ -2,11 +2,11 @@ import { Link, useLoaderData } from "@remix-run/react";
 import formatDate from "date-fns/format";
 import type { LoaderFunction, MetaFunction } from "remix";
 import { json } from "remix";
+import { ParsedPost } from "~/typings/Post";
 
-import type { Post } from "~/typings/Post";
 import { getPost } from "~/utils/posts.server";
 
-type LoaderData = Post;
+type LoaderData = ParsedPost;
 
 export const meta: MetaFunction = ({ data }: { data: LoaderData | null }) => {
   if (!data) {
@@ -23,12 +23,15 @@ export const loader: LoaderFunction = async ({ params }) => {
   if (!params.slug) {
     throw "such a slug does not exist.";
   }
-  return json(await getPost(params.slug));
+  console.log(params.slug);
+  const post = await getPost(params.slug);
+  if (!post) return null;
+  return json(post);
 };
 
 export default function PostSlug() {
-  const post = useLoaderData<Post>();
-  const postDate = formatDate(new Date(post.date), "dd/MM/yyyy");
+  const post = useLoaderData();
+  const postDate = formatDate(new Date(post.createdAt), "dd/MM/yyyy");
   return (
     <>
       <div className="h-24">

@@ -1,6 +1,7 @@
+import { Post } from "@prisma/client";
 import { Link, useLoaderData, useNavigate } from "@remix-run/react";
 import type { PointerEvent } from "react";
-import { useEffect, useLayoutEffect, useRef,useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import type { DraggableData, DraggableEvent } from "react-draggable";
 import Draggable from "react-draggable";
 import type { LinksFunction, LoaderFunction } from "remix";
@@ -11,7 +12,6 @@ import useWindowSize from "~/hooks/useWindowSize";
 import folder from "~/images/home_folder.png";
 import indexStylesUrl from "~/styles/index.css";
 import type { Position, Positions } from "~/typings/Coordinates";
-import type { Post } from "~/typings/Post";
 import { replaceAt } from "~/utils/array";
 import {
   localStorageGetItem,

@@ -1,13 +1,10 @@
-import type { posts } from "@prisma/client";
+import type { Post } from "@prisma/client";
 
-export type Post = {
+export interface ParsedPost extends Post {
   html: string;
-  slug: string;
-  title: string;
-  date: Date;
 };
 
-export type PostUpdate = posts;
+export type PostUpdate = Post;
 
 export type UpdatePost = {
   title: string;

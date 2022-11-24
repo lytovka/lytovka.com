@@ -1,17 +1,17 @@
 generator client {
-  provider        = "prisma-client-js"
+  provider = "prisma-client-js"
 }
 
 datasource db {
-  provider = "mongodb"
-  url      = env("DATABASE_URL")
+  provider = "sqlite"
+  url      = env("DATABASE_URL_SQLITE")
 }
 
-// TODO: fix model name
-model posts {
-  id       String   @id @default(auto()) @map("_id") @db.ObjectId
-  date     DateTime @db.Date
-  markdown String
-  slug     String
-  title    String
+model Post {
+  id        String   @id @default(cuid())
+  markdown  String
+  slug      String   @unique
+  title     String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }

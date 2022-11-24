@@ -15,11 +15,11 @@
   "license": "MIT",
   "sideEffects": false,
   "scripts": {
-    "build": "cross-env NODE_ENV=production prisma generate && prisma migrate deploy && npm run build:css && remix build",
+    "build": "cross-env NODE_ENV=production npm run prisma:setup && npm run build:css && remix build",
     "build:css": "tailwindcss -m -i ./styles/tailwind.css -o app/styles/app.css",
     "dev": "cross-env NODE_ENV=development concurrently \"npm run dev:css\" \"remix dev\"",
     "dev:css": "tailwindcss -w -i ./styles/tailwind.css -o app/styles/app.css",
-    "setup:generate": "prisma generate",
+    "prisma:setup": "prisma generate && prisma migrate deploy && prisma db seed",
     "start": "remix-serve api/index.js",
     "postinstall": "remix setup node",
     "lint": "eslint --max-warnings 0 --cache --cache-location ./node_modules/.cache/eslint .",

@@ -11,19 +11,31 @@ import path from "path";
 //   return allPosts;
 // }
 
+// export async function getPost(slug: string): Promise<Post | null> {
+//   const foundPost = await prisma.posts.findFirst({
+//     where: {
+//       slug,
+//     },
+//   });
+
+//   if (!foundPost) return null;
+
+//   const title = foundPost.title;
+//   const html = marked(foundPost.markdown);
+
+//   return { slug, title, html, date: foundPost.date };
+// }
+
 export async function getPost(slug: string): Promise<Post | null> {
-  const foundPost = await prisma.posts.findFirst({
-    where: {
-      slug,
-    },
-  });
+  const source = await fs.readFile(
+    path.join(`${__dirname}/../posts`, slug + ".md"),
+    "utf-8"
+  );
+  const { attributes, body } = parseFrontMatter(source.toString());
+  const html = marked(body);
 
-  if (!foundPost) return null;
-
-  const title = foundPost.title;
-  const html = marked(foundPost.markdown);
-
-  return { slug, title, html, date: foundPost.date };
+  // @ts-ignore
+  return { slug, title: attributes.title, html, date: attributes.date };
 }
 
 export async function getPosts() {
@@ -38,7 +50,7 @@ export async function getPosts() {
       );
       const { attributes } = parseFrontMatter(file.toString());
       return {
-        slug: dirent.name.replace(/\.mdx/, ""),
+        slug: dirent.name.replace(/\.md/, ""),
         //@ts-ignore
         title: attributes.title,
       };

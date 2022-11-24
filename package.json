@@ -36,6 +36,7 @@
     "@remix-run/vercel": "1.7.5",
     "date-fns": "2.29.3",
     "dotenv": "16.0.3",
+    "front-matter": "^4.0.2",
     "marked": "4.1.1",
     "parse-md": "3.0.3",
     "prisma": "4.5.0",

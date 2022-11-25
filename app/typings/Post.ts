@@ -1,16 +1,9 @@
-import type { posts } from "@prisma/client";
-
-export type Post = {
-  html: string;
-  slug: string;
+export interface PostAttributes {
   title: string;
   date: Date;
-};
-
-export type PostUpdate = posts;
-
-export type UpdatePost = {
-  title: string;
   slug: string;
-  markdown: string;
-};
+}
+
+export interface Post extends PostAttributes {
+  html: string;
+}

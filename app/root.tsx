@@ -7,7 +7,7 @@ import {
   ScrollRestoration,
   useLoaderData,
 } from "@remix-run/react";
-import type { LinksFunction, LoaderFunction,MetaFunction } from "remix";
+import type { LinksFunction, LoaderFunction, MetaFunction } from "remix";
 import { json } from "remix";
 
 import favicon from "~/images/favicon.png";

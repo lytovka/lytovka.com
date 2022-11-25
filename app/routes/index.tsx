@@ -1,6 +1,6 @@
 import { Link, useLoaderData, useNavigate } from "@remix-run/react";
 import type { PointerEvent } from "react";
-import { useEffect, useLayoutEffect, useRef,useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import type { DraggableData, DraggableEvent } from "react-draggable";
 import Draggable from "react-draggable";
 import type { LinksFunction, LoaderFunction } from "remix";
@@ -64,7 +64,7 @@ export default function Index() {
     navigate(slug);
   };
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     if (!windowSize.height || !windowSize.width) {
       return;
     }
@@ -157,7 +157,7 @@ export default function Index() {
   return (
     <div className="inline-flex flex-col">
       {show &&
-        posts.map((post) => (
+        posts.map((post, index) => (
           <Draggable
             onStart={onStart}
             onDrag={onDrag}
@@ -165,17 +165,17 @@ export default function Index() {
             bounds={"body"}
             key={post.slug}
             defaultPosition={{
-              x: defaultPositions[0][0],
-              y: defaultPositions[0][1],
+              x: defaultPositions[index][0],
+              y: defaultPositions[index][1],
             }}
           >
             <div
-              data-index="0"
+              data-index={index}
               className={`w-36 h-36 touch-none ${
                 drag && `pointer-events-none`
               }`}
-              style={{ zIndex: zIndexes[0] }}
-              ref={(el) => el && draggableElementRefs.current[0]}
+              style={{ zIndex: zIndexes[index] }}
+              ref={(el) => el && draggableElementRefs.current[index]}
             >
               <Link
                 to={post.slug}

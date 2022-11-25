@@ -1,1 +1,1 @@
-export const LYT_STORAGE_KEY = "l";
+export const LYT_STORAGE_KEY = "lyt2";

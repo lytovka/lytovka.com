@@ -1,9 +1,9 @@
-import { marked } from "marked";
-
 import parseFrontMatter from "front-matter";
-import type { Post, PostAttributes } from "~/typings/Post";
 import fs from "fs/promises";
+import { marked } from "marked";
 import path from "path";
+
+import type { Post, PostAttributes } from "~/typings/Post";
 
 export async function getPost(slug: string): Promise<Post | null> {
   const source = await fs.readFile(

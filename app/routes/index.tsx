@@ -1,6 +1,6 @@
 import { Link, useLoaderData, useNavigate } from "@remix-run/react";
 import type { PointerEvent } from "react";
-import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import type { DraggableData, DraggableEvent } from "react-draggable";
 import Draggable from "react-draggable";
 import type { LinksFunction, LoaderFunction } from "remix";

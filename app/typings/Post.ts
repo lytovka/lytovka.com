@@ -1,6 +1,6 @@
 export interface PostAttributes {
   title: string;
-  date: Date;
+  date: string;
   slug: string;
 }
 

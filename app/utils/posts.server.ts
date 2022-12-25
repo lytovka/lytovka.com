@@ -4,7 +4,9 @@ import { marked } from "marked";
 import type { Post, PostUpdate, UpdatePost } from "~/typings/Post";
 
 declare global {
+  // eslint-disable-next-line
   var prismaRead: ReturnType<typeof getClient> | undefined;
+  // eslint-disable-next-line
   var prismaWrite: ReturnType<typeof getClient> | undefined;
 }
 

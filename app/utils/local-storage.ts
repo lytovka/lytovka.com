@@ -67,14 +67,14 @@ const tryLocalStorageRemoveItem: typeof window.localStorage.removeItem = (
     try {
       window.localStorage.removeItem(key);
     } catch {
-      delete inMemoryStorage[key];
+      delete inMemoryStorage.key;
     }
   }
-  delete inMemoryStorage[key];
+  delete inMemoryStorage.key;
 };
 
 const localStorageGetItem: typeof tryLocalStorageGetItem = (key) => {
-  return tryLocalStorageGetItem(key) || null;
+  return tryLocalStorageGetItem(key) ?? null;
 };
 
 const localStorageSetItem: typeof tryLocalStorageSetItem = (key, value) => {

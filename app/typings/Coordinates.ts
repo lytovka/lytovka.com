@@ -5,4 +5,4 @@ export interface Coordinates {
 
 export type Position = [number, number];
 
-export type Positions = Array<Position>;
+export type Positions = Position[];

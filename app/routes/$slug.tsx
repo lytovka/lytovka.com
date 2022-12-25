@@ -14,6 +14,7 @@ export const meta: MetaFunction = ({ data }: { data: LoaderData | null }) => {
       title: "No post found",
     };
   }
+
   return {
     title: `"${data.title}" post`,
   };
@@ -21,14 +22,16 @@ export const meta: MetaFunction = ({ data }: { data: LoaderData | null }) => {
 
 export const loader: LoaderFunction = async ({ params }) => {
   if (!params.slug) {
-    throw "such a slug does not exist.";
+    throw Error("Slug does not exist.");
   }
+
   return json(await getPost(params.slug));
 };
 
 export default function PostSlug() {
   const post = useLoaderData<Post>();
   const postDate = formatDate(new Date(post.date), "dd/MM/yyyy");
+
   return (
     <>
       <div className="h-24">

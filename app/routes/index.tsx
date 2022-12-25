@@ -1,6 +1,6 @@
 import { Link, useLoaderData, useNavigate } from "@remix-run/react";
 import type { PointerEvent } from "react";
-import { useEffect, useLayoutEffect, useRef,useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import type { DraggableData, DraggableEvent } from "react-draggable";
 import Draggable from "react-draggable";
 import type { LinksFunction, LoaderFunction } from "remix";
@@ -40,16 +40,16 @@ export const loader: LoaderFunction = async () => {
 };
 
 export default function Index() {
-  const posts = useLoaderData<Array<Post>>();
-  const draggableElementRefs = useRef<Array<HTMLDivElement>>([]);
+  const posts = useLoaderData<Post[]>();
+  const draggableElementRefs = useRef<HTMLDivElement[]>([]);
   const localStoragePositionsCopy = useRef<Positions>(
     FALLBACK_DEFAULT_POSITIONS
   );
-  let navigate = useNavigate();
+  const navigate = useNavigate();
   const [windowSize] = useWindowSize();
   const [show, setShow] = useState(false);
   const [drag, setDrag] = useState(false);
-  const [zIndexes, setZIndexes] = useState<Array<number>>(
+  const [zIndexes, setZIndexes] = useState<number[]>(
     Array(FALLBACK_DEFAULT_POSITIONS.length).fill(0)
   );
   const [defaultPositions, setDefaultPosition] = useState<Positions>([
@@ -73,7 +73,7 @@ export default function Index() {
 
     const lc = localStorageGetItem(LYT_STORAGE_KEY);
     if (lc !== null) {
-      const positions: Positions = JSON.parse(lc);
+      const positions = JSON.parse(lc) as Positions;
       Object.assign(localStoragePositionsCopy.current, positions);
       const transformedPositions: Positions = positions.map((position) => {
         return [
@@ -106,13 +106,13 @@ export default function Index() {
     };
 
     addEventListener("resize", listener);
-    return () => removeEventListener("resize", listener);
+
+    return () => {
+      removeEventListener("resize", listener);
+    };
   }, []);
 
-  const triggerMouseEvent = (
-    elements: Array<HTMLDivElement>,
-    eventType: string
-  ) => {
+  const triggerMouseEvent = (elements: HTMLDivElement[], eventType: string) => {
     const mouseEvent = new Event(eventType, {
       bubbles: true,
       cancelable: true,
@@ -130,7 +130,7 @@ export default function Index() {
     );
   };
 
-  const onDrag = (e: DraggableEvent, data: DraggableData) => {
+  const onDrag = (e: DraggableEvent, _data: DraggableData) => {
     setDrag(true);
     if (!e.isTrusted) {
       e.preventDefault();
@@ -172,7 +172,7 @@ export default function Index() {
             <div
               data-index="0"
               className={`w-36 h-36 touch-none ${
-                drag && `pointer-events-none`
+                drag ? `pointer-events-none` : ""
               }`}
               style={{ zIndex: zIndexes[0] }}
               ref={(el) => el && draggableElementRefs.current[0]}
@@ -181,7 +181,9 @@ export default function Index() {
                 to={post.slug}
                 prefetch="intent"
                 className="flex flex-col items-center no-underline active:outline-dashed outline-1 outline-gray-500"
-                onPointerUp={(e) => handleOnPointerEndCapture(e, post.slug)}
+                onPointerUp={(e) => {
+                  handleOnPointerEndCapture(e, post.slug);
+                }}
               >
                 <img
                   className="w-auto h-28 decoration-none"

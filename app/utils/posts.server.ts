@@ -14,11 +14,13 @@ const prismaWrite = global.prismaWrite ?? (global.prismaWrite = getClient());
 function getClient(): PrismaClient {
   const client = new PrismaClient();
   void client.$connect();
+
   return client;
 }
 
 export async function getPosts() {
   const allPosts = await prismaRead.posts.findMany();
+
   return allPosts;
 }
 

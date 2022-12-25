@@ -10,6 +10,7 @@ const isLocalStorageAvailable = () => {
     const x = "__storage_test__";
     storage.setItem(x, x);
     storage.removeItem(x);
+
     return true;
   } catch (e) {
     return (
@@ -41,6 +42,7 @@ const tryLocalStorageGetItem: typeof window.localStorage.getItem = (key) => {
       return inMemoryStorage[key];
     }
   }
+
   return inMemoryStorage[key];
 };
 
@@ -83,4 +85,4 @@ const localStorageRemoveItem: typeof tryLocalStorageRemoveItem = (key) => {
   tryLocalStorageRemoveItem(key);
 };
 
-export { localStorageGetItem, localStorageRemoveItem,localStorageSetItem };
+export { localStorageGetItem, localStorageRemoveItem, localStorageSetItem };

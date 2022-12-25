@@ -4,7 +4,7 @@ import type {
   PropsWithChildren,
   TouchEvent,
 } from "react";
-import { useRef,useState } from "react";
+import { useRef, useState } from "react";
 
 export const Draggable = ({ children }: PropsWithChildren<unknown>) => {
   const [initial, setInitial] = useState({
@@ -77,15 +77,15 @@ export const Draggable = ({ children }: PropsWithChildren<unknown>) => {
     setIsDragging(true);
   };
 
-  const handleTouchEnd = (event: TouchEvent) => {
+  const handleTouchEnd = (_event: TouchEvent) => {
     setIsDragging(false);
   };
 
-  const handleMouseUp = (event: MouseEvent) => {
+  const handleMouseUp = (_event: MouseEvent) => {
     setIsDragging(false);
   };
 
-  const handleMouseLeave = (event: MouseEvent) => {
+  const handleMouseLeave = (_event: MouseEvent) => {
     setIsDragging(false);
   };
 

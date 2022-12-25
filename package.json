@@ -22,7 +22,7 @@
     "setup:generate": "prisma generate",
     "start": "remix-serve api/index.js",
     "postinstall": "remix setup node",
-    "lint": "eslint --max-warnings 0 --cache --cache-location ./node_modules/.cache/eslint .",
+    "lint": "eslint --max-warnings 0 --cache --cache-location ./node_modules/.cache/.eslintcache --ext js,jsx,ts,tsx .",
     "lint:fix": "eslint --fix .",
     "format": "prettier --write .",
     "test": "vitest",
@@ -31,6 +31,7 @@
     "prepare": "husky install"
   },
   "dependencies": {
+    "@lytovka/eslint-config": "^0.0.8-alpha",
     "@prisma/client": "4.5.0",
     "@remix-run/react": "1.7.5",
     "@remix-run/vercel": "1.7.5",
@@ -46,7 +47,6 @@
   },
   "devDependencies": {
     "@remix-run/dev": "1.7.5",
-    "@remix-run/eslint-config": "1.7.5",
     "@remix-run/serve": "1.7.5",
     "@tailwindcss/typography": "0.5.9",
     "@testing-library/jest-dom": "5.16.5",
@@ -62,7 +62,6 @@
     "cross-env": "7.0.3",
     "eslint": "8.27.0",
     "eslint-config-prettier": "8.5.0",
-    "eslint-plugin-simple-import-sort": "^8.0.0",
     "happy-dom": "7.6.6",
     "husky": "^8.0.2",
     "postcss": "8.4.18",

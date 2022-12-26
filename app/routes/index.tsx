@@ -40,8 +40,8 @@ export const loader: LoaderFunction = async () => {
 };
 
 export default function Index() {
-  const posts = useLoaderData<Post[]>();
-  const draggableElementRefs = useRef<HTMLDivElement[]>([]);
+  const posts = useLoaderData<Array<Post>>();
+  const draggableElementRefs = useRef<Array<HTMLDivElement>>([]);
   const localStoragePositionsCopy = useRef<Positions>(
     FALLBACK_DEFAULT_POSITIONS
   );
@@ -49,7 +49,7 @@ export default function Index() {
   const [windowSize] = useWindowSize();
   const [show, setShow] = useState(false);
   const [drag, setDrag] = useState(false);
-  const [zIndexes, setZIndexes] = useState<number[]>(
+  const [zIndexes, setZIndexes] = useState<Array<number>>(
     Array(FALLBACK_DEFAULT_POSITIONS.length).fill(0)
   );
   const [defaultPositions, setDefaultPosition] = useState<Positions>([
@@ -112,7 +112,10 @@ export default function Index() {
     };
   }, []);
 
-  const triggerMouseEvent = (elements: HTMLDivElement[], eventType: string) => {
+  const triggerMouseEvent = (
+    elements: Array<HTMLDivElement>,
+    eventType: string
+  ) => {
     const mouseEvent = new Event(eventType, {
       bubbles: true,
       cancelable: true,

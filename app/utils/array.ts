@@ -1,4 +1,4 @@
-export function replaceAt<T>(array: T[], index: number, value: T) {
+export function replaceAt<T>(array: Array<T>, index: number, value: T) {
   const ret = array.slice(0);
   ret[index] = value;
 

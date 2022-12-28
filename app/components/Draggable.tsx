@@ -100,21 +100,21 @@ export const Draggable = ({ children }: PropsWithChildren<unknown>) => {
   return (
     <div
       ref={ref}
-      onDragStart={handleDragStart}
-      onMouseDown={handleMouseDown}
-      onMouseMove={handleMouseMove}
-      onMouseLeave={handleMouseLeave}
-      onMouseUp={handleMouseUp}
-      onTouchStart={handleTouchStart}
-      onTouchMove={handleTouchMove}
-      onTouchEnd={handleTouchEnd}
-      onClick={handleOnClick}
       style={{
         position: "absolute",
         left: `${translate.x}%`,
         top: `${translate.y}%`,
         // transform: `translateX(${translate.x}px) translateY(${translate.y}px)`,
       }}
+      onClick={handleOnClick}
+      onDragStart={handleDragStart}
+      onMouseDown={handleMouseDown}
+      onMouseLeave={handleMouseLeave}
+      onMouseMove={handleMouseMove}
+      onMouseUp={handleMouseUp}
+      onTouchEnd={handleTouchEnd}
+      onTouchMove={handleTouchMove}
+      onTouchStart={handleTouchStart}
     >
       {children}
     </div>

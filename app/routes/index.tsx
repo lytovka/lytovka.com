@@ -52,7 +52,7 @@ export default function Index() {
   const [zIndexes, setZIndexes] = useState<Array<number>>(
     Array(FALLBACK_DEFAULT_POSITIONS.length).fill(0)
   );
-  const [defaultPositions, setDefaultPosition] = useState<Positions>([
+  const [defaultPositions, setDefaultPositions] = useState<Positions>([
     [0, 0],
     [0, 0],
   ]);
@@ -81,7 +81,7 @@ export default function Index() {
           Math.min(position[1] * height, height - LINK_HEIGHT_PX),
         ];
       });
-      setDefaultPosition(transformedPositions);
+      setDefaultPositions(transformedPositions);
     } else {
       const transformedPositions: Positions = FALLBACK_DEFAULT_POSITIONS.map(
         (position) => {
@@ -91,7 +91,7 @@ export default function Index() {
           ];
         }
       );
-      setDefaultPosition(transformedPositions);
+      setDefaultPositions(transformedPositions);
     }
     setShow(true);
   }, [windowSize.height, windowSize.width]);
@@ -159,45 +159,46 @@ export default function Index() {
 
   return (
     <div className="inline-flex flex-col">
-      {show &&
-        posts.map((post) => (
-          <Draggable
-            onStart={onStart}
-            onDrag={onDrag}
-            onStop={onStop}
-            bounds={"body"}
-            key={post.slug}
-            defaultPosition={{
-              x: defaultPositions[0][0],
-              y: defaultPositions[0][1],
-            }}
-          >
-            <div
-              data-index="0"
-              className={`w-36 h-36 touch-none ${
-                drag ? `pointer-events-none` : ""
-              }`}
-              style={{ zIndex: zIndexes[0] }}
-              ref={(el) => el && draggableElementRefs.current[0]}
+      {show
+        ? posts.map((post) => (
+            <Draggable
+              bounds="body"
+              defaultPosition={{
+                x: defaultPositions[0][0],
+                y: defaultPositions[0][1],
+              }}
+              key={post.slug}
+              onDrag={onDrag}
+              onStart={onStart}
+              onStop={onStop}
             >
-              <Link
-                to={post.slug}
-                prefetch="intent"
-                className="flex flex-col items-center no-underline active:outline-dashed outline-1 outline-gray-500"
-                onPointerUp={(e) => {
-                  handleOnPointerEndCapture(e, post.slug);
-                }}
+              <div
+                className={`w-36 h-36 touch-none ${
+                  drag ? `pointer-events-none` : ""
+                }`}
+                data-index="0"
+                ref={(el) => el && draggableElementRefs.current[0]}
+                style={{ zIndex: zIndexes[0] }}
               >
-                <img
-                  className="w-auto h-28 decoration-none"
-                  src={folder}
-                  aria-label="folder"
-                />
-                <p className="text-2xl text-center">{post.title}</p>
-              </Link>
-            </div>
-          </Draggable>
-        ))}
+                <Link
+                  className="flex flex-col items-center no-underline active:outline-dashed outline-1 outline-gray-500"
+                  prefetch="intent"
+                  to={post.slug}
+                  onPointerUp={(e) => {
+                    handleOnPointerEndCapture(e, post.slug);
+                  }}
+                >
+                  <img
+                    aria-label="folder"
+                    className="w-auto h-28 decoration-none"
+                    src={folder}
+                  />
+                  <p className="text-2xl text-center">{post.title}</p>
+                </Link>
+              </div>
+            </Draggable>
+          ))
+        : null}
     </div>
   );
 }

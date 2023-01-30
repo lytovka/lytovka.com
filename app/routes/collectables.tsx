@@ -14,7 +14,7 @@ export default function CollectablesPage() {
   // console.log(albums);
   return (
     <div>
-      <h1>hello</h1>
+      <h1>{albums.length}</h1>
     </div>
   );
 }

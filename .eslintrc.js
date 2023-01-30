@@ -2,7 +2,7 @@
 
 module.exports = {
   extends: [
-    "@lytovka/eslint-config",
+    "@lytovka",
     "@lytovka/eslint-config/react",
     "@lytovka/eslint-config/jsx-a11y",
   ],
@@ -12,6 +12,6 @@ module.exports = {
   },
   rules: {
     "no-console": "warn",
-    // "jsx-a11y/prefer-tag-over-role": "off",
+    "jsx-a11y/prefer-tag-over-role": "off",
   },
 };

@@ -45,7 +45,7 @@
     "remix": "1.7.5"
   },
   "devDependencies": {
-    "@lytovka/eslint-config": "^1.2.2",
+    "@lytovka/eslint-config": "^1.2.6",
     "@remix-run/dev": "1.7.5",
     "@remix-run/serve": "1.7.5",
     "@tailwindcss/typography": "0.5.9",

@@ -10,7 +10,8 @@ export const loader: LoaderFunction = async () => {
 };
 
 export default function CollectablesPage() {
-  const albums = useLoaderData();
+  const albums = useLoaderData<[]>();
+
   // console.log(albums);
   return (
     <div>

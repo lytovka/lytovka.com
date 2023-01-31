@@ -6,9 +6,7 @@ type SpotifyAccessToken = {
 
 async function getAccessToken(): Promise<SpotifyAccessToken> {
   const auth = Buffer.from(
-    process.env.SPOTIFY_API_CLIENT_ID +
-      ":" +
-      process.env.SPOTIFY_API_CLIENT_SECRET
+    `${process.env.SPOTIFY_API_CLIENT_ID}:${process.env.SPOTIFY_API_CLIENT_SECRET}`
   ).toString("base64");
 
   const data = await fetch(`https://accounts.spotify.com/api/token`, {
@@ -33,7 +31,7 @@ async function getAlbumsByIds(
     { method: "GET", headers: { Authorization: `Bearer ${auth}` } }
   );
 
-  return await data.json();
+  return data.json() as Promise<SpotifyApi.MultipleAlbumsResponse>;
 }
 
 export { getAlbumsByIds };

@@ -4,7 +4,9 @@ import { marked } from "marked";
 import type { Post, PostUpdate, UpdatePost } from "~/typings/Post";
 
 declare global {
+  // eslint-disable-next-line
   var prismaRead: ReturnType<typeof getClient> | undefined;
+  // eslint-disable-next-line
   var prismaWrite: ReturnType<typeof getClient> | undefined;
 }
 
@@ -14,11 +16,13 @@ const prismaWrite = global.prismaWrite ?? (global.prismaWrite = getClient());
 function getClient(): PrismaClient {
   const client = new PrismaClient();
   void client.$connect();
+
   return client;
 }
 
 export async function getPosts() {
   const allPosts = await prismaRead.posts.findMany();
+
   return allPosts;
 }
 

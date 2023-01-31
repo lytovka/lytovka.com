@@ -7,7 +7,7 @@ import {
   ScrollRestoration,
   useLoaderData,
 } from "@remix-run/react";
-import type { LinksFunction, LoaderFunction,MetaFunction } from "remix";
+import type { LinksFunction, LoaderFunction, MetaFunction } from "remix";
 import { json } from "remix";
 
 import favicon from "~/images/favicon.png";
@@ -18,6 +18,7 @@ import tailwindStyles from "./styles/app.css";
 
 export const meta: MetaFunction = () => {
   const title = "Ivan's shared documents";
+
   return {
     viewport: "width=device-width,initial-scale=1,viewport-fit=cover",
     title,
@@ -48,11 +49,13 @@ export const loader: LoaderFunction = () => {
   const data: LoaderData = {
     ENV: getEnv(),
   };
+
   return json(data);
 };
 
 export default function App() {
   const data = useLoaderData<LoaderData>();
+
   return (
     <html lang="en">
       <head>
@@ -69,7 +72,7 @@ export default function App() {
           }}
         />
         <Scripts />
-        {process.env.NODE_ENV === "development" && <LiveReload />}
+        {process.env.NODE_ENV === "development" ? <LiveReload /> : null}
       </body>
     </html>
   );

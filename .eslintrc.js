@@ -1,17 +1,17 @@
 /** @type {import('@types/eslint').Linter.BaseConfig} */
+
 module.exports = {
-  parserOptions: {
-    sourceType: "module"
-  },
   extends: [
-    "@remix-run/eslint-config",
-    "@remix-run/eslint-config/node",
-    "prettier",
+    "@lytovka",
+    "@lytovka/eslint-config/react",
+    "@lytovka/eslint-config/jsx-a11y",
   ],
-  plugins: ["simple-import-sort"],
+  parserOptions: {
+    tsconfigRootDir: __dirname,
+    project: "./tsconfig.json",
+  },
   rules: {
     "no-console": "warn",
-    "simple-import-sort/imports": "warn",
-    "simple-import-sort/exports": "warn",
+    "jsx-a11y/prefer-tag-over-role": "off",
   },
 };

@@ -3,8 +3,8 @@ import type { PointerEvent } from "react";
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import type { DraggableData, DraggableEvent } from "react-draggable";
 import Draggable from "react-draggable";
-import type { LinksFunction, LoaderFunction } from "remix";
-import { json } from "remix";
+import type { LinksFunction, LoaderFunction } from "@remix-run/server-runtime";
+import { json } from "@remix-run/server-runtime";
 
 import { LYT_STORAGE_KEY } from "~/constants/storage-keys";
 import useWindowSize from "~/hooks/useWindowSize";

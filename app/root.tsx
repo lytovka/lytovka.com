@@ -7,8 +7,8 @@ import {
   ScrollRestoration,
   useLoaderData,
 } from "@remix-run/react";
-import type { LinksFunction, LoaderFunction, MetaFunction } from "remix";
-import { json } from "remix";
+import type { LinksFunction, LoaderFunction, MetaFunction } from "@remix-run/server-runtime";
+import { json } from "@remix-run/server-runtime";
 
 import favicon from "~/images/favicon.png";
 import featuredImage from "~/images/featured_image.png";

@@ -1,0 +1,14 @@
+.prose {
+  --white: #fff;
+}
+
+.prose h1 {
+  color: var(--white);
+  font-weight: 800;
+  margin-top: 0;
+}
+
+.prose img {
+  margin: 0;
+  width: 100%;
+}

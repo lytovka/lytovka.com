@@ -1,0 +1,18 @@
+import { Link } from "@remix-run/react";
+import { useNavigation } from "react-router";
+
+export const GoBack = () => {
+  const navigation = useNavigation();
+  const back = navigation.location
+    ? navigation.location.pathname.split("/").slice(0, -1).join("/")
+    : "/";
+
+  return (
+    <Link
+      className="text-white text-3xl font-mono no-underline opacity-50 hover:opacity-75 hover:border-b"
+      to={back}
+    >
+      cd ..
+    </Link>
+  );
+};

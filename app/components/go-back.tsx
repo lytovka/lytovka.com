@@ -9,7 +9,7 @@ export const GoBack = () => {
 
   return (
     <Link
-      className="text-white text-3xl font-mono no-underline opacity-50 hover:opacity-75 hover:border-b"
+      className="text-white text-3xl font-mono no-underline opacity-50 hover:opacity-75 hover:border-b transition-opacity"
       to={back}
     >
       cd ..

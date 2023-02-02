@@ -33,8 +33,8 @@ export default function CollectiblesPage() {
   return (
     <main className="mx-auto px-8 py-10 sm:max-w-5xl md:max-w-7xl">
       <h1 className="font-medium text-4xl mb-2">Collectibles</h1>
-      <p className="text-2xl mb-10 italic">
-        Records I&apos;ve collected over the years.
+      <p className="text-2xl text-stone-300 mb-10 italic">
+        Vinyl records I&apos;ve collected over the years.
       </p>
 
       <div className="pb-10 grid sm:grid-cols-2 md:grid-cols-3 gap-6 justify-items-center items-center">
@@ -47,7 +47,7 @@ export default function CollectiblesPage() {
           >
             <img
               alt={i.altName}
-              className=""
+              className="hover:opacity-75 transition-opacity"
               height={330}
               src={i.image.url}
               width={330}

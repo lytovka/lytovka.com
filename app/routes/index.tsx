@@ -1,23 +1,21 @@
-import { Link, useLoaderData, useNavigate } from "@remix-run/react";
+import { Link, useNavigate } from "@remix-run/react";
 import type { PointerEvent } from "react";
-import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
 import type { DraggableData, DraggableEvent } from "react-draggable";
 import Draggable from "react-draggable";
-import type { LinksFunction, LoaderFunction } from "@remix-run/server-runtime";
-import { json } from "@remix-run/server-runtime";
+import type { LinksFunction } from "@remix-run/server-runtime";
 
 import { LYT_STORAGE_KEY } from "~/constants/storage-keys";
 import useWindowSize from "~/hooks/useWindowSize";
-import folder from "~/images/home_folder.png";
+import DOCUMENTS_FOLDER from "~/images/home_folder.png";
+import MUSIC_FOLDER from "~/images/folder-teal-music.svg";
 import indexStylesUrl from "~/styles/index.css";
 import type { Position, Positions } from "~/typings/Coordinates";
-import type { Post } from "~/typings/Post";
 import { replaceAt } from "~/utils/array";
 import {
   localStorageGetItem,
   localStorageSetItem,
 } from "~/utils/local-storage";
-import { getPosts } from "~/utils/posts.server";
 
 const LINK_WIDTH_PX = 90;
 const LINK_HEIGHT_PX = 90;
@@ -35,12 +33,7 @@ export const links: LinksFunction = () => {
   ];
 };
 
-export const loader: LoaderFunction = async () => {
-  return json(await getPosts());
-};
-
 export default function Index() {
-  const posts = useLoaderData<Array<Post>>();
   const draggableElementRefs = useRef<Array<HTMLDivElement>>([]);
   const localStoragePositionsCopy = useRef<Positions>(
     FALLBACK_DEFAULT_POSITIONS
@@ -104,7 +97,6 @@ export default function Index() {
       triggerMouseEvent(draggableElementRefs.current, "mouseup");
       triggerMouseEvent(draggableElementRefs.current, "click");
     };
-
     addEventListener("resize", listener);
 
     return () => {
@@ -159,46 +151,80 @@ export default function Index() {
 
   return (
     <div className="inline-flex flex-col">
-      {show
-        ? posts.map((post) => (
-            <Draggable
-              bounds="body"
-              defaultPosition={{
-                x: defaultPositions[0][0],
-                y: defaultPositions[0][1],
-              }}
-              key={post.slug}
-              onDrag={onDrag}
-              onStart={onStart}
-              onStop={onStop}
+      {show ? (
+        <React.Fragment>
+          <Draggable
+            bounds="body"
+            defaultPosition={{
+              x: defaultPositions[0][0],
+              y: defaultPositions[0][1],
+            }}
+            onDrag={onDrag}
+            onStart={onStart}
+            onStop={onStop}
+          >
+            <div
+              className={`w-36 h-36 touch-none ${
+                drag ? `pointer-events-none` : ""
+              }`}
+              data-index="0"
+              ref={(el) => el && draggableElementRefs.current[0]}
+              style={{ zIndex: zIndexes[0] }}
             >
-              <div
-                className={`w-36 h-36 touch-none ${
-                  drag ? `pointer-events-none` : ""
-                }`}
-                data-index="0"
-                ref={(el) => el && draggableElementRefs.current[0]}
-                style={{ zIndex: zIndexes[0] }}
+              <Link
+                className="flex flex-col items-center no-underline active:outline-dashed outline-1 outline-gray-500"
+                prefetch="intent"
+                to="/notes"
+                onPointerUp={(e) => {
+                  handleOnPointerEndCapture(e, "/notes");
+                }}
               >
-                <Link
-                  className="flex flex-col items-center no-underline active:outline-dashed outline-1 outline-gray-500"
-                  prefetch="intent"
-                  to={post.slug}
-                  onPointerUp={(e) => {
-                    handleOnPointerEndCapture(e, post.slug);
-                  }}
-                >
-                  <img
-                    aria-label="folder"
-                    className="w-auto h-28 decoration-none"
-                    src={folder}
-                  />
-                  <p className="text-2xl text-center">{post.title}</p>
-                </Link>
-              </div>
-            </Draggable>
-          ))
-        : null}
+                <img
+                  aria-label="folder"
+                  className="w-auto h-28 decoration-none"
+                  src={DOCUMENTS_FOLDER}
+                />
+                <p className="text-2xl text-center">Notes</p>
+              </Link>
+            </div>
+          </Draggable>
+          <Draggable
+            bounds="body"
+            defaultPosition={{
+              x: defaultPositions[1][0],
+              y: defaultPositions[1][1],
+            }}
+            onDrag={onDrag}
+            onStart={onStart}
+            onStop={onStop}
+          >
+            <div
+              className={`w-36 h-36 touch-none ${
+                drag ? `pointer-events-none` : ""
+              }`}
+              data-index="1"
+              ref={(el) => el && draggableElementRefs.current[1]}
+              style={{ zIndex: zIndexes[1] }}
+              onPointerUp={(e) => {
+                handleOnPointerEndCapture(e, "/collectibles");
+              }}
+            >
+              <Link
+                className="flex flex-col items-center no-underline active:outline-dashed outline-1 outline-gray-500"
+                prefetch="intent"
+                to="/collectibles"
+              >
+                <img
+                  aria-label="folder"
+                  className="w-auto h-28 decoration-none"
+                  src={MUSIC_FOLDER}
+                />
+                <p className="text-2xl text-center">Collectibles</p>
+              </Link>
+            </div>
+          </Draggable>
+        </React.Fragment>
+      ) : null}
     </div>
   );
 }

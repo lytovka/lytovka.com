@@ -4,7 +4,14 @@ import { useEffect, useRef, useState } from "react";
 import type { DraggableData, DraggableEvent } from "react-draggable";
 import type { LinksFunction } from "@remix-run/server-runtime";
 
-import { LYT_STORAGE_KEY, LINK_HEIGHT_PX, LINK_WIDTH_PX } from "~/constants";
+import {
+  LYT_STORAGE_KEY,
+  LINK_HEIGHT_PX,
+  LINK_WIDTH_PX,
+  INSTAGRAM_LINK,
+  TELEGRAM_LINK,
+  GITHUB_LINK,
+} from "~/constants";
 import useWindowSize from "~/hooks/useWindowSize";
 import DOCUMENTS_FOLDER from "~/images/home_folder.png";
 import MUSIC_FOLDER from "~/images/folder-teal-music.svg";
@@ -16,6 +23,7 @@ import {
   localStorageSetItem,
 } from "~/utils/local-storage";
 import { DraggableItem, HomepageLink } from "~/components/draggable-item";
+import { ExternalLink } from "~/components/external-link";
 
 const HOMEPAGE_LINKS: Array<{
   title: string;
@@ -162,31 +170,59 @@ export default function Index() {
   };
 
   return (
-    <div className="inline-flex flex-col">
-      {show
-        ? HOMEPAGE_LINKS.map((item, key) => (
-            <DraggableItem
-              defaultPosition={defaultPositions[key]}
-              key={key}
-              onDrag={onDrag}
-              onStart={onStart}
-              onStop={onStop}
-            >
-              <HomepageLink
-                data-index={key}
-                href={item.href}
-                imgSrc={item.imgSrc}
-                isDraggable={drag}
-                ref={(el) => el && draggableElementRefs.current[key]}
-                style={{ zIndex: zIndexes[key] }}
-                title={item.title}
-                onPointerUp={(e) => {
-                  handleOnPointerEndCapture(e, item.href);
-                }}
-              />
-            </DraggableItem>
-          ))
-        : null}
-    </div>
+    <>
+      <nav className="flex justify-center fixed top-10 right-5 left-5 z-30">
+        <h1 className="text-2xl">Ivan&apos;s docs</h1>
+      </nav>
+      <main className="inline-flex flex-col z-10">
+        {show
+          ? HOMEPAGE_LINKS.map((item, key) => (
+              <DraggableItem
+                defaultPosition={defaultPositions[key]}
+                key={key}
+                onDrag={onDrag}
+                onStart={onStart}
+                onStop={onStop}
+              >
+                <HomepageLink
+                  data-index={key}
+                  href={item.href}
+                  imgSrc={item.imgSrc}
+                  isDraggable={drag}
+                  ref={(el) => el && draggableElementRefs.current[key]}
+                  style={{ zIndex: zIndexes[key] }}
+                  title={item.title}
+                  onPointerUp={(e) => {
+                    handleOnPointerEndCapture(e, item.href);
+                  }}
+                />
+              </DraggableItem>
+            ))
+          : null}
+      </main>
+      <footer className="fixed bottom-10 left-5 right-5 flex justify-center gap-4 z-30">
+        <ExternalLink
+          href={INSTAGRAM_LINK}
+          rel="noreferrer noopener"
+          target="_blank"
+        >
+          instagram
+        </ExternalLink>
+        <ExternalLink
+          href={TELEGRAM_LINK}
+          rel="noreferrer noopener"
+          target="_blank"
+        >
+          telegram
+        </ExternalLink>
+        <ExternalLink
+          href={GITHUB_LINK}
+          rel="noreferrer noopener"
+          target="_blank"
+        >
+          github
+        </ExternalLink>
+      </footer>
+    </>
   );
 }

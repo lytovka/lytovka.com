@@ -1,10 +1,10 @@
 import { useNavigate } from "@remix-run/react";
 import type { PointerEvent } from "react";
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import type { DraggableData, DraggableEvent } from "react-draggable";
 import type { LinksFunction } from "@remix-run/server-runtime";
 
-import { LYT_STORAGE_KEY } from "~/constants/storage-keys";
+import { LYT_STORAGE_KEY, LINK_HEIGHT_PX, LINK_WIDTH_PX } from "~/constants";
 import useWindowSize from "~/hooks/useWindowSize";
 import DOCUMENTS_FOLDER from "~/images/home_folder.png";
 import MUSIC_FOLDER from "~/images/folder-teal-music.svg";
@@ -17,11 +17,24 @@ import {
 } from "~/utils/local-storage";
 import { DraggableItem, HomepageLink } from "~/components/draggable-item";
 
-const LINK_WIDTH_PX = 90;
-const LINK_HEIGHT_PX = 90;
-const FALLBACK_DEFAULT_POSITIONS: Positions = [
-  [0.5, 0.5],
-  [0.15, 0.75],
+const HOMEPAGE_LINKS: Array<{
+  title: string;
+  href: string;
+  position: Position;
+  imgSrc: string;
+}> = [
+  {
+    title: "Notes",
+    href: "/notes",
+    position: [0.5, 0.5],
+    imgSrc: DOCUMENTS_FOLDER,
+  },
+  {
+    title: "Collectibles",
+    href: "/collectibles",
+    position: [0.15, 0.75],
+    imgSrc: MUSIC_FOLDER,
+  },
 ];
 
 export const links: LinksFunction = () => {
@@ -36,14 +49,14 @@ export const links: LinksFunction = () => {
 export default function Index() {
   const draggableElementRefs = useRef<Array<HTMLDivElement>>([]);
   const localStoragePositionsCopy = useRef<Positions>(
-    FALLBACK_DEFAULT_POSITIONS
+    HOMEPAGE_LINKS.map((item) => item.position)
   );
   const navigate = useNavigate();
   const [windowSize] = useWindowSize();
   const [show, setShow] = useState(false);
   const [drag, setDrag] = useState(false);
   const [zIndexes, setZIndexes] = useState<Array<number>>(
-    Array(FALLBACK_DEFAULT_POSITIONS.length).fill(0)
+    Array(HOMEPAGE_LINKS.length).fill(0)
   );
   const [defaultPositions, setDefaultPositions] = useState<Positions>([
     [0, 0],
@@ -75,8 +88,8 @@ export default function Index() {
       });
       setDefaultPositions(transformedPositions);
     } else {
-      const transformedPositions: Positions = FALLBACK_DEFAULT_POSITIONS.map(
-        (position) => {
+      const transformedPositions: Positions = HOMEPAGE_LINKS.map(
+        ({ position }) => {
           return [
             position[0] * (width - LINK_WIDTH_PX),
             position[1] * (height - LINK_HEIGHT_PX),
@@ -150,48 +163,30 @@ export default function Index() {
 
   return (
     <div className="inline-flex flex-col">
-      {show ? (
-        <React.Fragment>
-          <DraggableItem
-            defaultPosition={defaultPositions[0]}
-            onDrag={onDrag}
-            onStart={onStart}
-            onStop={onStop}
-          >
-            <HomepageLink
-              data-index="0"
-              href="/notes"
-              imgSrc={DOCUMENTS_FOLDER}
-              isDraggable={drag}
-              ref={(el) => el && draggableElementRefs.current[0]}
-              style={{ zIndex: zIndexes[0] }}
-              title="Notes"
-              onPointerUp={(e) => {
-                handleOnPointerEndCapture(e, "/notes");
-              }}
-            />
-          </DraggableItem>
-          <DraggableItem
-            defaultPosition={defaultPositions[1]}
-            onDrag={onDrag}
-            onStart={onStart}
-            onStop={onStop}
-          >
-            <HomepageLink
-              data-index="1"
-              href="/collectibles"
-              imgSrc={MUSIC_FOLDER}
-              isDraggable={drag}
-              ref={(el) => el && draggableElementRefs.current[1]}
-              style={{ zIndex: zIndexes[1] }}
-              title="Collectibles"
-              onPointerUp={(e) => {
-                handleOnPointerEndCapture(e, "/collectibles");
-              }}
-            />
-          </DraggableItem>
-        </React.Fragment>
-      ) : null}
+      {show
+        ? HOMEPAGE_LINKS.map((item, key) => (
+            <DraggableItem
+              defaultPosition={defaultPositions[key]}
+              key={key}
+              onDrag={onDrag}
+              onStart={onStart}
+              onStop={onStop}
+            >
+              <HomepageLink
+                data-index={key}
+                href={item.href}
+                imgSrc={item.imgSrc}
+                isDraggable={drag}
+                ref={(el) => el && draggableElementRefs.current[key]}
+                style={{ zIndex: zIndexes[key] }}
+                title={item.title}
+                onPointerUp={(e) => {
+                  handleOnPointerEndCapture(e, item.href);
+                }}
+              />
+            </DraggableItem>
+          ))
+        : null}
     </div>
   );
 }

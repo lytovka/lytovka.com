@@ -58,11 +58,10 @@ export default function Index() {
   };
 
   useEffect(() => {
-    if (!windowSize.height || !windowSize.width) {
+    const { height, width } = windowSize;
+    if (height === 0 || width === 0) {
       return;
     }
-    const height = windowSize.height;
-    const width = windowSize.width;
 
     const lc = localStorageGetItem(LYT_STORAGE_KEY);
     if (lc !== null) {
@@ -87,7 +86,7 @@ export default function Index() {
       setDefaultPositions(transformedPositions);
     }
     setShow(true);
-  }, [windowSize.height, windowSize.width]);
+  }, [windowSize]);
 
   useEffect(() => {
     const listener = () => {

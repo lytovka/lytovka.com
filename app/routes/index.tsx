@@ -1,8 +1,7 @@
-import { Link, useNavigate } from "@remix-run/react";
+import { useNavigate } from "@remix-run/react";
 import type { PointerEvent } from "react";
-import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import type { DraggableData, DraggableEvent } from "react-draggable";
-import Draggable from "react-draggable";
 import type { LinksFunction } from "@remix-run/server-runtime";
 
 import { LYT_STORAGE_KEY } from "~/constants/storage-keys";
@@ -16,6 +15,7 @@ import {
   localStorageGetItem,
   localStorageSetItem,
 } from "~/utils/local-storage";
+import { DraggableItem, HomepageLink } from "~/components/draggable-item";
 
 const LINK_WIDTH_PX = 90;
 const LINK_HEIGHT_PX = 90;
@@ -57,7 +57,7 @@ export default function Index() {
     navigate(slug);
   };
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     if (!windowSize.height || !windowSize.width) {
       return;
     }
@@ -153,76 +153,44 @@ export default function Index() {
     <div className="inline-flex flex-col">
       {show ? (
         <React.Fragment>
-          <Draggable
-            bounds="body"
-            defaultPosition={{
-              x: defaultPositions[0][0],
-              y: defaultPositions[0][1],
-            }}
+          <DraggableItem
+            defaultPosition={defaultPositions[0]}
             onDrag={onDrag}
             onStart={onStart}
             onStop={onStop}
           >
-            <div
-              className={`w-36 h-36 touch-none ${
-                drag ? `pointer-events-none` : ""
-              }`}
+            <HomepageLink
               data-index="0"
+              href="/notes"
+              imgSrc={DOCUMENTS_FOLDER}
+              isDraggable={drag}
               ref={(el) => el && draggableElementRefs.current[0]}
               style={{ zIndex: zIndexes[0] }}
-            >
-              <Link
-                className="flex flex-col items-center no-underline active:outline-dashed outline-1 outline-gray-500"
-                prefetch="intent"
-                to="/notes"
-                onPointerUp={(e) => {
-                  handleOnPointerEndCapture(e, "/notes");
-                }}
-              >
-                <img
-                  aria-label="folder"
-                  className="w-auto h-28 decoration-none"
-                  src={DOCUMENTS_FOLDER}
-                />
-                <p className="text-2xl text-center">Notes</p>
-              </Link>
-            </div>
-          </Draggable>
-          <Draggable
-            bounds="body"
-            defaultPosition={{
-              x: defaultPositions[1][0],
-              y: defaultPositions[1][1],
-            }}
+              title="Notes"
+              onPointerUp={(e) => {
+                handleOnPointerEndCapture(e, "/notes");
+              }}
+            />
+          </DraggableItem>
+          <DraggableItem
+            defaultPosition={defaultPositions[1]}
             onDrag={onDrag}
             onStart={onStart}
             onStop={onStop}
           >
-            <div
-              className={`w-36 h-36 touch-none ${
-                drag ? `pointer-events-none` : ""
-              }`}
+            <HomepageLink
               data-index="1"
+              href="/collectibles"
+              imgSrc={MUSIC_FOLDER}
+              isDraggable={drag}
               ref={(el) => el && draggableElementRefs.current[1]}
               style={{ zIndex: zIndexes[1] }}
+              title="Collectibles"
               onPointerUp={(e) => {
                 handleOnPointerEndCapture(e, "/collectibles");
               }}
-            >
-              <Link
-                className="flex flex-col items-center no-underline active:outline-dashed outline-1 outline-gray-500"
-                prefetch="intent"
-                to="/collectibles"
-              >
-                <img
-                  aria-label="folder"
-                  className="w-auto h-28 decoration-none"
-                  src={MUSIC_FOLDER}
-                />
-                <p className="text-2xl text-center">Collectibles</p>
-              </Link>
-            </div>
-          </Draggable>
+            />
+          </DraggableItem>
         </React.Fragment>
       ) : null}
     </div>

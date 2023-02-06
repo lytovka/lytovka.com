@@ -31,19 +31,19 @@ const HOMEPAGE_LINKS: Array<{
   position: Position;
   imgSrc: string;
 }> = [
-  {
-    title: "Notes",
-    href: "/notes",
-    position: [0.5, 0.5],
-    imgSrc: DOCUMENTS_FOLDER,
-  },
-  {
-    title: "Collectibles",
-    href: "/collectibles",
-    position: [0.15, 0.75],
-    imgSrc: MUSIC_FOLDER,
-  },
-];
+    {
+      title: "Notes",
+      href: "/notes",
+      position: [0.5, 0.5],
+      imgSrc: DOCUMENTS_FOLDER,
+    },
+    {
+      title: "Collectibles",
+      href: "/collectibles",
+      position: [0.15, 0.75],
+      imgSrc: MUSIC_FOLDER,
+    },
+  ];
 
 export const links: LinksFunction = () => {
   return [
@@ -172,55 +172,61 @@ export default function Index() {
   return (
     <>
       <nav className="flex justify-center fixed top-10 right-5 left-5 z-30">
-        <h1 className="text-2xl">Ivan&apos;s docs</h1>
+        <h1 className="text-2xl text-zinc-200">Ivan&apos;s docs</h1>
       </nav>
       <main className="inline-flex flex-col z-10">
         {show
           ? HOMEPAGE_LINKS.map((item, key) => (
-              <DraggableItem
-                defaultPosition={defaultPositions[key]}
-                key={key}
-                onDrag={onDrag}
-                onStart={onStart}
-                onStop={onStop}
-              >
-                <HomepageLink
-                  data-index={key}
-                  href={item.href}
-                  imgSrc={item.imgSrc}
-                  isDraggable={drag}
-                  ref={(el) => el && draggableElementRefs.current[key]}
-                  style={{ zIndex: zIndexes[key] }}
-                  title={item.title}
-                  onPointerUp={(e) => {
-                    handleOnPointerEndCapture(e, item.href);
-                  }}
-                />
-              </DraggableItem>
-            ))
+            <DraggableItem
+              defaultPosition={defaultPositions[key]}
+              key={key}
+              onDrag={onDrag}
+              onStart={onStart}
+              onStop={onStop}
+            >
+              <HomepageLink
+                data-index={key}
+                href={item.href}
+                imgSrc={item.imgSrc}
+                isDraggable={drag}
+                ref={(el) => el && draggableElementRefs.current[key]}
+                style={{ zIndex: zIndexes[key] }}
+                title={item.title}
+                onPointerUp={(e) => {
+                  handleOnPointerEndCapture(e, item.href);
+                }}
+              />
+            </DraggableItem>
+          ))
           : null}
       </main>
       <footer className="fixed bottom-10 left-5 right-5 flex justify-center gap-4 z-30">
         <ExternalLink
+          className="text-zinc-200"
+          href={GITHUB_LINK}
+          rel="noreferrer noopener"
+          target="_blank"
+        >
+          github
+        </ExternalLink>
+        <span className="text-white">/</span>
+        <ExternalLink
+          className="text-zinc-200"
           href={INSTAGRAM_LINK}
           rel="noreferrer noopener"
           target="_blank"
         >
           instagram
         </ExternalLink>
+        <span className="text-white">/</span>
         <ExternalLink
+          className="text-zinc-200"
           href={TELEGRAM_LINK}
           rel="noreferrer noopener"
           target="_blank"
+
         >
           telegram
-        </ExternalLink>
-        <ExternalLink
-          href={GITHUB_LINK}
-          rel="noreferrer noopener"
-          target="_blank"
-        >
-          github
         </ExternalLink>
       </footer>
     </>

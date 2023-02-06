@@ -1,30 +1,49 @@
-import { Link, useLoaderData, useNavigate } from "@remix-run/react";
+import { useNavigate } from "@remix-run/react";
 import type { PointerEvent } from "react";
-import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import type { DraggableData, DraggableEvent } from "react-draggable";
-import Draggable from "react-draggable";
-import type { LinksFunction, LoaderFunction } from "@remix-run/server-runtime";
-import { json } from "@remix-run/server-runtime";
+import type { LinksFunction } from "@remix-run/server-runtime";
 
-import { LYT_STORAGE_KEY } from "~/constants/storage-keys";
+import {
+  LYT_STORAGE_KEY,
+  LINK_HEIGHT_PX,
+  LINK_WIDTH_PX,
+  INSTAGRAM_LINK,
+  TELEGRAM_LINK,
+  GITHUB_LINK,
+} from "~/constants";
 import useWindowSize from "~/hooks/useWindowSize";
-import folder from "~/images/home_folder.png";
+import DOCUMENTS_FOLDER from "~/images/home_folder.png";
+import MUSIC_FOLDER from "~/images/folder-teal-music.svg";
 import indexStylesUrl from "~/styles/index.css";
 import type { Position, Positions } from "~/typings/Coordinates";
-import type { Post } from "~/typings/Post";
 import { replaceAt } from "~/utils/array";
 import {
   localStorageGetItem,
   localStorageSetItem,
 } from "~/utils/local-storage";
-import { getPosts } from "~/utils/posts.server";
+import { DraggableItem, HomepageLink } from "~/components/draggable-item";
+import { ExternalLink } from "~/components/external-link";
 
-const LINK_WIDTH_PX = 90;
-const LINK_HEIGHT_PX = 90;
-const FALLBACK_DEFAULT_POSITIONS: Positions = [
-  [0.5, 0.5],
-  [0.15, 0.75],
-];
+const HOMEPAGE_LINKS: Array<{
+  title: string;
+  href: string;
+  position: Position;
+  imgSrc: string;
+}> = [
+    {
+      title: "Notes",
+      href: "/notes",
+      position: [0.5, 0.5],
+      imgSrc: DOCUMENTS_FOLDER,
+    },
+    {
+      title: "Collectibles",
+      href: "/collectibles",
+      position: [0.15, 0.75],
+      imgSrc: MUSIC_FOLDER,
+    },
+  ];
 
 export const links: LinksFunction = () => {
   return [
@@ -35,22 +54,17 @@ export const links: LinksFunction = () => {
   ];
 };
 
-export const loader: LoaderFunction = async () => {
-  return json(await getPosts());
-};
-
 export default function Index() {
-  const posts = useLoaderData<Array<Post>>();
   const draggableElementRefs = useRef<Array<HTMLDivElement>>([]);
   const localStoragePositionsCopy = useRef<Positions>(
-    FALLBACK_DEFAULT_POSITIONS
+    HOMEPAGE_LINKS.map((item) => item.position)
   );
   const navigate = useNavigate();
   const [windowSize] = useWindowSize();
   const [show, setShow] = useState(false);
   const [drag, setDrag] = useState(false);
   const [zIndexes, setZIndexes] = useState<Array<number>>(
-    Array(FALLBACK_DEFAULT_POSITIONS.length).fill(0)
+    Array(HOMEPAGE_LINKS.length).fill(0)
   );
   const [defaultPositions, setDefaultPositions] = useState<Positions>([
     [0, 0],
@@ -64,12 +78,11 @@ export default function Index() {
     navigate(slug);
   };
 
-  useLayoutEffect(() => {
-    if (!windowSize.height || !windowSize.width) {
+  useEffect(() => {
+    const { height, width } = windowSize;
+    if (height === 0 || width === 0) {
       return;
     }
-    const height = windowSize.height;
-    const width = windowSize.width;
 
     const lc = localStorageGetItem(LYT_STORAGE_KEY);
     if (lc !== null) {
@@ -83,8 +96,8 @@ export default function Index() {
       });
       setDefaultPositions(transformedPositions);
     } else {
-      const transformedPositions: Positions = FALLBACK_DEFAULT_POSITIONS.map(
-        (position) => {
+      const transformedPositions: Positions = HOMEPAGE_LINKS.map(
+        ({ position }) => {
           return [
             position[0] * (width - LINK_WIDTH_PX),
             position[1] * (height - LINK_HEIGHT_PX),
@@ -94,7 +107,7 @@ export default function Index() {
       setDefaultPositions(transformedPositions);
     }
     setShow(true);
-  }, [windowSize.height, windowSize.width]);
+  }, [windowSize]);
 
   useEffect(() => {
     const listener = () => {
@@ -104,7 +117,6 @@ export default function Index() {
       triggerMouseEvent(draggableElementRefs.current, "mouseup");
       triggerMouseEvent(draggableElementRefs.current, "click");
     };
-
     addEventListener("resize", listener);
 
     return () => {
@@ -158,47 +170,65 @@ export default function Index() {
   };
 
   return (
-    <div className="inline-flex flex-col">
-      {show
-        ? posts.map((post) => (
-            <Draggable
-              bounds="body"
-              defaultPosition={{
-                x: defaultPositions[0][0],
-                y: defaultPositions[0][1],
-              }}
-              key={post.slug}
+    <>
+      <nav className="flex justify-center fixed top-10 right-5 left-5 z-30">
+        <h1 className="text-2xl text-zinc-200">Ivan&apos;s docs</h1>
+      </nav>
+      <main className="inline-flex flex-col z-10">
+        {show
+          ? HOMEPAGE_LINKS.map((item, key) => (
+            <DraggableItem
+              defaultPosition={defaultPositions[key]}
+              key={key}
               onDrag={onDrag}
               onStart={onStart}
               onStop={onStop}
             >
-              <div
-                className={`w-36 h-36 touch-none ${
-                  drag ? `pointer-events-none` : ""
-                }`}
-                data-index="0"
-                ref={(el) => el && draggableElementRefs.current[0]}
-                style={{ zIndex: zIndexes[0] }}
-              >
-                <Link
-                  className="flex flex-col items-center no-underline active:outline-dashed outline-1 outline-gray-500"
-                  prefetch="intent"
-                  to={post.slug}
-                  onPointerUp={(e) => {
-                    handleOnPointerEndCapture(e, post.slug);
-                  }}
-                >
-                  <img
-                    aria-label="folder"
-                    className="w-auto h-28 decoration-none"
-                    src={folder}
-                  />
-                  <p className="text-2xl text-center">{post.title}</p>
-                </Link>
-              </div>
-            </Draggable>
+              <HomepageLink
+                data-index={key}
+                href={item.href}
+                imgSrc={item.imgSrc}
+                isDraggable={drag}
+                ref={(el) => el && draggableElementRefs.current[key]}
+                style={{ zIndex: zIndexes[key] }}
+                title={item.title}
+                onPointerUp={(e) => {
+                  handleOnPointerEndCapture(e, item.href);
+                }}
+              />
+            </DraggableItem>
           ))
-        : null}
-    </div>
+          : null}
+      </main>
+      <footer className="fixed bottom-10 left-5 right-5 flex justify-center gap-4 z-30">
+        <ExternalLink
+          className="text-zinc-200"
+          href={GITHUB_LINK}
+          rel="noreferrer noopener"
+          target="_blank"
+        >
+          GitHub
+        </ExternalLink>
+        <span className="text-white">/</span>
+        <ExternalLink
+          className="text-zinc-200"
+          href={INSTAGRAM_LINK}
+          rel="noreferrer noopener"
+          target="_blank"
+        >
+          Instagram
+        </ExternalLink>
+        <span className="text-white">/</span>
+        <ExternalLink
+          className="text-zinc-200"
+          href={TELEGRAM_LINK}
+          rel="noreferrer noopener"
+          target="_blank"
+
+        >
+          Telegram
+        </ExternalLink>
+      </footer>
+    </>
   );
 }

@@ -1,5 +1,5 @@
 import type { posts } from "@prisma/client";
-import { loader } from "../app/routes/index";
+import { loader } from "../app/routes/notes";
 
 describe("Index page", () => {
   it("loader: should return Request object", async () => {

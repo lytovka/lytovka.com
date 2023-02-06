@@ -207,7 +207,7 @@ export default function Index() {
           rel="noreferrer noopener"
           target="_blank"
         >
-          github
+          GitHub
         </ExternalLink>
         <span className="text-white">/</span>
         <ExternalLink
@@ -216,7 +216,7 @@ export default function Index() {
           rel="noreferrer noopener"
           target="_blank"
         >
-          instagram
+          Instagram
         </ExternalLink>
         <span className="text-white">/</span>
         <ExternalLink
@@ -226,7 +226,7 @@ export default function Index() {
           target="_blank"
 
         >
-          telegram
+          Telegram
         </ExternalLink>
       </footer>
     </>

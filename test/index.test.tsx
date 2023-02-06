@@ -1,3 +1,4 @@
+import type { posts } from "@prisma/client";
 import { loader } from "../app/routes/index";
 
 describe("Index page", () => {
@@ -12,7 +13,7 @@ describe("Index page", () => {
     expect(response.status).toEqual(200);
     expect(response.ok).toEqual(true);
 
-    const data = await response.json();
+    const data = (await response.json()) as Array<posts>;
 
     expect(Array.isArray(data)).toBe(true);
     expect(data.length).toBeGreaterThanOrEqual(1);

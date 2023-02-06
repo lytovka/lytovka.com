@@ -1,7 +1,7 @@
 import { Link, useLoaderData } from "@remix-run/react";
 import formatDate from "date-fns/format";
-import type { LoaderFunction, MetaFunction } from "remix";
-import { json } from "remix";
+import { json } from "@remix-run/server-runtime";
+import type { LoaderFunction, MetaFunction } from "@remix-run/server-runtime";
 
 import type { Post } from "~/typings/Post";
 import { getPost } from "~/utils/posts.server";
@@ -14,6 +14,7 @@ export const meta: MetaFunction = ({ data }: { data: LoaderData | null }) => {
       title: "No post found",
     };
   }
+
   return {
     title: `"${data.title}" post`,
   };
@@ -21,14 +22,16 @@ export const meta: MetaFunction = ({ data }: { data: LoaderData | null }) => {
 
 export const loader: LoaderFunction = async ({ params }) => {
   if (!params.slug) {
-    throw "such a slug does not exist.";
+    throw Error("Slug does not exist.");
   }
+
   return json(await getPost(params.slug));
 };
 
 export default function PostSlug() {
   const post = useLoaderData<Post>();
   const postDate = formatDate(new Date(post.date), "dd/MM/yyyy");
+
   return (
     <>
       <div className="h-24">
@@ -38,15 +41,15 @@ export default function PostSlug() {
               {post.title}
             </h1>
             <Link
-              to="/"
               className="group flex justify-center items-center w-10 h-10 duration-200 hover:bg-red-300 rounded-full"
+              to="/"
             >
               <svg
-                fill="currentColor"
                 className="fill-white duration-200 group-hover:fill-black"
+                fill="currentColor"
                 height={15}
-                width={15}
                 viewBox="0 0 371.23 371.23"
+                width={15}
               >
                 <path d="m371.23 21.213-21.212-21.213-164.403 164.402-164.402-164.402-21.213 21.213 164.402 164.402-164.402 164.403 21.213 21.212 164.402-164.402 164.403 164.402 21.212-21.212-164.402-164.403z" />
               </svg>

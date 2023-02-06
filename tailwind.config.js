@@ -4,20 +4,18 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        'main': 'var(--color-background)'
+        main: "var(--color-background)",
       },
       fontSize: {
-        'base-10': "62.5%"
+        "base-10": "62.5%",
       },
       fontFamily: {
-        'noto-mono': "Noto Mono, sans-serif"
+        "noto-mono": "Noto Mono, sans-serif",
       },
       maxWidth: {
-        '8xl': "120rem"
-      }
+        "8xl": "120rem",
+      },
     },
   },
-  plugins: [
-    require('@tailwindcss/typography'),
-  ],
-}
+  plugins: [require("@tailwindcss/typography")],
+};

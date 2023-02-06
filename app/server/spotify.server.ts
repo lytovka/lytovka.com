@@ -24,7 +24,7 @@ async function getAccessToken(): Promise<SpotifyAccessToken> {
 async function getAlbumsByIds(
   ids: Array<string>
 ): Promise<SpotifyApi.MultipleAlbumsResponse> {
-  const toRequestParam = ids.toString();
+  const toRequestParam = ids.join(",");
   const auth = (await getAccessToken()).access_token;
   const data = await fetch(
     `${process.env.SPOTIFY_API_BASE_URL}/v1/albums?ids=${toRequestParam}`,

@@ -15,6 +15,7 @@ import {
 import useWindowSize from "~/hooks/useWindowSize";
 import DOCUMENTS_FOLDER from "~/images/home_folder.png";
 import MUSIC_FOLDER from "~/images/folder-teal-music.svg";
+import FILE_TEXT from "~/images/file-text.svg"
 import indexStylesUrl from "~/styles/index.css";
 import type { Position, Positions } from "~/typings/Coordinates";
 import { replaceAt } from "~/utils/array";
@@ -32,17 +33,23 @@ const HOMEPAGE_LINKS: Array<{
   imgSrc: string;
 }> = [
     {
-      title: "Notes",
+      title: "notes",
       href: "/notes",
-      position: [0.5, 0.5],
+      position: [0.75, 0.15],
       imgSrc: DOCUMENTS_FOLDER,
     },
     {
-      title: "Collectibles",
+      title: "collectibles",
       href: "/collectibles",
-      position: [0.15, 0.75],
+      position: [0.25, 0.20],
       imgSrc: MUSIC_FOLDER,
     },
+    {
+      title: "intro",
+      href: "/intro",
+      position: [0.50, 0.35],
+      imgSrc: FILE_TEXT
+    }
   ];
 
 export const links: LinksFunction = () => {
@@ -55,21 +62,18 @@ export const links: LinksFunction = () => {
 };
 
 export default function Index() {
+  const navigate = useNavigate();
   const draggableElementRefs = useRef<Array<HTMLDivElement>>([]);
   const localStoragePositionsCopy = useRef<Positions>(
     HOMEPAGE_LINKS.map((item) => item.position)
   );
-  const navigate = useNavigate();
   const [windowSize] = useWindowSize();
   const [show, setShow] = useState(false);
   const [drag, setDrag] = useState(false);
   const [zIndexes, setZIndexes] = useState<Array<number>>(
     Array(HOMEPAGE_LINKS.length).fill(0)
   );
-  const [defaultPositions, setDefaultPositions] = useState<Positions>([
-    [0, 0],
-    [0, 0],
-  ]);
+  const [defaultPositions, setDefaultPositions] = useState<Positions>(Array(HOMEPAGE_LINKS.length).fill([0, 0]));
 
   const handleOnPointerEndCapture = (_event: PointerEvent, slug: string) => {
     if (drag) {
@@ -200,9 +204,9 @@ export default function Index() {
           ))
           : null}
       </main>
-      <footer className="fixed bottom-10 left-5 right-5 flex justify-center gap-4 z-30">
+      <footer className="text-xl fixed bottom-10 left-5 right-5 flex justify-center gap-4 z-30">
         <ExternalLink
-          className="text-zinc-200"
+          className="text-zinc-200 hover:opacity-75 transition-opacity"
           href={GITHUB_LINK}
           rel="noreferrer noopener"
           target="_blank"
@@ -211,7 +215,7 @@ export default function Index() {
         </ExternalLink>
         <span className="text-white">/</span>
         <ExternalLink
-          className="text-zinc-200"
+          className="text-zinc-200 hover:opacity-75 transition-opacity"
           href={INSTAGRAM_LINK}
           rel="noreferrer noopener"
           target="_blank"
@@ -220,7 +224,7 @@ export default function Index() {
         </ExternalLink>
         <span className="text-white">/</span>
         <ExternalLink
-          className="text-zinc-200"
+          className="text-zinc-200 hover:opacity-75 transition-opacity"
           href={TELEGRAM_LINK}
           rel="noreferrer noopener"
           target="_blank"

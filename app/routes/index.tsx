@@ -45,7 +45,7 @@ const HOMEPAGE_LINKS: Array<{
       imgSrc: MUSIC_FOLDER,
     },
     {
-      title: "intro",
+      title: "intro.txt",
       href: "/intro",
       position: [0.50, 0.35],
       imgSrc: FILE_TEXT

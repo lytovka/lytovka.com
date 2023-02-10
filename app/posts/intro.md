@@ -2,7 +2,7 @@
 
 I'm Ivan, a software engineer at [Marqeta](https://www.marqeta.com/) and lifelong [Oasis](<https://en.wikipedia.org/wiki/Oasis_(band)>) fan.
 
-Outside of programming I enjoy cooking, playing the guitar (though amateurishly), going to the gym, reading, attending live concerts, and traveling.
+Outside of programming I enjoy cooking, playing the guitar (though amateurishly), hitting the gym, reading, and attending live concerts.
 
 ---
 

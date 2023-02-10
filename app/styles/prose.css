@@ -32,6 +32,20 @@
   font-weight: 400;
 }
 
+.prose a {
+  color: inherit;
+  opacity: 0.75;
+  text-decoration-line: none;
+  border-bottom-width: 1px;
+  transition-property: opacity;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms;
+}
+
+.prose a:hover {
+  opacity: 1;
+}
+
 .prose strong {
   color: inherit;
   font-weight: 600;

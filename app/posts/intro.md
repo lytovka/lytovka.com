@@ -4,6 +4,8 @@ I'm Ivan, a software engineer at [Marqeta](https://www.marqeta.com/) and lifelon
 
 Outside of programming I enjoy cooking, playing the guitar (though amateurishly), going to the gym, reading, attending live concerts, and traveling.
 
+---
+
 ## Profile
 
 Front-end (and gradually a full-stack) engineer with passion for translating business ideas into code while adhering to industry standards and established best practices.

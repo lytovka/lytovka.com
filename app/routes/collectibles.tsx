@@ -4,7 +4,7 @@ import type { LoaderArgs } from "@remix-run/server-runtime";
 import collectiblesStylesheet from "~/styles/collectibles.css";
 
 import { getAlbumsByIds } from "~/server/spotify.server";
-import { GoBack } from "~/components/go-back";
+import GoBack from "~/components/go-back";
 import { ExternalLink } from "~/components/external-link";
 import type { LinksFunction } from "@remix-run/server-runtime";
 import { useDeviceType } from "~/hooks/useDeviceType";

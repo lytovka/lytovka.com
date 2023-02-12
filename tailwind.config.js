@@ -15,6 +15,9 @@ module.exports = {
       maxWidth: {
         "8xl": "120rem",
       },
+      transitionProperty: {
+        height: "height",
+      },
     },
   },
   plugins: [require("@tailwindcss/typography")],

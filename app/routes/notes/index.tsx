@@ -1,7 +1,7 @@
 import { Link, useLoaderData } from "@remix-run/react";
 import type { LoaderArgs } from "@remix-run/server-runtime";
 import { json } from "@remix-run/server-runtime";
-import { GoBack } from "~/components/go-back";
+import GoBack from "~/components/go-back";
 import { dateFormatter } from "~/utils/date";
 import { getPosts } from "~/utils/posts.server";
 

@@ -1,7 +1,7 @@
 import { Link } from "@remix-run/react";
 import { useNavigation } from "react-router";
 
-export const GoBack = () => {
+function GoBack() {
   const navigation = useNavigation();
   const back = navigation.location
     ? navigation.location.pathname.split("/").slice(0, -1).join("/")
@@ -14,5 +14,7 @@ export const GoBack = () => {
     >
       cd ..
     </Link>
-  );
-};
+  )
+}
+
+export default GoBack

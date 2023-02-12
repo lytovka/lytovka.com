@@ -65,7 +65,7 @@
     "happy-dom": "7.8.1",
     "husky": "^8.0.2",
     "postcss": "8.4.21",
-    "prettier": "2.7.1",
+    "prettier": "2.8.4",
     "tailwindcss": "3.2.4",
     "typescript": "4.8.4",
     "vite-tsconfig-paths": "3.5.2",

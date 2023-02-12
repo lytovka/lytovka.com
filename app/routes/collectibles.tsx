@@ -67,7 +67,7 @@ export default function CollectiblesPage() {
             ) : null}
             <img
               alt={i.altName}
-              className="h-full w-full hover:opacity-75 transition-opacity md:h-[330px] md:w-[330px]"
+              className="w-full hover:opacity-75 transition-opacity md:w-[330px]"
               src={i.image.url}
             />
           </ExternalLink>

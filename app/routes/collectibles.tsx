@@ -4,7 +4,7 @@ import type { LoaderArgs } from "@remix-run/server-runtime";
 import collectiblesStylesheet from "~/styles/collectibles.css";
 
 import { getAlbumsByIds } from "~/server/spotify.server";
-import { GoBack } from "~/components/go-back";
+import GoBack from "~/components/go-back";
 import { ExternalLink } from "~/components/external-link";
 import type { LinksFunction } from "@remix-run/server-runtime";
 import { useDeviceType } from "~/hooks/useDeviceType";
@@ -14,12 +14,12 @@ export const loader = async (_: LoaderArgs) => {
     await getAlbumsByIds([
       "3LzKUdUTdJb6P7xGN6SotC",
       "2u30gztZTylY4RG7IvfXs8",
+      "021D07OEcg0c4tUCilc7ah",
+      "41KpeN0qV6BBsuJgd8tZrE",
       "5Y0p2XCgRRIjna91aQE8q7",
       "0VwJFPilOR47xaCXnJzB4u",
-      "41KpeN0qV6BBsuJgd8tZrE",
       "3539EbNgIdEDGBKkUf4wno",
       "1To7kv722A8SpZF789MZy7",
-      "021D07OEcg0c4tUCilc7ah",
       "0u3Rl4KquP15smujFrgGz4",
     ])
   );
@@ -67,10 +67,8 @@ export default function CollectiblesPage() {
             ) : null}
             <img
               alt={i.altName}
-              className="hover:opacity-75 transition-opacity"
-              height={330}
+              className="w-full hover:opacity-75 transition-opacity md:w-[330px]"
               src={i.image.url}
-              width={330}
             />
           </ExternalLink>
         ))}

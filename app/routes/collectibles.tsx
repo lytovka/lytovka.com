@@ -80,5 +80,5 @@ export default function CollectiblesPage() {
 }
 
 export function ErrorBoundary() {
-  return <ServerError title="Could not load albums from Spotify." />
+  return <ServerError title="Could not load albums from Spotify." />;
 }

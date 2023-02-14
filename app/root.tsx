@@ -5,6 +5,7 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration,
+  useCatch,
   useLoaderData,
 } from "@remix-run/react";
 import type {
@@ -17,6 +18,7 @@ import { json } from "@remix-run/server-runtime";
 import favicon from "~/images/favicon.png";
 import featuredImage from "~/images/featured_image.png";
 import { getEnv } from "~/utils/env.server";
+import { FourOhFour } from "./components/errors";
 
 import tailwindStyles from "./styles/app.css";
 import proseStyles from "./styles/prose.css";
@@ -86,3 +88,21 @@ export default function App() {
     </html>
   );
 }
+
+export function CatchBoundary() {
+  const caught = useCatch()
+  if (caught.status === 404) {
+    <html lang="en">
+      <head>
+        <meta charSet="utf-8" />
+        <Meta />
+        <Links />
+      </head>
+      <body>
+        <FourOhFour />
+        <Scripts />
+      </body>
+    </html>
+  }
+  throw new Error(`Unhandled error: ${caught.status}`)
+} 

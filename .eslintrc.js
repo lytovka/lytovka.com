@@ -13,5 +13,6 @@ module.exports = {
   rules: {
     "no-console": "warn",
     "jsx-a11y/prefer-tag-over-role": "off",
+    "@typescript-eslint/no-throw-literal": "off",
   },
 };

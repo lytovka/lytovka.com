@@ -26,14 +26,14 @@ export async function getPosts() {
   return allPosts;
 }
 
-export async function getPost(slug: string): Promise<Post | null> {
+export async function getPost(slug: string): Promise<Post> {
   const foundPost = await prismaRead.posts.findFirst({
     where: {
       slug,
     },
   });
 
-  if (!foundPost) return null;
+  if (!foundPost) throw new Response("Not found", { status: 404 });
 
   const title = foundPost.title;
   const html = marked(foundPost.markdown);

@@ -8,6 +8,7 @@ import GoBack from "~/components/go-back";
 import { ExternalLink } from "~/components/external-link";
 import type { LinksFunction } from "@remix-run/server-runtime";
 import { useDeviceType } from "~/hooks/useDeviceType";
+import { ServerError } from "~/components/errors";
 
 export const loader = async (_: LoaderArgs) => {
   return json(
@@ -76,4 +77,8 @@ export default function CollectiblesPage() {
       <GoBack />
     </main>
   );
+}
+
+export function ErrorBoundary() {
+  return <ServerError title="Could not load albums from Spotify." />
 }

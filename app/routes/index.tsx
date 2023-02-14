@@ -15,7 +15,7 @@ import {
 import useWindowSize from "~/hooks/useWindowSize";
 import DOCUMENTS_FOLDER from "~/images/home_folder.png";
 import MUSIC_FOLDER from "~/images/folder-teal-music.svg";
-import FILE_TEXT from "~/images/file-text.svg"
+import FILE_TEXT from "~/images/file-text.svg";
 import indexStylesUrl from "~/styles/index.css";
 import type { Position, Positions } from "~/typings/Coordinates";
 import { replaceAt } from "~/utils/array";
@@ -32,25 +32,25 @@ const HOMEPAGE_LINKS: Array<{
   position: Position;
   imgSrc: string;
 }> = [
-    {
-      title: "notes",
-      href: "/notes",
-      position: [0.75, 0.15],
-      imgSrc: DOCUMENTS_FOLDER,
-    },
-    {
-      title: "collectibles",
-      href: "/collectibles",
-      position: [0.25, 0.20],
-      imgSrc: MUSIC_FOLDER,
-    },
-    {
-      title: "intro.txt",
-      href: "/intro",
-      position: [0.50, 0.35],
-      imgSrc: FILE_TEXT
-    }
-  ];
+  {
+    title: "notes",
+    href: "/notes",
+    position: [0.75, 0.15],
+    imgSrc: DOCUMENTS_FOLDER,
+  },
+  {
+    title: "collectibles",
+    href: "/collectibles",
+    position: [0.25, 0.2],
+    imgSrc: MUSIC_FOLDER,
+  },
+  {
+    title: "intro.txt",
+    href: "/intro",
+    position: [0.5, 0.35],
+    imgSrc: FILE_TEXT,
+  },
+];
 
 export const links: LinksFunction = () => {
   return [
@@ -73,7 +73,9 @@ export default function Index() {
   const [zIndexes, setZIndexes] = useState<Array<number>>(
     Array(HOMEPAGE_LINKS.length).fill(0)
   );
-  const [defaultPositions, setDefaultPositions] = useState<Positions>(Array(HOMEPAGE_LINKS.length).fill([0, 0]));
+  const [defaultPositions, setDefaultPositions] = useState<Positions>(
+    Array(HOMEPAGE_LINKS.length).fill([0, 0])
+  );
 
   const handleOnPointerEndCapture = (_event: PointerEvent, slug: string) => {
     if (drag) {
@@ -181,27 +183,27 @@ export default function Index() {
       <main className="inline-flex flex-col z-10">
         {show
           ? HOMEPAGE_LINKS.map((item, key) => (
-            <DraggableItem
-              defaultPosition={defaultPositions[key]}
-              key={key}
-              onDrag={onDrag}
-              onStart={onStart}
-              onStop={onStop}
-            >
-              <HomepageLink
-                data-index={key}
-                href={item.href}
-                imgSrc={item.imgSrc}
-                isDraggable={drag}
-                ref={(el) => el && draggableElementRefs.current[key]}
-                style={{ zIndex: zIndexes[key] }}
-                title={item.title}
-                onPointerUp={(e) => {
-                  handleOnPointerEndCapture(e, item.href);
-                }}
-              />
-            </DraggableItem>
-          ))
+              <DraggableItem
+                defaultPosition={defaultPositions[key]}
+                key={key}
+                onDrag={onDrag}
+                onStart={onStart}
+                onStop={onStop}
+              >
+                <HomepageLink
+                  data-index={key}
+                  href={item.href}
+                  imgSrc={item.imgSrc}
+                  isDraggable={drag}
+                  ref={(el) => el && draggableElementRefs.current[key]}
+                  style={{ zIndex: zIndexes[key] }}
+                  title={item.title}
+                  onPointerUp={(e) => {
+                    handleOnPointerEndCapture(e, item.href);
+                  }}
+                />
+              </DraggableItem>
+            ))
           : null}
       </main>
       <footer className="text-xl fixed bottom-10 left-5 right-5 flex justify-center gap-4 z-30">
@@ -228,7 +230,6 @@ export default function Index() {
           href={TELEGRAM_LINK}
           rel="noreferrer noopener"
           target="_blank"
-
         >
           Telegram
         </ExternalLink>

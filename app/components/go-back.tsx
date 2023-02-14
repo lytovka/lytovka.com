@@ -14,7 +14,7 @@ function GoBack() {
     >
       cd ..
     </Link>
-  )
+  );
 }
 
-export default GoBack
+export default GoBack;

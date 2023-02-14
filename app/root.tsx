@@ -90,7 +90,7 @@ export default function App() {
 }
 
 export function CatchBoundary() {
-  const caught = useCatch()
+  const caught = useCatch();
   if (caught.status === 404) {
     <html lang="en">
       <head>
@@ -102,7 +102,7 @@ export function CatchBoundary() {
         <FourOhFour />
         <Scripts />
       </body>
-    </html>
+    </html>;
   }
-  throw new Error(`Unhandled error: ${caught.status}`)
-} 
+  throw new Error(`Unhandled error: ${caught.status}`);
+}

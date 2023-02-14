@@ -70,10 +70,10 @@ export default function PostSlug() {
 }
 
 export function CatchBoundary() {
-  const caught = useCatch()
+  const caught = useCatch();
   if (caught.status === 404) {
-    return <FourOhFour />
+    return <FourOhFour />;
   }
 
-  return <ServerError title="Could not fetch this post." />
+  return <ServerError title="Could not fetch this post." />;
 }

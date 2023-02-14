@@ -1,10 +1,11 @@
-import { Link, useLoaderData } from "@remix-run/react";
+import { Link, useCatch, useLoaderData } from "@remix-run/react";
 import formatDate from "date-fns/format";
 import { json } from "@remix-run/server-runtime";
 import type { LoaderFunction, MetaFunction } from "@remix-run/server-runtime";
 
 import type { Post } from "~/typings/Post";
 import { getPost } from "~/utils/posts.server";
+import { FourOhFour, ServerError } from "~/components/errors";
 
 type LoaderData = Post;
 
@@ -22,7 +23,7 @@ export const meta: MetaFunction = ({ data }: { data: LoaderData | null }) => {
 
 export const loader: LoaderFunction = async ({ params }) => {
   if (!params.slug) {
-    throw Error("Slug does not exist.");
+    return new Error("params.slug is not defined.");
   }
 
   return json(await getPost(params.slug));
@@ -66,4 +67,13 @@ export default function PostSlug() {
       </article>
     </>
   );
+}
+
+export function CatchBoundary() {
+  const caught = useCatch()
+  if (caught.status === 404) {
+    return <FourOhFour />
+  }
+
+  return <ServerError title="Could not fetch this post." />
 }

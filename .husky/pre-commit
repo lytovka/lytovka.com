@@ -5,5 +5,5 @@
     --kill-others-on-fail \
     --names "typecheck,format,lint" \
     "npm run typecheck" \
-    "npm run lint --silent" \
-    "npm run format" \
+    "npm run lint" \
+    "npm run format"

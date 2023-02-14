@@ -1,19 +1,32 @@
 import { forwardRef } from "react";
 
 type ExtraProps = {
-    title?: string
-}
+  title?: string;
+};
 
-const ToggleButton = forwardRef<ExtraProps & HTMLInputElement, JSX.IntrinsicElements["input"]>(function ToggleButton(props, ref) {
-    const { title } = props
+const ToggleButton = forwardRef<
+  ExtraProps & HTMLInputElement,
+  JSX.IntrinsicElements["input"]
+>(function ToggleButton(props, ref) {
+  const { title } = props;
 
-    return (
-        <label className="relative inline-flex items-center cursor-pointer">
-            <input className="sr-only peer" ref={ref} type="checkbox" value="" {...props} />
-            <div className="w-14 h-7 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-green-600 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-3 after:left-[4px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-6 after:w-6 after:transition-all dark:border-gray-600" />
-            {title ? <span className="ml-3 text-2xl font-medium text-gray-900 dark:text-gray-300">{title}</span> : null}
-        </label>
-    )
-})
+  return (
+    <label className="relative inline-flex items-center cursor-pointer">
+      <input
+        className="sr-only peer"
+        ref={ref}
+        type="checkbox"
+        value=""
+        {...props}
+      />
+      <div className="w-14 h-7 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-green-600 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-3 after:left-[4px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-6 after:w-6 after:transition-all dark:border-gray-600" />
+      {title ? (
+        <span className="ml-3 text-2xl font-medium text-gray-900 dark:text-gray-300">
+          {title}
+        </span>
+      ) : null}
+    </label>
+  );
+});
 
 export default ToggleButton;

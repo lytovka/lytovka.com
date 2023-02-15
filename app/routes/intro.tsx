@@ -27,7 +27,7 @@ export default function IntroPage() {
 
   return (
     <div className="flex-1">
-      <main className="mx-auto px-8 py-10 sm:max-w-5xl md:max-w-7xl mb-10 relative">
+      <main className="mx-auto px-8 pb-10 sm:max-w-5xl md:max-w-7xl mb-10 relative">
         <div className="flex justify-between mb-3">
           <h1 className="font-medium text-4xl mb-2">Introduction</h1>
           <ToggleButton

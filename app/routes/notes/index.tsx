@@ -20,7 +20,7 @@ export default function NotesRoute() {
 
   return (
     <div className="flex-1">
-      <main className="mx-auto px-8 py-10 sm:max-w-5xl md:max-w-7xl">
+      <main className="mx-auto px-8 pb-10 sm:max-w-5xl md:max-w-7xl">
         <table className="table-fixed w-full mb-5">
           <thead>
             <tr>

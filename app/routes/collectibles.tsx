@@ -45,37 +45,39 @@ export default function CollectiblesPage() {
   }));
 
   return (
-    <main className="mx-auto px-8 py-10 sm:max-w-5xl md:max-w-7xl mb-10">
-      <h1 className="font-medium text-4xl mb-2">Collectibles</h1>
-      <p className="text-2xl text-stone-300 mb-10 italic">
-        Vinyl records I&apos;ve collected over the years.
-      </p>
+    <div className="flex-1">
+      <main className="mx-auto px-8 pb-10 sm:max-w-5xl md:max-w-7xl mb-10">
+        <h1 className="font-medium text-2xl mb-1">Collectibles</h1>
+        <p className="text-2xl text-stone-300 mb-10 italic">
+          Vinyl records I&apos;ve collected over the years.
+        </p>
 
-      <div className="pb-10 grid sm:grid-cols-2 md:grid-cols-3 gap-6 justify-items-center items-center">
-        {images.map((i, index) => (
-          <ExternalLink
-            className="relative"
-            href={i.href}
-            key={index}
-            rel="noreferrer noopener"
-            target="_blank"
-          >
-            {deviceType === "mobile" ? (
-              <span className="flex h-5 w-5 absolute right-3 top-3">
-                <span className="ping-class absolute inline-flex h-full w-full rounded-full bg-gray-300" />
-                <span className="absolute inline-flex rounded-full h-full w-full bg-gray-300" />
-              </span>
-            ) : null}
-            <img
-              alt={i.altName}
-              className="w-full hover:opacity-75 transition-opacity md:w-[330px]"
-              src={i.image.url}
-            />
-          </ExternalLink>
-        ))}
-      </div>
-      <GoBack />
-    </main>
+        <div className="pb-10 grid sm:grid-cols-2 md:grid-cols-3 gap-6 justify-items-center items-center">
+          {images.map((i, index) => (
+            <ExternalLink
+              className="relative"
+              href={i.href}
+              key={index}
+              rel="noreferrer noopener"
+              target="_blank"
+            >
+              {deviceType === "mobile" ? (
+                <span className="flex h-5 w-5 absolute right-3 top-3">
+                  <span className="ping-class absolute inline-flex h-full w-full rounded-full bg-gray-300" />
+                  <span className="absolute inline-flex rounded-full h-full w-full bg-gray-300" />
+                </span>
+              ) : null}
+              <img
+                alt={i.altName}
+                className="w-full hover:opacity-75 transition-opacity md:w-[300px]"
+                src={i.image.url}
+              />
+            </ExternalLink>
+          ))}
+        </div>
+        <GoBack />
+      </main>
+    </div>
   );
 }
 

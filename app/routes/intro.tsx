@@ -26,33 +26,35 @@ export default function IntroPage() {
   };
 
   return (
-    <main className="mx-auto px-8 py-10 sm:max-w-5xl md:max-w-7xl mb-10 relative">
-      <div className="flex justify-between mb-3">
-        <h1 className="font-medium text-4xl mb-2">Introduction</h1>
-        <ToggleButton
-          defaultChecked={false}
-          title="Full bio"
-          onChange={(e) => {
-            expandCollapse(e);
-          }}
-        />
-      </div>
-      <div
-        className="prose text-3xl mb-5"
-        dangerouslySetInnerHTML={{ __html: short }}
-      />
-      <div
-        className="transition-height overflow-hidden mb-5"
-        ref={root}
-        style={{ height: 0 }}
-      >
+    <div className="flex-1">
+      <main className="mx-auto px-8 pb-10 sm:max-w-5xl md:max-w-7xl mb-10 relative">
+        <div className="flex justify-between mb-3">
+          <h1 className="font-medium text-4xl mb-2">Introduction</h1>
+          <ToggleButton
+            defaultChecked={false}
+            title="Full bio"
+            onChange={(e) => {
+              expandCollapse(e);
+            }}
+          />
+        </div>
         <div
-          className="prose text-3xl"
-          dangerouslySetInnerHTML={{ __html: extended }}
-          ref={extendedContentRef}
+          className="prose text-3xl mb-5"
+          dangerouslySetInnerHTML={{ __html: short }}
         />
-      </div>
-      <GoBack />
-    </main>
+        <div
+          className="transition-height overflow-hidden mb-5"
+          ref={root}
+          style={{ height: 0 }}
+        >
+          <div
+            className="prose text-3xl"
+            dangerouslySetInnerHTML={{ __html: extended }}
+            ref={extendedContentRef}
+          />
+        </div>
+        <GoBack />
+      </main>
+    </div>
   );
 }

@@ -19,9 +19,11 @@ import favicon from "~/images/favicon.png";
 import featuredImage from "~/images/featured_image.png";
 import { getEnv } from "~/utils/env.server";
 import { FourOhFour } from "./components/errors";
-
+import Footer from "./components/footer";
+import Navbar from "./components/navbar";
 import tailwindStyles from "./styles/app.css";
 import proseStyles from "./styles/prose.css";
+import rootStyles from "./styles/root.css";
 
 export const meta: MetaFunction = () => {
   const title = "Ivan's shared documents";
@@ -47,6 +49,10 @@ export const links: LinksFunction = () => {
     {
       rel: "stylesheet",
       href: proseStyles,
+    },
+    {
+      rel: "stylesheet",
+      href: rootStyles,
     },
     { rel: "icon", href: favicon },
   ];
@@ -75,7 +81,9 @@ export default function App() {
         <Links />
       </head>
       <body>
+        <Navbar />
         <Outlet />
+        <Footer />
         <ScrollRestoration />
         <script
           dangerouslySetInnerHTML={{

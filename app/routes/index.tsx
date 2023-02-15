@@ -2,21 +2,12 @@ import { useNavigate } from "@remix-run/react";
 import type { PointerEvent } from "react";
 import { useEffect, useRef, useState } from "react";
 import type { DraggableData, DraggableEvent } from "react-draggable";
-import type { LinksFunction } from "@remix-run/server-runtime";
 
-import {
-  LYT_STORAGE_KEY,
-  LINK_HEIGHT_PX,
-  LINK_WIDTH_PX,
-  INSTAGRAM_LINK,
-  TELEGRAM_LINK,
-  GITHUB_LINK,
-} from "~/constants";
+import { LYT_STORAGE_KEY, LINK_HEIGHT_PX, LINK_WIDTH_PX } from "~/constants";
 import useWindowSize from "~/hooks/useWindowSize";
 import DOCUMENTS_FOLDER from "~/images/home_folder.png";
 import MUSIC_FOLDER from "~/images/folder-teal-music.svg";
 import FILE_TEXT from "~/images/file-text.svg";
-import indexStylesUrl from "~/styles/index.css";
 import type { Position, Positions } from "~/typings/Coordinates";
 import { replaceAt } from "~/utils/array";
 import {
@@ -24,7 +15,6 @@ import {
   localStorageSetItem,
 } from "~/utils/local-storage";
 import { DraggableItem, HomepageLink } from "~/components/draggable-item";
-import { ExternalLink } from "~/components/external-link";
 
 const HOMEPAGE_LINKS: Array<{
   title: string;
@@ -51,15 +41,6 @@ const HOMEPAGE_LINKS: Array<{
     imgSrc: FILE_TEXT,
   },
 ];
-
-export const links: LinksFunction = () => {
-  return [
-    {
-      rel: "stylesheet",
-      href: indexStylesUrl,
-    },
-  ];
-};
 
 export default function Index() {
   const navigate = useNavigate();
@@ -176,11 +157,8 @@ export default function Index() {
   };
 
   return (
-    <>
-      <nav className="flex justify-center fixed top-10 right-5 left-5 z-30">
-        <h1 className="text-2xl text-zinc-200">Ivan&apos;s docs</h1>
-      </nav>
-      <main className="inline-flex flex-col z-10">
+    <div className="flex-1">
+      <main className="flex-1 inline-flex flex-col z-10">
         {show
           ? HOMEPAGE_LINKS.map((item, key) => (
               <DraggableItem
@@ -206,34 +184,6 @@ export default function Index() {
             ))
           : null}
       </main>
-      <footer className="text-xl fixed bottom-10 left-5 right-5 flex justify-center gap-4 z-30">
-        <ExternalLink
-          className="text-zinc-200 hover:opacity-75 transition-opacity"
-          href={GITHUB_LINK}
-          rel="noreferrer noopener"
-          target="_blank"
-        >
-          GitHub
-        </ExternalLink>
-        <span className="text-white">/</span>
-        <ExternalLink
-          className="text-zinc-200 hover:opacity-75 transition-opacity"
-          href={INSTAGRAM_LINK}
-          rel="noreferrer noopener"
-          target="_blank"
-        >
-          Instagram
-        </ExternalLink>
-        <span className="text-white">/</span>
-        <ExternalLink
-          className="text-zinc-200 hover:opacity-75 transition-opacity"
-          href={TELEGRAM_LINK}
-          rel="noreferrer noopener"
-          target="_blank"
-        >
-          Telegram
-        </ExternalLink>
-      </footer>
-    </>
+    </div>
   );
 }

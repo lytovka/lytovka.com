@@ -1,6 +1,6 @@
-import fs from "fs";
 import { marked } from "marked";
 import fm from "front-matter";
+import fs from "fs";
 
 // This method is separate from other fetchers because of additional split operation.
 export const getIntroFile = (): { short: string; extended: string } => {

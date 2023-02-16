@@ -3,11 +3,11 @@ import { loader } from "../app/routes/notes";
 
 describe("Index page", () => {
   it("loader: should return Request object", async () => {
-    const response = (await loader({
+    const response = loader({
       request: new Request("http://localhost:3000"),
       params: {},
       context: {},
-    })) as Response;
+    }) as Response;
 
     expect(response).toBeInstanceOf(Response);
     expect(response.status).toEqual(200);

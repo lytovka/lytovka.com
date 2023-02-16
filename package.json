@@ -38,7 +38,6 @@
     "dotenv": "16.0.3",
     "front-matter": "^4.0.2",
     "marked": "4.2.12",
-    "parse-md": "3.0.3",
     "prisma": "4.5.0",
     "react": "18.2.0",
     "react-dom": "18.2.0",

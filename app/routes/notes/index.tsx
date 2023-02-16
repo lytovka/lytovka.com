@@ -5,8 +5,8 @@ import GoBack from "~/components/go-back";
 import { dateFormatter } from "~/utils/date";
 import { fetchAllContent } from "~/server/markdown.server";
 
-export const loader = (_: LoaderArgs) => {
-  const results = fetchAllContent();
+export const loader = async (_: LoaderArgs) => {
+  const results = await fetchAllContent();
   const newDates = results.map((item) => ({
     ...item,
     date: dateFormatter.format(new Date(item.attributes.date)),

@@ -21,11 +21,11 @@ export const meta: MetaFunction = ({ data }: { data: LoaderData | null }) => {
   };
 };
 
-export const loader = ({ params }: LoaderArgs) => {
+export const loader = async ({ params }: LoaderArgs) => {
   if (!params.slug) {
     throw new Error("params.slug is not defined.");
   }
-  const res = getSlugContent(params.slug);
+  const res = await getSlugContent(params.slug);
   res.attributes.date = dateFormatter.format(new Date(res.attributes.date));
 
   return json(res);

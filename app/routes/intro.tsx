@@ -7,8 +7,8 @@ import GoBack from "~/components/go-back";
 import ToggleButton from "~/components/toggle-button";
 import { getIntroFile } from "~/server/markdown.server";
 
-export const loader = (_: LoaderArgs) => {
-  const result = getIntroFile();
+export const loader = async (_: LoaderArgs) => {
+  const result = await getIntroFile();
 
   return json(result);
 };

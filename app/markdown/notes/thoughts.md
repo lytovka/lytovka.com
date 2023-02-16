@@ -1,7 +1,8 @@
 ---
-title: Thoughts
-description: this is a description.
-date: "03/06/2022"
+title: Мысли о войне
+date: 11/03/2022
+slug: /thoughts
+languages: rus
 ---
 
 Дорогой читатель!

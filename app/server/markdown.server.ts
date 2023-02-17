@@ -8,14 +8,12 @@ type Metadata = {
   slug: string;
 };
 
-// `${__dirname}/../app/markdown`;
-const CONTENT = `${__dirname}/../app/markdown`;
-
 // This method is separate from other fetchers because of additional split operation.
 export const getIntroFile = async (): Promise<{
   short: string;
   extended: string;
 }> => {
+  const CONTENT = `${__dirname}/../app/markdown`;
   const pathToIntro = `${CONTENT}/intro.md`;
   const file = (await fs.readFile(pathToIntro)).toString();
   const [short, extended] = matter(file).content.split("<hr>");
@@ -29,10 +27,10 @@ export const getSlugContent = async (
   attributes: Metadata;
   body: string;
 }> => {
+  const CONTENT = `${__dirname}/../app/markdown`;
   const realSlug = slug.replace(/\.md$/, "");
   const path = `${CONTENT}/notes/${realSlug}.md`;
   const file = (await fs.readFile(path)).toString();
-  // const { attributes, body } = fm<Metadata>(file);
   const { data, content } = matter(file);
   const html = marked(content);
 
@@ -40,7 +38,8 @@ export const getSlugContent = async (
 };
 
 const getAllNoteSlugs = async (): Promise<Array<string>> => {
-  const res = await fs.readdir(`${CONTENT}/notes`);
+  const CONTENT = `${__dirname}/../app/markdown`;
+  const res = fs.readdir(`${CONTENT}/notes`);
 
   return res;
 };

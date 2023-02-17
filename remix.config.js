@@ -14,5 +14,5 @@ module.exports = {
   serverBuildPath: "api/index.js",
   publicPath: "/build/",
   devServerPort: 8002,
-  serverDependenciesToBundle: [/^marked/, /^gray-matter/],
+  // serverDependenciesToBundle: [/^marked/, /^gray-matter/],
 };

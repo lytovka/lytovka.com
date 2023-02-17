@@ -1,15 +1,24 @@
-import { marked } from "marked";
-import fm from "front-matter";
+import matter from "gray-matter";
 import fs from "fs/promises";
+import { marked } from "marked";
+
+type Metadata = {
+  title: string;
+  date: string;
+  slug: string;
+};
+
+`${__dirname}/../app/markdown`;
+const CONTENT = `${__dirname}/../app/markdown`;
 
 // This method is separate from other fetchers because of additional split operation.
 export const getIntroFile = async (): Promise<{
   short: string;
   extended: string;
 }> => {
-  const pathToIntro = `${__dirname}/../app/markdown/intro.md`;
+  const pathToIntro = `${CONTENT}/intro.md`;
   const file = (await fs.readFile(pathToIntro)).toString();
-  const [short, extended] = marked(file).split("<hr>");
+  const [short, extended] = matter(file).content.split("<hr>");
 
   return { short, extended };
 };
@@ -17,24 +26,21 @@ export const getIntroFile = async (): Promise<{
 export const getSlugContent = async (
   slug: string
 ): Promise<{
-  attributes: { date: string; title: string; slug: string };
+  attributes: Metadata;
   body: string;
 }> => {
   const realSlug = slug.replace(/\.md$/, "");
-  const path = `${__dirname}/../app/markdown/notes/${realSlug}.md`;
+  const path = `${CONTENT}/notes/${realSlug}.md`;
   const file = (await fs.readFile(path)).toString();
-  const { attributes, body } = fm<{
-    title: string;
-    date: string;
-    slug: string;
-  }>(file);
-  const html = marked(body);
+  // const { attributes, body } = fm<Metadata>(file);
+  const { data, content } = matter(file);
+  const html = marked(content);
 
-  return { attributes, body: html };
+  return { attributes: data as Metadata, body: html };
 };
 
 const getAllNoteSlugs = async (): Promise<Array<string>> => {
-  const res = await fs.readdir(`${__dirname}/../app/markdown/notes`);
+  const res = await fs.readdir(`${CONTENT}/notes`);
 
   return res;
 };

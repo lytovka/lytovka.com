@@ -8,7 +8,7 @@ type Metadata = {
   slug: string;
 };
 
-`${__dirname}/../app/markdown`;
+// `${__dirname}/../app/markdown`;
 const CONTENT = `${__dirname}/../app/markdown`;
 
 // This method is separate from other fetchers because of additional split operation.

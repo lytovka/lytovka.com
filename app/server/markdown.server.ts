@@ -16,7 +16,8 @@ export const getIntroFile = async (): Promise<{
   const CONTENT = `${__dirname}/../app/markdown`;
   const pathToIntro = `${CONTENT}/intro.md`;
   const file = (await fs.readFile(pathToIntro)).toString();
-  const [short, extended] = matter(file).content.split("<hr>");
+  const { content } = matter(file);
+  const [short, extended] = marked(content).split("<hr>");
 
   return { short, extended };
 };

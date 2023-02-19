@@ -5,10 +5,10 @@ import path from "path";
 
 //TODO: This is a hack to get the root path for the app for diff environments (development, CI, and deploy preview). Need to find a better way.
 const root =
-  process.env.NODE_ENV === "development"
-    ? `${__dirname}/../app`
-    : process.env.CI === "true"
+  process.env.CI === "true"
     ? `${path.resolve()}/app`
+    : process.env.NODE_ENV === "test"
+    ? `${__dirname}/..`
     : `${__dirname}/../app`;
 
 type Metadata = {

@@ -1,6 +1,15 @@
 import matter from "gray-matter";
 import fs from "fs/promises";
 import { marked } from "marked";
+import path from "path";
+
+//TODO: This is a hack to get the root path for the app for diff environments (development, CI, and deploy preview). Need to find a better way.
+const root =
+  process.env.NODE_ENV === "development"
+    ? `${__dirname}/../app`
+    : process.env.CI === "true"
+    ? `${path.resolve()}/app`
+    : `${__dirname}/../app`;
 
 type Metadata = {
   title: string;
@@ -13,7 +22,7 @@ export const getIntroFile = async (): Promise<{
   short: string;
   extended: string;
 }> => {
-  const CONTENT = `${__dirname}/../app/markdown`;
+  const CONTENT = `${root}/markdown`;
   const pathToIntro = `${CONTENT}/intro.md`;
   const file = (await fs.readFile(pathToIntro)).toString();
   const { content } = matter(file);
@@ -28,10 +37,11 @@ export const getSlugContent = async (
   attributes: Metadata;
   body: string;
 }> => {
-  const CONTENT = `${__dirname}/../app/markdown`;
+  const CONTENT = `${root}/markdown`;
   const realSlug = slug.replace(/\.md$/, "");
-  const path = `${CONTENT}/notes/${realSlug}.md`;
-  const file = (await fs.readFile(path)).toString();
+  const file = (
+    await fs.readFile(`${CONTENT}/notes/${realSlug}.md`)
+  ).toString();
   const { data, content } = matter(file);
   const html = marked(content);
 
@@ -39,7 +49,7 @@ export const getSlugContent = async (
 };
 
 const getAllNoteSlugs = async (): Promise<Array<string>> => {
-  const CONTENT = `${__dirname}/../app/markdown`;
+  const CONTENT = `${root}/markdown`;
   const res = fs.readdir(`${CONTENT}/notes`);
 
   return res;

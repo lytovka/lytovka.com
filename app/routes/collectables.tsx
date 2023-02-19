@@ -1,6 +1,6 @@
 import { useLoaderData } from "@remix-run/react";
-import type { LoaderFunction } from "remix";
-import { json } from "remix";
+import type { LoaderFunction } from "@remix-run/server-runtime";
+import { json } from "@remix-run/server-runtime";
 
 import { getAlbumsByIds } from "~/server/spotify.server";
 export const loader: LoaderFunction = async () => {

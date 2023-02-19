@@ -5,10 +5,10 @@ import type { ChangeEvent } from "react";
 import { useRef } from "react";
 import GoBack from "~/components/go-back";
 import ToggleButton from "~/components/toggle-button";
-import { getMarkdownFile } from "~/server/getMarkdownFile.server";
+import { getIntroFile } from "~/server/markdown.server";
 
 export const loader = async (_: LoaderArgs) => {
-  const result = await getMarkdownFile();
+  const result = await getIntroFile();
 
   return json(result);
 };

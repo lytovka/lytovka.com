@@ -65,6 +65,11 @@ export const fetchAllContent = async (): Promise<
   const notes = await Promise.all(
     slugs.map(async (slug) => getSlugContent(slug))
   );
+  const sortedNotes = notes.sort(
+    (a, b) =>
+      new Date(b.attributes.date).getTime() -
+      new Date(a.attributes.date).getTime()
+  );
 
-  return notes;
+  return sortedNotes;
 };

@@ -6,6 +6,7 @@ import type { Post } from "~/typings/Post";
 import { FourOhFour, ServerError } from "~/components/errors";
 import { getSlugContent } from "~/server/markdown.server";
 import { dateFormatter } from "~/utils/date";
+import MainLayout from "~/components/main-layout";
 
 type LoaderData = Post;
 
@@ -35,17 +36,15 @@ export default function PostSlug() {
   const note = useLoaderData<typeof loader>();
 
   return (
-    <div className="flex-1">
-      <main className="mx-auto px-8 pb-10 sm:max-w-5xl md:max-w-7xl mb-10 relative">
-        <div>
-          <p className="flex text-xl mb-3 italic">{note.attributes.date}</p>
-          <article
-            className="prose text-3xl"
-            dangerouslySetInnerHTML={{ __html: note.body }}
-          />
-        </div>
-      </main>
-    </div>
+    <MainLayout>
+      <div>
+        <p className="flex text-xl mb-3 italic">{note.attributes.date}</p>
+        <article
+          className="prose text-3xl"
+          dangerouslySetInnerHTML={{ __html: note.body }}
+        />
+      </div>
+    </MainLayout>
   );
 }
 

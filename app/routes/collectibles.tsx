@@ -47,7 +47,6 @@ export default function CollectiblesPage() {
   return (
     <div className="flex-1">
       <main className="mx-auto px-8 pb-10 sm:max-w-5xl md:max-w-7xl mb-10">
-        <h1 className="font-medium text-2xl mb-1">Collectibles</h1>
         <p className="text-2xl text-stone-300 mb-10 italic">
           Vinyl records I&apos;ve collected over the years.
         </p>

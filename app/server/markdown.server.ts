@@ -3,7 +3,7 @@ import fs from "fs/promises";
 import { marked } from "marked";
 import path from "path";
 
-//TODO: This is a hack to get the root path for the app for diff environments (development, CI, and deploy preview). Need to find a better way.
+//TODO: This is a hack to get the root path for the app for diff environments (test, CI, and deploy preview). Need to find a better way.
 const root =
   process.env.CI === "true"
     ? `${path.resolve()}/app`

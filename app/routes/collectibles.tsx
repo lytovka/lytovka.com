@@ -22,7 +22,12 @@ export const loader = async (_: LoaderArgs) => {
       "3539EbNgIdEDGBKkUf4wno",
       "1To7kv722A8SpZF789MZy7",
       "0u3Rl4KquP15smujFrgGz4",
-    ])
+    ]),
+    {
+      headers: {
+        "Cache-Control": "max-age=86400",
+      },
+    }
   );
 };
 

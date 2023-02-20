@@ -7,6 +7,7 @@ import type { Note } from "~/server/markdown.server";
 import { getSlugContent } from "~/server/markdown.server";
 import { dateFormatter } from "~/utils/date";
 import MainLayout from "~/components/main-layout";
+import { Paragraph } from "~/components/typography";
 
 export const meta: MetaFunction = ({ data }: { data: Note | null }) => {
   if (!data) {
@@ -36,7 +37,9 @@ export default function PostSlug() {
   return (
     <MainLayout>
       <div>
-        <p className="flex text-xl mb-3 italic">{note.attributes.date}</p>
+        <Paragraph className="flex mb-3 italic">
+          {note.attributes.date}
+        </Paragraph>
         <article
           className="prose text-3xl"
           dangerouslySetInnerHTML={{ __html: note.body }}

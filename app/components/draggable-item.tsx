@@ -1,3 +1,4 @@
+import clsx from "clsx";
 import { forwardRef } from "react";
 import Draggable from "react-draggable";
 import { Link } from "@remix-run/react";
@@ -55,9 +56,9 @@ export const HomepageLink = forwardRef<
   return (
     <div
       {...rest}
-      className={`w-36 h-36 touch-none ${
-        isDraggable ? `pointer-events-none` : ""
-      }`}
+      className={clsx("w-36 h-36 touch-none", {
+        "pointer-events-none": isDraggable,
+      })}
       ref={ref}
     >
       <Link

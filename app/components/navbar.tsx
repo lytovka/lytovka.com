@@ -1,4 +1,5 @@
 import { useLocation } from "@remix-run/react";
+import { H1 } from "./typography";
 
 const getNavbarTitle = (path: string) => {
   switch (path) {
@@ -21,9 +22,7 @@ function Navbar() {
   return (
     <div className="z-30 px-5 py-9">
       <nav className="flex justify-center">
-        <h1 className="text-2xl font-medium text-zinc-200">
-          {getNavbarTitle(pathname)}
-        </h1>
+        <H1>{getNavbarTitle(pathname)}</H1>
       </nav>
     </div>
   );

@@ -5,6 +5,7 @@ import GoBack from "~/components/go-back";
 import { dateFormatter } from "~/utils/date";
 import { fetchAllContent } from "~/server/markdown.server";
 import MainLayout from "~/components/main-layout";
+import { Paragraph } from "~/components/typography";
 
 export const loader = async (_: LoaderArgs) => {
   const results = await fetchAllContent();
@@ -21,9 +22,9 @@ export default function NotesRoute() {
 
   return (
     <MainLayout>
-      <p className="text-2xl text-stone-300 mb-5 italic">
+      <Paragraph className="mb-5 italic" variant="secondary">
         Notes on various topics. All thoughts are my own.
-      </p>
+      </Paragraph>
       <ul className="mb-10">
         {posts.map((post, key) => (
           <li
@@ -32,12 +33,10 @@ export default function NotesRoute() {
           >
             <span className="text-xl text-white">{post.date}</span>
             <Link
-              className="text-white text-3xl underline hover:transition-opacity"
+              className="text-slate-300 text-3xl underline hover:opacity-75 hover:transition-opacity"
               to={`/notes${post.attributes.slug}`}
             >
-              <p className="text-slate-300 hover:opacity-75 transition-opacity">
-                {post.attributes.title}
-              </p>
+              {post.attributes.title}
             </Link>
           </li>
         ))}

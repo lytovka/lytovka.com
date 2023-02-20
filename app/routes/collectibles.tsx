@@ -9,6 +9,7 @@ import { ExternalLink } from "~/components/external-link";
 import type { LinksFunction } from "@remix-run/server-runtime";
 import { useDeviceType } from "~/hooks/useDeviceType";
 import { ServerError } from "~/components/errors";
+import { Paragraph } from "~/components/typography";
 
 export const loader = async (_: LoaderArgs) => {
   return json(
@@ -52,10 +53,10 @@ export default function CollectiblesPage() {
   return (
     <div className="flex-1">
       <main className="mx-auto px-8 pb-10 sm:max-w-5xl md:max-w-7xl mb-10">
-        <p className="text-2xl text-stone-300 mb-10 italic">
+        <Paragraph className="mb-10 italic" variant="secondary">
           Vinyl records I&apos;ve collected over the years. Images are
           clickable.
-        </p>
+        </Paragraph>
 
         <div className="pb-10 grid sm:grid-cols-2 md:grid-cols-3 gap-6 justify-items-center items-center">
           {images.map((i, index) => (

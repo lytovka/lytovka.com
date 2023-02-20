@@ -21,7 +21,7 @@ function getClient(): PrismaClient {
 }
 
 /**
- * @deprecated 
+ * @deprecated
  */
 export async function getPosts() {
   const allPosts = await prismaRead.posts.findMany();
@@ -30,7 +30,7 @@ export async function getPosts() {
 }
 
 /**
- * @deprecated 
+ * @deprecated
  */
 export async function getPost(slug: string): Promise<Post> {
   const foundPost = await prismaRead.posts.findFirst({
@@ -48,7 +48,7 @@ export async function getPost(slug: string): Promise<Post> {
 }
 
 /**
- * @deprecated 
+ * @deprecated
  */
 export async function getPostRaw(slug: string): Promise<PostUpdate | null> {
   const foundPost = await prismaRead.posts.findFirst({
@@ -63,7 +63,7 @@ export async function getPostRaw(slug: string): Promise<PostUpdate | null> {
 }
 
 /**
- * @deprecated 
+ * @deprecated
  */
 export async function editPost(postId: string, post: UpdatePost) {
   await prismaWrite.posts.update({ where: { id: postId }, data: post });

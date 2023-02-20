@@ -53,7 +53,8 @@ export default function CollectiblesPage() {
     <div className="flex-1">
       <main className="mx-auto px-8 pb-10 sm:max-w-5xl md:max-w-7xl mb-10">
         <p className="text-2xl text-stone-300 mb-10 italic">
-          Vinyl records I&apos;ve collected over the years. Images are clickable.
+          Vinyl records I&apos;ve collected over the years. Images are
+          clickable.
         </p>
 
         <div className="pb-10 grid sm:grid-cols-2 md:grid-cols-3 gap-6 justify-items-center items-center">

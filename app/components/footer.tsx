@@ -33,7 +33,7 @@ function Footer() {
         </ExternalLink>
       </div>
       <div className="mt-2 text-zinc-400">
-        MIT © Ivan Lytovka 2022-{new Date().getFullYear()}{" "}
+        MIT © Ivan Lytovka 2022-{new Date().getFullYear()}
       </div>
     </footer>
   );

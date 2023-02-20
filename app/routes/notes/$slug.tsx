@@ -2,15 +2,13 @@ import { useCatch, useLoaderData } from "@remix-run/react";
 import { json } from "@remix-run/server-runtime";
 import type { MetaFunction, LoaderArgs } from "@remix-run/server-runtime";
 
-import type { Post } from "~/typings/Post";
 import { FourOhFour, ServerError } from "~/components/errors";
+import type { Note } from "~/server/markdown.server";
 import { getSlugContent } from "~/server/markdown.server";
 import { dateFormatter } from "~/utils/date";
 import MainLayout from "~/components/main-layout";
 
-type LoaderData = Post;
-
-export const meta: MetaFunction = ({ data }: { data: LoaderData | null }) => {
+export const meta: MetaFunction = ({ data }: { data: Note | null }) => {
   if (!data) {
     return {
       title: "No post found",
@@ -18,7 +16,7 @@ export const meta: MetaFunction = ({ data }: { data: LoaderData | null }) => {
   }
 
   return {
-    title: `"${data.title}" post`,
+    title: `${data.attributes.title}`,
   };
 };
 

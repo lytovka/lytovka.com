@@ -21,6 +21,9 @@ export default function NotesRoute() {
 
   return (
     <MainLayout>
+      <p className="text-2xl text-stone-300 mb-5 italic">
+        Notes on various topics. All thoughts are my own.
+      </p>
       <ul className="mb-10">
         {posts.map((post, key) => (
           <li

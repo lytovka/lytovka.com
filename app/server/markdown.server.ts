@@ -17,13 +17,17 @@ type Metadata = {
   slug: string;
 };
 
+export type Note = {
+  body: string;
+  attributes: Metadata;
+};
+
 // This method is separate from other fetchers because of additional split operation.
 export const getIntroFile = async (): Promise<{
   short: string;
   extended: string;
 }> => {
-  const CONTENT = `${root}/markdown`;
-  const pathToIntro = `${CONTENT}/intro.md`;
+  const pathToIntro = `${root}/markdown/intro.md`;
   const file = (await fs.readFile(pathToIntro)).toString();
   const { content } = matter(file);
   const [short, extended] = marked(content).split("<hr>");
@@ -31,16 +35,10 @@ export const getIntroFile = async (): Promise<{
   return { short, extended };
 };
 
-export const getSlugContent = async (
-  slug: string
-): Promise<{
-  attributes: Metadata;
-  body: string;
-}> => {
-  const CONTENT = `${root}/markdown`;
+export const getSlugContent = async (slug: string): Promise<Note> => {
   const realSlug = slug.replace(/\.md$/, "");
   const file = (
-    await fs.readFile(`${CONTENT}/notes/${realSlug}.md`)
+    await fs.readFile(`${root}/markdown/notes/${realSlug}.md`)
   ).toString();
   const { data, content } = matter(file);
   const html = marked(content);
@@ -49,18 +47,12 @@ export const getSlugContent = async (
 };
 
 const getAllNoteSlugs = async (): Promise<Array<string>> => {
-  const CONTENT = `${root}/markdown`;
-  const res = fs.readdir(`${CONTENT}/notes`);
+  const res = fs.readdir(`${root}/markdown/notes`);
 
   return res;
 };
 
-export const fetchAllContent = async (): Promise<
-  Array<{
-    attributes: { date: string; title: string; slug: string };
-    body: string;
-  }>
-> => {
+export const fetchAllContent = async (): Promise<Array<Note>> => {
   const slugs = await getAllNoteSlugs();
   const notes = await Promise.all(
     slugs.map(async (slug) => getSlugContent(slug))

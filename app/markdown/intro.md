@@ -2,9 +2,11 @@
 title: intro
 ---
 
-**Hello world!** I'm Ivan, a software engineer at [Marqeta](https://www.marqeta.com/) and lifelong [Oasis](<https://en.wikipedia.org/wiki/Oasis_(band)>) fan.
+Hello world! I'm Ivan, a software engineer at [Marqeta](https://www.marqeta.com/) and a lifelong [Oasis](<https://en.wikipedia.org/wiki/Oasis_(band)>) fan.
 
-Outside of programming I enjoy cooking, playing the guitar (though amateurishly), hitting the gym, reading, and attending live concerts.
+Most of the time these days I spend shipping product features to org repos, fixing bugs, improving performance metrics, and attending insightful meetings.
+
+Outside of my day job duties I enjoy cooking, playing the guitar (though amateurishly), hitting the gym, reading books, and attending live concerts.
 
 ---
 

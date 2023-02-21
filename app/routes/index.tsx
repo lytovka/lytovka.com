@@ -26,7 +26,7 @@ const HOMEPAGE_LINKS: Array<{
   {
     title: "notes",
     href: "/notes",
-    position: [0.75, 0.15],
+    position: [0.55, 0.15],
     imgSrc: DOCUMENTS_FOLDER,
   },
   {
@@ -158,7 +158,7 @@ export default function Index() {
   };
 
   return (
-    <MainLayout>
+    <MainLayout homepage>
       {show
         ? HOMEPAGE_LINKS.map((item, key) => (
             <DraggableItem

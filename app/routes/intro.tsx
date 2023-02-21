@@ -4,6 +4,7 @@ import { json } from "@remix-run/server-runtime";
 import type { ChangeEvent } from "react";
 import { useRef } from "react";
 import GoBack from "~/components/go-back";
+import MainLayout from "~/components/main-layout";
 import ToggleButton from "~/components/toggle-button";
 import { getIntroFile } from "~/server/markdown.server";
 
@@ -26,20 +27,17 @@ export default function IntroPage() {
   };
 
   return (
-    <div className="flex-1">
-      <main className="mx-auto px-8 pb-10 sm:max-w-5xl md:max-w-7xl mb-10 relative">
-        <div className="flex justify-between mb-3">
-          <h1 className="font-medium text-4xl mb-2">Introduction</h1>
-          <ToggleButton
-            defaultChecked={false}
-            title="Full bio"
-            onChange={(e) => {
-              expandCollapse(e);
-            }}
-          />
-        </div>
+    <MainLayout>
+      <div className="mb-10">
+        <ToggleButton
+          defaultChecked={false}
+          title="Deluxe"
+          onChange={(e) => {
+            expandCollapse(e);
+          }}
+        />
         <div
-          className="prose text-3xl mb-5"
+          className="prose text-3xl mt-7 mb-7"
           dangerouslySetInnerHTML={{ __html: short }}
         />
         <div
@@ -53,8 +51,8 @@ export default function IntroPage() {
             ref={extendedContentRef}
           />
         </div>
-        <GoBack />
-      </main>
-    </div>
+      </div>
+      <GoBack />
+    </MainLayout>
   );
 }

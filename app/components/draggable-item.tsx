@@ -56,7 +56,7 @@ export const HomepageLink = forwardRef<
   return (
     <div
       {...rest}
-      className={clsx("w-36 h-36 touch-none", {
+      className={clsx("w-36 h-36 touch-none relative", {
         "pointer-events-none": isDraggable,
       })}
       ref={ref}

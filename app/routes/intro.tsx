@@ -31,13 +31,13 @@ export default function IntroPage() {
       <div className="mb-10">
         <ToggleButton
           defaultChecked={false}
-          title="Full bio"
+          title="Deluxe"
           onChange={(e) => {
             expandCollapse(e);
           }}
         />
         <div
-          className="prose text-3xl mt-3 mb-7"
+          className="prose text-3xl mt-7 mb-7"
           dangerouslySetInnerHTML={{ __html: short }}
         />
         <div

@@ -28,7 +28,7 @@ export default function IntroPage() {
 
   return (
     <MainLayout>
-      <div className="mb-3">
+      <div className="mb-10">
         <ToggleButton
           defaultChecked={false}
           title="Full bio"

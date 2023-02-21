@@ -59,7 +59,7 @@ export default function CollectiblesPage() {
           clickable.
         </Paragraph>
 
-        <div className="pb-10 grid sm:grid-cols-2 md:grid-cols-3 gap-6 justify-items-center items-center">
+        <div className="mb-10 grid sm:grid-cols-2 md:grid-cols-3 gap-6 justify-items-center items-center">
           {images.map((i, index) => (
             <ExternalLink
               className="relative"

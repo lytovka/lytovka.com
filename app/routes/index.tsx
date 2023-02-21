@@ -15,6 +15,7 @@ import {
   localStorageSetItem,
 } from "~/utils/local-storage";
 import { DraggableItem, HomepageLink } from "~/components/draggable-item";
+import MainLayout from "~/components/main-layout";
 
 const HOMEPAGE_LINKS: Array<{
   title: string;
@@ -157,33 +158,31 @@ export default function Index() {
   };
 
   return (
-    <div className="flex-1">
-      <main className="flex-1 inline-flex flex-col z-10">
-        {show
-          ? HOMEPAGE_LINKS.map((item, key) => (
-              <DraggableItem
-                defaultPosition={defaultPositions[key]}
-                key={key}
-                onDrag={onDrag}
-                onStart={onStart}
-                onStop={onStop}
-              >
-                <HomepageLink
-                  data-index={key}
-                  href={item.href}
-                  imgSrc={item.imgSrc}
-                  isDraggable={drag}
-                  ref={(el) => el && draggableElementRefs.current[key]}
-                  style={{ zIndex: zIndexes[key] }}
-                  title={item.title}
-                  onPointerUp={(e) => {
-                    handleOnPointerEndCapture(e, item.href);
-                  }}
-                />
-              </DraggableItem>
-            ))
-          : null}
-      </main>
-    </div>
+    <MainLayout>
+      {show
+        ? HOMEPAGE_LINKS.map((item, key) => (
+            <DraggableItem
+              defaultPosition={defaultPositions[key]}
+              key={key}
+              onDrag={onDrag}
+              onStart={onStart}
+              onStop={onStop}
+            >
+              <HomepageLink
+                data-index={key}
+                href={item.href}
+                imgSrc={item.imgSrc}
+                isDraggable={drag}
+                ref={(el) => el && draggableElementRefs.current[key]}
+                style={{ zIndex: zIndexes[key] }}
+                title={item.title}
+                onPointerUp={(e) => {
+                  handleOnPointerEndCapture(e, item.href);
+                }}
+              />
+            </DraggableItem>
+          ))
+        : null}
+    </MainLayout>
   );
 }

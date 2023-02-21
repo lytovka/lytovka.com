@@ -1,4 +1,5 @@
 import { useMatches } from "@remix-run/react";
+import { H1, Paragraph } from "./typography";
 
 type ErrorPageProps = {
   title: string;
@@ -9,8 +10,8 @@ function ErrorPage({ title, subtitle }: ErrorPageProps) {
   return (
     <main className="h-screen">
       <div className="h-full flex items-center justify-center flex-col">
-        <h1 className="font-medium text-4xl mb-2">{title}</h1>
-        <p className="font-medium text-xl">{subtitle}</p>
+        <H1>{title}</H1>
+        <Paragraph>{subtitle}</Paragraph>
       </div>
     </main>
   );

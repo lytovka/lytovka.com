@@ -9,6 +9,7 @@ import { ExternalLink } from "~/components/external-link";
 import type { LinksFunction } from "@remix-run/server-runtime";
 import { useDeviceType } from "~/hooks/useDeviceType";
 import { ServerError } from "~/components/errors";
+import { Paragraph } from "~/components/typography";
 
 export const loader = async (_: LoaderArgs) => {
   return json(
@@ -22,7 +23,13 @@ export const loader = async (_: LoaderArgs) => {
       "3539EbNgIdEDGBKkUf4wno",
       "1To7kv722A8SpZF789MZy7",
       "0u3Rl4KquP15smujFrgGz4",
-    ])
+    ]),
+    // Cache Spotify response for 24 hours since it doesn't change frequently.
+    {
+      headers: {
+        "Cache-Control": "max-age=86400",
+      },
+    }
   );
 };
 
@@ -47,12 +54,12 @@ export default function CollectiblesPage() {
   return (
     <div className="flex-1">
       <main className="mx-auto px-8 pb-10 sm:max-w-5xl md:max-w-7xl mb-10">
-        <h1 className="font-medium text-2xl mb-1">Collectibles</h1>
-        <p className="text-2xl text-stone-300 mb-10 italic">
-          Vinyl records I&apos;ve collected over the years.
-        </p>
+        <Paragraph className="mb-10 italic" variant="secondary">
+          Vinyl records I&apos;ve collected over the years. Images are
+          clickable.
+        </Paragraph>
 
-        <div className="pb-10 grid sm:grid-cols-2 md:grid-cols-3 gap-6 justify-items-center items-center">
+        <div className="mb-10 grid sm:grid-cols-2 md:grid-cols-3 gap-6 justify-items-center items-center">
           {images.map((i, index) => (
             <ExternalLink
               className="relative"

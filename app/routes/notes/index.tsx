@@ -29,12 +29,12 @@ export const meta: MetaFunction = ({ parentsData }) => {
 
   return {
     ...getSocialMetas({
-      title: "Notes",
-      description: "Notes on various topics. All thoughts are my own.",
+      title: "Ivan's notes",
+      description: "Notes on various topics.",
       keywords: "notes, blog, ivan lytovka, lytovka",
       url: metadataUrl,
       image: getSocialImagePreview({
-        title: "Notes",
+        title: "notes",
         url: metadataUrl,
       }),
     }),

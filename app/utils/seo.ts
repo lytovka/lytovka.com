@@ -23,7 +23,7 @@ export function getMetadataUrl(requestInfo?: { origin: string; path: string }) {
 }
 
 export function getPreviewUrl(url: string) {
-  return url.replace(/^https\/\//, "");
+  return url.replace(/^https:\/\//, "");
 }
 
 export function getSocialImagePreview({

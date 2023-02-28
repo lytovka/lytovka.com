@@ -29,15 +29,19 @@ export function getPreviewUrl(url: string) {
 export function getSocialImagePreview({
   title,
   url,
+  featuredImage,
 }: {
   title: string;
   url: string;
+  featuredImage?: string;
 }) {
   const encodedTitle = doubleEncode(title);
   const encodedUrl = doubleEncode(url);
+  const encodedFeaturedImage = featuredImage
+    ? doubleEncode(featuredImage)
+    : "l_notes_folder";
 
-  const imageSection =
-    "l_notes_folder/c_scale,h_400,w_400/fl_layer_apply,g_center";
+  const imageSection = `c_scale,h_400,w_400/fl_layer_apply,g_center/${encodedFeaturedImage}`;
 
   const titleSection = `co_rgb:FFFFFF,l_text:arial_64_normal_left:${encodedTitle}/fl_layer_apply,g_center,y_220`;
 

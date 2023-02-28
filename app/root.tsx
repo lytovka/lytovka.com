@@ -23,7 +23,8 @@ import Navbar from "./components/navbar";
 import tailwindStyles from "./styles/app.css";
 import proseStyles from "./styles/prose.css";
 import rootStyles from "./styles/root.css";
-import { getHostUrl } from "./utils/misc";
+import { getHostUrl } from "~/utils/misc";
+import DOCUMENTS_FOLDER from "~/images/home_folder.png";
 import {
   getMetadataUrl,
   getPreviewUrl,
@@ -44,6 +45,7 @@ export const meta: MetaFunction<typeof loader> = ({ data }) => {
       image: getSocialImagePreview({
         title: "homepage",
         url: getPreviewUrl(metadataUrl),
+        featuredImage: DOCUMENTS_FOLDER
       }),
     }),
   };

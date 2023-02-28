@@ -26,6 +26,7 @@ import rootStyles from "./styles/root.css";
 import { getHostUrl } from "./utils/misc";
 import {
   getMetadataUrl,
+  getPreviewUrl,
   getSocialImagePreview,
   getSocialMetas,
 } from "~/utils/seo";
@@ -41,7 +42,7 @@ export const meta: MetaFunction<typeof loader> = ({ data }) => {
       url: metadataUrl,
       image: getSocialImagePreview({
         title: "homepage",
-        url: metadataUrl,
+        url: getPreviewUrl(metadataUrl),
       }),
     }),
   };

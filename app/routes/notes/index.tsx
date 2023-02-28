@@ -8,6 +8,7 @@ import MainLayout from "~/components/main-layout";
 import { Paragraph } from "~/components/typography";
 import {
   getMetadataUrl,
+  getPreviewUrl,
   getSocialImagePreview,
   getSocialMetas,
 } from "~/utils/seo";
@@ -35,7 +36,7 @@ export const meta: MetaFunction = ({ parentsData }) => {
       url: metadataUrl,
       image: getSocialImagePreview({
         title: "notes",
-        url: metadataUrl,
+        url: getPreviewUrl(metadataUrl),
       }),
     }),
   };

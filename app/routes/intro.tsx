@@ -10,6 +10,7 @@ import ToggleButton from "~/components/toggle-button";
 import { getIntroFile } from "~/server/markdown.server";
 import {
   getMetadataUrl,
+  getPreviewUrl,
   getSocialImagePreview,
   getSocialMetas,
 } from "~/utils/seo";
@@ -27,7 +28,7 @@ export const meta: MetaFunction = ({ parentsData }) => {
       url: metadataUrl,
       image: getSocialImagePreview({
         title: "Intro",
-        url: metadataUrl,
+        url: getPreviewUrl(metadataUrl),
       }),
     }),
   };

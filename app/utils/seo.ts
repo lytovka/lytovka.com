@@ -22,6 +22,10 @@ export function getMetadataUrl(requestInfo?: { origin: string; path: string }) {
   return final;
 }
 
+export function getPreviewUrl(url: string) {
+  return url.replace(/^https\/\//, "");
+}
+
 export function getSocialImagePreview({
   title,
   url,

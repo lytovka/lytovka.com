@@ -11,6 +11,7 @@ import GoBack from "~/components/go-back";
 import type { RootLoaderData } from "~/root";
 import {
   getMetadataUrl,
+  getPreviewUrl,
   getSocialImagePreview,
   getSocialMetas,
 } from "~/utils/seo";
@@ -28,7 +29,7 @@ export const meta: MetaFunction<typeof loader> = ({ data, parentsData }) => {
       url: metadataUrl,
       image: getSocialImagePreview({
         title,
-        url: metadataUrl,
+        url: getPreviewUrl(metadataUrl),
       }),
     }),
   };

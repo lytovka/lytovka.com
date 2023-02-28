@@ -13,6 +13,7 @@ import { ServerError } from "~/components/errors";
 import { Paragraph } from "~/components/typography";
 import {
   getMetadataUrl,
+  getPreviewUrl,
   getSocialImagePreview,
   getSocialMetas,
 } from "~/utils/seo";
@@ -30,7 +31,7 @@ export const meta: MetaFunction = ({ parentsData }) => {
       url: metadataUrl,
       image: getSocialImagePreview({
         title: "collectibles",
-        url: metadataUrl,
+        url: getPreviewUrl(metadataUrl),
       }),
     }),
   };

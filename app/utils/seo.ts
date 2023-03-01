@@ -46,9 +46,9 @@ export function getSocialImagePreview({
   const titleSection = `co_rgb:FFFFFF,l_text:arial_64_normal_left:${encodedTitle}/fl_layer_apply,g_center,y_220`;
 
   const ivanNameSection =
-    "co_rgb:A1A1AA,l_text:arial_64_normal_left:Ivan%20Lytovka/fl_layer_apply,g_south_west,x_100,y_220";
+    "co_rgb:A1A1AA,l_text:arial_88_normal_left:Ivan%20Lytovka/fl_layer_apply,g_south_west,x_100,y_250";
 
-  const urlSection = `co_rgb:A1A1AA,l_text:arial_42_normal_left:${encodedUrl}/fl_layer_apply,g_south_west,x_100,y_170`;
+  const urlSection = `co_rgb:A1A1AA,l_text:arial_64_normal_left:${encodedUrl}/fl_layer_apply,g_south_west,x_100,y_200`;
 
   return [
     CLOUDINARY_BASE_URL,

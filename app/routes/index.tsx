@@ -5,8 +5,8 @@ import type { DraggableData, DraggableEvent } from "react-draggable";
 
 import { LYT_STORAGE_KEY, LINK_HEIGHT_PX, LINK_WIDTH_PX } from "~/constants";
 import useWindowSize from "~/hooks/useWindowSize";
-import DOCUMENTS_FOLDER from "~/images/home_folder.png";
-import MUSIC_FOLDER from "~/images/folder-teal-music.svg";
+import DOCUMENTS_FOLDER from "~/images/folder-documents.svg";
+import MUSIC_FOLDER from "~/images/folder-music.svg";
 import FILE_TEXT from "~/images/file-text.svg";
 import type { Position, Positions } from "~/typings/Coordinates";
 import { replaceAt } from "~/utils/array";

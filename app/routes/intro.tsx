@@ -3,10 +3,37 @@ import type { LoaderArgs } from "@remix-run/server-runtime";
 import { json } from "@remix-run/server-runtime";
 import type { ChangeEvent } from "react";
 import { useRef } from "react";
+import type { MetaFunction } from "@remix-run/server-runtime";
 import GoBack from "~/components/go-back";
 import MainLayout from "~/components/main-layout";
 import ToggleButton from "~/components/toggle-button";
 import { getIntroFile } from "~/server/markdown.server";
+import {
+  getMetadataUrl,
+  getPreviewUrl,
+  getSocialImagePreview,
+  getSocialMetas,
+} from "~/utils/seo";
+import type { RootLoaderData } from "~/root";
+
+export const meta: MetaFunction = ({ parentsData }) => {
+  const { requestInfo } = parentsData.root as RootLoaderData;
+  const metadataUrl = getMetadataUrl(requestInfo);
+
+  return {
+    ...getSocialMetas({
+      title: "Ivan's Intro",
+      description: "Get to know Ivan via this brief intro.",
+      keywords: "intro, ivan, ivan lytovka, lytovka",
+      url: metadataUrl,
+      image: getSocialImagePreview({
+        title: "intro",
+        url: getPreviewUrl(metadataUrl),
+        featuredImage: "intro",
+      }),
+    }),
+  };
+};
 
 export const loader = async (_: LoaderArgs) => {
   const result = await getIntroFile();

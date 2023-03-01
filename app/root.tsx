@@ -8,15 +8,14 @@ import {
   useCatch,
   useLoaderData,
 } from "@remix-run/react";
-import type {
-  LinksFunction,
-  LoaderFunction,
-  MetaFunction,
-} from "@remix-run/server-runtime";
 import { json } from "@remix-run/server-runtime";
-
+import type {
+  SerializeFrom,
+  DataFunctionArgs,
+  MetaFunction,
+  LinksFunction,
+} from "@remix-run/node";
 import favicon from "~/images/favicon.png";
-import featuredImage from "~/images/featured_image.png";
 import { getEnv } from "~/utils/env.server";
 import { FourOhFour } from "./components/errors";
 import Footer from "./components/footer";
@@ -24,19 +23,29 @@ import Navbar from "./components/navbar";
 import tailwindStyles from "./styles/app.css";
 import proseStyles from "./styles/prose.css";
 import rootStyles from "./styles/root.css";
+import { getHostUrl } from "~/utils/misc";
+import {
+  getMetadataUrl,
+  getPreviewUrl,
+  getSocialImagePreview,
+  getSocialMetas,
+} from "~/utils/seo";
 
-export const meta: MetaFunction = () => {
-  const title = "Ivan's shared documents";
+export const meta: MetaFunction<typeof loader> = ({ data }) => {
+  const metadataUrl = getMetadataUrl(data.requestInfo);
 
   return {
     viewport: "width=device-width,initial-scale=1,viewport-fit=cover",
-    title,
-    keywords: "Ivan Lytovka,lytovka.com",
-    "og:type": "website",
-    "og:image": featuredImage,
-    "og:title": title,
-    "twitter:card": "summary_large_image",
-    "twitter:title": title,
+    ...getSocialMetas({
+      title: "Ivan Lytovka",
+      description: "Ivan's homepage.",
+      keywords: "ivan lytovka, lytovka, homepage, blog",
+      url: metadataUrl,
+      image: getSocialImagePreview({
+        url: getPreviewUrl(metadataUrl),
+        featuredImage: "homepage",
+      }),
+    }),
   };
 };
 
@@ -58,20 +67,22 @@ export const links: LinksFunction = () => {
   ];
 };
 
-type LoaderData = {
-  ENV: ReturnType<typeof getEnv>;
-};
+export type RootLoaderData = SerializeFrom<typeof loader>;
 
-export const loader: LoaderFunction = () => {
-  const data: LoaderData = {
+export const loader = ({ request }: DataFunctionArgs) => {
+  const data = {
     ENV: getEnv(),
+    requestInfo: {
+      path: new URL(request.url).pathname,
+      origin: getHostUrl(request),
+    },
   };
 
   return json(data);
 };
 
 export default function App() {
-  const data = useLoaderData<LoaderData>();
+  const data = useLoaderData<RootLoaderData>();
 
   return (
     <html lang="en">

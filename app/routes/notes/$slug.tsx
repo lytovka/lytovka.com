@@ -3,22 +3,35 @@ import { json } from "@remix-run/server-runtime";
 import type { MetaFunction, LoaderArgs } from "@remix-run/server-runtime";
 
 import { FourOhFour, ServerError } from "~/components/errors";
-import type { Note } from "~/server/markdown.server";
 import { getSlugContent } from "~/server/markdown.server";
 import { dateFormatter } from "~/utils/date";
 import MainLayout from "~/components/main-layout";
 import { Paragraph } from "~/components/typography";
 import GoBack from "~/components/go-back";
+import type { RootLoaderData } from "~/root";
+import {
+  getMetadataUrl,
+  getPreviewUrl,
+  getSocialImagePreview,
+  getSocialMetas,
+} from "~/utils/seo";
 
-export const meta: MetaFunction = ({ data }: { data: Note | null }) => {
-  if (!data) {
-    return {
-      title: "No post found",
-    };
-  }
+export const meta: MetaFunction<typeof loader> = ({ data, parentsData }) => {
+  const { requestInfo } = parentsData.root as RootLoaderData;
+  const metadataUrl = getMetadataUrl(requestInfo);
+  const title = data.attributes.title;
 
   return {
-    title: `${data.attributes.title}`,
+    ...getSocialMetas({
+      title,
+      description: "A note.",
+      keywords: "note, notes, ivan lytovka, lytovka",
+      url: metadataUrl,
+      image: getSocialImagePreview({
+        title,
+        url: getPreviewUrl(metadataUrl),
+      }),
+    }),
   };
 };
 

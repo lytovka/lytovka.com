@@ -1,11 +1,18 @@
 import { Link, useLoaderData } from "@remix-run/react";
-import type { LoaderArgs } from "@remix-run/server-runtime";
+import type { LoaderArgs, MetaFunction } from "@remix-run/server-runtime";
 import { json } from "@remix-run/server-runtime";
 import GoBack from "~/components/go-back";
 import { dateFormatter } from "~/utils/date";
 import { fetchAllContent } from "~/server/markdown.server";
 import MainLayout from "~/components/main-layout";
 import { Paragraph } from "~/components/typography";
+import {
+  getMetadataUrl,
+  getPreviewUrl,
+  getSocialImagePreview,
+  getSocialMetas,
+} from "~/utils/seo";
+import type { RootLoaderData } from "~/root";
 
 export const loader = async (_: LoaderArgs) => {
   const results = await fetchAllContent();
@@ -15,6 +22,25 @@ export const loader = async (_: LoaderArgs) => {
   }));
 
   return json(newDates);
+};
+
+export const meta: MetaFunction = ({ parentsData }) => {
+  const { requestInfo } = parentsData.root as RootLoaderData;
+  const metadataUrl = getMetadataUrl(requestInfo);
+
+  return {
+    ...getSocialMetas({
+      title: "Ivan's notes",
+      description: "Notes on various topics.",
+      keywords: "notes, blog, ivan lytovka, lytovka",
+      url: metadataUrl,
+      image: getSocialImagePreview({
+        title: "notes",
+        url: getPreviewUrl(metadataUrl),
+        featuredImage: "notes",
+      }),
+    }),
+  };
 };
 
 export default function NotesRoute() {
@@ -31,9 +57,9 @@ export default function NotesRoute() {
             className="flex flex-col text-2xl pr-3 pt-3 pb-3 md:items-center md:flex-row md:gap-7"
             key={key}
           >
-            <span className="text-xl text-white">{post.date}</span>
+            <span className="opacity-75 text-3xl text-white">{post.date}</span>
             <Link
-              className="text-slate-300 text-3xl underline hover:opacity-75 hover:transition-opacity"
+              className="no-underline text-white text-3xl hover:opacity-75 hover:transition-opacity"
               to={`/notes${post.attributes.slug}`}
             >
               {post.attributes.title}

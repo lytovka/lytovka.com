@@ -23,10 +23,6 @@
   h5,
   h6,
   p {
-    @apply m-0 p-0 border-0 outline-0 align-baseline text-white;
-  }
-
-  p {
-    @apply font-noto-mono;
+    @apply font-noto-mono m-0 p-0 border-0 outline-0 align-baseline text-white;
   }
 }

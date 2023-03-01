@@ -8,7 +8,7 @@ type SocialMeta = {
   url: string;
 };
 
-const featureImageIds = {
+const featureImageKeys: Record<string, string> = {
   homepage: "l_folder-documents",
   intro: "l_file-text",
   collectibles: "l_folder-music",
@@ -36,15 +36,17 @@ export function getPreviewUrl(url: string) {
 export function getSocialImagePreview({
   title,
   url,
-  featuredImage,
+  featuredImage: imgKey,
 }: {
   title?: string;
   url: string;
-  featuredImage?: keyof typeof featureImageIds;
+  featuredImage?: keyof typeof featureImageKeys;
 }) {
   const encodedTitle = title ? doubleEncode(title) : null;
   const encodedUrl = doubleEncode(url);
-  const encodedImage = doubleEncode(featuredImage ?? "l_folder-documents");
+  const encodedImage = doubleEncode(
+    featureImageKeys[imgKey ?? featureImageKeys.homepage]
+  );
 
   const imageSection = `${encodedImage}/c_scale,h_400,w_400/fl_layer_apply,g_center`;
 

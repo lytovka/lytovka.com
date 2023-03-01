@@ -8,6 +8,13 @@ type SocialMeta = {
   url: string;
 };
 
+const featureImageIds = {
+  homepage: "l_folder-documents",
+  intro: "l_file-text",
+  collectibles: "l_folder-music",
+  notes: "l_folder-documents",
+};
+
 // cloudinary needs double-encoding
 function doubleEncode(s: string) {
   return encodeURIComponent(encodeURIComponent(s));
@@ -31,24 +38,24 @@ export function getSocialImagePreview({
   url,
   featuredImage,
 }: {
-  title: string;
+  title?: string;
   url: string;
-  featuredImage?: string;
+  featuredImage?: keyof typeof featureImageIds;
 }) {
-  const encodedTitle = doubleEncode(title);
+  const encodedTitle = title ? doubleEncode(title) : null;
   const encodedUrl = doubleEncode(url);
-  const encodedFeaturedImage = featuredImage
-    ? doubleEncode(featuredImage)
-    : "l_notes_folder";
+  const encodedImage = doubleEncode(featuredImage ?? "l_folder-documents");
 
-  const imageSection = `c_scale,h_400,w_400/fl_layer_apply,g_center/${encodedFeaturedImage}`;
+  const imageSection = `${encodedImage}/c_scale,h_400,w_400/fl_layer_apply,g_center`;
 
-  const titleSection = `co_rgb:FFFFFF,l_text:arial_64_normal_left:${encodedTitle}/fl_layer_apply,g_center,y_220`;
+  const titleSection = encodedTitle
+    ? `co_rgb:FFFFFF,l_text:arial_64_normal_left:${encodedTitle}/fl_layer_apply,g_center,y_220`
+    : null;
 
   const ivanNameSection =
     "co_rgb:A1A1AA,l_text:arial_88_normal_left:Ivan%20Lytovka/fl_layer_apply,g_south_west,x_100,y_250";
 
-  const urlSection = `co_rgb:A1A1AA,l_text:arial_64_normal_left:${encodedUrl}/fl_layer_apply,g_south_west,x_100,y_200`;
+  const urlSection = `co_rgb:A1A1AA,l_text:arial_64_normal_left:${encodedUrl}/fl_layer_apply,g_south_west,x_100,y_180`;
 
   return [
     CLOUDINARY_BASE_URL,
@@ -58,7 +65,9 @@ export function getSocialImagePreview({
     ivanNameSection,
     urlSection,
     "background.jpg", // background that's uploaded to cloudinary
-  ].join("/");
+  ]
+    .filter(Boolean)
+    .join("/");
 }
 
 export function getSocialMetas({

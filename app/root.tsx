@@ -24,7 +24,6 @@ import tailwindStyles from "./styles/app.css";
 import proseStyles from "./styles/prose.css";
 import rootStyles from "./styles/root.css";
 import { getHostUrl } from "~/utils/misc";
-import DOCUMENTS_FOLDER from "~/images/folder-documents.svg";
 import {
   getMetadataUrl,
   getPreviewUrl,
@@ -43,9 +42,8 @@ export const meta: MetaFunction<typeof loader> = ({ data }) => {
       keywords: "ivan lytovka, lytovka, homepage, blog",
       url: metadataUrl,
       image: getSocialImagePreview({
-        title: "homepage",
         url: getPreviewUrl(metadataUrl),
-        featuredImage: DOCUMENTS_FOLDER,
+        featuredImage: "homepage",
       }),
     }),
   };

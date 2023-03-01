@@ -32,6 +32,7 @@ export const meta: MetaFunction = ({ parentsData }) => {
       image: getSocialImagePreview({
         title: "collectibles",
         url: getPreviewUrl(metadataUrl),
+        featuredImage: "collectibles",
       }),
     }),
   };

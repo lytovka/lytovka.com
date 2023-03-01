@@ -27,8 +27,9 @@ export const meta: MetaFunction = ({ parentsData }) => {
       keywords: "intro, ivan, ivan lytovka, lytovka",
       url: metadataUrl,
       image: getSocialImagePreview({
-        title: "Intro",
+        title: "intro",
         url: getPreviewUrl(metadataUrl),
+        featuredImage: "intro",
       }),
     }),
   };

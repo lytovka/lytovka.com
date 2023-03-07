@@ -32,9 +32,9 @@ function Navbar() {
     | undefined;
 
   return (
-    <div className="z-30 px-5 py-9">
+    <div className="px-5 py-9">
       <nav className="flex justify-center">
-        <H1>{getNavbarTitle(pathname, noteMatch?.data.attributes.title)}</H1>
+        <H1 className="z-30">{getNavbarTitle(pathname, noteMatch?.data.attributes.title)}</H1>
       </nav>
     </div>
   );

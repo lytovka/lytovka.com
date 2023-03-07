@@ -3,28 +3,28 @@ import { INSTAGRAM_LINK, TELEGRAM_LINK, GITHUB_LINK } from "~/constants";
 
 function Footer() {
   return (
-    <footer className="flex flex-col items-center py-9 text-xl z-30">
+    <footer className="flex flex-col items-center py-9 text-xl">
       <div className="flex gap-4 text-zinc-200">
         <ExternalLink
-          className="hover:opacity-75 transition-opacity"
+          className="hover:opacity-75 transition-opacity z-30"
           href={GITHUB_LINK}
           rel="noreferrer noopener"
           target="_blank"
         >
           GitHub
         </ExternalLink>
-        <span>/</span>
+        <span className="z-30">/</span>
         <ExternalLink
-          className="hover:opacity-75 transition-opacity"
+          className="hover:opacity-75 transition-opacity z-30"
           href={INSTAGRAM_LINK}
           rel="noreferrer noopener"
           target="_blank"
         >
           Instagram
         </ExternalLink>
-        <span>/</span>
+        <span className="z-30">/</span>
         <ExternalLink
-          className="hover:opacity-75 transition-opacity"
+          className="hover:opacity-75 transition-opacity z-30"
           href={TELEGRAM_LINK}
           rel="noreferrer noopener"
           target="_blank"
@@ -32,7 +32,7 @@ function Footer() {
           Telegram
         </ExternalLink>
       </div>
-      <div className="mt-2 text-zinc-400">
+      <div className="mt-2 text-zinc-400 z-30">
         MIT © Ivan Lytovka 2022-{new Date().getFullYear()}
       </div>
     </footer>

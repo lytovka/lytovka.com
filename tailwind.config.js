@@ -1,3 +1,5 @@
+const defaultTheme = require("tailwindcss/defaultTheme");
+
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: ["./app/**/*.{js,ts,jsx,tsx}"],
@@ -10,7 +12,7 @@ module.exports = {
         "base-10": "62.5%",
       },
       fontFamily: {
-        "noto-mono": "Noto Mono, sans-serif",
+        sans: ["JetBrainsMono", ...defaultTheme.fontFamily.sans],
       },
       maxWidth: {
         "8xl": "120rem",

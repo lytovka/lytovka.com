@@ -30,6 +30,8 @@ import {
   getSocialImagePreview,
   getSocialMetas,
 } from "~/utils/seo";
+import jet from "~/fonts/JetBrainsMono-Regular.ttf";
+import jetb from "~/fonts/JetBrainsMono-Bold.ttf";
 
 export const meta: MetaFunction<typeof loader> = ({ data }) => {
   const metadataUrl = getMetadataUrl(data.requestInfo);
@@ -51,6 +53,20 @@ export const meta: MetaFunction<typeof loader> = ({ data }) => {
 
 export const links: LinksFunction = () => {
   return [
+    {
+      rel: "preload",
+      as: "font",
+      href: jet,
+      type: "font/ttf",
+      crossOrigin: "anonymous",
+    },
+    {
+      rel: "preload",
+      as: "font",
+      href: jetb,
+      type: "font/ttf",
+      crossOrigin: "anonymous",
+    },
     {
       rel: "stylesheet",
       href: tailwindStyles,

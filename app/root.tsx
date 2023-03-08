@@ -15,7 +15,6 @@ import type {
   MetaFunction,
   LinksFunction,
 } from "@remix-run/node";
-import favicon from "~/images/favicon.png";
 import { getEnv } from "~/utils/env.server";
 import { FourOhFour } from "./components/errors";
 import Footer from "./components/footer";
@@ -77,7 +76,7 @@ export const links: LinksFunction = () => {
       rel: "stylesheet",
       href: rootStyles,
     },
-    { rel: "icon", href: favicon },
+    { rel: "icon", href: "/images/favicon.png" },
   ];
 };
 

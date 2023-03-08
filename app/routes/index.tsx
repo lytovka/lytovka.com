@@ -5,9 +5,6 @@ import type { DraggableData, DraggableEvent } from "react-draggable";
 
 import { LYT_STORAGE_KEY, LINK_HEIGHT_PX, LINK_WIDTH_PX } from "~/constants";
 import useWindowSize from "~/hooks/useWindowSize";
-import DOCUMENTS_FOLDER from "~/images/folder-documents.svg";
-import MUSIC_FOLDER from "~/images/folder-music.svg";
-import FILE_TEXT from "~/images/file-text.svg";
 import type { Position, Positions } from "~/typings/Coordinates";
 import { replaceAt } from "~/utils/array";
 import {
@@ -27,19 +24,19 @@ const HOMEPAGE_LINKS: Array<{
     title: "notes",
     href: "/notes",
     position: [0.55, 0.15],
-    imgSrc: DOCUMENTS_FOLDER,
+    imgSrc: "/images/folder-documents.svg",
   },
   {
     title: "collectibles",
     href: "/collectibles",
     position: [0.25, 0.2],
-    imgSrc: MUSIC_FOLDER,
+    imgSrc: "/images/folder-music.svg",
   },
   {
     title: "intro.txt",
     href: "/intro",
     position: [0.5, 0.35],
-    imgSrc: FILE_TEXT,
+    imgSrc: "/images/file-text.svg",
   },
 ];
 

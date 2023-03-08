@@ -5,6 +5,7 @@ import { Link } from "@remix-run/react";
 import type { PropsWithChildren } from "react";
 import type { DraggableProps } from "react-draggable";
 import type { Position } from "~/typings/Coordinates";
+import { Paragraph } from "./typography";
 
 type DraggableItemExtra = {
   defaultPosition: Position;
@@ -71,7 +72,7 @@ export const HomepageLink = forwardRef<
           className="w-auto h-28 decoration-none"
           src={imgSrc}
         />
-        <p className="text-2xl text-center">{title}</p>
+        <Paragraph className="text-center">{title}</Paragraph>
       </Link>
     </div>
   );

@@ -15,7 +15,6 @@ import type {
   MetaFunction,
   LinksFunction,
 } from "@remix-run/node";
-import favicon from "~/images/favicon.png";
 import { getEnv } from "~/utils/env.server";
 import { FourOhFour } from "./components/errors";
 import Footer from "./components/footer";
@@ -52,6 +51,20 @@ export const meta: MetaFunction<typeof loader> = ({ data }) => {
 export const links: LinksFunction = () => {
   return [
     {
+      rel: "preload",
+      as: "font",
+      href: "/fonts/JetBrainsMono-Regular.ttf",
+      type: "font/ttf",
+      crossOrigin: "anonymous",
+    },
+    {
+      rel: "preload",
+      as: "font",
+      href: "/fonts/JetBrainsMono-Bold.ttf",
+      type: "font/ttf",
+      crossOrigin: "anonymous",
+    },
+    {
       rel: "stylesheet",
       href: tailwindStyles,
     },
@@ -63,7 +76,7 @@ export const links: LinksFunction = () => {
       rel: "stylesheet",
       href: rootStyles,
     },
-    { rel: "icon", href: favicon },
+    { rel: "icon", href: "/images/favicon.png" },
   ];
 };
 

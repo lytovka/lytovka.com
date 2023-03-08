@@ -34,7 +34,7 @@ function Navbar() {
   return (
     <div className="px-5 py-9">
       <nav className="flex justify-center">
-        <H1 className="z-30">
+        <H1 className="z-30" size="sm">
           {getNavbarTitle(pathname, noteMatch?.data.attributes.title)}
         </H1>
       </nav>

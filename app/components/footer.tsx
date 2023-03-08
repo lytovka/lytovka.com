@@ -1,5 +1,6 @@
 import { ExternalLink } from "./external-link";
 import { INSTAGRAM_LINK, TELEGRAM_LINK, GITHUB_LINK } from "~/constants";
+import { Paragraph } from "./typography";
 
 function Footer() {
   return (
@@ -32,9 +33,9 @@ function Footer() {
           Telegram
         </ExternalLink>
       </div>
-      <div className="mt-2 text-zinc-400 z-30">
+      <Paragraph className="mt-2 text-zinc-400 z-30">
         MIT © Ivan Lytovka 2022-{new Date().getFullYear()}
-      </div>
+      </Paragraph>
     </footer>
   );
 }

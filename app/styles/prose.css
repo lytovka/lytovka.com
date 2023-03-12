@@ -25,7 +25,8 @@
   color: var(--typography-light-anchor);
 }
 
-.prose a:hover {
+.prose a:hover,
+.prose a:focus {
   color: var(--typography-light-anchor-hover);
 }
 

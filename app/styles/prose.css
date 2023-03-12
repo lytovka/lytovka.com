@@ -1,54 +1,32 @@
 .prose {
-  --typography-light-heading: #f0f0f0;
-  --typography-light-paragraph: #dadada;
+  --typography-light-heading: #f1f1f1;
+  --typography-light-paragraph: #cacaca;
+  --typography-light-anchor: #f1f1f1;
+  --typography-light-anchor-hover: #d0d0d0;
 }
 
 .prose h1 {
   color: var(--typography-light-heading);
-  font-weight: 800;
-  font-size: 2.25rem;
-  margin-top: 0;
-  margin-bottom: 0.8rem;
 }
 
 .prose h2 {
   color: var(--typography-light-heading);
-  font-weight: 700;
-  font-size: 2rem;
-  margin-top: 0;
-  margin-bottom: 0.7rem;
 }
 
 .prose h3 {
   color: var(--typography-light-heading);
-  font-weight: 600;
-  font-size: 1.8rem;
-  margin-top: 0;
-  margin-bottom: 0.7rem;
 }
 
 .prose p {
   color: var(--typography-light-paragraph);
-  font-weight: 400;
 }
 
 .prose a {
-  color: inherit;
-  opacity: 0.75;
-  text-decoration-line: none;
-  border-bottom-width: 1px;
-  transition-property: opacity;
-  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-  transition-duration: 150ms;
+  color: var(--typography-light-anchor);
 }
 
 .prose a:hover {
-  opacity: 1;
-}
-
-.prose strong {
-  color: inherit;
-  font-weight: 600;
+  color: var(--typography-light-anchor-hover);
 }
 
 .prose ul > li {

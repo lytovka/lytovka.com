@@ -39,6 +39,6 @@
   h5,
   h6,
   p {
-    @apply m-0 p-0 border-0 outline-0 align-baseline text-white;
+    @apply m-0 p-0 border-0 outline-0 align-baseline;
   }
 }

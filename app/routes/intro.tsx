@@ -63,11 +63,11 @@ export default function IntroPage() {
             expandCollapse(e);
           }}
         />
-        <div
-          className="prose text-3xl mt-7 mb-7"
+        <article
+          className="prose prose-neutral text-3xl mt-7 mb-7"
           dangerouslySetInnerHTML={{ __html: short }}
         />
-        <div
+        <article
           className="transition-height overflow-hidden mb-5"
           ref={root}
           style={{ height: 0 }}
@@ -77,7 +77,7 @@ export default function IntroPage() {
             dangerouslySetInnerHTML={{ __html: extended }}
             ref={extendedContentRef}
           />
-        </div>
+        </article>
       </div>
       <GoBack />
     </MainLayout>

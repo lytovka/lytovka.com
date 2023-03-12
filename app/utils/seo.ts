@@ -48,7 +48,7 @@ export function getSocialImagePreview({
     featureImageKeys[imgKey ?? featureImageKeys.homepage]
   );
 
-  const imageSection = `${encodedImage}/c_scale,h_400,w_400/fl_layer_apply,g_center`;
+  const imageSection = `${encodedImage}/c_scale,h_350,w_350/fl_layer_apply,g_center`;
 
   const titleSection = encodedTitle
     ? `co_rgb:FFFFFF,l_text:arial_64_normal_left:${encodedTitle}/fl_layer_apply,g_center,y_220`

@@ -69,7 +69,7 @@ export const HomepageLink = forwardRef<
       >
         <img
           aria-label="folder"
-          className="w-auto h-28 decoration-none"
+          className="decoration-none"
           src={imgSrc}
         />
         <Paragraph className="text-center">{title}</Paragraph>

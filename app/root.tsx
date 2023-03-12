@@ -76,7 +76,7 @@ export const links: LinksFunction = () => {
       rel: "stylesheet",
       href: rootStyles,
     },
-    { rel: "icon", href: "/images/favicon.png" },
+    { rel: "icon", href: "/images/favicon.ico" },
   ];
 };
 

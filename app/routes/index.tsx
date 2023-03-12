@@ -94,34 +94,6 @@ export default function Index() {
     setShow(true);
   }, [windowSize]);
 
-  useEffect(() => {
-    const listener = () => {
-      triggerMouseEvent(draggableElementRefs.current, "mouseover");
-      triggerMouseEvent(draggableElementRefs.current, "mousedown");
-      triggerMouseEvent(draggableElementRefs.current, "mousemove");
-      triggerMouseEvent(draggableElementRefs.current, "mouseup");
-      triggerMouseEvent(draggableElementRefs.current, "click");
-    };
-    addEventListener("resize", listener);
-
-    return () => {
-      removeEventListener("resize", listener);
-    };
-  }, []);
-
-  const triggerMouseEvent = (
-    elements: Array<HTMLDivElement>,
-    eventType: string
-  ) => {
-    const mouseEvent = new Event(eventType, {
-      bubbles: true,
-      cancelable: true,
-    });
-    for (const element of elements) {
-      element.dispatchEvent(mouseEvent);
-    }
-  };
-
   const onStart = (_e: DraggableEvent, data: DraggableData) => {
     const { index } = data.node.dataset;
     if (!index) return;

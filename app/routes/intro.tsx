@@ -58,7 +58,7 @@ export default function IntroPage() {
       <div className="mb-10">
         <ToggleButton
           defaultChecked={false}
-          title="Deluxe"
+          title="Long"
           onChange={(e) => {
             expandCollapse(e);
           }}

@@ -8,12 +8,13 @@ type SocialMeta = {
   url: string;
 };
 
-const featureImageKeys: Record<string, string> = {
+const featureImageKeys = {
   homepage: "l_folder-documents",
   intro: "l_file-text",
   collectibles: "l_folder-music",
   notes: "l_folder-documents",
-};
+  note: "l_file-text",
+} as const;
 
 // cloudinary needs double-encoding
 function doubleEncode(s: string) {
@@ -44,9 +45,7 @@ export function getSocialImagePreview({
 }) {
   const encodedTitle = title ? doubleEncode(title) : null;
   const encodedUrl = doubleEncode(url);
-  const encodedImage = doubleEncode(
-    featureImageKeys[imgKey ?? featureImageKeys.homepage]
-  );
+  const encodedImage = doubleEncode(featureImageKeys[imgKey ?? "homepage"]);
 
   const imageSection = `${encodedImage}/c_scale,h_350,w_350/fl_layer_apply,g_center`;
 

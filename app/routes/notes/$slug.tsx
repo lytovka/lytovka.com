@@ -30,6 +30,7 @@ export const meta: MetaFunction<typeof loader> = ({ data, parentsData }) => {
       image: getSocialImagePreview({
         title,
         url: getPreviewUrl(metadataUrl),
+        featuredImage: "note",
       }),
     }),
   };

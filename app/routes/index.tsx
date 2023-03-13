@@ -13,6 +13,7 @@ import {
 } from "~/utils/local-storage";
 import { DraggableItem, HomepageLink } from "~/components/draggable-item";
 import MainLayout from "~/components/main-layout";
+import type { LinksFunction } from "@remix-run/react/dist/routeModules";
 
 const HOMEPAGE_LINKS: Array<{
   title: string;
@@ -39,6 +40,29 @@ const HOMEPAGE_LINKS: Array<{
     imgSrc: "/images/file-text.svg",
   },
 ];
+
+export const links: LinksFunction = () => {
+  return [
+    {
+      rel: "preload",
+      as: "image",
+      href: "/images/folder-documents.svg",
+      type: "image/svg+xml",
+    },
+    {
+      rel: "preload",
+      as: "image",
+      href: "/images/folder-music.svg",
+      type: "image/svg+xml",
+    },
+    {
+      rel: "preload",
+      as: "image",
+      href: "/images/file-text.svg",
+      type: "image/svg+xml",
+    },
+  ];
+};
 
 export default function Index() {
   const navigate = useNavigate();

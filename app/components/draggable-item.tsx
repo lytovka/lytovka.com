@@ -67,11 +67,7 @@ export const HomepageLink = forwardRef<
         prefetch="intent"
         to={href}
       >
-        <img
-          aria-label="folder"
-          className="decoration-none"
-          src={imgSrc}
-        />
+        <img aria-label="folder" className="decoration-none" src={imgSrc} />
         <Paragraph className="text-center">{title}</Paragraph>
       </Link>
     </div>

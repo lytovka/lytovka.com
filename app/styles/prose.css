@@ -1,0 +1,35 @@
+.prose {
+  --typography-light-heading: #f1f1f1;
+  --typography-light-paragraph: #cacaca;
+  --typography-light-anchor: #f1f1f1;
+  --typography-light-anchor-hover: #d0d0d0;
+}
+
+.prose h1 {
+  color: var(--typography-light-heading);
+}
+
+.prose h2 {
+  color: var(--typography-light-heading);
+}
+
+.prose h3 {
+  color: var(--typography-light-heading);
+}
+
+.prose p {
+  color: var(--typography-light-paragraph);
+}
+
+.prose a {
+  color: var(--typography-light-anchor);
+}
+
+.prose a:hover,
+.prose a:focus {
+  color: var(--typography-light-anchor-hover);
+}
+
+.prose ul > li {
+  color: var(--typography-light-paragraph);
+}

@@ -2,6 +2,22 @@
 @tailwind components;
 @tailwind utilities;
 
+@font-face {
+  font-family: "JetBrainsMono";
+  src: url("/fonts/JetBrainsMono-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "JetBrainsMono";
+  src: url("/fonts/JetBrainsMono-Bold.ttf") format("truetype");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
 @layer base {
   :root {
     --color-background: #292f34;
@@ -23,10 +39,6 @@
   h5,
   h6,
   p {
-    @apply m-0 p-0 border-0 outline-0 align-baseline text-white;
-  }
-
-  p {
-    @apply font-noto-mono;
+    @apply m-0 p-0 border-0 outline-0 align-baseline;
   }
 }

@@ -1,5 +1,5 @@
 import { useNavigate } from "@remix-run/react";
-import type { PointerEvent } from "react";
+import type { PointerEvent, ReactNode } from "react";
 import { useEffect, useRef, useState } from "react";
 import type { DraggableData, DraggableEvent } from "react-draggable";
 
@@ -13,56 +13,37 @@ import {
 } from "~/utils/local-storage";
 import { DraggableItem, HomepageLink } from "~/components/draggable-item";
 import MainLayout from "~/components/main-layout";
-import type { LinksFunction } from "@remix-run/react/dist/routeModules";
+import {
+  FileTextIcon,
+  FolderDocumentsIcon,
+  FolderMusicIcon,
+} from "~/components/icons";
 
 const HOMEPAGE_LINKS: Array<{
   title: string;
   href: string;
   position: Position;
-  imgSrc: string;
+  imgSrc: ReactNode;
 }> = [
   {
     title: "notes",
     href: "/notes",
     position: [0.55, 0.15],
-    imgSrc: "/images/folder-documents.svg",
+    imgSrc: <FolderDocumentsIcon />,
   },
   {
     title: "collectibles",
     href: "/collectibles",
     position: [0.25, 0.2],
-    imgSrc: "/images/folder-music.svg",
+    imgSrc: <FolderMusicIcon />,
   },
   {
     title: "intro.txt",
     href: "/intro",
     position: [0.5, 0.35],
-    imgSrc: "/images/file-text.svg",
+    imgSrc: <FileTextIcon />,
   },
 ];
-
-export const links: LinksFunction = () => {
-  return [
-    {
-      rel: "preload",
-      as: "image",
-      href: "/images/folder-documents.svg",
-      type: "image/svg+xml",
-    },
-    {
-      rel: "preload",
-      as: "image",
-      href: "/images/folder-music.svg",
-      type: "image/svg+xml",
-    },
-    {
-      rel: "preload",
-      as: "image",
-      href: "/images/file-text.svg",
-      type: "image/svg+xml",
-    },
-  ];
-};
 
 export default function Index() {
   const navigate = useNavigate();

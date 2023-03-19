@@ -2,7 +2,7 @@ import clsx from "clsx";
 import { forwardRef } from "react";
 import Draggable from "react-draggable";
 import { Link } from "@remix-run/react";
-import type { PropsWithChildren } from "react";
+import type { PropsWithChildren, ReactNode } from "react";
 import type { DraggableProps } from "react-draggable";
 import type { Position } from "~/typings/Coordinates";
 import { Paragraph } from "./typography";
@@ -43,7 +43,7 @@ export const DraggableItem = forwardRef<
 
 type CustomProps = {
   isDraggable: boolean;
-  imgSrc: string;
+  imgSrc: ReactNode;
   href: string;
   title: string;
 };
@@ -67,7 +67,7 @@ export const HomepageLink = forwardRef<
         prefetch="intent"
         to={href}
       >
-        <img aria-label="folder" className="decoration-none" src={imgSrc} />
+        {imgSrc}
         <Paragraph className="text-center">{title}</Paragraph>
       </Link>
     </div>

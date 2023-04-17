@@ -1,7 +1,7 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": ["config:base"],
-  "schedule": ["before 3am on the first day of the month"],
+  "schedule": ["every weekend"],
   "semanticCommits": "enabled",
   "timezone": "America/New_York",
   "packageRules": [

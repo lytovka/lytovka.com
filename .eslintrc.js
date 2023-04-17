@@ -12,9 +12,6 @@ module.exports = {
   },
   rules: {
     "no-console": "warn",
-    "no-unsafe-member-access": "off",
-    "jsx-a11y/prefer-tag-over-role": "off",
-    "@typescript-eslint/no-throw-literal": "off",
-    "@typescript-eslint/no-unsafe-argument": "off",
+    "@typescript-eslint/no-throw-literal": "off", // Remix throws objects, such as `Response`, in loaders
   },
 };

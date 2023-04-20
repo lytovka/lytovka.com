@@ -1,13 +1,15 @@
 import { useLoaderData } from "@remix-run/react";
 import { json } from "@remix-run/server-runtime";
-import type { LoaderArgs } from "@remix-run/server-runtime";
+import type {
+  LoaderArgs,
+  MetaFunction,
+  LinksFunction,
+} from "@remix-run/server-runtime";
 import collectiblesStylesheet from "~/styles/collectibles.css";
-import type { MetaFunction } from "@remix-run/server-runtime";
 
 import { getAlbumsByIds } from "~/server/spotify.server";
 import GoBack from "~/components/go-back";
 import { ExternalLink } from "~/components/external-link";
-import type { LinksFunction } from "@remix-run/server-runtime";
 import { useDeviceType } from "~/hooks/useDeviceType";
 import { ServerError } from "~/components/errors";
 import { Paragraph } from "~/components/typography";

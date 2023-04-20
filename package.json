@@ -32,7 +32,9 @@
   },
   "dependencies": {
     "@prisma/client": "4.5.0",
-    "@remix-run/react": "1.13.0",
+    "@remix-run/node": "^1.15.0",
+    "@remix-run/react": "^1.15.0",
+    "@remix-run/server-runtime": "^1.15.0",
     "@remix-run/vercel": "1.13.0",
     "clsx": "^1.2.1",
     "date-fns": "2.29.3",
@@ -46,7 +48,7 @@
     "remix": "1.13.0"
   },
   "devDependencies": {
-    "@lytovka/eslint-config": "^1.2.9",
+    "@lytovka/eslint-config": "^1.2.10",
     "@remix-run/dev": "1.13.0",
     "@remix-run/serve": "1.13.0",
     "@tailwindcss/typography": "0.5.9",

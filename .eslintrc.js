@@ -5,10 +5,15 @@ module.exports = {
     "@lytovka",
     "@lytovka/eslint-config/react",
     "@lytovka/eslint-config/jsx-a11y",
+    "@lytovka/eslint-config/import",
   ],
   parserOptions: {
     tsconfigRootDir: __dirname,
     project: "./tsconfig.json",
+  },
+  globals: {
+    JSX: "readonly",
+    SpotifyApi: "readonly",
   },
   rules: {
     "no-console": "warn",

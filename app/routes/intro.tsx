@@ -1,9 +1,8 @@
 import { useLoaderData } from "@remix-run/react";
-import type { LoaderArgs } from "@remix-run/server-runtime";
+import type { LoaderArgs, MetaFunction } from "@remix-run/server-runtime";
 import { json } from "@remix-run/server-runtime";
 import type { ChangeEvent } from "react";
 import { useRef } from "react";
-import type { MetaFunction } from "@remix-run/server-runtime";
 import GoBack from "~/components/go-back";
 import MainLayout from "~/components/main-layout";
 import ToggleButton from "~/components/toggle-button";

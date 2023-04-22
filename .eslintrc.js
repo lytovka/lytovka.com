@@ -5,7 +5,7 @@ module.exports = {
     "@lytovka",
     "@lytovka/eslint-config/react",
     "@lytovka/eslint-config/jsx-a11y",
-    // "@lytovka/eslint-config/import",
+    "@lytovka/eslint-config/import",
   ],
   parserOptions: {
     tsconfigRootDir: __dirname,

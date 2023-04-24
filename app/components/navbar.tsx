@@ -1,6 +1,7 @@
 import { useLocation, useMatches } from "@remix-run/react";
 import type { Note } from "~/server/markdown.server";
 import { H1 } from "./typography";
+import { Theme, useTheme } from "~/providers/theme";
 
 const getNavbarTitle = (path: string, noteTitle?: string) => {
   if (noteTitle) {
@@ -22,6 +23,7 @@ const getNavbarTitle = (path: string, noteTitle?: string) => {
 };
 
 function Navbar() {
+  const [_, setTheme] = useTheme();
   const { pathname } = useLocation();
   const matches = useMatches();
   //TODO: figure out if I want to have a dynamic title for the nabvar.
@@ -37,6 +39,17 @@ function Navbar() {
         <H1 className="z-30" size="sm">
           {getNavbarTitle(pathname, noteMatch?.data.attributes.title)}
         </H1>
+        <div>
+          <button
+            onClick={() => {
+              setTheme((previousTheme) =>
+                previousTheme == Theme.DARK ? Theme.LIGHT : Theme.DARK
+              );
+            }}
+          >
+            switch theme
+          </button>
+        </div>
       </nav>
     </div>
   );

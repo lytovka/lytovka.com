@@ -15,7 +15,7 @@ import type {
   MetaFunction,
   LinksFunction,
 } from "@remix-run/node";
-import { getEnv } from "~/utils/env.server";
+import { getEnv } from "~/server/env.server";
 import { FourOhFour } from "./components/errors";
 import Footer from "./components/footer";
 import Navbar from "./components/navbar";
@@ -29,6 +29,8 @@ import {
   getSocialImagePreview,
   getSocialMetas,
 } from "~/utils/seo";
+import { getThemeSession } from "./server/theme.server";
+import { ThemeProvider } from "./providers/theme";
 
 export const meta: MetaFunction<typeof loader> = ({ data }) => {
   const metadataUrl = getMetadataUrl(data.requestInfo);
@@ -82,21 +84,23 @@ export const links: LinksFunction = () => {
 
 export type RootLoaderData = SerializeFrom<typeof loader>;
 
-export const loader = ({ request }: DataFunctionArgs) => {
+export const loader = async ({ request }: DataFunctionArgs) => {
+  const themeSession = await getThemeSession(request);
+  const theme = themeSession.getTheme();
+  console.log("root loader theme:", theme);
   const data = {
     ENV: getEnv(),
     requestInfo: {
       path: new URL(request.url).pathname,
       origin: getHostUrl(request),
+      theme,
     },
   };
 
   return json(data);
 };
 
-export default function App() {
-  const data = useLoaderData<RootLoaderData>();
-
+function App({ rootLoaderData }: { rootLoaderData: RootLoaderData }) {
   return (
     <html lang="en">
       <head>
@@ -111,13 +115,24 @@ export default function App() {
         <ScrollRestoration />
         <script
           dangerouslySetInnerHTML={{
-            __html: `window.ENV = ${JSON.stringify(data.ENV)};`,
+            __html: `window.ENV = ${JSON.stringify(rootLoaderData.ENV)};`,
           }}
         />
         <Scripts />
         {process.env.NODE_ENV === "development" ? <LiveReload /> : null}
       </body>
     </html>
+  );
+}
+
+export default function AppWithProviders() {
+  const data = useLoaderData<RootLoaderData>();
+  console.log("root data:", data.requestInfo.theme);
+
+  return (
+    <ThemeProvider specifiedTheme={data.requestInfo.theme}>
+      <App rootLoaderData={data} />
+    </ThemeProvider>
   );
 }
 

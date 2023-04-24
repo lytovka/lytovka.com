@@ -13,6 +13,7 @@ import {
   getSocialMetas,
 } from "~/utils/seo";
 import type { RootLoaderData } from "~/root";
+import { useTheme } from "~/providers/theme";
 
 export const loader = async (_: LoaderArgs) => {
   const results = await fetchAllContent();
@@ -44,7 +45,9 @@ export const meta: MetaFunction = ({ parentsData }) => {
 };
 
 export default function NotesRoute() {
+  const [theme, _] = useTheme();
   const posts = useLoaderData<typeof loader>();
+  console.log({ theme });
 
   return (
     <MainLayout>

@@ -1,6 +1,7 @@
 import { createCookieSessionStorage } from "@remix-run/node";
 import { ONE_YEAR, THEME_SESSION_KEY } from "~/constants";
-import { Theme } from "~/providers/theme";
+import type { Theme} from "~/providers/theme";
+import { isTheme, themes } from "~/providers/theme";
 
 const themeSessionStorage = createCookieSessionStorage({
   cookie: {
@@ -13,12 +14,6 @@ const themeSessionStorage = createCookieSessionStorage({
   },
 });
 
-const isTheme = (theme: unknown): theme is Theme => {
-  return (
-    typeof theme === "string" && Object.values(Theme).includes(theme as Theme)
-  );
-};
-
 const getThemeSession = async (request: Request) => {
   const session = await themeSessionStorage.getSession(
     request.headers.get("Cookie")
@@ -28,8 +23,8 @@ const getThemeSession = async (request: Request) => {
     getTheme: () => {
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       const theme = session.get(THEME_SESSION_KEY);
-      
-      return isTheme(theme) ? theme : Theme.LIGHT;
+
+      return isTheme(theme) ? theme : themes.DARK;
     },
     hasTheme: () => session.has(THEME_SESSION_KEY),
     setTheme: (theme: Theme) => {

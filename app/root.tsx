@@ -31,6 +31,7 @@ import {
 } from "~/utils/seo";
 import { getThemeSession } from "./server/theme.server";
 import { ThemeProvider } from "./providers/theme";
+import clsx from "clsx";
 
 export const meta: MetaFunction<typeof loader> = ({ data }) => {
   const metadataUrl = getMetadataUrl(data.requestInfo);
@@ -101,14 +102,16 @@ export const loader = async ({ request }: DataFunctionArgs) => {
 };
 
 function App({ rootLoaderData }: { rootLoaderData: RootLoaderData }) {
+  const { theme } = rootLoaderData.requestInfo;
+
   return (
-    <html lang="en">
+    <html className={clsx({ dark: theme === "dark" })} lang="en">
       <head>
         <meta charSet="utf-8" />
         <Meta />
         <Links />
       </head>
-      <body>
+      <body className="bg-main dark:bg-main-dark">
         <Navbar />
         <Outlet />
         <Footer />

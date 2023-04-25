@@ -1,7 +1,7 @@
 import { useLocation, useMatches } from "@remix-run/react";
 import type { Note } from "~/server/markdown.server";
 import { H1 } from "./typography";
-import { Theme, useTheme } from "~/providers/theme";
+import { useTheme } from "~/providers/theme";
 
 const getNavbarTitle = (path: string, noteTitle?: string) => {
   if (noteTitle) {
@@ -43,7 +43,7 @@ function Navbar() {
           <button
             onClick={() => {
               setTheme((previousTheme) =>
-                previousTheme == Theme.DARK ? Theme.LIGHT : Theme.DARK
+                previousTheme == "dark" ? "light" : "dark"
               );
             }}
           >

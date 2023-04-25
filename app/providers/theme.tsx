@@ -2,10 +2,23 @@ import type { PropsWithChildren } from "react";
 import React from "react";
 import { useFetcher } from "@remix-run/react";
 
-enum Theme {
-  LIGHT = "light",
-  DARK = "dark",
-}
+const themes = {
+  LIGHT: "light",
+  DARK: "dark",
+} as const;
+
+const isTheme = (theme: unknown): theme is Theme => {
+  return (
+    typeof theme === "string" && Object.values(themes).includes(theme as Theme)
+  );
+};
+
+const getPreferredTheme = () =>
+  window.matchMedia("(prefers-color-scheme: dark)").matches
+    ? themes.DARK
+    : themes.LIGHT;
+
+type Theme = (typeof themes)[keyof typeof themes];
 
 type ThemeContextType = [
   Theme | null,
@@ -19,20 +32,19 @@ const ThemeContext = React.createContext<ThemeContextType | undefined>(
 interface ThemeProviderProps extends PropsWithChildren<unknown> {
   specifiedTheme: Theme | null;
 }
+
 const ThemeProvider = ({ children, specifiedTheme }: ThemeProviderProps) => {
   const fetcher = useFetcher();
   const [theme, setThemeState] = React.useState<Theme | null>(() => {
     if (specifiedTheme) {
-      if (Object.values(Theme).includes(specifiedTheme)) {
+      if (Object.values(themes).includes(specifiedTheme)) {
         return specifiedTheme;
       } else return null;
     }
-    
+
     if (typeof window !== "object") return null;
 
-    return window.matchMedia("(prefers-color-scheme: dark)").matches
-      ? Theme.DARK
-      : Theme.LIGHT;
+    return getPreferredTheme();
   });
 
   const setTheme = React.useCallback(
@@ -66,4 +78,5 @@ const useTheme = () => {
   return context;
 };
 
-export { Theme, ThemeProvider, useTheme };
+export type { Theme };
+export { ThemeProvider, useTheme, isTheme, themes };

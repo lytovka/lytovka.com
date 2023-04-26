@@ -35,11 +35,12 @@ function Navbar() {
 
   return (
     <div className="px-5 py-9">
-      <nav className="flex justify-center">
-        <H1 className="z-30" size="sm">
+      <nav className="grid grid-cols-3 items-center">
+        <div />
+        <H1 className="justify-self-center z-30" size="sm">
           {getNavbarTitle(pathname, noteMatch?.data.attributes.title)}
         </H1>
-        <div>
+        <div className="justify-self-center">
           <button
             onClick={() => {
               setTheme((previousTheme) =>
@@ -47,7 +48,7 @@ function Navbar() {
               );
             }}
           >
-            switch theme
+            switch
           </button>
         </div>
       </nav>

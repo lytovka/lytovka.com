@@ -20,8 +20,8 @@
 
 @layer base {
   :root {
-    --color-background: #292f34;
-    --color-background-dark: #e9eaea;
+    --color-background-dark: #292f34;
+    --color-background-light: #f5f5f5;
   }
 
   html {

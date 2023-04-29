@@ -20,6 +20,7 @@ import {
   getSocialMetas,
 } from "~/utils/seo";
 import type { RootLoaderData } from "~/root";
+import React from "react";
 
 export const meta: MetaFunction = ({ parentsData }) => {
   const { requestInfo } = parentsData.root as RootLoaderData;
@@ -80,6 +81,8 @@ export default function CollectiblesPage() {
     href: a.external_urls.spotify,
   }));
 
+  console.log("React object:", React);
+
   return (
     <div className="flex-1">
       <main className="mx-auto px-8 pb-10 sm:max-w-5xl md:max-w-7xl mb-10">
@@ -105,7 +108,7 @@ export default function CollectiblesPage() {
               ) : null}
               <img
                 alt={i.altName}
-                className="w-full hover:opacity-75 transition-opacity md:w-[300px]"
+                className="w-full border border-gray-300 dark:border-gray-700 hover:opacity-75 transition-opacity md:w-[300px]"
                 src={i.image.url}
               />
             </ExternalLink>

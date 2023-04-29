@@ -1,9 +1,17 @@
-.prose {
+.dark .prose {
   --typography-light-heading: #f1f1f1;
   --typography-light-paragraph: #cacaca;
   --typography-light-anchor: #f1f1f1;
   --typography-light-anchor-hover: #d0d0d0;
 }
+
+.prose {
+  /* --typography-light-heading: #f1f1f1;
+  --typography-light-paragraph: #cacaca;
+  --typography-light-anchor: #f1f1f1;
+  --typography-light-anchor-hover: #d0d0d0; */
+}
+
 
 .prose h1 {
   color: var(--typography-light-heading);

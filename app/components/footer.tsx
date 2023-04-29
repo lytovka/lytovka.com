@@ -33,7 +33,7 @@ function Footer() {
           Telegram
         </ExternalLink>
       </div>
-      <Paragraph className="text-zinc-500 dark:text-zinc-400 mt-2 z-30">
+      <Paragraph className="text-stone-500 dark:text-stone-400 mt-2 z-30">
         MIT © Ivan Lytovka 2022-{new Date().getFullYear()}
       </Paragraph>
     </footer>

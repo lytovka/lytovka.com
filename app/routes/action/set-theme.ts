@@ -3,9 +3,12 @@ import { redirect, json } from "@remix-run/server-runtime";
 import { getThemeSession, isTheme } from "~/server/theme.server";
 
 export const action = async ({ request }: ActionArgs) => {
-  const themeSession = await getThemeSession(request);
-  const requestText = await request.formData();
-  const theme = requestText.get("theme");
+  const [themeSession, formData] = await Promise.all([
+    getThemeSession(request),
+    request.formData(),
+  ]);
+
+  const theme = formData.get("theme");
 
   if (!isTheme(theme)) {
     return json({ success: false, message: `Invalid theme value: ${theme}` });

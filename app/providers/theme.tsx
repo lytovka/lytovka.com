@@ -48,8 +48,8 @@ const ThemeProvider = ({ children, specifiedTheme }: ThemeProviderProps) => {
   });
 
   const setTheme = React.useCallback(
-    (cb: Parameters<typeof setThemeState>[0]) => {
-      const newTheme = typeof cb === "function" ? cb(theme) : cb;
+    (param: Parameters<typeof setThemeState>[0]) => {
+      const newTheme = typeof param === "function" ? param(theme) : param;
       if (newTheme) {
         fetcher.submit(
           { theme: newTheme },

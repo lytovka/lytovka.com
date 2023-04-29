@@ -1,5 +1,5 @@
 import type { ActionArgs } from "@remix-run/server-runtime";
-import { json } from "@remix-run/server-runtime";
+import { redirect, json } from "@remix-run/server-runtime";
 import { getThemeSession, isTheme } from "~/server/theme.server";
 
 export const action = async ({ request }: ActionArgs) => {
@@ -7,7 +7,9 @@ export const action = async ({ request }: ActionArgs) => {
   const requestText = await request.formData();
   const theme = requestText.get("theme");
 
-  if (!isTheme(theme)) return json({ success: false });
+  if (!isTheme(theme)) {
+    return json({ success: false, message: `Invalid theme value: ${theme}` });
+  }
 
   themeSession.setTheme(theme);
 
@@ -20,3 +22,5 @@ export const action = async ({ request }: ActionArgs) => {
     }
   );
 };
+
+export const loader = () => redirect("/", { status: 404 });

@@ -19,6 +19,8 @@ const getThemeSession = async (request: Request) => {
     request.headers.get("Cookie")
   );
 
+  console.log("session", session);
+
   return {
     getTheme: () => {
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
@@ -30,10 +32,13 @@ const getThemeSession = async (request: Request) => {
     setTheme: (theme: Theme) => {
       session.set(THEME_SESSION_KEY, theme);
     },
-    commitSession: async () =>
-      themeSessionStorage.commitSession(session, {
+    commitSession: async () => {
+      console.log("commitSession", session);
+
+      return themeSessionStorage.commitSession(session, {
         expires: new Date(Date.now() + ONE_YEAR),
-      }),
+      });
+    },
   };
 };
 

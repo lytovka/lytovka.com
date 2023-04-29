@@ -20,7 +20,8 @@
 
 @layer base {
   :root {
-    --color-background: #292f34;
+    --color-background-dark: #292f34;
+    --color-background-light: #f5f5f5;
   }
 
   html {
@@ -29,7 +30,7 @@
 
   html,
   body {
-    @apply p-0 m-0 bg-main;
+    @apply p-0 m-0;
   }
 
   h1,

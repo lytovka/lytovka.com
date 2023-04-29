@@ -3,10 +3,12 @@ const defaultTheme = require("tailwindcss/defaultTheme");
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: ["./app/**/*.{js,ts,jsx,tsx}"],
+  darkMode: "class",
   theme: {
     extend: {
       colors: {
-        main: "var(--color-background)",
+        main: "var(--color-background-light)",
+        "main-dark": "var(--color-background-dark)",
       },
       fontSize: {
         "base-10": "62.5%",

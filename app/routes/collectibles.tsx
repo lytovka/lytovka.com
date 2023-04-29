@@ -105,7 +105,7 @@ export default function CollectiblesPage() {
               ) : null}
               <img
                 alt={i.altName}
-                className="w-full hover:opacity-75 transition-opacity md:w-[300px]"
+                className="w-full border border-gray-300 dark:border-gray-700 hover:opacity-75 transition-opacity md:w-[300px]"
                 src={i.image.url}
               />
             </ExternalLink>

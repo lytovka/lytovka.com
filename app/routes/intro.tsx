@@ -63,7 +63,7 @@ export default function IntroPage() {
           }}
         />
         <article
-          className="prose prose-neutral text-3xl mt-7 mb-7"
+          className="prose text-3xl mt-7 mb-7"
           dangerouslySetInnerHTML={{ __html: short }}
         />
         <article

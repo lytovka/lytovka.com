@@ -1,6 +1,6 @@
+import React from "react";
 import clsx from "clsx";
 import type { HTMLAttributes } from "react";
-import { createElement } from "react";
 
 type FontScale = "lg" | "md" | "sm";
 type TypographyTag = "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "p";
@@ -44,8 +44,8 @@ const fontSizes: Record<TypographyTag, Record<FontScale, string>> = {
 };
 
 const fontColors = {
-  primary: "text-zinc-200",
-  secondary: "text-stone-300",
+  primary: "text-zinc-900 dark:text-zinc-200",
+  secondary: "text-stone-700 dark:text-stone-300",
 };
 
 type TypographyProps = HTMLAttributes<HTMLElement> & {
@@ -58,17 +58,16 @@ type TypographyProps = HTMLAttributes<HTMLElement> & {
 
 function Typography({
   variant = "primary",
-  as,
-  size,
+  size = "md",
   tag,
+  as,
   className,
   ...rest
 }: TypographyProps) {
   const elementTag = as ?? tag;
-  const actualSize = size ?? "md";
 
-  return createElement(elementTag, {
-    className: clsx(fontSizes[tag][actualSize], fontColors[variant], className),
+  return React.createElement(elementTag, {
+    className: clsx(fontSizes[tag][size], fontColors[variant], className),
     ...rest,
   });
 }

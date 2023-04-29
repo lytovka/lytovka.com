@@ -15,7 +15,7 @@ import type {
   MetaFunction,
   LinksFunction,
 } from "@remix-run/node";
-import { getEnv } from "~/utils/env.server";
+import { getEnv } from "~/server/env.server";
 import { FourOhFour } from "./components/errors";
 import Footer from "./components/footer";
 import Navbar from "./components/navbar";
@@ -29,6 +29,9 @@ import {
   getSocialImagePreview,
   getSocialMetas,
 } from "~/utils/seo";
+import { getThemeSession } from "./server/theme.server";
+import { ThemeProvider } from "./providers/theme";
+import clsx from "clsx";
 
 export const meta: MetaFunction<typeof loader> = ({ data }) => {
   const metadataUrl = getMetadataUrl(data.requestInfo);
@@ -82,42 +85,55 @@ export const links: LinksFunction = () => {
 
 export type RootLoaderData = SerializeFrom<typeof loader>;
 
-export const loader = ({ request }: DataFunctionArgs) => {
+export const loader = async ({ request }: DataFunctionArgs) => {
+  const themeSession = await getThemeSession(request);
+  const theme = themeSession.getTheme();
   const data = {
     ENV: getEnv(),
     requestInfo: {
       path: new URL(request.url).pathname,
       origin: getHostUrl(request),
+      theme,
     },
   };
 
   return json(data);
 };
 
-export default function App() {
-  const data = useLoaderData<RootLoaderData>();
+function App({ rootLoaderData }: { rootLoaderData: RootLoaderData }) {
+  const { theme } = rootLoaderData.requestInfo;
 
   return (
-    <html lang="en">
+    <html className={clsx({ dark: theme === "dark" })} lang="en">
       <head>
         <meta charSet="utf-8" />
         <Meta />
         <Links />
       </head>
-      <body>
+      <body className="bg-main dark:bg-main-dark">
         <Navbar />
         <Outlet />
         <Footer />
         <ScrollRestoration />
         <script
           dangerouslySetInnerHTML={{
-            __html: `window.ENV = ${JSON.stringify(data.ENV)};`,
+            __html: `window.ENV = ${JSON.stringify(rootLoaderData.ENV)};`,
           }}
         />
         <Scripts />
         {process.env.NODE_ENV === "development" ? <LiveReload /> : null}
       </body>
     </html>
+  );
+}
+
+export default function AppWithProviders() {
+  const data = useLoaderData<RootLoaderData>();
+
+  return (
+    <ThemeProvider specifiedTheme={data.requestInfo.theme}>
+      <App rootLoaderData={data} />
+    </ThemeProvider>
   );
 }
 

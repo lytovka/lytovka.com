@@ -57,9 +57,11 @@ export default function NotesRoute() {
             className="flex flex-col text-2xl pr-3 pt-3 pb-3 md:items-center md:flex-row md:gap-7"
             key={key}
           >
-            <span className="opacity-75 text-2xl text-white">{post.date}</span>
+            <span className="text-black dark:text-white opacity-75 text-2xl">
+              {post.date}
+            </span>
             <Link
-              className="no-underline text-white text-2xl hover:opacity-75 hover:transition-opacity"
+              className="text-black dark:text-white underline text-2xl hover:opacity-75 hover:transition-opacity"
               to={`/notes${post.attributes.slug}`}
             >
               {post.attributes.title}

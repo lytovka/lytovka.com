@@ -14,7 +14,7 @@ function Footer() {
         >
           GitHub
         </ExternalLink>
-        <span className="z-30">/</span>
+        <span className="text-black dark:text-white z-30">/</span>
         <ExternalLink
           className="hover:opacity-75 transition-opacity z-30"
           href={INSTAGRAM_LINK}
@@ -23,7 +23,7 @@ function Footer() {
         >
           Instagram
         </ExternalLink>
-        <span className="z-30">/</span>
+        <span className="text-black dark:text-white z-30">/</span>
         <ExternalLink
           className="hover:opacity-75 transition-opacity z-30"
           href={TELEGRAM_LINK}
@@ -33,7 +33,7 @@ function Footer() {
           Telegram
         </ExternalLink>
       </div>
-      <Paragraph className="mt-2 text-zinc-400 z-30">
+      <Paragraph className="text-stone-500 dark:text-stone-400 mt-2 z-30">
         MIT © Ivan Lytovka 2022-{new Date().getFullYear()}
       </Paragraph>
     </footer>

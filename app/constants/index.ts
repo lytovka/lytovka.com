@@ -6,3 +6,5 @@ export const GITHUB_LINK = "https://github.com/lytovka";
 export const LYT_STORAGE_KEY = "lyt2";
 export const LINK_HEIGHT_PX = 90;
 export const LINK_WIDTH_PX = 90;
+export const THEME_SESSION_KEY = "theme";
+export const ONE_YEAR = 1000 * 60 * 60 * 24 * 365;

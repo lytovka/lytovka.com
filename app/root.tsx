@@ -88,7 +88,6 @@ export type RootLoaderData = SerializeFrom<typeof loader>;
 export const loader = async ({ request }: DataFunctionArgs) => {
   const themeSession = await getThemeSession(request);
   const theme = themeSession.getTheme();
-  console.log("root loader theme:", theme);
   const data = {
     ENV: getEnv(),
     requestInfo: {
@@ -130,7 +129,6 @@ function App({ rootLoaderData }: { rootLoaderData: RootLoaderData }) {
 
 export default function AppWithProviders() {
   const data = useLoaderData<RootLoaderData>();
-  console.log("root data:", data.requestInfo.theme);
 
   return (
     <ThemeProvider specifiedTheme={data.requestInfo.theme}>

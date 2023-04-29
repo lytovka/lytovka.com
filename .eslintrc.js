@@ -19,5 +19,6 @@ module.exports = {
     "no-console": "warn",
     "@typescript-eslint/no-throw-literal": "off", // Remix throws objects, such as `Response`, in loaders,
     "react/hook-use-state": "off",
+    "react/jsx-no-constructed-context-values": "off",
   },
 };

@@ -62,7 +62,6 @@ const ThemeProvider = ({ children, specifiedTheme }: ThemeProviderProps) => {
   );
 
   return (
-    // eslint-disable-next-line react/jsx-no-constructed-context-values
     <ThemeContext.Provider value={[theme, setTheme]}>
       {children}
     </ThemeContext.Provider>

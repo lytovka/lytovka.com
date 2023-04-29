@@ -20,7 +20,6 @@ import {
   getSocialMetas,
 } from "~/utils/seo";
 import type { RootLoaderData } from "~/root";
-import React from "react";
 
 export const meta: MetaFunction = ({ parentsData }) => {
   const { requestInfo } = parentsData.root as RootLoaderData;
@@ -80,8 +79,6 @@ export default function CollectiblesPage() {
     altName: a.name,
     href: a.external_urls.spotify,
   }));
-
-  console.log("React object:", React);
 
   return (
     <div className="flex-1">

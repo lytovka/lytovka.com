@@ -51,12 +51,12 @@ const ThemeProvider = ({ children, specifiedTheme }: ThemeProviderProps) => {
     (param: Parameters<typeof setThemeState>[0]) => {
       const newTheme = typeof param === "function" ? param(theme) : param;
       if (newTheme) {
+        setThemeState(newTheme);
         fetcher.submit(
           { theme: newTheme },
           { action: "/action/set-theme", method: "POST" }
         );
       }
-      setThemeState(newTheme);
     },
     [fetcher, theme]
   );

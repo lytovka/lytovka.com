@@ -30,7 +30,7 @@ import {
   getSocialMetas,
 } from "~/utils/seo";
 import { getThemeSession } from "./server/theme.server";
-import { ThemeProvider } from "./providers/theme";
+import { ThemeProvider, ThemeScript, useTheme } from "./providers/theme";
 import clsx from "clsx";
 
 export const meta: MetaFunction<typeof loader> = ({ data }) => {
@@ -101,14 +101,15 @@ export const loader = async ({ request }: DataFunctionArgs) => {
 };
 
 function App({ rootLoaderData }: { rootLoaderData: RootLoaderData }) {
-  const { theme } = rootLoaderData.requestInfo;
+  const [theme] = useTheme();
 
   return (
-    <html className={clsx({ dark: theme === "dark" })} lang="en">
+    <html className={clsx(theme)} lang="en">
       <head>
         <meta charSet="utf-8" />
         <Meta />
         <Links />
+        <ThemeScript serverTheme={rootLoaderData.requestInfo.theme} />
       </head>
       <body className="bg-main dark:bg-main-dark">
         <Navbar />

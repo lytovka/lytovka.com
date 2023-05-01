@@ -1,7 +1,7 @@
 import { createCookieSessionStorage } from "@remix-run/node";
 import { ONE_YEAR, THEME_SESSION_KEY } from "~/constants";
 import type { Theme } from "~/providers/theme";
-import { isTheme, themes } from "~/providers/theme";
+import { isTheme } from "~/providers/theme";
 
 const themeSessionStorage = createCookieSessionStorage({
   cookie: {
@@ -23,7 +23,8 @@ const getThemeSession = async (request: Request) => {
     getTheme: () => {
       const theme = session.get(THEME_SESSION_KEY) as unknown;
 
-      return isTheme(theme) ? theme : themes.DARK;
+      // If the type guard cannot infer the supported theme value (dark or light), we say the ssr theme is undetermined (null).
+      return isTheme(theme) ? theme : null;
     },
     hasTheme: () => session.has(THEME_SESSION_KEY),
     setTheme: (theme: Theme) => {

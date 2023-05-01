@@ -49,12 +49,6 @@ const ThemeProvider = ({ children, specifiedTheme }: ThemeProviderProps) => {
     return getPreferredTheme();
   });
 
-  React.useEffect(() => {
-    const isDark = document.documentElement.classList.contains("dark");
-    if (isDark) setThemeState(themes.DARK);
-    else setThemeState(themes.LIGHT);
-  }, [theme]);
-
   const setTheme = React.useCallback(
     (param: Parameters<typeof setThemeState>[0]) => {
       const newTheme = typeof param === "function" ? param(theme) : param;

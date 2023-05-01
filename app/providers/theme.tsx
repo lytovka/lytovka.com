@@ -98,7 +98,7 @@ const injectThemeScript = `
   const themeExists = cl.contains("light") || cl.contains("dark");
   
   if(themeExists){
-    console.warn("Server HTML already contains the theme class; hence, this script was not supposed to run. Please let Ivan know you saw this warning (https://github.com/lytovka/lytovka.com/issues).");
+    console.warn("Server generated HTML already contains the theme class; hence, this script was is supposed to run. Please let Ivan know you saw this warning (https://github.com/lytovka/lytovka.com/issues).");
   }
   else {
     cl.add(theme);

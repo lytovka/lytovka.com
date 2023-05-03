@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
-import type { posts } from "@prisma/client";
 import { loader } from "../app/routes/notes";
+import type { Note } from "~/server/markdown.server";
 
 describe("Index page", () => {
   it("loader: should return Request object", async () => {
@@ -14,7 +14,7 @@ describe("Index page", () => {
     expect(response.status).toEqual(200);
     expect(response.ok).toEqual(true);
 
-    const data = (await response.json()) as Array<posts>;
+    const data = (await response.json()) as Array<Note>;
 
     expect(Array.isArray(data)).toBe(true);
     expect(data.length).toBeGreaterThanOrEqual(1);

@@ -35,7 +35,7 @@
     "@remix-run/server-runtime": "^1.15.0",
     "@remix-run/vercel": "1.15.0",
     "clsx": "^1.2.1",
-    "date-fns": "2.29.3",
+    "date-fns": "2.30.0",
     "dotenv": "16.0.3",
     "gray-matter": "^4.0.3",
     "marked": "^4.2.12",

@@ -78,20 +78,19 @@ export function getSocialMetas({
   url,
   image = getSocialImagePreview({ title, url }),
 }: SocialMeta) {
-  return {
-    title,
-    description,
-    image,
-    keywords,
-    url,
-    "og:title": title,
-    "og:description": description,
-    "og:image": image,
-    "og:url": url,
-    "twitter:title": title,
-    "twitter:description": description,
-    "twitter:image": image,
-    "twitter:card": "summary_large_image",
-    "twitter:image:alt": title,
-  };
+  return [
+    { title },
+    { name: "description", content: description },
+    { name: "image", content: image },
+    { name: "keywords", content: keywords },
+    { property: "og:title", content: title },
+    { property: "og:description", content: description },
+    { property: "og:image", content: image },
+    { property: "og:url", content: url },
+    { name: "twitter:title", content: title },
+    { name: "twitter:description", content: description },
+    { name: "twitter:image", content: image },
+    { name: "twitter:card", content: "summary_large_image" },
+    { name: "twitter:image:alt", content: title },
+  ];
 }

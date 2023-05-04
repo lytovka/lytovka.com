@@ -90,14 +90,16 @@ export const links: LinksFunction = () => {
 export type RootLoader = typeof loader;
 export type RootLoaderData = SerializeFrom<typeof loader>;
 export type RootLoaderDataUnwrapped = {
-  ENV: ReturnType<typeof getEnv>;
-  requestInfo: { path: string; origin: string; theme: Theme | null };
+  data: {
+    ENV: ReturnType<typeof getEnv>;
+    requestInfo: { path: string; origin: string; theme: Theme | null };
+  };
 };
 
 export const loader = async ({ request }: DataFunctionArgs) => {
   const themeSession = await getThemeSession(request);
   const theme = themeSession.getTheme();
-  const data: RootLoaderDataUnwrapped = {
+  const data = {
     ENV: getEnv(),
     requestInfo: {
       path: new URL(request.url).pathname,

@@ -1,6 +1,7 @@
+import type { V2_MetaFunction } from "@remix-run/react";
 import { useCatch, useLoaderData } from "@remix-run/react";
 import { json } from "@remix-run/server-runtime";
-import type { MetaFunction, LoaderArgs } from "@remix-run/server-runtime";
+import type { LoaderArgs } from "@remix-run/server-runtime";
 
 import { FourOhFour, ServerError } from "~/components/errors";
 import { getSlugContent } from "~/server/markdown.server";
@@ -8,7 +9,7 @@ import { dateFormatter } from "~/utils/date";
 import MainLayout from "~/components/main-layout";
 import { H1 } from "~/components/typography";
 import GoBack from "~/components/go-back";
-import type { RootLoaderData } from "~/root";
+import type { RootLoaderDataUnwrapped } from "~/root";
 import {
   getMetadataUrl,
   getPreviewUrl,
@@ -16,12 +17,16 @@ import {
   getSocialMetas,
 } from "~/utils/seo";
 
-export const meta: MetaFunction<typeof loader> = ({ data, parentsData }) => {
-  const { requestInfo } = parentsData.root as RootLoaderData;
+export const meta: V2_MetaFunction<typeof loader> = ({ data, matches }) => {
+  const { requestInfo } = (matches[0] as RootLoaderDataUnwrapped).data;
   const metadataUrl = getMetadataUrl(requestInfo);
   const title = data.attributes.title;
 
-  return {
+  return [
+    {
+      name: "viewport",
+      content: "width=device-width,initial-scale=1,viewport-fit=cover",
+    },
     ...getSocialMetas({
       title,
       description: "A note.",
@@ -33,7 +38,7 @@ export const meta: MetaFunction<typeof loader> = ({ data, parentsData }) => {
         featuredImage: "note",
       }),
     }),
-  };
+  ];
 };
 
 export const loader = async ({ params }: LoaderArgs) => {

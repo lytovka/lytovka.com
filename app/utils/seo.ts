@@ -31,7 +31,7 @@ export function getMetadataUrl(requestInfo?: { origin: string; path: string }) {
 }
 
 export function getPreviewUrl(url: string) {
-  return url.replace(/^https:\/\//, "");
+  return url.replace(/^http(s)?:\/\//, "");
 }
 
 export function getSocialImagePreview({
@@ -83,6 +83,7 @@ export function getSocialMetas({
     { name: "description", content: description },
     { name: "image", content: image },
     { name: "keywords", content: keywords },
+    { name: "url", content: url },
     { property: "og:title", content: title },
     { property: "og:description", content: description },
     { property: "og:image", content: image },

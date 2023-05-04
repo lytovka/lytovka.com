@@ -1,11 +1,13 @@
+import type { V2_MetaFunction } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
-import type { LoaderArgs, MetaFunction } from "@remix-run/server-runtime";
+import type { LoaderArgs } from "@remix-run/server-runtime";
 import { json } from "@remix-run/server-runtime";
 import type { ChangeEvent } from "react";
 import { useRef } from "react";
 import GoBack from "~/components/go-back";
 import MainLayout from "~/components/main-layout";
 import ToggleButton from "~/components/toggle-button";
+import type { RootLoaderDataUnwrapped } from "~/root";
 import { getIntroFile } from "~/server/markdown.server";
 import {
   getMetadataUrl,
@@ -13,15 +15,18 @@ import {
   getSocialImagePreview,
   getSocialMetas,
 } from "~/utils/seo";
-import type { RootLoaderData } from "~/root";
 import { GITHUB_LINK } from "~/constants";
 import { H2 } from "~/components/typography";
 
-export const meta: MetaFunction = ({ parentsData }) => {
-  const { requestInfo } = parentsData.root as RootLoaderData;
+export const meta: V2_MetaFunction<typeof loader> = ({ matches }) => {
+  const { requestInfo } = (matches[0] as RootLoaderDataUnwrapped).data;
   const metadataUrl = getMetadataUrl(requestInfo);
 
-  return {
+  return [
+    {
+      name: "viewport",
+      content: "width=device-width,initial-scale=1,viewport-fit=cover",
+    },
     ...getSocialMetas({
       title: "Ivan's Intro",
       description: "Get to know Ivan via this brief intro.",
@@ -33,7 +38,7 @@ export const meta: MetaFunction = ({ parentsData }) => {
         featuredImage: "intro",
       }),
     }),
-  };
+  ];
 };
 
 export const loader = async (_: LoaderArgs) => {

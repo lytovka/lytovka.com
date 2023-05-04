@@ -17,9 +17,10 @@ import {
   getSocialMetas,
 } from "~/utils/seo";
 import type { V2_MetaFunction } from "@remix-run/node";
+import type { RootLoaderDataUnwrapped } from "~/root";
 
 export const meta: V2_MetaFunction<typeof loader> = ({ matches }) => {
-  const { requestInfo } = matches[0];
+  const { requestInfo } = (matches[0] as RootLoaderDataUnwrapped).data;
   const metadataUrl = getMetadataUrl(requestInfo);
 
   return [

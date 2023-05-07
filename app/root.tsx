@@ -5,8 +5,8 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration,
-  useCatch,
   useLoaderData,
+  useRouteError,
 } from "@remix-run/react";
 import { json } from "@remix-run/server-runtime";
 import type {
@@ -33,6 +33,7 @@ import { getThemeSession } from "./server/theme.server";
 import type { Theme } from "./providers/theme";
 import { ThemeProvider, ThemeScript, useTheme } from "./providers/theme";
 import clsx from "clsx";
+import type { AppError } from "~/typings/AppError";
 
 export const meta: V2_MetaFunction<typeof loader> = ({ data }) => {
   const metadataUrl = getMetadataUrl(data.requestInfo);
@@ -149,9 +150,9 @@ export default function AppWithProviders() {
   );
 }
 
-export function CatchBoundary() {
-  const caught = useCatch();
-  if (caught.status === 404) {
+export function ErrorBoundary() {
+  const error = useRouteError() as AppError;
+  if (error.status === 404) {
     <html lang="en">
       <head>
         <meta charSet="utf-8" />
@@ -164,5 +165,5 @@ export function CatchBoundary() {
       </body>
     </html>;
   }
-  throw new Error(`Unhandled error: ${caught.status}`);
+  throw new Error(`Unhandled error: ${error.status}`);
 }

@@ -6,6 +6,7 @@ const { createRoutesFromFolders } = require("@remix-run/v1-route-convention");
 module.exports = {
   future: {
     v2_meta: true,
+    v2_errorBoundary: true,
   },
   serverBuildTarget: "vercel",
   // When running locally in development mode, we use the built in remix

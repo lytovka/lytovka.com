@@ -1,5 +1,5 @@
 import type { V2_MetaFunction } from "@remix-run/react";
-import { useCatch, useLoaderData } from "@remix-run/react";
+import { useRouteError, useLoaderData } from "@remix-run/react";
 import { json } from "@remix-run/server-runtime";
 import type { LoaderArgs } from "@remix-run/server-runtime";
 
@@ -16,6 +16,7 @@ import {
   getSocialImagePreview,
   getSocialMetas,
 } from "~/utils/seo";
+import type { AppError } from "~/typings/AppError";
 
 export const meta: V2_MetaFunction<typeof loader> = ({ data, matches }) => {
   const { requestInfo } = (matches[0] as RootLoaderDataUnwrapped).data;
@@ -46,6 +47,9 @@ export const loader = async ({ params }: LoaderArgs) => {
     throw new Error("params.slug is not defined.");
   }
   const res = await getSlugContent(params.slug);
+  if (!res) {
+    throw new Response("Note not found.", { status: 404 });
+  }
   res.attributes.date = dateFormatter.format(new Date(res.attributes.date));
 
   return json(res);
@@ -73,9 +77,9 @@ export default function PostSlug() {
   );
 }
 
-export function CatchBoundary() {
-  const caught = useCatch();
-  if (caught.status === 404) {
+export function ErrorBoundary() {
+  const error = useRouteError() as AppError;
+  if (error.status === 404) {
     return <FourOhFour />;
   }
 

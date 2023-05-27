@@ -15,6 +15,7 @@ import {
 } from "~/utils/seo";
 import type { RootLoaderData } from "~/root";
 import { GITHUB_LINK } from "~/constants";
+import { H2 } from "~/components/typography";
 
 export const meta: MetaFunction = ({ parentsData }) => {
   const { requestInfo } = parentsData.root as RootLoaderData;
@@ -56,22 +57,26 @@ export default function IntroPage() {
   return (
     <MainLayout>
       <div className="mb-10">
-        <ToggleButton
-          defaultChecked={false}
-          title="Long"
-          onChange={(e) => {
-            expandCollapse(e);
-          }}
-        />
         <a href={GITHUB_LINK}>
           <img
             alt="Ivan's avatar"
-            className="transition-filter grayscale hover:grayscale-0 rounded-full mx-auto md:float-right md:mr-5 md:mb-5 mt-5"
+            className="transition-filter grayscale hover:grayscale-0 rounded-full mx-auto md:float-right md:mr-5 md:mb-5"
             height="160"
             src="/images/ivan_avatar.png"
             width="160"
           />
         </a>
+        <div className="flex gap-5 items-center mt-5 md:mt-0">
+          <H2 className="text-3xl font-extrabold">Hello world 👋</H2>
+          <span className="text-zinc-600 dark:text-zinc-500 text-3xl">|</span>
+          <ToggleButton
+            defaultChecked={false}
+            title="Long"
+            onChange={(e) => {
+              expandCollapse(e);
+            }}
+          />
+        </div>
         <article
           className="prose text-3xl mt-7 mb-7"
           dangerouslySetInnerHTML={{ __html: short }}

@@ -1,5 +1,3 @@
-## Hello world 👋
-
 I'm Ivan, a software engineer at [Marqeta](https://marqeta.com) and a lifelong [Oasis](<https://en.wikipedia.org/wiki/Oasis_(band)>) fan. I spend my days writing code, fixing bugs, and entertaining my coworkers with memes.
 
 Outside of work, I have a passion for cooking, playing the guitar (albeit amateurishly), hitting the gym, diving into books, and attending live concerts.

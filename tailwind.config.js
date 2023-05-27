@@ -21,6 +21,7 @@ module.exports = {
       },
       transitionProperty: {
         height: "height",
+        filter: "filter",
       },
       typography: (theme) => {
         // fontSize key returns a tuple of [fontSize, {props}], but we only want the fontSize

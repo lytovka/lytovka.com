@@ -14,6 +14,7 @@ import {
   getSocialMetas,
 } from "~/utils/seo";
 import type { RootLoaderData } from "~/root";
+import { GITHUB_LINK } from "~/constants";
 
 export const meta: MetaFunction = ({ parentsData }) => {
   const { requestInfo } = parentsData.root as RootLoaderData;
@@ -62,6 +63,15 @@ export default function IntroPage() {
             expandCollapse(e);
           }}
         />
+        <a href={GITHUB_LINK}>
+          <img
+            alt="Ivan's avatar"
+            className="rounded-full float-right mr-5 mt-5"
+            height="160"
+            src="/images/ivan_avatar.png"
+            width="160"
+          />
+        </a>
         <article
           className="prose text-3xl mt-7 mb-7"
           dangerouslySetInnerHTML={{ __html: short }}

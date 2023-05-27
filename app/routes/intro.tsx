@@ -66,7 +66,7 @@ export default function IntroPage() {
         <a href={GITHUB_LINK}>
           <img
             alt="Ivan's avatar"
-            className="rounded-full float-right mr-5 mt-5"
+            className="transition-filter grayscale hover:grayscale-0 rounded-full mx-auto md:float-right md:mr-5 md:mb-5 mt-5"
             height="160"
             src="/images/ivan_avatar.png"
             width="160"

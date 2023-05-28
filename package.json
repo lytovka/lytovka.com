@@ -57,7 +57,7 @@
     "@types/react-dom": "18.2.4",
     "@types/spotify-api": "^0.0.22",
     "@vitejs/plugin-react": "4.0.0",
-    "@vitest/coverage-c8": "0.31.0",
+    "@vitest/coverage-c8": "0.31.1",
     "autoprefixer": "10.4.14",
     "concurrently": "8.0.1",
     "cross-env": "7.0.3",
@@ -70,6 +70,6 @@
     "tailwindcss": "3.3.2",
     "typescript": "5.0.4",
     "vite-tsconfig-paths": "4.2.0",
-    "vitest": "0.31.0"
+    "vitest": "0.31.1"
   }
 }

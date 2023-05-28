@@ -1,8 +1,6 @@
-import { useLocation, useMatches } from "@remix-run/react";
-import type { Note } from "~/server/markdown.server";
-import { H1 } from "./typography";
 import { themes, useTheme } from "~/providers/theme";
 import { DarkModeIcon, LightModeIcon } from "~/components/icons";
+import { Link } from "@remix-run/react";
 
 const ThemeToggle = () => {
   const [, setTheme] = useTheme();
@@ -34,42 +32,17 @@ const ThemeToggle = () => {
   );
 };
 
-const getNavbarTitle = (path: string, noteTitle?: string) => {
-  if (noteTitle) {
-    return noteTitle;
-  }
-
-  switch (path) {
-    case "/":
-      return "Ivan's docs";
-    case "/notes":
-      return "Notes";
-    case "/intro":
-      return "Introduction";
-    case "/collectibles":
-      return "Collectibles";
-    default:
-      return "Ivan's docs";
-  }
-};
-
 function Navbar() {
-  const { pathname } = useLocation();
-  const matches = useMatches();
-  //TODO: figure out if I want to have a dynamic title for the nabvar.
-  const noteMatch = matches.find((m) => m.id === "routes/notes/$slug") as
-    | {
-        data: Note;
-      }
-    | undefined;
-
   return (
     <div className="px-5 py-9">
       <nav className="grid grid-cols-3 items-center">
         <div />
-        <H1 className="justify-self-center z-30" size="sm">
-          {getNavbarTitle(pathname, noteMatch?.data.attributes.title)}
-        </H1>
+        <Link
+          className="justify-self-center z-30 text-black dark:text-white text-2xl hover:opacity-75 hover:transition-opacity"
+          to="/"
+        >
+          Ivan&apos;s docs
+        </Link>
         <div className="flex justify-center">
           <ThemeToggle />
         </div>

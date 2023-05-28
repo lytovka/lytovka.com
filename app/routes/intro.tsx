@@ -67,7 +67,7 @@ export default function IntroPage() {
           />
         </a>
         <div className="flex gap-5 items-center mt-5 md:mt-0">
-          <H2 className="text-3xl font-extrabold">Hello world 👋</H2>
+          <H2 className="text-3xl font-extrabold">Intro</H2>
           <span className="text-zinc-600 dark:text-zinc-500 text-3xl">|</span>
           <ToggleButton
             defaultChecked={false}

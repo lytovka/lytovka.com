@@ -5,7 +5,7 @@ import GoBack from "~/components/go-back";
 import { dateFormatter } from "~/utils/date";
 import { fetchAllContent } from "~/server/markdown.server";
 import MainLayout from "~/components/main-layout";
-import { Paragraph } from "~/components/typography";
+import { H1, Paragraph } from "~/components/typography";
 import {
   getMetadataUrl,
   getPreviewUrl,
@@ -48,8 +48,9 @@ export default function NotesRoute() {
 
   return (
     <MainLayout>
+      <H1 className="mb-2">Notes</H1>
       <Paragraph className="mb-5 italic" variant="secondary">
-        Notes on various topics. All thoughts are my own.
+        My perspective on various topics. All thoughts are my own.
       </Paragraph>
       <ul className="mb-10">
         {posts.map((post, key) => (

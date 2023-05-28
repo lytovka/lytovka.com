@@ -12,7 +12,8 @@ import GoBack from "~/components/go-back";
 import { ExternalLink } from "~/components/external-link";
 import { useDeviceType } from "~/hooks/useDeviceType";
 import { ServerError } from "~/components/errors";
-import { Paragraph } from "~/components/typography";
+import { H1, Paragraph } from "~/components/typography";
+import MainLayout from "~/components/main-layout";
 import {
   getMetadataUrl,
   getPreviewUrl,
@@ -81,39 +82,37 @@ export default function CollectiblesPage() {
   }));
 
   return (
-    <div className="flex-1">
-      <main className="mx-auto px-8 pb-10 sm:max-w-5xl md:max-w-7xl mb-10">
-        <Paragraph className="mb-10 italic" variant="secondary">
-          Vinyl records I&apos;ve collected over the years. Images are
-          clickable.
-        </Paragraph>
+    <MainLayout>
+      <H1 className="mb-2">Collectibles</H1>
+      <Paragraph className="mb-10 italic" variant="secondary">
+        Vinyl records I&apos;ve collected over the years. Images are clickable.
+      </Paragraph>
 
-        <div className="mb-10 grid sm:grid-cols-2 md:grid-cols-3 gap-6 justify-items-center items-center">
-          {images.map((i, index) => (
-            <ExternalLink
-              className="relative"
-              href={i.href}
-              key={index}
-              rel="noreferrer noopener"
-              target="_blank"
-            >
-              {deviceType === "mobile" ? (
-                <span className="flex h-5 w-5 absolute right-3 top-3">
-                  <span className="ping-class absolute inline-flex h-full w-full rounded-full bg-gray-300" />
-                  <span className="absolute inline-flex rounded-full h-full w-full bg-gray-300" />
-                </span>
-              ) : null}
-              <img
-                alt={i.altName}
-                className="w-full border border-gray-300 dark:border-gray-700 hover:opacity-75 transition-opacity md:w-[300px]"
-                src={i.image.url}
-              />
-            </ExternalLink>
-          ))}
-        </div>
-        <GoBack />
-      </main>
-    </div>
+      <div className="mb-10 grid sm:grid-cols-2 md:grid-cols-3 gap-6 justify-items-center items-center">
+        {images.map((i, index) => (
+          <ExternalLink
+            className="relative"
+            href={i.href}
+            key={index}
+            rel="noreferrer noopener"
+            target="_blank"
+          >
+            {deviceType === "mobile" ? (
+              <span className="flex h-5 w-5 absolute right-3 top-3">
+                <span className="ping-class absolute inline-flex h-full w-full rounded-full bg-gray-300" />
+                <span className="absolute inline-flex rounded-full h-full w-full bg-gray-300" />
+              </span>
+            ) : null}
+            <img
+              alt={i.altName}
+              className="w-full border border-gray-300 dark:border-gray-700 hover:opacity-75 transition-opacity md:w-[300px]"
+              src={i.image.url}
+            />
+          </ExternalLink>
+        ))}
+      </div>
+      <GoBack />
+    </MainLayout>
   );
 }
 

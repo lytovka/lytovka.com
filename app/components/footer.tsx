@@ -1,6 +1,5 @@
 import { ExternalLink } from "./external-link";
 import { INSTAGRAM_LINK, TELEGRAM_LINK, GITHUB_LINK } from "~/constants";
-import { Paragraph } from "./typography";
 
 function Footer() {
   return (
@@ -14,7 +13,7 @@ function Footer() {
         >
           GitHub
         </ExternalLink>
-        <span className="text-black dark:text-white z-30">/</span>
+        <span className="text-zinc-300 dark:text-zinc-500 z-30">/</span>
         <ExternalLink
           className="hover:opacity-75 transition-opacity z-30"
           href={INSTAGRAM_LINK}
@@ -23,7 +22,7 @@ function Footer() {
         >
           Instagram
         </ExternalLink>
-        <span className="text-black dark:text-white z-30">/</span>
+        <span className="text-zinc-300 dark:text-zinc-500 z-30">/</span>
         <ExternalLink
           className="hover:opacity-75 transition-opacity z-30"
           href={TELEGRAM_LINK}
@@ -33,9 +32,9 @@ function Footer() {
           Telegram
         </ExternalLink>
       </div>
-      <Paragraph className="text-stone-500 dark:text-stone-400 mt-2 z-30">
+      <span className="text-stone-600 dark:text-stone-400 mt-2 z-30">
         MIT © Ivan Lytovka 2022-{new Date().getFullYear()}
-      </Paragraph>
+      </span>
     </footer>
   );
 }

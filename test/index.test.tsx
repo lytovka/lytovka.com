@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { loader } from "../app/routes/notes";
+import { loader } from "~/routes/notes._index";
 import type { Note } from "~/server/markdown.server";
 
 describe("Index page", () => {

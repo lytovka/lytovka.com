@@ -1,6 +1,7 @@
-import { useCatch, useLoaderData } from "@remix-run/react";
+import type { V2_MetaFunction } from "@remix-run/react";
+import { useRouteError, useLoaderData } from "@remix-run/react";
 import { json } from "@remix-run/server-runtime";
-import type { MetaFunction, LoaderArgs } from "@remix-run/server-runtime";
+import type { LoaderArgs } from "@remix-run/server-runtime";
 
 import { FourOhFour, ServerError } from "~/components/errors";
 import { getSlugContent } from "~/server/markdown.server";
@@ -8,20 +9,25 @@ import { dateFormatter } from "~/utils/date";
 import MainLayout from "~/components/main-layout";
 import { H1 } from "~/components/typography";
 import GoBack from "~/components/go-back";
-import type { RootLoaderData } from "~/root";
+import type { RootLoaderDataUnwrapped } from "~/root";
 import {
   getMetadataUrl,
   getPreviewUrl,
   getSocialImagePreview,
   getSocialMetas,
 } from "~/utils/seo";
+import type { AppError } from "~/typings/AppError";
 
-export const meta: MetaFunction<typeof loader> = ({ data, parentsData }) => {
-  const { requestInfo } = parentsData.root as RootLoaderData;
+export const meta: V2_MetaFunction<typeof loader> = ({ data, matches }) => {
+  const { requestInfo } = (matches[0] as RootLoaderDataUnwrapped).data;
   const metadataUrl = getMetadataUrl(requestInfo);
   const title = data.attributes.title;
 
-  return {
+  return [
+    {
+      name: "viewport",
+      content: "width=device-width,initial-scale=1,viewport-fit=cover",
+    },
     ...getSocialMetas({
       title,
       description: "A note.",
@@ -33,7 +39,7 @@ export const meta: MetaFunction<typeof loader> = ({ data, parentsData }) => {
         featuredImage: "note",
       }),
     }),
-  };
+  ];
 };
 
 export const loader = async ({ params }: LoaderArgs) => {
@@ -41,6 +47,9 @@ export const loader = async ({ params }: LoaderArgs) => {
     throw new Error("params.slug is not defined.");
   }
   const res = await getSlugContent(params.slug);
+  if (!res) {
+    throw new Response("Note not found.", { status: 404 });
+  }
   res.attributes.date = dateFormatter.format(new Date(res.attributes.date));
 
   return json(res);
@@ -68,9 +77,9 @@ export default function PostSlug() {
   );
 }
 
-export function CatchBoundary() {
-  const caught = useCatch();
-  if (caught.status === 404) {
+export function ErrorBoundary() {
+  const error = useRouteError() as AppError;
+  if (error.status === 404) {
     return <FourOhFour />;
   }
 

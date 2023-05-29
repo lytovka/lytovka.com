@@ -1,10 +1,6 @@
 import { useLoaderData } from "@remix-run/react";
 import { json } from "@remix-run/server-runtime";
-import type {
-  LoaderArgs,
-  MetaFunction,
-  LinksFunction,
-} from "@remix-run/server-runtime";
+import type { LoaderArgs, LinksFunction } from "@remix-run/server-runtime";
 import collectiblesStylesheet from "~/styles/collectibles.css";
 
 import { getAlbumsByIds } from "~/server/spotify.server";
@@ -20,13 +16,18 @@ import {
   getSocialImagePreview,
   getSocialMetas,
 } from "~/utils/seo";
-import type { RootLoaderData } from "~/root";
+import type { V2_MetaFunction } from "@remix-run/node";
+import type { RootLoaderDataUnwrapped } from "~/root";
 
-export const meta: MetaFunction = ({ parentsData }) => {
-  const { requestInfo } = parentsData.root as RootLoaderData;
+export const meta: V2_MetaFunction<typeof loader> = ({ matches }) => {
+  const { requestInfo } = (matches[0] as RootLoaderDataUnwrapped).data;
   const metadataUrl = getMetadataUrl(requestInfo);
 
-  return {
+  return [
+    {
+      name: "viewport",
+      content: "width=device-width,initial-scale=1,viewport-fit=cover",
+    },
     ...getSocialMetas({
       title: "Ivan's collectibles",
       description: "A collection of vinyl records Ivan owns.",
@@ -38,7 +39,7 @@ export const meta: MetaFunction = ({ parentsData }) => {
         featuredImage: "collectibles",
       }),
     }),
-  };
+  ];
 };
 
 export const loader = async (_: LoaderArgs) => {

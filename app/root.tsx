@@ -5,15 +5,15 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration,
-  useCatch,
   useLoaderData,
+  useRouteError,
 } from "@remix-run/react";
 import { json } from "@remix-run/server-runtime";
 import type {
   SerializeFrom,
   DataFunctionArgs,
-  MetaFunction,
   LinksFunction,
+  V2_MetaFunction,
 } from "@remix-run/node";
 import { getEnv } from "~/server/env.server";
 import { FourOhFour } from "./components/errors";
@@ -30,14 +30,19 @@ import {
   getSocialMetas,
 } from "~/utils/seo";
 import { getThemeSession } from "./server/theme.server";
+import type { Theme } from "./providers/theme";
 import { ThemeProvider, ThemeScript, useTheme } from "./providers/theme";
 import clsx from "clsx";
+import type { AppError } from "~/typings/AppError";
 
-export const meta: MetaFunction<typeof loader> = ({ data }) => {
+export const meta: V2_MetaFunction<typeof loader> = ({ data }) => {
   const metadataUrl = getMetadataUrl(data.requestInfo);
 
-  return {
-    viewport: "width=device-width,initial-scale=1,viewport-fit=cover",
+  return [
+    {
+      name: "viewport",
+      content: "width=device-width,initial-scale=1,viewport-fit=cover",
+    },
     ...getSocialMetas({
       title: "Ivan Lytovka",
       description: "Ivan's homepage.",
@@ -48,7 +53,7 @@ export const meta: MetaFunction<typeof loader> = ({ data }) => {
         featuredImage: "homepage",
       }),
     }),
-  };
+  ];
 };
 
 export const links: LinksFunction = () => {
@@ -83,7 +88,14 @@ export const links: LinksFunction = () => {
   ];
 };
 
+export type RootLoader = typeof loader;
 export type RootLoaderData = SerializeFrom<typeof loader>;
+export type RootLoaderDataUnwrapped = {
+  data: {
+    ENV: ReturnType<typeof getEnv>;
+    requestInfo: { path: string; origin: string; theme: Theme | null };
+  };
+};
 
 export const loader = async ({ request }: DataFunctionArgs) => {
   const themeSession = await getThemeSession(request);
@@ -138,9 +150,9 @@ export default function AppWithProviders() {
   );
 }
 
-export function CatchBoundary() {
-  const caught = useCatch();
-  if (caught.status === 404) {
+export function ErrorBoundary() {
+  const error = useRouteError() as AppError;
+  if (error.status === 404) {
     <html lang="en">
       <head>
         <meta charSet="utf-8" />
@@ -153,5 +165,5 @@ export function CatchBoundary() {
       </body>
     </html>;
   }
-  throw new Error(`Unhandled error: ${caught.status}`);
+  throw new Error(`Unhandled error: ${error.status}`);
 }

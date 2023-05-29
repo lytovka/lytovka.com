@@ -1,5 +1,6 @@
+import type { V2_MetaFunction } from "@remix-run/react";
 import { Link, useLoaderData } from "@remix-run/react";
-import type { LoaderArgs, MetaFunction } from "@remix-run/server-runtime";
+import type { LoaderArgs } from "@remix-run/server-runtime";
 import { json } from "@remix-run/server-runtime";
 import GoBack from "~/components/go-back";
 import { dateFormatter } from "~/utils/date";
@@ -12,7 +13,7 @@ import {
   getSocialImagePreview,
   getSocialMetas,
 } from "~/utils/seo";
-import type { RootLoaderData } from "~/root";
+import type { RootLoaderDataUnwrapped } from "~/root";
 
 export const loader = async (_: LoaderArgs) => {
   const results = await fetchAllContent();
@@ -24,11 +25,15 @@ export const loader = async (_: LoaderArgs) => {
   return json(newDates);
 };
 
-export const meta: MetaFunction = ({ parentsData }) => {
-  const { requestInfo } = parentsData.root as RootLoaderData;
+export const meta: V2_MetaFunction = ({ matches }) => {
+  const { requestInfo } = (matches[0] as RootLoaderDataUnwrapped).data;
   const metadataUrl = getMetadataUrl(requestInfo);
 
-  return {
+  return [
+    {
+      name: "viewport",
+      content: "width=device-width,initial-scale=1,viewport-fit=cover",
+    },
     ...getSocialMetas({
       title: "Ivan's notes",
       description: "Notes on various topics.",
@@ -40,7 +45,7 @@ export const meta: MetaFunction = ({ parentsData }) => {
         featuredImage: "notes",
       }),
     }),
-  };
+  ];
 };
 
 export default function NotesRoute() {

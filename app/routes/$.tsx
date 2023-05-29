@@ -21,6 +21,6 @@ export default function _() {
   );
 }
 
-export function CatchBoundary() {
+export function ErrorBoundary() {
   return <FourOhFour />;
 }

@@ -35,15 +35,21 @@ export const getIntroFile = async (): Promise<{
   return { short, extended };
 };
 
-export const getSlugContent = async (slug: string): Promise<Note> => {
+export const getSlugContent = async (slug: string): Promise<Note | null> => {
   const realSlug = slug.replace(/\.md$/, "");
-  const file = (
-    await fs.readFile(`${root}/markdown/notes/${realSlug}.md`)
-  ).toString();
-  const { data, content } = matter(file);
-  const html = marked(content);
 
-  return { attributes: data as Metadata, body: html };
+  return fs
+    .readFile(`${root}/markdown/notes/${realSlug}.md`)
+    .then((res) => {
+      const file = res.toString();
+      const { data, content } = matter(file);
+      const html = marked(content);
+
+      return { attributes: data as Metadata, body: html };
+    })
+    .catch((_) => {
+      return null;
+    });
 };
 
 const getAllNoteSlugs = async (): Promise<Array<string>> => {
@@ -54,9 +60,9 @@ const getAllNoteSlugs = async (): Promise<Array<string>> => {
 
 export const fetchAllContent = async (): Promise<Array<Note>> => {
   const slugs = await getAllNoteSlugs();
-  const notes = await Promise.all(
-    slugs.map(async (slug) => getSlugContent(slug))
-  );
+  const notes = (await Promise.all(
+    slugs.map(async (slug) => getSlugContent(slug)).filter(Boolean)
+  )) as Array<Note>;
   const sortedNotes = notes.sort(
     (a, b) =>
       new Date(b.attributes.date).getTime() -

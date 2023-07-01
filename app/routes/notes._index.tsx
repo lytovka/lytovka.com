@@ -14,8 +14,13 @@ import {
   getSocialMetas,
 } from "~/utils/seo";
 import type { RootLoaderDataUnwrapped } from "~/root";
+import { redis } from "~/server/redis.server";
 
 export const loader = async (_: LoaderArgs) => {
+  console.log("loader");
+  const vals = await redis.hgetall("test-keys");
+
+  console.log({ vals });
   const results = await fetchAllContent();
   const newDates = results.map((item) => ({
     ...item,

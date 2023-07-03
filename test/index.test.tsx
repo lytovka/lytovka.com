@@ -1,8 +1,23 @@
-import { describe, it, expect } from "vitest";
+import { describe, it, expect, beforeAll, afterAll } from "vitest";
 import { loader } from "~/routes/notes._index";
 import type { Note } from "~/server/markdown.server";
+import type { StartedTestContainer } from "testcontainers";
+import { GenericContainer } from "testcontainers";
 
 describe("Index page", () => {
+  let container: StartedTestContainer;
+
+  beforeAll(async () => {
+    container = await new GenericContainer("redis")
+      // exposes the internal Docker port to the host machine
+      .withExposedPorts(6379)
+      .start();
+  });
+
+  afterAll(async () => {
+    await container.stop();
+  });
+
   it("loader: should return Request object", async () => {
     const response = (await loader({
       request: new Request("http://localhost:3000"),

@@ -6,7 +6,11 @@ export type Views = {
   [key: string]: string;
 };
 
-const redis = new Redis(process.env.REDIS_URL);
+const redis = new Redis(
+  process.env.NODE_ENV === "production"
+    ? process.env.REDIS_URL
+    : process.env.REDIS_URL_LOCAL
+);
 
 export async function fetchAllViews() {
   return redis.hgetall(VIEWS_KEY);

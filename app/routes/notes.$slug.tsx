@@ -5,7 +5,7 @@ import type { LoaderArgs } from "@remix-run/server-runtime";
 
 import { FourOhFour, ServerError } from "~/components/errors";
 import { getSlugContent } from "~/server/markdown.server";
-import { dateFormatter } from "~/utils/date";
+import { ago, dateFormatter } from "~/utils/date";
 import MainLayout from "~/components/main-layout";
 import { H1 } from "~/components/typography";
 import GoBack from "~/components/go-back";
@@ -54,10 +54,12 @@ export const loader = async ({ params }: LoaderArgs) => {
   if (!note) {
     throw new Response("Note not found.", { status: 404 });
   }
+
+  const d = new Date(note.attributes.date);
   const noteExtended = {
     ...note,
     views,
-    date: dateFormatter.format(new Date(note.attributes.date)),
+    date: dateFormatter.format(d),
   };
 
   return json(noteExtended);
@@ -69,10 +71,15 @@ export default function PostSlug() {
   return (
     <MainLayout>
       <div className="flex flex-col gap-1 mb-8">
-        <time className="text-2xl text-zinc-700 dark:text-zinc-500">
-          {note.attributes.date}
-        </time>
         <H1>{note.attributes.title}</H1>
+        <div className="flex justify-between flex-row">
+          <time className="text-lg text-zinc-700 dark:text-zinc-500">
+            {note.date} ({ago(new Date(note.attributes.date))})
+          </time>
+          <span className="text-lg text-zinc-700 dark:text-zinc-500">
+            {note.views} views
+          </span>
+        </div>
       </div>
       <div className="mb-10">
         <article

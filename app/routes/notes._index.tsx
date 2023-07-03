@@ -14,16 +14,16 @@ import {
   getSocialMetas,
 } from "~/utils/seo";
 import type { RootLoaderDataUnwrapped } from "~/root";
-import { fetchViewsAll } from "~/server/redis.server";
+import { fetchAllViews } from "~/server/redis.server";
 
 export const loader = async (_: LoaderArgs) => {
   const [notes, views] = await Promise.all([
     fetchAllContent(),
-    fetchViewsAll(),
+    fetchAllViews(),
   ]);
   const notesExtended = notes.map((note) => ({
     ...note,
-    views: views ? views[note.attributes.slug] : 0,
+    views: views[note.attributes.slug],
     date: dateFormatter.format(new Date(note.attributes.date)),
   }));
 

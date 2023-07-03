@@ -48,13 +48,16 @@ export const loader = async ({ params, request }: LoaderArgs) => {
     throw new Error("params.slug is not defined.");
   }
 
-  // If the request is from the same origin (e.g during page reloads), we don't increment the views.
-  const sameOrigin = request.url === request.headers.get("referer");
+  const referer = request.headers.get("referer");
+  // If request is from the same origin (e.g during page reloads), we don't increment the views.
+  // On page reload, the referer header is `vercel.com` on Vercel platform.
+  const increment =
+    referer !== "https://vercel.com/" && request.url !== referer;
   const [note, views] = await Promise.all([
     getSlugContent(params.slug),
-    sameOrigin
-      ? fetchViewsBySlug(params.slug)
-      : fetchViewsIncrement(params.slug),
+    increment
+      ? fetchViewsIncrement(params.slug)
+      : fetchViewsBySlug(params.slug),
   ]);
   if (!note) {
     throw new Response("Note not found.", { status: 404 });

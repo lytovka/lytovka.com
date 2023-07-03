@@ -41,7 +41,7 @@ function Navbar() {
           className="justify-self-center z-30 text-black dark:text-white text-2xl hover:opacity-75 hover:transition-opacity"
           to="/"
         >
-          Ivan&apos;s docs
+          Ivan Lytovka
         </Link>
         <div className="flex justify-center">
           <ThemeToggle />

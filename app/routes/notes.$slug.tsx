@@ -17,7 +17,7 @@ import {
   getSocialMetas,
 } from "~/utils/seo";
 import type { AppError } from "~/typings/AppError";
-import { fetchViewsIncrement } from "~/server/redis.server";
+import { fetchViewsBySlug, fetchViewsIncrement } from "~/server/redis.server";
 
 export const meta: V2_MetaFunction<typeof loader> = ({ data, matches }) => {
   const { requestInfo } = (matches[0] as RootLoaderDataUnwrapped).data;
@@ -43,13 +43,18 @@ export const meta: V2_MetaFunction<typeof loader> = ({ data, matches }) => {
   ];
 };
 
-export const loader = async ({ params }: LoaderArgs) => {
+export const loader = async ({ params, request }: LoaderArgs) => {
   if (!params.slug) {
     throw new Error("params.slug is not defined.");
   }
+
+  // If the request is from the same origin (e.g during page reloads), we don't increment the views.
+  const sameOrigin = request.url === request.headers.get("referer");
   const [note, views] = await Promise.all([
     getSlugContent(params.slug),
-    fetchViewsIncrement(params.slug),
+    sameOrigin
+      ? fetchViewsBySlug(params.slug)
+      : fetchViewsIncrement(params.slug),
   ]);
   if (!note) {
     throw new Response("Note not found.", { status: 404 });

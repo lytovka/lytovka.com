@@ -1,9 +1,13 @@
-import { describe, it, expect, beforeAll, afterAll } from "vitest";
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+import { describe, it, expect, beforeAll, afterAll, vi } from "vitest";
 import { loader } from "~/routes/notes._index";
 import type { Note } from "~/server/markdown.server";
 import type { StartedTestContainer } from "testcontainers";
 import { GenericContainer } from "testcontainers";
 import Redis from "ioredis";
+
+vi.mock("ioredis");
+vi.mock("~/server/redis.server");
 
 describe("Index page", () => {
   let container: StartedTestContainer;

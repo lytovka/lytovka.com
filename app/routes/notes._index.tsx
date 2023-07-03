@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unnecessary-condition */
 import type { V2_MetaFunction } from "@remix-run/react";
 import { Link, useLoaderData } from "@remix-run/react";
 import type { LoaderArgs } from "@remix-run/server-runtime";
@@ -23,7 +24,7 @@ export const loader = async (_: LoaderArgs) => {
   ]);
   const notesExtended = notes.map((note) => ({
     ...note,
-    views: views[note.attributes.slug],
+    views: views ? views[note.attributes.slug] : 0,
     date: dateFormatter.format(new Date(note.attributes.date)),
   }));
 

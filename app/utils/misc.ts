@@ -8,3 +8,24 @@ export function getHostUrl(request: Request) {
 
   return `${schema}://${host}`;
 }
+
+export function formatPlural(
+  value: number,
+  singularForm: string,
+  pluralForm: string
+) {
+  const pluralRules = new Intl.PluralRules();
+
+  // Determine the plural category based on the value
+  const pluralCategory = pluralRules.select(value);
+
+  // Format the value with the appropriate plural form
+  const formattedValue = new Intl.NumberFormat().format(value);
+
+  // Return the formatted plural string
+  if (pluralCategory === "one") {
+    return `${formattedValue} ${singularForm}`;
+  } else {
+    return `${formattedValue} ${pluralForm}`;
+  }
+}

@@ -1,20 +1,21 @@
-/* eslint-disable import/no-mutable-exports */
-/* eslint-disable vars-on-top */
-import Redis from "ioredis";
+import { Redis } from "@upstash/redis/nodejs";
 
-declare global {
-  // eslint-disable-next-line no-var
-  var __redis: Redis | undefined;
+const VIEWS_KEY = "lytovka-com:views";
+
+type Views = {
+  [key: string]: number;
+};
+
+const redis = Redis.fromEnv();
+
+export async function fetchViewsAll() {
+  return redis.hgetall<Views>(VIEWS_KEY);
 }
 
-if (!global.__redis) {
-  global.__redis = new Redis(process.env.REDIS_URL);
+export async function fetchViewsBySlug(slug: string) {
+  return redis.hget<number>(VIEWS_KEY, slug);
 }
 
-const redis = global.__redis;
-
-export { redis };
-
-redis.on("error", (err) => {
-  console.log("Redis Client Error", err);
-});
+export async function fetchViewsIncrement(slug: string) {
+  return redis.hincrby(VIEWS_KEY, slug, 1);
+}

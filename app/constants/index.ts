@@ -7,4 +7,6 @@ export const LYT_STORAGE_KEY = "lyt2";
 export const LINK_HEIGHT_PX = 90;
 export const LINK_WIDTH_PX = 90;
 export const THEME_SESSION_KEY = "theme";
+export const USER_SESSION_KEY = "user";
 export const ONE_YEAR = 1000 * 60 * 60 * 24 * 365;
+export const ONE_HOUR = 1000 * 60 * 60;

@@ -17,6 +17,7 @@ import {
   getSocialMetas,
 } from "~/utils/seo";
 import type { AppError } from "~/typings/AppError";
+import { fetchViewsIncrement } from "~/server/redis.server";
 
 export const meta: V2_MetaFunction<typeof loader> = ({ data, matches }) => {
   const { requestInfo } = (matches[0] as RootLoaderDataUnwrapped).data;
@@ -46,13 +47,20 @@ export const loader = async ({ params }: LoaderArgs) => {
   if (!params.slug) {
     throw new Error("params.slug is not defined.");
   }
-  const res = await getSlugContent(params.slug);
-  if (!res) {
+  const [note, views] = await Promise.all([
+    getSlugContent(params.slug),
+    fetchViewsIncrement(params.slug),
+  ]);
+  if (!note) {
     throw new Response("Note not found.", { status: 404 });
   }
-  res.attributes.date = dateFormatter.format(new Date(res.attributes.date));
+  const noteExtended = {
+    ...note,
+    views,
+    date: dateFormatter.format(new Date(note.attributes.date)),
+  };
 
-  return json(res);
+  return json(noteExtended);
 };
 
 export default function PostSlug() {

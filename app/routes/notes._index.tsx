@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unnecessary-condition */
 import type { V2_MetaFunction } from "@remix-run/react";
 import { Link, useLoaderData } from "@remix-run/react";
 import type { LoaderArgs } from "@remix-run/server-runtime";
@@ -14,15 +15,20 @@ import {
   getSocialMetas,
 } from "~/utils/seo";
 import type { RootLoaderDataUnwrapped } from "~/root";
+import { fetchAllViews } from "~/server/redis.server";
 
 export const loader = async (_: LoaderArgs) => {
-  const results = await fetchAllContent();
-  const newDates = results.map((item) => ({
-    ...item,
-    date: dateFormatter.format(new Date(item.attributes.date)),
+  const [notes, views] = await Promise.all([
+    fetchAllContent(),
+    fetchAllViews(),
+  ]);
+  const notesExtended = notes.map((note) => ({
+    ...note,
+    views: views ? views[note.attributes.slug] : 0,
+    date: dateFormatter.format(new Date(note.attributes.date)),
   }));
 
-  return json(newDates);
+  return json(notesExtended);
 };
 
 export const meta: V2_MetaFunction = ({ matches }) => {
@@ -68,7 +74,7 @@ export default function NotesRoute() {
             </span>
             <Link
               className="text-black dark:text-white underline text-2xl hover:opacity-75 hover:transition-opacity"
-              to={`/notes${post.attributes.slug}`}
+              to={`/notes/${post.attributes.slug}`}
             >
               {post.attributes.title}
             </Link>

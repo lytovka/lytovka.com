@@ -99,13 +99,14 @@ export type RootLoaderDataUnwrapped = {
 
 export const loader = async ({ request }: DataFunctionArgs) => {
   const themeSession = await getThemeSession(request);
-  const theme = themeSession.getTheme();
   const data = {
     ENV: getEnv(),
     requestInfo: {
       path: new URL(request.url).pathname,
       origin: getHostUrl(request),
-      theme,
+      session: {
+        theme: themeSession.getTheme(),
+      },
     },
   };
 
@@ -121,7 +122,7 @@ function App({ rootLoaderData }: { rootLoaderData: RootLoaderData }) {
         <meta charSet="utf-8" />
         <Meta />
         <Links />
-        <ThemeScript serverTheme={rootLoaderData.requestInfo.theme} />
+        <ThemeScript serverTheme={rootLoaderData.requestInfo.session.theme} />
       </head>
       <body className="bg-main dark:bg-main-dark">
         <Navbar />
@@ -144,7 +145,7 @@ export default function AppWithProviders() {
   const data = useLoaderData<RootLoaderData>();
 
   return (
-    <ThemeProvider specifiedTheme={data.requestInfo.theme}>
+    <ThemeProvider specifiedTheme={data.requestInfo.session.theme}>
       <App rootLoaderData={data} />
     </ThemeProvider>
   );

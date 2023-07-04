@@ -1,7 +1,7 @@
 ---
 title: Мысли о войне
 date: 03/11/2022
-slug: /thoughts
+slug: thoughts
 languages: rus
 ---
 

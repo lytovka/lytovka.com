@@ -133,7 +133,7 @@ export default function Index() {
   };
 
   return (
-    <MainLayout homepage>
+    <MainLayout>
       {show
         ? HOMEPAGE_LINKS.map((item, key) => (
             <DraggableItem

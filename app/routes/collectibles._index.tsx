@@ -56,7 +56,6 @@ export const loader = async (_: LoaderArgs) => {
       "1To7kv722A8SpZF789MZy7",
       "0u3Rl4KquP15smujFrgGz4",
     ]),
-    // Cache Spotify response for 24 hours since it doesn't change frequently.
     {
       headers: {
         "Cache-Control": `max-age=${ONE_MINUTE}`,

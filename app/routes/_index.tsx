@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import { useNavigate } from "@remix-run/react";
-import type { PointerEvent, ReactNode } from "react";
 import { useEffect, useRef, useState } from "react";
+import type { PointerEvent, ReactNode } from "react";
 import type { DraggableData, DraggableEvent } from "react-draggable";
 
 import { LYT_STORAGE_KEY, LINK_HEIGHT_PX, LINK_WIDTH_PX } from "~/constants";
@@ -116,6 +116,7 @@ export default function Index() {
   };
 
   const onStop = (e: DraggableEvent, data: DraggableData) => {
+    setDrag(false);
     if (!windowSize.height || !windowSize.width) return;
     const { index } = data.node.dataset;
     if (!index) return;
@@ -129,7 +130,6 @@ export default function Index() {
       localStorageSetItem(LYT_STORAGE_KEY, JSON.stringify(newPositions));
       Object.assign(localStoragePositionsCopy.current, newPositions);
     }
-    setDrag(false);
   };
 
   return (

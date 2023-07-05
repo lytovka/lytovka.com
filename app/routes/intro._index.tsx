@@ -15,7 +15,7 @@ import {
   getSocialImagePreview,
   getSocialMetas,
 } from "~/utils/seo";
-import { GITHUB_LINK } from "~/constants";
+import { GITHUB_LINK, ONE_MINUTE } from "~/constants";
 import { H2 } from "~/components/typography";
 
 export const meta: V2_MetaFunction<typeof loader> = ({ matches }) => {
@@ -44,7 +44,11 @@ export const meta: V2_MetaFunction<typeof loader> = ({ matches }) => {
 export const loader = async (_: LoaderArgs) => {
   const result = await getIntroFile();
 
-  return json(result);
+  return json(result, {
+    headers: {
+      "Cache-Control": `max-age=${ONE_MINUTE}`,
+    },
+  });
 };
 
 export default function IntroPage() {

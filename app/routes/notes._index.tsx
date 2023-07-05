@@ -16,6 +16,7 @@ import {
 } from "~/utils/seo";
 import type { RootLoaderDataUnwrapped } from "~/root";
 import { fetchAllViews } from "~/server/redis.server";
+import { ONE_MINUTE } from "~/constants";
 
 export const loader = async (_: LoaderArgs) => {
   const [notes, views] = await Promise.all([
@@ -28,7 +29,11 @@ export const loader = async (_: LoaderArgs) => {
     date: dateFormatter.format(new Date(note.attributes.date)),
   }));
 
-  return json(notesExtended);
+  return json(notesExtended, {
+    headers: {
+      "Cache-Control": `max-age=${ONE_MINUTE}`,
+    },
+  });
 };
 
 export const meta: V2_MetaFunction = ({ matches }) => {

@@ -18,6 +18,7 @@ import {
 } from "~/utils/seo";
 import type { V2_MetaFunction } from "@remix-run/node";
 import type { RootLoaderDataUnwrapped } from "~/root";
+import { ONE_MINUTE } from "~/constants";
 
 export const meta: V2_MetaFunction<typeof loader> = ({ matches }) => {
   const { requestInfo } = (matches[0] as RootLoaderDataUnwrapped).data;
@@ -58,7 +59,7 @@ export const loader = async (_: LoaderArgs) => {
     // Cache Spotify response for 24 hours since it doesn't change frequently.
     {
       headers: {
-        "Cache-Control": "max-age=86400",
+        "Cache-Control": `max-age=${ONE_MINUTE}`,
       },
     }
   );

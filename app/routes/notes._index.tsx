@@ -5,7 +5,7 @@ import type { LoaderArgs } from "@remix-run/server-runtime";
 import { json } from "@remix-run/server-runtime";
 import GoBack from "~/components/go-back";
 import { dateFormatter } from "~/utils/date";
-import { fetchAllContent } from "~/server/markdown.server";
+import { fetchPreviews } from "~/server/markdown.server";
 import MainLayout from "~/components/main-layout";
 import { H1, Paragraph } from "~/components/typography";
 import {
@@ -19,14 +19,11 @@ import { fetchAllViews } from "~/server/redis.server";
 import { ONE_MINUTE } from "~/constants";
 
 export const loader = async (_: LoaderArgs) => {
-  const [notes, views] = await Promise.all([
-    fetchAllContent(),
-    fetchAllViews(),
-  ]);
+  const [notes, views] = await Promise.all([fetchPreviews(), fetchAllViews()]);
   const notesExtended = notes.map((note) => ({
     ...note,
-    views: views ? views[note.attributes.slug] : 0,
-    date: dateFormatter.format(new Date(note.attributes.date)),
+    views: views ? views[note.slug] : 0,
+    date: dateFormatter.format(new Date(note.date)),
   }));
 
   return json(notesExtended, {
@@ -74,14 +71,14 @@ export default function NotesRoute() {
             className="flex flex-col text-2xl pr-3 pt-3 pb-3 md:items-center md:flex-row md:gap-7"
             key={key}
           >
-            <span className="text-black dark:text-white opacity-75 text-2xl">
+            <span className="text-black dark:text-white opacity-75 text-2xl md:w-60">
               {post.date}
             </span>
             <Link
               className="text-black dark:text-white underline text-2xl hover:opacity-75 hover:transition-opacity"
-              to={`/notes/${post.attributes.slug}`}
+              to={`/notes/${post.slug}`}
             >
-              {post.attributes.title}
+              {post.title}
             </Link>
           </li>
         ))}

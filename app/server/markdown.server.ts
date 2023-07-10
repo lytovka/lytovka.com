@@ -1,7 +1,8 @@
+import path from "path";
 import matter from "gray-matter";
 import fs from "fs/promises";
 import { marked } from "marked";
-import path from "path";
+import previews from "~/markdown/notes/previews.json";
 
 //TODO: This is a hack to get the root path for the app for diff environments (test, CI, and deploy preview). Need to find a better way.
 const root =
@@ -15,6 +16,7 @@ type Metadata = {
   title: string;
   date: string;
   slug: string;
+  languages: string;
 };
 
 export type Note = {
@@ -70,4 +72,10 @@ export const fetchAllContent = async (): Promise<Array<Note>> => {
   );
 
   return sortedNotes;
+};
+
+export const fetchPreviews = (): Array<Metadata> => {
+  return (previews as Array<Metadata>).sort(
+    (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
+  );
 };

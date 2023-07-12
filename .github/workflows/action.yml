@@ -24,6 +24,23 @@ jobs:
       - name: Lint
         run: npm run lint
 
+  prettier:
+    name: Prettier
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+      - name: Grab node version
+        run: echo NVMRC=`cat .nvmrc` >> $GITHUB_ENV
+      - name: Setup node
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ env.NVMRC }}
+      - name: Download deps
+        uses: bahmutov/npm-install@v1
+      - name: Lint
+        run: npm run format
+
   typescript:
     name: TypeScript
     runs-on: ubuntu-latest

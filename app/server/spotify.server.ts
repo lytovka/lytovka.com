@@ -10,7 +10,7 @@ const SPOTIFY_API_BASE_URL = process.env.SPOTIFY_API_BASE_URL;
 
 async function getAccessToken(): Promise<SpotifyAccessToken> {
   const auth = Buffer.from([SPOTIFY_ID, SPOTIFY_SECRET].join(":")).toString(
-    "base64"
+    "base64",
   );
 
   const tokenUrl = new URL("https://accounts.spotify.com/api/token");
@@ -31,7 +31,7 @@ async function getAccessToken(): Promise<SpotifyAccessToken> {
 }
 
 async function getAlbumsByIds(
-  ids: Array<string>
+  ids: Array<string>,
 ): Promise<SpotifyApi.MultipleAlbumsResponse> {
   const toRequestParam = ids.join(",");
   const auth = (await getAccessToken()).access_token;

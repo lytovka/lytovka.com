@@ -63,12 +63,12 @@ const getAllNoteSlugs = async (): Promise<Array<string>> => {
 export const fetchAllContent = async (): Promise<Array<Note>> => {
   const slugs = await getAllNoteSlugs();
   const notes = (await Promise.all(
-    slugs.map(async (slug) => getSlugContent(slug)).filter(Boolean)
+    slugs.map(async (slug) => getSlugContent(slug)).filter(Boolean),
   )) as Array<Note>;
   const sortedNotes = notes.sort(
     (a, b) =>
       new Date(b.attributes.date).getTime() -
-      new Date(a.attributes.date).getTime()
+      new Date(a.attributes.date).getTime(),
   );
 
   return sortedNotes;
@@ -76,6 +76,6 @@ export const fetchAllContent = async (): Promise<Array<Note>> => {
 
 export const fetchPreviews = (): Array<Metadata> => {
   return (previews as Array<Metadata>).sort(
-    (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
+    (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime(),
   );
 };

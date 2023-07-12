@@ -16,7 +16,7 @@ const themeSessionStorage = createCookieSessionStorage({
 
 const getThemeSession = async (request: Request) => {
   const session = await themeSessionStorage.getSession(
-    request.headers.get("Cookie")
+    request.headers.get("Cookie"),
   );
 
   return {

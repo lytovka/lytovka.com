@@ -60,7 +60,7 @@ export const loader = async (_: LoaderArgs) => {
       headers: {
         "Cache-Control": `max-age=${ONE_MINUTE}`,
       },
-    }
+    },
   );
 };
 

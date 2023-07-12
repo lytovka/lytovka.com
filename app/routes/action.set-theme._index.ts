@@ -22,7 +22,7 @@ export const action = async ({ request }: ActionArgs) => {
       headers: {
         "Set-Cookie": await themeSession.commitSession(),
       },
-    }
+    },
   );
 };
 

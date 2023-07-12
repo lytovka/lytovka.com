@@ -23,7 +23,7 @@ export function ago(date: Date): string {
     now.getUTCHours(),
     now.getUTCMinutes(),
     now.getUTCSeconds(),
-    now.getUTCMilliseconds()
+    now.getUTCMilliseconds(),
   );
   const diff = utcTimestamp - +date;
 

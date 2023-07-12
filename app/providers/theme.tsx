@@ -24,11 +24,11 @@ const getPreferredTheme = () =>
 
 type ThemeContextType = [
   Theme | null,
-  React.Dispatch<React.SetStateAction<Theme | null>>
+  React.Dispatch<React.SetStateAction<Theme | null>>,
 ];
 
 const ThemeContext = React.createContext<ThemeContextType | undefined>(
-  undefined
+  undefined,
 );
 
 interface ThemeProviderProps extends PropsWithChildren<unknown> {
@@ -56,11 +56,11 @@ const ThemeProvider = ({ children, specifiedTheme }: ThemeProviderProps) => {
         setThemeState(newTheme);
         fetcher.submit(
           { theme: newTheme },
-          { action: "/action/set-theme", method: "POST" }
+          { action: "/action/set-theme", method: "POST" },
         );
       }
     },
-    [fetcher, theme]
+    [fetcher, theme],
   );
 
   return (
@@ -90,7 +90,7 @@ const useTheme = () => {
 const injectThemeScript = `
 (function() {
   const theme = window.matchMedia(${JSON.stringify(
-    prefersColorSchemeDark
+    prefersColorSchemeDark,
   )}).matches ? "dark" : "light";
 
   const cl = document.documentElement.classList;

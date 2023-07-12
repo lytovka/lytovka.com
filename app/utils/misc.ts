@@ -12,7 +12,7 @@ export function getHostUrl(request: Request) {
 export function formatPlural(
   value: number,
   singularForm: string,
-  pluralForm: string
+  pluralForm: string,
 ) {
   const pluralRules = new Intl.PluralRules();
 

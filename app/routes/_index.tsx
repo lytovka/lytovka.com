@@ -50,16 +50,16 @@ export default function Index() {
   const navigate = useNavigate();
   const draggableElementRefs = useRef<Array<HTMLDivElement>>([]);
   const localStoragePositionsCopy = useRef<Positions>(
-    HOMEPAGE_LINKS.map((item) => item.position)
+    HOMEPAGE_LINKS.map((item) => item.position),
   );
   const [windowSize] = useWindowSize();
   const [show, setShow] = useState(false);
   const [drag, setDrag] = useState(false);
   const [zIndexes, setZIndexes] = useState<Array<number>>(
-    Array(HOMEPAGE_LINKS.length).fill(0)
+    Array(HOMEPAGE_LINKS.length).fill(0),
   );
   const [defaultPositions, setDefaultPositions] = useState<Positions>(
-    Array(HOMEPAGE_LINKS.length).fill([0, 0])
+    Array(HOMEPAGE_LINKS.length).fill([0, 0]),
   );
 
   const handleOnPointerEndCapture = (_event: PointerEvent, slug: string) => {
@@ -93,7 +93,7 @@ export default function Index() {
             position[0] * (width - LINK_WIDTH_PX),
             position[1] * (height - LINK_HEIGHT_PX),
           ];
-        }
+        },
       );
       setDefaultPositions(transformedPositions);
     }
@@ -104,7 +104,7 @@ export default function Index() {
     const { index } = data.node.dataset;
     if (!index) return;
     setZIndexes((prev) =>
-      replaceAt<number>(prev, Number(index), Math.max(...prev) + 1)
+      replaceAt<number>(prev, Number(index), Math.max(...prev) + 1),
     );
   };
 
@@ -125,7 +125,7 @@ export default function Index() {
       const newPositions = replaceAt<Position>(
         localStoragePositionsCopy.current,
         Number(index),
-        [x / windowSize.width, y / windowSize.height]
+        [x / windowSize.width, y / windowSize.height],
       );
       localStorageSetItem(LYT_STORAGE_KEY, JSON.stringify(newPositions));
       Object.assign(localStoragePositionsCopy.current, newPositions);

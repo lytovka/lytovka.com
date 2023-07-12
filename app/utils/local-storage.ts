@@ -48,7 +48,7 @@ const tryLocalStorageGetItem: typeof window.localStorage.getItem = (key) => {
 
 const tryLocalStorageSetItem: typeof window.localStorage.setItem = (
   key,
-  value
+  value,
 ) => {
   if (isLocalStorageAvailable()) {
     try {
@@ -61,7 +61,7 @@ const tryLocalStorageSetItem: typeof window.localStorage.setItem = (
 };
 
 const tryLocalStorageRemoveItem: typeof window.localStorage.removeItem = (
-  key
+  key,
 ) => {
   if (isLocalStorageAvailable()) {
     try {

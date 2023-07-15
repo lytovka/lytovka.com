@@ -1,8 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unnecessary-condition */
 import type { V2_MetaFunction } from "@remix-run/react";
 import { Link, useLoaderData } from "@remix-run/react";
-import type { LoaderArgs } from "@remix-run/server-runtime";
-import { json } from "@remix-run/server-runtime";
 import GoBack from "~/components/go-back";
 import { dateFormatter } from "~/utils/date";
 import { fetchPreviews } from "~/server/markdown.server";
@@ -17,6 +15,8 @@ import {
 import type { RootLoaderDataUnwrapped } from "~/root";
 import { fetchAllViews } from "~/server/redis.server";
 import { ONE_MINUTE } from "~/constants";
+import type { LoaderArgs } from "@vercel/remix";
+import { json } from "@vercel/remix";
 
 export const loader = async (_: LoaderArgs) => {
   const [notes, views] = await Promise.all([fetchPreviews(), fetchAllViews()]);

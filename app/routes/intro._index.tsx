@@ -1,7 +1,6 @@
-import type { V2_MetaFunction } from "@remix-run/node";
+import { json } from "@vercel/remix";
+import type { LoaderArgs, V2_MetaFunction } from "@vercel/remix";
 import { useLoaderData } from "@remix-run/react";
-import type { LoaderArgs } from "@remix-run/server-runtime";
-import { json } from "@remix-run/server-runtime";
 import type { ChangeEvent } from "react";
 import { useRef } from "react";
 import GoBack from "~/components/go-back";

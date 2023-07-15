@@ -3,18 +3,17 @@
  */
 module.exports = {
   future: {
-    v2_routeConvention: true,
-    v2_meta: true,
+    v2_dev: true,
     v2_errorBoundary: true,
+    v2_headers: true,
+    v2_meta: true,
     v2_normalizeFormMethod: true,
-    unstable_dev: true,
+    v2_routeConvention: true,
   },
-  appDirectory: "app",
   assetsBuildDirectory: "public/build",
-  devServerPort: 8002,
   ignoredRouteFiles: ["**/.*"],
   publicPath: "/build/",
-  serverBuildPath: "api/index.js",
+  serverBuildPath: "build/index.js",
   serverDependenciesToBundle: [/^marked/],
-  serverMainFields: ["main", "module"],
+  serverModuleFormat: "cjs",
 };

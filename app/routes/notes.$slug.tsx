@@ -1,7 +1,5 @@
 import type { V2_MetaFunction } from "@remix-run/react";
 import { useRouteError, useLoaderData } from "@remix-run/react";
-import { json } from "@remix-run/server-runtime";
-import type { LoaderArgs } from "@remix-run/server-runtime";
 
 import { FourOhFour, ServerError } from "~/components/errors";
 import { getSlugContent } from "~/server/markdown.server";
@@ -18,11 +16,13 @@ import {
 } from "~/utils/seo";
 import type { AppError } from "~/typings/AppError";
 import { fetchViewsBySlug, fetchViewsIncrement } from "~/server/redis.server";
+import { json } from "@vercel/remix";
+import type { LoaderArgs } from "@vercel/remix";
 
 export const meta: V2_MetaFunction<typeof loader> = ({ data, matches }) => {
   const { requestInfo } = (matches[0] as RootLoaderDataUnwrapped).data;
   const metadataUrl = getMetadataUrl(requestInfo);
-  const title = data.attributes.title;
+  const title = data?.attributes.title;
 
   return [
     {

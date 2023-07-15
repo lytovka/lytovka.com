@@ -1,5 +1,5 @@
 import { Links, Meta, Scripts } from "@remix-run/react";
-import type { LoaderFunction } from "@remix-run/server-runtime";
+import type { LoaderFunction } from "@vercel/remix";
 import { FourOhFour } from "~/components/errors";
 
 export function loader(): LoaderFunction {

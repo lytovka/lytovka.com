@@ -41,3 +41,15 @@
 .prose ul > li {
   color: var(--typography-light-paragraph);
 }
+
+.prose blockquote {
+  color: var(--typography-light-paragraph);
+}
+
+.prose blockquote cite {
+  color: var(--typography-light-anchor);
+}
+
+.prose :where(blockquote):not(:where([class~="not-prose"] *)) {
+  border-left: 0.25rem solid var(--typography-light-anchor);
+}

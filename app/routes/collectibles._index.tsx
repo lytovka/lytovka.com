@@ -1,6 +1,4 @@
 import { useLoaderData } from "@remix-run/react";
-import { json } from "@remix-run/server-runtime";
-import type { LoaderArgs, LinksFunction } from "@remix-run/server-runtime";
 import collectiblesStylesheet from "~/styles/collectibles.css";
 
 import { getAlbumsByIds } from "~/server/spotify.server";
@@ -16,7 +14,8 @@ import {
   getSocialImagePreview,
   getSocialMetas,
 } from "~/utils/seo";
-import type { V2_MetaFunction } from "@remix-run/node";
+import { json } from "@vercel/remix";
+import type { LinksFunction, LoaderArgs, V2_MetaFunction } from "@vercel/remix";
 import type { RootLoaderDataUnwrapped } from "~/root";
 import { ONE_MINUTE } from "~/constants";
 

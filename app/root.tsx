@@ -8,7 +8,7 @@ import {
   useLoaderData,
   useRouteError,
 } from "@remix-run/react";
-import { json } from "@remix-run/server-runtime";
+import { json } from "@remix-run/node";
 import type {
   SerializeFrom,
   DataFunctionArgs,
@@ -36,7 +36,7 @@ import clsx from "clsx";
 import type { AppError } from "~/typings/AppError";
 
 export const meta: V2_MetaFunction<typeof loader> = ({ data }) => {
-  const metadataUrl = getMetadataUrl(data.requestInfo);
+  const metadataUrl = getMetadataUrl(data?.requestInfo);
 
   return [
     {

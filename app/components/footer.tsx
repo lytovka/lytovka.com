@@ -1,10 +1,8 @@
-import { useTranslation } from "react-i18next";
 import { ExternalLink } from "./external-link";
 import { INSTAGRAM_LINK, TELEGRAM_LINK, GITHUB_LINK } from "~/constants";
+import type { TFunction } from "i18next";
 
-function Footer() {
-  const { t } = useTranslation("common");
-
+function Footer({ t }: { t: TFunction<"common", undefined> }) {
   return (
     <footer className="flex flex-col items-center py-9 text-xl">
       <div className="flex gap-4 text-zinc-200">

@@ -127,7 +127,7 @@ export const handle = {
 
 function App({ rootLoaderData }: { rootLoaderData: RootLoaderData }) {
   const [theme] = useTheme();
-  const { i18n, ready } = useTranslation("common");
+  const { i18n, t, ready } = useTranslation("common");
   const { locale } = useLoaderData<typeof loader>();
 
   // This hook will change the i18n instance language to the current locale
@@ -146,9 +146,9 @@ function App({ rootLoaderData }: { rootLoaderData: RootLoaderData }) {
       </head>
       {ready ? (
         <body className="bg-main dark:bg-main-dark">
-          <Navbar />
+          <Navbar t={t} />
           <Outlet />
-          <Footer />
+          <Footer t={t} />
           <ScrollRestoration />
           <script
             dangerouslySetInnerHTML={{

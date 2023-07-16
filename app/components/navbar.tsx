@@ -1,7 +1,7 @@
 import { themes, useTheme } from "~/providers/theme";
 import { DarkModeIcon, LightModeIcon } from "~/components/icons";
 import { Link } from "@remix-run/react";
-import { useTranslation } from "react-i18next";
+import type { TFunction } from "i18next";
 
 const ThemeToggle = () => {
   const [, setTheme] = useTheme();
@@ -33,9 +33,7 @@ const ThemeToggle = () => {
   );
 };
 
-function Navbar() {
-  const { t } = useTranslation("common");
-
+function Navbar({ t }: { t: TFunction<"common", undefined> }) {
   return (
     <div className="py-9">
       <nav className="grid grid-cols-3 items-center sm:max-w-5xl md:max-w-7xl mx-auto px-8">

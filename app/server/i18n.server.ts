@@ -1,5 +1,5 @@
 import { RemixI18Next } from "remix-i18next";
-import i18nextOptions from "./i18nextOptions";
+import i18nextOptions from "../i18nextOptions";
 import Backend from "i18next-fs-backend";
 import { resolve } from "node:path";
 import { langCookie } from "~/cookie";

@@ -4,7 +4,7 @@ import { config } from "dotenv";
 import { renderToString } from "react-dom/server";
 import { createInstance } from "i18next";
 import Backend from "i18next-fs-backend";
-import i18n from "./i18n.server";
+import i18n from "./server/i18n.server";
 import { I18nextProvider, initReactI18next } from "react-i18next";
 import i18nextOptions from "~/i18nextOptions";
 import { resolve } from "path";
@@ -15,7 +15,7 @@ export default async function handleRequest(
   request: Request,
   responseStatusCode: number,
   responseHeaders: Headers,
-  remixContext: EntryContext,
+  remixContext: EntryContext
 ) {
   // First, we create a new instance of i18next so every request will have a
   // completely unique instance and not share any state
@@ -44,7 +44,7 @@ export default async function handleRequest(
   const markup = renderToString(
     <I18nextProvider i18n={instance}>
       <RemixServer context={remixContext} url={request.url} />
-    </I18nextProvider>,
+    </I18nextProvider>
   );
 
   responseHeaders.set("Content-Type", "text/html");

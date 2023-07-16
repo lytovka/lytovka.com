@@ -35,7 +35,7 @@ import { ThemeProvider, ThemeScript, useTheme } from "./providers/theme";
 import clsx from "clsx";
 import type { AppError } from "~/typings/AppError";
 import { useChangeLanguage } from "remix-i18next";
-import remixI18n from "./i18n.server";
+import remixI18n from "./server/i18n.server";
 import { useTranslation } from "react-i18next";
 import { langCookie } from "~/cookie";
 
@@ -98,6 +98,7 @@ export type RootLoaderDataUnwrapped = {
   data: {
     ENV: ReturnType<typeof getEnv>;
     requestInfo: { path: string; origin: string; theme: Theme | null };
+    locale: string;
   };
 };
 
@@ -129,7 +130,6 @@ function App({ rootLoaderData }: { rootLoaderData: RootLoaderData }) {
   const [theme] = useTheme();
   const { i18n, t, ready } = useTranslation("common");
   const { locale } = useLoaderData<typeof loader>();
-
   // This hook will change the i18n instance language to the current locale
   // detected by the loader, this way, when we do something to change the
   // language, this locale will change and i18next will load the correct

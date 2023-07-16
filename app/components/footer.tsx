@@ -1,7 +1,10 @@
+import { useTranslation } from "react-i18next";
 import { ExternalLink } from "./external-link";
 import { INSTAGRAM_LINK, TELEGRAM_LINK, GITHUB_LINK } from "~/constants";
 
 function Footer() {
+  const { t } = useTranslation("common");
+
   return (
     <footer className="flex flex-col items-center py-9 text-xl">
       <div className="flex gap-4 text-zinc-200">
@@ -33,7 +36,7 @@ function Footer() {
         </ExternalLink>
       </div>
       <span className="text-stone-600 dark:text-stone-400 mt-2 z-30">
-        MIT © Ivan Lytovka 2022-{new Date().getFullYear()}
+        MIT © {t("FOOTER.AUTHOR")} 2022-{new Date().getFullYear()}
       </span>
     </footer>
   );

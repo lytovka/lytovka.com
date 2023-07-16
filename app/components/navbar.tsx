@@ -1,6 +1,7 @@
 import { themes, useTheme } from "~/providers/theme";
 import { DarkModeIcon, LightModeIcon } from "~/components/icons";
 import { Link } from "@remix-run/react";
+import { useTranslation } from "react-i18next";
 
 const ThemeToggle = () => {
   const [, setTheme] = useTheme();
@@ -33,6 +34,8 @@ const ThemeToggle = () => {
 };
 
 function Navbar() {
+  const { t } = useTranslation("common");
+
   return (
     <div className="py-9">
       <nav className="grid grid-cols-3 items-center sm:max-w-5xl md:max-w-7xl mx-auto px-8">
@@ -41,7 +44,7 @@ function Navbar() {
           className="justify-self-center z-30 text-black dark:text-white text-2xl hover:opacity-75 hover:transition-opacity"
           to="/"
         >
-          Ivan Lytovka
+          {t("NAVBAR.TITLE")}
         </Link>
         <div className="flex justify-end">
           <ThemeToggle />

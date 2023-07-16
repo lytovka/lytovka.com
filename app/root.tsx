@@ -34,6 +34,10 @@ import type { Theme } from "./providers/theme";
 import { ThemeProvider, ThemeScript, useTheme } from "./providers/theme";
 import clsx from "clsx";
 import type { AppError } from "~/typings/AppError";
+import { useChangeLanguage } from "remix-i18next";
+import remixI18n from "./i18n.server";
+import { useTranslation } from "react-i18next";
+import { langCookie } from "~/cookie";
 
 export const meta: V2_MetaFunction<typeof loader> = ({ data }) => {
   const metadataUrl = getMetadataUrl(data?.requestInfo);
@@ -99,6 +103,7 @@ export type RootLoaderDataUnwrapped = {
 
 export const loader = async ({ request }: DataFunctionArgs) => {
   const themeSession = await getThemeSession(request);
+  const locale = await remixI18n.getLocale(request);
   const data = {
     ENV: getEnv(),
     requestInfo: {
@@ -108,16 +113,31 @@ export const loader = async ({ request }: DataFunctionArgs) => {
         theme: themeSession.getTheme(),
       },
     },
+    locale,
   };
 
-  return json(data);
+  return json(data, {
+    headers: { "Set-Cookie": await langCookie.serialize(locale) },
+  });
+};
+
+export const handle = {
+  i18n: ["common"],
 };
 
 function App({ rootLoaderData }: { rootLoaderData: RootLoaderData }) {
   const [theme] = useTheme();
+  const { i18n } = useTranslation("common");
+  const { locale } = useLoaderData<typeof loader>();
+
+  // This hook will change the i18n instance language to the current locale
+  // detected by the loader, this way, when we do something to change the
+  // language, this locale will change and i18next will load the correct
+  // translation files
+  useChangeLanguage(locale);
 
   return (
-    <html className={clsx(theme)} lang="en">
+    <html className={clsx(theme)} lang={i18n.language}>
       <head>
         <meta charSet="utf-8" />
         <Meta />
@@ -154,17 +174,19 @@ export default function AppWithProviders() {
 export function ErrorBoundary() {
   const error = useRouteError() as AppError;
   if (error.status === 404) {
-    <html lang="en">
-      <head>
-        <meta charSet="utf-8" />
-        <Meta />
-        <Links />
-      </head>
-      <body>
-        <FourOhFour />
-        <Scripts />
-      </body>
-    </html>;
+    return (
+      <html lang="en">
+        <head>
+          <meta charSet="utf-8" />
+          <Meta />
+          <Links />
+        </head>
+        <body>
+          <FourOhFour />
+          <Scripts />
+        </body>
+      </html>
+    );
   }
   throw new Error(`Unhandled error: ${error.status}`);
 }

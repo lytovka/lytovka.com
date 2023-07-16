@@ -19,34 +19,41 @@ import {
   FolderDocumentsIcon,
   FolderMusicIcon,
 } from "~/components/icons";
+import { useTranslation } from "react-i18next";
 
 const HOMEPAGE_LINKS: Array<{
-  title: string;
+  titleKey: string;
   href: string;
   position: Position;
   imgSrc: ReactNode;
 }> = [
   {
-    title: "notes",
+    titleKey: "NOTES",
     href: "/notes",
     position: [0.55, 0.15],
     imgSrc: <FolderDocumentsIcon />,
   },
   {
-    title: "collectibles",
+    titleKey: "COLLECTIBLES",
     href: "/collectibles",
     position: [0.25, 0.2],
     imgSrc: <FolderMusicIcon />,
   },
   {
-    title: "intro.txt",
+    titleKey: "INTRO",
     href: "/intro",
     position: [0.5, 0.35],
     imgSrc: <FileTextIcon />,
   },
 ];
 
+export const handle = {
+  i18n: ["index"],
+};
+
 export default function Index() {
+  const { t, ready } = useTranslation("index");
+
   const navigate = useNavigate();
   const draggableElementRefs = useRef<Array<HTMLDivElement>>([]);
   const localStoragePositionsCopy = useRef<Positions>(
@@ -134,7 +141,7 @@ export default function Index() {
 
   return (
     <MainLayout>
-      {show
+      {show && ready
         ? HOMEPAGE_LINKS.map((item, key) => (
             <DraggableItem
               defaultPosition={defaultPositions[key]}
@@ -150,7 +157,7 @@ export default function Index() {
                 isDraggable={drag}
                 ref={(el) => el && draggableElementRefs.current[key]}
                 style={{ zIndex: zIndexes[key] }}
-                title={item.title}
+                title={t(`MAIN_LINKS.${item.titleKey}`)}
                 onPointerUp={(e) => {
                   handleOnPointerEndCapture(e, item.href);
                 }}

@@ -2,7 +2,6 @@ import path from "path";
 import matter from "gray-matter";
 import fs from "fs/promises";
 import { marked } from "marked";
-import previews from "~/markdown/notes/previews.json";
 
 //TODO: This is a hack to get the root path for the app for diff environments (test, CI, and deploy preview). Need to find a better way.
 const root =
@@ -25,11 +24,13 @@ export type Note = {
 };
 
 // This method is separate from other fetchers because of additional split operation.
-export const getIntroFile = async (): Promise<{
+export const getIntroFile = async (
+  locale = "en",
+): Promise<{
   short: string;
   extended: string;
 }> => {
-  const pathToIntro = `${root}/markdown/intro.md`;
+  const pathToIntro = `${root}/markdown/${locale}/intro.md`;
   const file = (await fs.readFile(pathToIntro)).toString();
   const { content } = matter(file);
   const [short, extended] = marked(content, { mangle: false }).split("<hr>");
@@ -74,7 +75,14 @@ export const fetchAllContent = async (): Promise<Array<Note>> => {
   return sortedNotes;
 };
 
-export const fetchPreviews = (): Array<Metadata> => {
+export const fetchPreviews = async (): Promise<Array<Metadata>> => {
+  const previews = (
+    await import(
+      /* webpackChunkName: "../markdown/en/notes/previews.json" */
+      "../markdown/en/notes/previews.json"
+    )
+  ).default;
+
   return (previews as Array<Metadata>).sort(
     (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime(),
   );

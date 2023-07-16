@@ -2,6 +2,7 @@ import { themes, useTheme } from "~/providers/theme";
 import { DarkModeIcon, LightModeIcon } from "~/components/icons";
 import { Link } from "@remix-run/react";
 import type { TFunction } from "i18next";
+import { LanguageSelection } from "~/components/language-selection";
 
 const ThemeToggle = () => {
   const [, setTheme] = useTheme();
@@ -44,7 +45,8 @@ function Navbar({ t }: { t: TFunction<"common", undefined> }) {
         >
           {t("NAVBAR.TITLE")}
         </Link>
-        <div className="flex justify-end">
+        <div className="flex justify-end gap-5">
+          <LanguageSelection />
           <ThemeToggle />
         </div>
       </nav>

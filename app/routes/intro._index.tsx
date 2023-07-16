@@ -8,6 +8,7 @@ import MainLayout from "~/components/main-layout";
 import ToggleButton from "~/components/toggle-button";
 import type { RootLoaderDataUnwrapped } from "~/root";
 import { getIntroFile } from "~/server/markdown.server";
+import remixI18n from "~/server/i18n.server";
 import {
   getMetadataUrl,
   getPreviewUrl,
@@ -40,8 +41,9 @@ export const meta: V2_MetaFunction<typeof loader> = ({ matches }) => {
   ];
 };
 
-export const loader = async (_: LoaderArgs) => {
-  const result = await getIntroFile();
+export const loader = async ({ request }: LoaderArgs) => {
+  const locale = await remixI18n.getLocale(request);
+  const result = await getIntroFile(locale);
 
   return json(result, {
     headers: {

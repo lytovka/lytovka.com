@@ -36,7 +36,7 @@ if (!i18next.isInitialized) {
         <I18nextProvider i18n={i18next}>
           <RemixBrowser />
         </I18nextProvider>,
-        document
+        document,
       );
     });
 }

@@ -127,7 +127,7 @@ export const handle = {
 
 function App({ rootLoaderData }: { rootLoaderData: RootLoaderData }) {
   const [theme] = useTheme();
-  const { i18n } = useTranslation("common");
+  const { i18n, ready } = useTranslation("common");
   const { locale } = useLoaderData<typeof loader>();
 
   // This hook will change the i18n instance language to the current locale
@@ -144,19 +144,21 @@ function App({ rootLoaderData }: { rootLoaderData: RootLoaderData }) {
         <Links />
         <ThemeScript serverTheme={rootLoaderData.requestInfo.session.theme} />
       </head>
-      <body className="bg-main dark:bg-main-dark">
-        <Navbar />
-        <Outlet />
-        <Footer />
-        <ScrollRestoration />
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `window.ENV = ${JSON.stringify(rootLoaderData.ENV)};`,
-          }}
-        />
-        <Scripts />
-        {process.env.NODE_ENV === "development" ? <LiveReload /> : null}
-      </body>
+      {ready ? (
+        <body className="bg-main dark:bg-main-dark">
+          <Navbar />
+          <Outlet />
+          <Footer />
+          <ScrollRestoration />
+          <script
+            dangerouslySetInnerHTML={{
+              __html: `window.ENV = ${JSON.stringify(rootLoaderData.ENV)};`,
+            }}
+          />
+          <Scripts />
+          {process.env.NODE_ENV === "development" ? <LiveReload /> : null}
+        </body>
+      ) : null}
     </html>
   );
 }

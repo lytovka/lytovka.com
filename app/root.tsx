@@ -145,7 +145,7 @@ function App({ rootLoaderData }: { rootLoaderData: RootLoaderData }) {
         <ThemeScript serverTheme={rootLoaderData.requestInfo.session.theme} />
       </head>
       <body className="bg-main dark:bg-main-dark">
-        <Navbar t={t} />
+        <Navbar t={t("NAVBAR.TITLE")} />
         <Outlet />
         <Footer t={t} />
         <ScrollRestoration />

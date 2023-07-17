@@ -15,7 +15,7 @@ export default async function handleRequest(
   request: Request,
   responseStatusCode: number,
   responseHeaders: Headers,
-  remixContext: EntryContext
+  remixContext: EntryContext,
 ) {
   // First, we create a new instance of i18next so every request will have a
   // completely unique instance and not share any state
@@ -44,7 +44,7 @@ export default async function handleRequest(
   const markup = renderToString(
     <I18nextProvider i18n={instance}>
       <RemixServer context={remixContext} url={request.url} />
-    </I18nextProvider>
+    </I18nextProvider>,
   );
 
   responseHeaders.set("Content-Type", "text/html");

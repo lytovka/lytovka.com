@@ -1,7 +1,6 @@
 import { themes, useTheme } from "~/providers/theme";
 import { DarkModeIcon, LightModeIcon } from "~/components/icons";
 import { Link } from "@remix-run/react";
-import type { TFunction } from "i18next";
 import { LanguageSelection } from "~/components/language-selection";
 
 const ThemeToggle = () => {
@@ -34,7 +33,7 @@ const ThemeToggle = () => {
   );
 };
 
-function Navbar({ t }: { t: TFunction<"common", undefined> }) {
+function Navbar({ t }: { t: string }) {
   return (
     <div className="py-9">
       <nav className="grid grid-cols-3 items-center sm:max-w-5xl md:max-w-7xl mx-auto px-8">
@@ -43,7 +42,7 @@ function Navbar({ t }: { t: TFunction<"common", undefined> }) {
           className="justify-self-center z-30 text-black dark:text-white text-2xl hover:opacity-75 hover:transition-opacity"
           to="/"
         >
-          {t("NAVBAR.TITLE")}
+          {t}
         </Link>
         <div className="flex justify-end gap-5">
           <LanguageSelection />

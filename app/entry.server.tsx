@@ -7,7 +7,9 @@ import Backend from "i18next-fs-backend";
 import i18n from "./server/i18n.server";
 import { I18nextProvider, initReactI18next } from "react-i18next";
 import i18nextOptions from "~/i18nextOptions";
-import { resolve } from "path";
+import path from "path";
+import commonEN from "public/locales/en/common.json";
+import commonRU from "public/locales/ru/common.json";
 
 config();
 
@@ -20,13 +22,14 @@ export default async function handleRequest(
   // First, we create a new instance of i18next so every request will have a
   // completely unique instance and not share any state
   const instance = createInstance();
-  console.log("created instance");
+  console.log("created instance", { instance });
   // Then we could detect locale from the request
   const lng = await i18n.getLocale(request);
   console.log({ lng });
   // And here we detect what namespaces the routes about to render want to use
   const ns = i18n.getRouteNamespaces(remixContext);
   console.log({ ns });
+  console.log("path", path.resolve("./public/locales/{{lng}}/{{ns}}.json"));
   // First, we create a new instance of i18next so every request will have a
   // completely unique instance and not share any state.
   await instance
@@ -37,7 +40,7 @@ export default async function handleRequest(
       lng, // The locale we detected above
       ns, // The namespaces the routes about to render want to use
       backend: {
-        loadPath: resolve("./public/locales/{{lng}}/{{ns}}.json"),
+        loadPath: path.resolve("./public/locales/{{lng}}/{{ns}}.json"),
       },
     });
 

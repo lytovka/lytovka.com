@@ -2,7 +2,7 @@ import { ExternalLink } from "./external-link";
 import { INSTAGRAM_LINK, TELEGRAM_LINK, GITHUB_LINK } from "~/constants";
 import type { TFunction } from "i18next";
 
-function Footer({ t }: { t: TFunction<"common", undefined> }) {
+function Footer({ t }: { t: string }) {
   return (
     <footer className="flex flex-col items-center py-9 text-xl">
       <div className="flex gap-4 text-zinc-200">
@@ -34,7 +34,7 @@ function Footer({ t }: { t: TFunction<"common", undefined> }) {
         </ExternalLink>
       </div>
       <span className="text-stone-600 dark:text-stone-400 mt-2 z-30">
-        MIT © {t("FOOTER.AUTHOR")} 2022-{new Date().getFullYear()}
+        MIT © {t} 2022-{new Date().getFullYear()}
       </span>
     </footer>
   );

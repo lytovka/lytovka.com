@@ -47,13 +47,8 @@ const HOMEPAGE_LINKS: Array<{
   },
 ];
 
-export const handle = {
-  i18n: ["index"],
-};
-
 export default function Index() {
-  const { t } = useTranslation("index");
-
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const draggableElementRefs = useRef<Array<HTMLDivElement>>([]);
   const localStoragePositionsCopy = useRef<Positions>(
@@ -157,7 +152,7 @@ export default function Index() {
                 isDraggable={drag}
                 ref={(el) => el && draggableElementRefs.current[key]}
                 style={{ zIndex: zIndexes[key] }}
-                title={t(`MAIN_LINKS.${item.titleKey}`)}
+                title={t(`INDEX.MAIN_LINKS.${item.titleKey}`)}
                 onPointerUp={(e) => {
                   handleOnPointerEndCapture(e, item.href);
                 }}

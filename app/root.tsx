@@ -122,10 +122,6 @@ export const loader = async ({ request }: DataFunctionArgs) => {
   });
 };
 
-export const handle = {
-  i18n: ["common"],
-};
-
 export function useChangeLanguage(locale: string) {
   const { i18n } = useTranslation();
   useEffect(() => {
@@ -135,7 +131,8 @@ export function useChangeLanguage(locale: string) {
 
 function App({ rootLoaderData }: { rootLoaderData: RootLoaderData }) {
   const [theme] = useTheme();
-  const { i18n, t } = useTranslation("common");
+  const { i18n, t } = useTranslation();
+  console.log({ t });
   // This hook will change the i18n instance language to the current locale
   // detected by the loader, this way, when we do something to change the
   // language, this locale will change and i18next will load the correct
@@ -152,9 +149,9 @@ function App({ rootLoaderData }: { rootLoaderData: RootLoaderData }) {
         <ThemeScript serverTheme={rootLoaderData.requestInfo.session.theme} />
       </head>
       <body className="bg-main dark:bg-main-dark">
-        <Navbar t={t("NAVBAR.TITLE")} />
+        <Navbar t={t("COMMON.NAVBAR.TITLE")} />
         <Outlet />
-        <Footer t={t} />
+        <Footer t={t("COMMON.FOOTER.AUTHOR")} />
         <ScrollRestoration />
         <script
           dangerouslySetInnerHTML={{

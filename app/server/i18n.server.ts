@@ -1,8 +1,8 @@
-import Backend from "i18next-fs-backend";
-import path from "path";
 import { RemixI18Next } from "remix-i18next";
 import i18nextOptions from "~/i18nextOptions";
 import { createCookie } from "@remix-run/node";
+import en from "~/locales/en.json";
+import ru from "~/locales/ru.json";
 
 export const i18nCookie = createCookie("i18n", {
   sameSite: "lax",
@@ -17,9 +17,6 @@ export default new RemixI18Next({
   },
   i18next: {
     ...i18nextOptions,
-    backend: {
-      loadPath: path.resolve("./public/locales/{{lng}}/{{ns}}.json"),
-    },
+    resources: { en: { translation: en }, ru: { translation: ru } },
   },
-  plugins: [Backend],
 });

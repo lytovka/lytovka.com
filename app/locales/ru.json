@@ -3,11 +3,13 @@
   "COMMON.FOOTER.AUTHOR": "Иван Литовка",
   "INDEX.MAIN_LINKS": {
     "INTRO": "Приветствуюсь",
-    "COLLECTIBLES": "Коллекционирую",
+    "COLLECTIBLES": "Коллекция",
     "NOTES": "Пишу"
   },
   "INTRO.INDEX.HEADER": "Приветствуюсь",
   "INTRO.INDEX.TOGGLE_BUTTON.LABEL": "Подробнее",
   "NOTES.INDEX.HEADER": "Пишу",
-  "NOTES.INDEX.SUBHEADER": "Мой взгляд на различные темы. Все мысли принадлежат мне."
+  "NOTES.INDEX.SUBHEADER": "Мой взгляд на различные темы. Все мысли принадлежат мне.",
+  "COLLECTIBLES.INDEX.HEADER": "Коллекция",
+  "COLLECTIBLES.INDEX.SUBHEADER": "Моя скромная коллекция виниловых пластинок. На картинки можно тыкнуть."
 }

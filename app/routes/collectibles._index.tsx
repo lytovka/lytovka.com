@@ -18,6 +18,7 @@ import { json } from "@vercel/remix";
 import type { LinksFunction, LoaderArgs, V2_MetaFunction } from "@vercel/remix";
 import type { RootLoaderDataUnwrapped } from "~/root";
 import { ONE_MINUTE } from "~/constants";
+import { useTranslation } from "react-i18next";
 
 export const meta: V2_MetaFunction<typeof loader> = ({ matches }) => {
   const { requestInfo } = (matches[0] as RootLoaderDataUnwrapped).data;
@@ -59,7 +60,7 @@ export const loader = async (_: LoaderArgs) => {
       headers: {
         "Cache-Control": `max-age=${ONE_MINUTE}`,
       },
-    },
+    }
   );
 };
 
@@ -73,6 +74,7 @@ export const links: LinksFunction = () => {
 };
 
 export default function CollectiblesPage() {
+  const { t } = useTranslation();
   const deviceType = useDeviceType();
   const { albums } = useLoaderData<typeof loader>();
   const images = albums.map((a) => ({
@@ -83,9 +85,9 @@ export default function CollectiblesPage() {
 
   return (
     <MainLayout>
-      <H1 className="mb-2">Collectibles</H1>
+      <H1 className="mb-2">{t("COLLECTIBLES.INDEX.HEADER")}</H1>
       <Paragraph className="mb-10 italic" variant="secondary">
-        Vinyl records I&apos;ve collected over the years. Images are clickable.
+        {t("COLLECTIBLES.INDEX.SUBHEADER")}
       </Paragraph>
 
       <div className="mb-10 grid sm:grid-cols-2 md:grid-cols-3 gap-6 justify-items-center items-center">

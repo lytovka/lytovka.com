@@ -35,9 +35,8 @@ import { ThemeProvider, ThemeScript, useTheme } from "./providers/theme";
 import clsx from "clsx";
 import type { AppError } from "~/typings/AppError";
 import { PreloadTranslations, useChangeLanguage } from "remix-i18next";
-import remixI18n from "./server/i18n.server";
+import remixI18n, { i18nCookie } from "./server/i18n.server";
 import { useTranslation } from "react-i18next";
-import { langCookie } from "~/cookie";
 
 export const meta: V2_MetaFunction<typeof loader> = ({ data }) => {
   const metadataUrl = getMetadataUrl(data?.requestInfo);
@@ -118,7 +117,7 @@ export const loader = async ({ request }: DataFunctionArgs) => {
   };
 
   return json(data, {
-    headers: { "Set-Cookie": await langCookie.serialize(locale) },
+    headers: { "Set-Cookie": await i18nCookie.serialize(locale) },
   });
 };
 

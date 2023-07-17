@@ -45,7 +45,6 @@ export const meta: V2_MetaFunction = ({ matches }) => {
 
 export const loader = async ({ request }: LoaderArgs) => {
   const locale = await remixI18n.getLocale(request);
-  console.log({ locale });
   const [notes, views] = await Promise.all([
     fetchPreviews(locale),
     fetchAllViews(),

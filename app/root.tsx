@@ -34,9 +34,10 @@ import type { Theme } from "./providers/theme";
 import { ThemeProvider, ThemeScript, useTheme } from "./providers/theme";
 import clsx from "clsx";
 import type { AppError } from "~/typings/AppError";
-import { PreloadTranslations, useChangeLanguage } from "remix-i18next";
+import { PreloadTranslations } from "remix-i18next";
 import remixI18n, { i18nCookie } from "./server/i18n.server";
 import { useTranslation } from "react-i18next";
+import { useEffect } from "react";
 
 export const meta: V2_MetaFunction<typeof loader> = ({ data }) => {
   const metadataUrl = getMetadataUrl(data?.requestInfo);
@@ -125,18 +126,24 @@ export const handle = {
   i18n: ["common"],
 };
 
+export function useChangeLanguage(locale: string) {
+  const { i18n } = useTranslation();
+  useEffect(() => {
+    void i18n.changeLanguage(locale);
+  }, [locale, i18n]);
+}
+
 function App({ rootLoaderData }: { rootLoaderData: RootLoaderData }) {
   const [theme] = useTheme();
   const { i18n, t } = useTranslation("common");
-  const { locale } = useLoaderData<typeof loader>();
   // This hook will change the i18n instance language to the current locale
   // detected by the loader, this way, when we do something to change the
   // language, this locale will change and i18next will load the correct
   // translation files
-  useChangeLanguage(locale);
+  useChangeLanguage(rootLoaderData.locale);
 
   return (
-    <html className={clsx(theme)} dir={i18n.dir()} lang={locale}>
+    <html className={clsx(theme)} dir={i18n.dir()} lang={rootLoaderData.locale}>
       <head>
         <meta charSet="utf-8" />
         <Meta />

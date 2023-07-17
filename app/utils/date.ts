@@ -8,11 +8,12 @@ import {
 } from "~/constants";
 import { formatPlural } from "~/utils/misc";
 
-export const dateFormatter = new Intl.DateTimeFormat("en-US", {
-  year: "numeric",
-  month: "long",
-  day: "numeric",
-});
+export const dateFormatter = (locale = "en-US") =>
+  new Intl.DateTimeFormat(locale, {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  });
 
 export function ago(date: Date): string {
   const now = new Date();

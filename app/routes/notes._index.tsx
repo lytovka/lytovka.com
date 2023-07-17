@@ -6,6 +6,7 @@ import { dateFormatter } from "~/utils/date";
 import { fetchPreviews } from "~/server/markdown.server";
 import MainLayout from "~/components/main-layout";
 import { H1, Paragraph } from "~/components/typography";
+import remixI18n from "~/server/i18n.server";
 import {
   getMetadataUrl,
   getPreviewUrl,
@@ -17,21 +18,7 @@ import { fetchAllViews } from "~/server/redis.server";
 import { ONE_MINUTE } from "~/constants";
 import type { LoaderArgs } from "@vercel/remix";
 import { json } from "@vercel/remix";
-
-export const loader = async (_: LoaderArgs) => {
-  const [notes, views] = await Promise.all([fetchPreviews(), fetchAllViews()]);
-  const notesExtended = notes.map((note) => ({
-    ...note,
-    views: views ? views[note.slug] : 0,
-    date: dateFormatter.format(new Date(note.date)),
-  }));
-
-  return json(notesExtended, {
-    headers: {
-      "Cache-Control": `max-age=${ONE_MINUTE}`,
-    },
-  });
-};
+import { useTranslation } from "react-i18next";
 
 export const meta: V2_MetaFunction = ({ matches }) => {
   const { requestInfo } = (matches[0] as RootLoaderDataUnwrapped).data;
@@ -56,14 +43,34 @@ export const meta: V2_MetaFunction = ({ matches }) => {
   ];
 };
 
+export const loader = async ({ request }: LoaderArgs) => {
+  const locale = await remixI18n.getLocale(request);
+  const [notes, views] = await Promise.all([
+    fetchPreviews(locale),
+    fetchAllViews(),
+  ]);
+  const notesExtended = notes.map((note) => ({
+    ...note,
+    views: views ? views[note.slug] : 0,
+    date: dateFormatter(locale).format(new Date(note.date)),
+  }));
+
+  return json(notesExtended, {
+    headers: {
+      "Cache-Control": `max-age=${ONE_MINUTE}`,
+    },
+  });
+};
+
 export default function NotesRoute() {
+  const { t } = useTranslation();
   const posts = useLoaderData<typeof loader>();
 
   return (
     <MainLayout>
-      <H1 className="mb-2">Notes</H1>
+      <H1 className="mb-2">{t("NOTES.INDEX.HEADER")}</H1>
       <Paragraph className="mb-5 italic" variant="secondary">
-        My perspective on various topics. All thoughts are my own.
+        {t("NOTES.INDEX.SUBHEADER")}
       </Paragraph>
       <ul className="mb-10">
         {posts.map((post, key) => (

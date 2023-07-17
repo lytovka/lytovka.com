@@ -5,5 +5,9 @@
     "INTRO": "Intro",
     "COLLECTIBLES": "Collectibles",
     "NOTES": "Notes"
-  }
+  },
+  "INTRO.INDEX.HEADER": "Intro",
+  "INTRO.INDEX.TOGGLE_BUTTON.LABEL": "Long",
+  "NOTES.INDEX.HEADER": "Notes",
+  "NOTES.INDEX.SUBHEADER": "My perspective on various topics. All thoughts are my own."
 }

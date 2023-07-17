@@ -19,19 +19,17 @@ export default async function handleRequest(
   const instance = createInstance();
   const lng = await i18n.getLocale(request);
   const ns = i18n.getRouteNamespaces(remixContext);
-  await instance
-    .use(initReactI18next) // Tell our instance to use react-i18next
-    .init({
-      supportedLngs: ["en", "ru"],
-      fallbackLng: "en",
-      react: { useSuspense: false },
-      lng, // The locale we detected above
-      ns, // The namespaces the routes about to render want to use
-      resources: {
-        en: { translation: en },
-        ru: { translation: ru },
-      },
-    });
+  await instance.use(initReactI18next).init({
+    supportedLngs: ["en", "ru"],
+    fallbackLng: "en",
+    react: { useSuspense: false },
+    lng,
+    ns,
+    resources: {
+      en: { translation: en },
+      ru: { translation: ru },
+    },
+  });
 
   // Then you can render your app wrapped in the I18nextProvider as in the
   // entry.client file

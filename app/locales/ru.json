@@ -5,5 +5,9 @@
     "INTRO": "Приветствуюсь",
     "COLLECTIBLES": "Коллекционирую",
     "NOTES": "Пишу"
-  }
+  },
+  "INTRO.INDEX.HEADER": "Приветствуюсь",
+  "INTRO.INDEX.TOGGLE_BUTTON.LABEL": "Подробнее",
+  "NOTES.INDEX.HEADER": "Пишу",
+  "NOTES.INDEX.SUBHEADER": "Мой взгляд на различные темы. Все мысли принадлежат мне."
 }

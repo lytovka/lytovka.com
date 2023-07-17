@@ -17,6 +17,7 @@ import {
 } from "~/utils/seo";
 import { GITHUB_LINK, ONE_MINUTE } from "~/constants";
 import { H2 } from "~/components/typography";
+import { useTranslation } from "react-i18next";
 
 export const meta: V2_MetaFunction<typeof loader> = ({ matches }) => {
   const { requestInfo } = (matches[0] as RootLoaderDataUnwrapped).data;
@@ -53,6 +54,7 @@ export const loader = async ({ request }: LoaderArgs) => {
 };
 
 export default function IntroPage() {
+  const { t } = useTranslation();
   const root = useRef<HTMLDivElement>(null);
   const extendedContentRef = useRef<HTMLDivElement>(null);
   const { short, extended } = useLoaderData<typeof loader>();
@@ -77,11 +79,11 @@ export default function IntroPage() {
           />
         </a>
         <div className="flex gap-5 items-center mt-5 md:mt-0">
-          <H2 className="text-3xl font-extrabold">Intro</H2>
+          <H2 className="text-3xl font-extrabold">{t("INTRO.INDEX.HEADER")}</H2>
           <span className="text-zinc-600 dark:text-zinc-500 text-3xl">|</span>
           <ToggleButton
             defaultChecked={false}
-            title="Long"
+            title={t("INTRO.INDEX.TOGGLE_BUTTON.LABEL")}
             onChange={(e) => {
               expandCollapse(e);
             }}

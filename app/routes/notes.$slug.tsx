@@ -7,6 +7,7 @@ import { ago, dateFormatter } from "~/utils/date";
 import MainLayout from "~/components/main-layout";
 import { H1 } from "~/components/typography";
 import GoBack from "~/components/go-back";
+import remixI18n from "~/server/i18n.server";
 import type { RootLoaderDataUnwrapped } from "~/root";
 import {
   getMetadataUrl,
@@ -47,14 +48,14 @@ export const loader = async ({ params, request }: LoaderArgs) => {
   if (!params.slug) {
     throw new Error("params.slug is not defined.");
   }
-
+  const locale = await remixI18n.getLocale(request);
   const referer = request.headers.get("referer");
   // If request is from the same origin (e.g during page reloads), we don't increment the views.
   // On page reload, the referer header is `vercel.com` on Vercel platform.
   const increment =
     referer !== "https://vercel.com/" && request.url !== referer;
   const [note, views] = await Promise.all([
-    getSlugContent(params.slug),
+    getSlugContent(locale, params.slug),
     increment
       ? fetchViewsIncrement(params.slug)
       : fetchViewsBySlug(params.slug),
@@ -67,7 +68,7 @@ export const loader = async ({ params, request }: LoaderArgs) => {
   const noteExtended = {
     ...note,
     views,
-    date: dateFormatter.format(d),
+    date: dateFormatter(locale).format(d),
   };
 
   return json(noteExtended);

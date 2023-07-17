@@ -6,4 +6,4 @@
     --names "typecheck,format,lint" \
     "npm run typecheck" \
     "npm run lint" \
-    "npm run format:fix"
+    "npm run format"

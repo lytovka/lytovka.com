@@ -38,11 +38,14 @@ export const getIntroFile = async (
   return { short, extended };
 };
 
-export const getSlugContent = async (slug: string): Promise<Note | null> => {
+export const getSlugContent = async (
+  locale: string,
+  slug: string,
+): Promise<Note | null> => {
   const realSlug = slug.replace(/\.md$/, "");
 
   return fs
-    .readFile(`${root}/markdown/notes/${realSlug}.md`)
+    .readFile(`${root}/markdown/${locale}/notes/${realSlug}.md`)
     .then((res) => {
       const file = res.toString();
       const { data, content } = matter(file);
@@ -55,35 +58,28 @@ export const getSlugContent = async (slug: string): Promise<Note | null> => {
     });
 };
 
-const getAllNoteSlugs = async (): Promise<Array<string>> => {
-  const res = fs.readdir(`${root}/markdown/notes`);
+export const fetchPreviews = async (
+  locale = "en",
+): Promise<Array<Metadata>> => {
+  let previews: Array<Metadata> = [];
+  if (locale === "en") {
+    previews = (
+      await import(
+        /* webpackChunkName: "../markdown/en/notes/previews.json" */
+        `../markdown/en/notes/previews.json`
+      )
+    ).default as Array<Metadata>;
+  }
+  if (locale === "ru") {
+    previews = (
+      await import(
+        /* webpackChunkName: "../markdown/ru/notes/previews.json" */
+        `../markdown/ru/notes/previews.json`
+      )
+    ).default as Array<Metadata>;
+  }
 
-  return res;
-};
-
-export const fetchAllContent = async (): Promise<Array<Note>> => {
-  const slugs = await getAllNoteSlugs();
-  const notes = (await Promise.all(
-    slugs.map(async (slug) => getSlugContent(slug)).filter(Boolean),
-  )) as Array<Note>;
-  const sortedNotes = notes.sort(
-    (a, b) =>
-      new Date(b.attributes.date).getTime() -
-      new Date(a.attributes.date).getTime(),
-  );
-
-  return sortedNotes;
-};
-
-export const fetchPreviews = async (): Promise<Array<Metadata>> => {
-  const previews = (
-    await import(
-      /* webpackChunkName: "../markdown/en/notes/previews.json" */
-      "../markdown/en/notes/previews.json"
-    )
-  ).default;
-
-  return (previews as Array<Metadata>).sort(
+  return previews.sort(
     (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime(),
   );
 };

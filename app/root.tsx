@@ -132,11 +132,6 @@ export function useChangeLanguage(locale: string) {
 function App({ rootLoaderData }: { rootLoaderData: RootLoaderData }) {
   const [theme] = useTheme();
   const { i18n, t } = useTranslation();
-  console.log({ t });
-  // This hook will change the i18n instance language to the current locale
-  // detected by the loader, this way, when we do something to change the
-  // language, this locale will change and i18next will load the correct
-  // translation files
   useChangeLanguage(rootLoaderData.locale);
 
   return (

@@ -1,6 +1,5 @@
 import { ExternalLink } from "./external-link";
 import { INSTAGRAM_LINK, TELEGRAM_LINK, GITHUB_LINK } from "~/constants";
-import type { TFunction } from "i18next";
 
 function Footer({ t }: { t: string }) {
   return (

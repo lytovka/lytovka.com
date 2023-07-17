@@ -25,7 +25,7 @@ export type Note = {
 
 // This method is separate from other fetchers because of additional split operation.
 export const getIntroFile = async (
-  locale = "en"
+  locale = "en",
 ): Promise<{
   short: string;
   extended: string;
@@ -40,7 +40,7 @@ export const getIntroFile = async (
 
 export const getSlugContent = async (
   locale: string,
-  slug: string
+  slug: string,
 ): Promise<Note | null> => {
   const realSlug = slug.replace(/\.md$/, "");
 
@@ -58,8 +58,9 @@ export const getSlugContent = async (
     });
 };
 
-export const fetchPreviews = async (locale: string): Promise<Array<Metadata>> => {
-  console.log("running");
+export const fetchPreviews = async (
+  locale: string,
+): Promise<Array<Metadata>> => {
   let previews: Array<Metadata> = [];
   if (locale === "en") {
     previews = (
@@ -79,6 +80,6 @@ export const fetchPreviews = async (locale: string): Promise<Array<Metadata>> =>
   }
 
   return previews.sort(
-    (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
+    (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime(),
   );
 };

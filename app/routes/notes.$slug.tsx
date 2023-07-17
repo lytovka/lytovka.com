@@ -50,13 +50,10 @@ export const loader = async ({ params, request }: LoaderArgs) => {
   }
   const locale = await remixI18n.getLocale(request);
   const referer = request.headers.get("referer");
-  // If request is from the same origin (e.g during page reloads), we don't increment the views.
-  // On page reload, the referer header is `vercel.com` on Vercel platform.
-  const increment =
-    referer !== "https://vercel.com/" && request.url !== referer;
+  const incrementViewsCount = request.url !== referer?.split("?")[0];
   const [note, views] = await Promise.all([
     getSlugContent(locale, params.slug),
-    increment
+    incrementViewsCount
       ? fetchViewsIncrement(params.slug)
       : fetchViewsBySlug(params.slug),
   ]);

@@ -15,7 +15,6 @@ import {
 } from "~/utils/seo";
 import type { RootLoaderDataUnwrapped } from "~/root";
 import { fetchAllViews } from "~/server/redis.server";
-import { ONE_MINUTE } from "~/constants";
 import type { LoaderArgs } from "@vercel/remix";
 import { json } from "@vercel/remix";
 import { useTranslation } from "react-i18next";

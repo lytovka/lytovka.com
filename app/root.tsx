@@ -118,7 +118,9 @@ export const loader = async ({ request }: DataFunctionArgs) => {
   };
 
   return json(data, {
-    headers: { "Set-Cookie": await i18nCookie.serialize(locale) },
+    headers: {
+      "Set-Cookie": await i18nCookie.serialize(locale),
+    },
   });
 };
 

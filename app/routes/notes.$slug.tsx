@@ -48,8 +48,8 @@ export const loader = async ({ params, request }: LoaderArgs) => {
   if (!params.slug) {
     throw new Error("params.slug is not defined.");
   }
-  const locale = await remixI18n.getLocale(request);
   const referer = request.headers.get("referer");
+  const locale = await remixI18n.getLocale(request);
   const incrementViewsCount = request.url !== referer?.split("?")[0];
   const [note, views] = await Promise.all([
     getSlugContent(locale, params.slug),
@@ -60,12 +60,10 @@ export const loader = async ({ params, request }: LoaderArgs) => {
   if (!note) {
     throw new Response("Note not found.", { status: 404 });
   }
-
-  const d = new Date(note.attributes.date);
   const noteExtended = {
     ...note,
     views,
-    date: dateFormatter(locale).format(d),
+    date: dateFormatter(locale).format(new Date(note.attributes.date)),
   };
 
   return json(noteExtended);

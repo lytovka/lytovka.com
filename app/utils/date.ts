@@ -8,7 +8,7 @@ import {
 } from "~/constants";
 import { formatPlural } from "~/utils/misc";
 
-export const dateFormatter = (locale = "en-US") =>
+export const dateFormatter = (locale: string) =>
   new Intl.DateTimeFormat(locale, {
     year: "numeric",
     month: "long",
@@ -24,7 +24,7 @@ export function ago(date: Date): string {
     now.getUTCHours(),
     now.getUTCMinutes(),
     now.getUTCSeconds(),
-    now.getUTCMilliseconds(),
+    now.getUTCMilliseconds()
   );
   const diff = utcTimestamp - +date;
 

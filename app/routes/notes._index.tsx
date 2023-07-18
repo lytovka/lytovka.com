@@ -14,7 +14,6 @@ import {
   getSocialMetas,
 } from "~/utils/seo";
 import type { RootLoaderDataUnwrapped } from "~/root";
-import { fetchAllViews } from "~/server/redis.server";
 import type { LoaderArgs } from "@vercel/remix";
 import { json } from "@vercel/remix";
 import { useTranslation } from "react-i18next";
@@ -44,13 +43,11 @@ export const meta: V2_MetaFunction = ({ matches }) => {
 
 export const loader = async ({ request }: LoaderArgs) => {
   const locale = await remixI18n.getLocale(request);
-  const [notes, views] = await Promise.all([
-    fetchPreviews(locale),
-    fetchAllViews(),
-  ]);
+  // FIXME: retrieve all post views when the time comes
+  const [notes, views] = await Promise.all([fetchPreviews(locale), 0]);
   const notesExtended = notes.map((note) => ({
     ...note,
-    views: views ? views[note.slug] : 0,
+    views,
     date: dateFormatter(locale).format(new Date(note.date)),
   }));
 

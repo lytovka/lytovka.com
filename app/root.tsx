@@ -134,7 +134,7 @@ export function useChangeLanguage(locale: string) {
 function App({ rootLoaderData }: { rootLoaderData: RootLoaderData }) {
   const [theme] = useTheme();
   const { i18n, t } = useTranslation();
-  useChangeLanguage(rootLoaderData.locale);
+  // useChangeLanguage(rootLoaderData.locale);
 
   return (
     <html className={clsx(theme)} dir={i18n.dir()} lang={rootLoaderData.locale}>
@@ -146,9 +146,9 @@ function App({ rootLoaderData }: { rootLoaderData: RootLoaderData }) {
         <ThemeScript serverTheme={rootLoaderData.requestInfo.session.theme} />
       </head>
       <body className="bg-main dark:bg-main-dark">
-        <Navbar t={t("COMMON.NAVBAR.TITLE")} />
+        <Navbar t={t("COMMON.TITLE")} />
         <Outlet />
-        <Footer t={t("COMMON.FOOTER.AUTHOR")} />
+        <Footer t={t("COMMON.TITLE")} />
         <ScrollRestoration />
         <script
           dangerouslySetInnerHTML={{

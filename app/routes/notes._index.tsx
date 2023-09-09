@@ -13,16 +13,14 @@ import {
   getSocialMetas,
 } from "~/utils/seo";
 import type { RootLoaderDataUnwrapped } from "~/root";
-import { fetchAllViews } from "~/server/redis.server";
 import { ONE_MINUTE } from "~/constants";
 import type { LoaderArgs } from "@vercel/remix";
 import { json } from "@vercel/remix";
 
 export const loader = async (_: LoaderArgs) => {
-  const [notes, views] = await Promise.all([fetchPreviews(), fetchAllViews()]);
+  const [notes] = await Promise.all([fetchPreviews()]);
   const notesExtended = notes.map((note) => ({
     ...note,
-    views: views ? views[note.slug] : 0,
     date: dateFormatter.format(new Date(note.date)),
   }));
 

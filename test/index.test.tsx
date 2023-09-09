@@ -1,8 +1,6 @@
-import { describe, it, expect, vi } from "vitest";
+import { describe, it, expect } from "vitest";
 import { loader } from "~/routes/notes._index";
 import type { Note } from "~/server/markdown.server";
-
-vi.mock("ioredis");
 
 describe("Index page", () => {
   it("loader: should return Request object", async () => {

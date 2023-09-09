@@ -15,7 +15,6 @@ import {
   getSocialMetas,
 } from "~/utils/seo";
 import type { AppError } from "~/typings/AppError";
-import { fetchViewsBySlug, fetchViewsIncrement } from "~/server/redis.server";
 import { json } from "@vercel/remix";
 import type { LoaderArgs } from "@vercel/remix";
 
@@ -43,22 +42,12 @@ export const meta: V2_MetaFunction<typeof loader> = ({ data, matches }) => {
   ];
 };
 
-export const loader = async ({ params, request }: LoaderArgs) => {
+export const loader = async ({ params }: LoaderArgs) => {
   if (!params.slug) {
     throw new Error("params.slug is not defined.");
   }
 
-  const referer = request.headers.get("referer");
-  // If request is from the same origin (e.g during page reloads), we don't increment the views.
-  // On page reload, the referer header is `vercel.com` on Vercel platform.
-  const increment =
-    referer !== "https://vercel.com/" && request.url !== referer;
-  const [note, views] = await Promise.all([
-    getSlugContent(params.slug),
-    increment
-      ? fetchViewsIncrement(params.slug)
-      : fetchViewsBySlug(params.slug),
-  ]);
+  const [note] = await Promise.all([getSlugContent(params.slug)]);
   if (!note) {
     throw new Response("Note not found.", { status: 404 });
   }
@@ -66,7 +55,6 @@ export const loader = async ({ params, request }: LoaderArgs) => {
   const d = new Date(note.attributes.date);
   const noteExtended = {
     ...note,
-    views,
     date: dateFormatter.format(d),
   };
 
@@ -84,9 +72,6 @@ export default function PostSlug() {
           <time className="text-lg text-zinc-700 dark:text-zinc-500">
             {note.date} ({ago(new Date(note.attributes.date))})
           </time>
-          <span className="text-lg text-zinc-700 dark:text-zinc-500">
-            {note.views} views
-          </span>
         </div>
       </div>
       <div className="mb-10">

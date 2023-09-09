@@ -1,5 +1,6 @@
 import type { PropsWithChildren } from "react";
 import { useState } from "react";
+import MainLayout from "~/components/main-layout";
 import { DraggingContext, MovableComponent } from "~/components/movable";
 
 export const DraggingProvider = ({ children }: PropsWithChildren) => {
@@ -14,11 +15,13 @@ export const DraggingProvider = ({ children }: PropsWithChildren) => {
 
 export default function TestPage() {
   return (
-    <DraggingProvider>
-      <div style={{ position: "relative", width: "100%", height: "100vh" }}>
-        <MovableComponent id="item1" />
-        <MovableComponent id="item2" />
-      </div>
-    </DraggingProvider>
+    <MainLayout>
+      <DraggingProvider>
+        <div style={{ position: "relative", width: "100%", height: "100vh" }}>
+          <MovableComponent id="item1" />
+          {/* <MovableComponent id="item2" /> */}
+        </div>
+      </DraggingProvider>
+    </MainLayout>
   );
 }

@@ -95,7 +95,7 @@ export const MovableComponent = ({ id }: { id: string }) => {
   }, [draggingItem, id, setDraggingItem]);
 
   const handleMouseDown = useCallback(
-    (event: { clientX: number; clientY: number }) => {
+    (event: React.MouseEvent<HTMLDivElement>) => {
       console.log("handleMouseDown");
       if (!draggingItem) {
         setDraggingItem(id);
@@ -111,25 +111,72 @@ export const MovableComponent = ({ id }: { id: string }) => {
     [draggingItem, id, position.x, position.y, setDraggingItem]
   );
 
+  const handleTouchStart = useCallback(
+    (event: React.TouchEvent<HTMLDivElement>) => {
+      if (!draggingItem) {
+        setDraggingItem(id);
+        dragData.current = {
+          ...dragData.current,
+          originalX: event.touches[0].clientX,
+          originalY: event.touches[0].clientY,
+          startX: position.x,
+          startY: position.y,
+        };
+      }
+    },
+    [draggingItem, id, position.x, position.y, setDraggingItem]
+  );
+
+  const handleTouchMove = useCallback(
+    (event: TouchEvent) => {
+      if (draggingItem === id) {
+        const deltaX = event.touches[0].clientX - dragData.current.originalX;
+        const deltaY = event.touches[0].clientY - dragData.current.originalY;
+        const percentX = (deltaX / dragData.current.containerWidth) * 100;
+        const percentY = (deltaY / dragData.current.containerHeight) * 100;
+
+        setPosition({
+          x: Math.max(0, dragData.current.startX + percentX),
+          y: Math.max(0, dragData.current.startY + percentY),
+        });
+      }
+    },
+    [draggingItem, id]
+  );
+
   // Add event listeners
   useEffect(() => {
     if (draggingItem === id) {
       console.log("Adding global listeners");
+      // Mouse events
       window.addEventListener("mousemove", handleMouseMove);
       window.addEventListener("mouseup", stopDragging);
+
+      // Touch events
+      window.addEventListener("touchmove", handleTouchMove);
+      window.addEventListener("touchend", stopDragging);
     }
 
     return () => {
-      console.log("Removing global listeners");
+      // Mouse events
       window.removeEventListener("mousemove", handleMouseMove);
       window.removeEventListener("mouseup", stopDragging);
+
+      // Touch events
+      window.removeEventListener("touchmove", handleTouchMove);
+      window.removeEventListener("touchend", stopDragging);
     };
-  }, [draggingItem, handleMouseMove, id, stopDragging]);
+  }, [draggingItem, handleMouseMove, handleTouchMove, id, stopDragging]);
 
   return (
     <div
       ref={containerRef}
-      style={{ width: "100%", height: "100%", position: "relative" }}
+      style={{
+        width: "100%",
+        height: "100%",
+        position: "relative",
+        overflow: "hidden",
+      }}
     >
       <div
         style={{
@@ -141,6 +188,7 @@ export const MovableComponent = ({ id }: { id: string }) => {
           background: "red",
         }}
         onMouseDown={handleMouseDown}
+        onTouchStart={handleTouchStart}
       >
         {/* Drag Me! {id} */}
       </div>

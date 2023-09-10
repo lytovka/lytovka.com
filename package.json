@@ -4,8 +4,7 @@
   "description": "My personal site",
   "author": "Ivan Lytovka <ivanlytovka@gmail.com> (https://github.com/lytovka)",
   "engines": {
-    "node": "18",
-    "npm": "9"
+    "node": ">=16"
   },
   "repository": {
     "type": "git",
@@ -16,13 +15,13 @@
   "scripts": {
     "build": "remix build",
     "dev": "remix dev",
+    "start": "remix-serve build",
     "format": "prettier --check .",
     "format:fix": "prettier --write .",
     "lint:fix": "eslint --fix .",
     "lint": "eslint --max-warnings 0 --cache --cache-location ./node_modules/.cache/.eslintcache --ext js,jsx,ts,tsx .",
     "postinstall": "remix setup node",
     "prepare": "husky install",
-    "start": "remix-serve api/index.js",
     "test:coverage": "vitest run --coverage",
     "test": "vitest",
     "typecheck": "tsc --build"

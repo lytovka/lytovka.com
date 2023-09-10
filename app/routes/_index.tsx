@@ -6,16 +6,16 @@ import {
   FileTextIcon,
   FolderDocumentsIcon,
   FolderMusicIcon,
-} from "~/components/icons";
-import { DraggingContext, MovableComponent } from "~/components/movable";
-import { Paragraph } from "~/components/typography";
-import { LYT_STORAGE_KEY } from "~/constants";
-import type { Position, Positions } from "~/typings/Coordinates";
-import { replaceAt } from "~/utils/array";
+} from "~/components/icons.tsx";
+import { DraggingContext, MovableComponent } from "~/components/movable.tsx";
+import { Paragraph } from "~/components/typography.tsx";
+import { LYT_STORAGE_KEY } from "~/constants/index.ts";
+import type { Position, Positions } from "~/typings/Coordinates.ts";
+import { replaceAt } from "~/utils/array.ts";
 import {
   localStorageGetItem,
   localStorageSetItem,
-} from "~/utils/local-storage";
+} from "~/utils/local-storage.ts";
 
 const HOMEPAGE_LINKS: Array<{
   title: string;

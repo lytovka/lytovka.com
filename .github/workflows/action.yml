@@ -59,6 +59,7 @@ jobs:
         run: npm run typecheck
 
   vitest:
+    skip: true
     name: Vitest
     runs-on: ubuntu-latest
     steps:

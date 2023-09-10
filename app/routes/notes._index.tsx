@@ -1,19 +1,19 @@
 /* eslint-disable @typescript-eslint/no-unnecessary-condition */
 import type { MetaFunction } from "@remix-run/react";
 import { Link, useLoaderData } from "@remix-run/react";
-import GoBack from "~/components/go-back";
-import { dateFormatter } from "~/utils/date";
-import { fetchPreviews } from "~/server/markdown.server";
-import MainLayout from "~/components/main-layout";
-import { H1, Paragraph } from "~/components/typography";
+import GoBack from "~/components/go-back.tsx";
+import { dateFormatter } from "~/utils/date.ts";
+import { fetchPreviews } from "~/server/markdown.server.ts";
+import MainLayout from "~/components/main-layout.tsx";
+import { H1, Paragraph } from "~/components/typography.tsx";
 import {
   getMetadataUrl,
   getPreviewUrl,
   getSocialImagePreview,
   getSocialMetas,
-} from "~/utils/seo";
-import type { RootLoaderDataUnwrapped } from "~/root";
-import { ONE_MINUTE } from "~/constants";
+} from "~/utils/seo.ts";
+import type { RootLoaderDataUnwrapped } from "~/root.tsx";
+import { ONE_MINUTE } from "~/constants/index.ts";
 import type { LoaderArgs } from "@vercel/remix";
 import { json } from "@vercel/remix";
 

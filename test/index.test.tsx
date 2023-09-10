@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
-import { loader } from "~/routes/notes._index";
-import type { Note } from "~/server/markdown.server";
+import { loader } from "~/routes/notes._index.tsx";
+import type { Note } from "~/server/markdown.server.ts";
 
 describe("Index page", () => {
   it("loader: should return Request object", async () => {

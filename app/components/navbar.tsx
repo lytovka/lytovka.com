@@ -1,5 +1,5 @@
-import { themes, useTheme } from "~/providers/theme";
-import { DarkModeIcon, LightModeIcon } from "~/components/icons";
+import { themes, useTheme } from "~/providers/theme.tsx";
+import { DarkModeIcon, LightModeIcon } from "~/components/icons.tsx";
 import { Link } from "@remix-run/react";
 
 const ThemeToggle = () => {

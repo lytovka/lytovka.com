@@ -1,5 +1,9 @@
-import { ExternalLink } from "./external-link";
-import { INSTAGRAM_LINK, TELEGRAM_LINK, GITHUB_LINK } from "~/constants";
+import { ExternalLink } from "./external-link.tsx";
+import {
+  INSTAGRAM_LINK,
+  TELEGRAM_LINK,
+  GITHUB_LINK,
+} from "~/constants/index.ts";
 
 function Footer() {
   return (

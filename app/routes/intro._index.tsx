@@ -3,19 +3,19 @@ import type { LoaderArgs, V2_MetaFunction } from "@vercel/remix";
 import { useLoaderData } from "@remix-run/react";
 import type { ChangeEvent } from "react";
 import { useRef } from "react";
-import GoBack from "~/components/go-back";
-import MainLayout from "~/components/main-layout";
-import ToggleButton from "~/components/toggle-button";
-import type { RootLoaderDataUnwrapped } from "~/root";
-import { getIntroFile } from "~/server/markdown.server";
+import GoBack from "~/components/go-back.tsx";
+import MainLayout from "~/components/main-layout.tsx";
+import ToggleButton from "~/components/toggle-button.tsx";
+import type { RootLoaderDataUnwrapped } from "~/root.tsx";
+import { getIntroFile } from "~/server/markdown.server.ts";
 import {
   getMetadataUrl,
   getPreviewUrl,
   getSocialImagePreview,
   getSocialMetas,
-} from "~/utils/seo";
-import { GITHUB_LINK, ONE_MINUTE } from "~/constants";
-import { H2 } from "~/components/typography";
+} from "~/utils/seo.ts";
+import { GITHUB_LINK, ONE_MINUTE } from "~/constants/index.ts";
+import { H2 } from "~/components/typography.tsx";
 
 export const meta: V2_MetaFunction<typeof loader> = ({ matches }) => {
   const { requestInfo } = (matches[0] as RootLoaderDataUnwrapped).data;

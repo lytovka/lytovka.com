@@ -1,5 +1,5 @@
 import { json, redirect } from "@vercel/remix";
-import { getThemeSession, isTheme } from "~/server/theme.server";
+import { getThemeSession, isTheme } from "~/server/theme.server.ts";
 import type { ActionArgs } from "@vercel/remix";
 
 export const action = async ({ request }: ActionArgs) => {

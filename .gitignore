@@ -1,16 +1,17 @@
 node_modules
 .DS_STORE
 
-.cache
 .env
 .vercel
 .output
 .vscode
 
-/build/
-/coverage/
+/.cache
+/build
 /public/build
-/api/
+/coverage
+/api/index.js
+/api/index.js.map
 /app/styles/app.css
 
 *.code-workspace

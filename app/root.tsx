@@ -19,7 +19,7 @@ import { getEnv } from "~/server/env.server";
 import { FourOhFour } from "./components/errors";
 import Footer from "./components/footer";
 import Navbar from "./components/navbar";
-import tailwindStyles from "./styles/app.css";
+import tailwindStyles from "~/styles/tailwind.css";
 import proseStyles from "./styles/prose.css";
 import rootStyles from "./styles/root.css";
 import { getHostUrl } from "~/utils/misc";

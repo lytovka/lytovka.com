@@ -15,9 +15,9 @@
   "sideEffects": false,
   "scripts": {
     "build:css": "tailwindcss -m -i ./styles/tailwind.css -o app/styles/app.css",
-    "build": "npx cross-env NODE_ENV=production npm run build:css && remix build",
+    "build": "cross-env NODE_ENV=production npm run build:css && remix build",
     "dev:css": "tailwindcss -w -i ./styles/tailwind.css -o app/styles/app.css",
-    "dev": "npx cross-env NODE_ENV=development concurrently \"npm run dev:css\" \"remix dev --debug\"",
+    "dev": "cross-env NODE_ENV=development concurrently \"npm run dev:css\" \"remix dev --debug\"",
     "format": "prettier --check .",
     "format:fix": "prettier --write .",
     "lint:fix": "eslint --fix .",

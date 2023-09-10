@@ -32,7 +32,7 @@ export const getIntroFile = async (): Promise<{
   const pathToIntro = `${root}/markdown/intro.md`;
   const file = (await fs.readFile(pathToIntro)).toString();
   const { content } = matter(file);
-  const [short, extended] = marked(content, { mangle: false }).split("<hr>");
+  const [short, extended] = marked(content).split("<hr>");
 
   return { short, extended };
 };
@@ -45,7 +45,7 @@ export const getSlugContent = async (slug: string): Promise<Note | null> => {
     .then((res) => {
       const file = res.toString();
       const { data, content } = matter(file);
-      const html = marked(content, { mangle: false });
+      const html = marked(content);
 
       return { attributes: data as Metadata, body: html };
     })

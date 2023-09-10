@@ -1,14 +1,15 @@
 {
-  "include": ["remix.env.d.ts", "**/*.ts", "**/*.tsx"],
+  "include": ["remix.env.d.ts", "**/*.ts", "**/*.tsx", "vitest.config.js"],
   "compilerOptions": {
-    "lib": ["DOM", "DOM.Iterable", "ES2020"],
+    "lib": ["DOM", "DOM.Iterable", "ES2022"],
     "types": ["vitest/globals"],
     "isolatedModules": true,
     "esModuleInterop": true,
     "jsx": "react-jsx",
-    "moduleResolution": "node",
+    "module": "nodenext",
+    "target": "ES2022",
+    "moduleResolution": "nodenext",
     "resolveJsonModule": true,
-    "target": "ES2020",
     "strict": true,
     "baseUrl": ".",
     "paths": {
@@ -17,6 +18,7 @@
     "skipLibCheck": true,
     "noEmit": true,
     "allowJs": true,
-    "forceConsistentCasingInFileNames": true
+    "forceConsistentCasingInFileNames": true,
+    "allowImportingTsExtensions": true
   }
 }

@@ -1,4 +1,4 @@
-import { APP_BASE_URL, CLOUDINARY_BASE_URL } from "~/constants";
+import { APP_BASE_URL, CLOUDINARY_BASE_URL } from "~/constants/index.ts";
 
 type SocialMeta = {
   title?: string;

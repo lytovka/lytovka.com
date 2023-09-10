@@ -15,25 +15,25 @@ import type {
   LinksFunction,
   V2_MetaFunction,
 } from "@remix-run/node";
-import { getEnv } from "~/server/env.server";
-import { FourOhFour } from "./components/errors";
-import Footer from "./components/footer";
-import Navbar from "./components/navbar";
+import { getEnv } from "~/server/env.server.ts";
+import { FourOhFour } from "./components/errors.tsx";
+import Footer from "./components/footer.tsx";
+import Navbar from "./components/navbar.tsx";
 import tailwindStyles from "~/styles/tailwind.css";
 import proseStyles from "./styles/prose.css";
 import rootStyles from "./styles/root.css";
-import { getHostUrl } from "~/utils/misc";
+import { getHostUrl } from "~/utils/misc.ts";
 import {
   getMetadataUrl,
   getPreviewUrl,
   getSocialImagePreview,
   getSocialMetas,
-} from "~/utils/seo";
-import { getThemeSession } from "./server/theme.server";
-import type { Theme } from "./providers/theme";
-import { ThemeProvider, ThemeScript, useTheme } from "./providers/theme";
+} from "~/utils/seo.ts";
+import { getThemeSession } from "./server/theme.server.ts";
+import type { Theme } from "./providers/theme.tsx";
+import { ThemeProvider, ThemeScript, useTheme } from "./providers/theme.tsx";
 import clsx from "clsx";
-import type { AppError } from "~/typings/AppError";
+import type { AppError } from "~/typings/AppError.ts";
 
 export const meta: V2_MetaFunction<typeof loader> = ({ data }) => {
   const metadataUrl = getMetadataUrl(data?.requestInfo);

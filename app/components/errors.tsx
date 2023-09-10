@@ -1,5 +1,5 @@
 import { useMatches } from "@remix-run/react";
-import { H1, Paragraph } from "./typography";
+import { H1, Paragraph } from "./typography.tsx";
 
 type ErrorPageProps = {
   title: string;

@@ -1,4 +1,4 @@
-import type { Dispatch } from "react";
+import type { Dispatch, MutableRefObject, PropsWithChildren } from "react";
 import React, {
   useState,
   useContext,
@@ -6,11 +6,13 @@ import React, {
   useEffect,
   useCallback,
 } from "react";
+import { LINK_WIDTH_PX } from "~/constants";
+import type { Position, Positions } from "~/typings/Coordinates";
 
-// Create a context to manage the dragging state globally
-
-// Define the shape of the context
 interface DraggingContextType {
+  state: {
+    localStoragePositionsCopy: MutableRefObject<Positions> | null;
+  };
   draggingItem: string | null;
   setDraggingItem: Dispatch<React.SetStateAction<string | null>>;
 }
@@ -19,13 +21,10 @@ export const DraggingContext = React.createContext<DraggingContextType>({
   draggingItem: null,
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   setDraggingItem: () => {},
+  state: {
+    localStoragePositionsCopy: null,
+  },
 });
-
-// Types for the position and drag data
-interface Position {
-  x: number;
-  y: number;
-}
 
 interface DragData {
   originalX: number;
@@ -40,8 +39,24 @@ export const useDragging = () => {
   return useContext(DraggingContext);
 };
 
-export const MovableComponent = ({ id }: { id: string }) => {
-  const [position, setPosition] = useState({ x: 0, y: 0 });
+interface Props {
+  id: string;
+  initialPosition: Position;
+  containerRef: React.RefObject<HTMLDivElement> | null;
+  callback: (id: number, { x, y }: { x: number; y: number }) => void;
+}
+
+export const MovableComponent = ({
+  id,
+  containerRef,
+  initialPosition,
+  callback,
+  children,
+}: PropsWithChildren<Props>) => {
+  const [position, setPosition] = useState({
+    x: initialPosition[0] || 0,
+    y: initialPosition[1] || 0,
+  });
   const dragData = useRef<DragData>({
     originalX: 0,
     originalY: 0,
@@ -50,37 +65,64 @@ export const MovableComponent = ({ id }: { id: string }) => {
     containerHeight: 0,
     containerWidth: 0,
   });
-  const containerRef = useRef<HTMLDivElement>(null);
   const { draggingItem, setDraggingItem } = useDragging();
 
-  useEffect(() => {
-    if (containerRef.current) {
+  const updateContainerDimensions = useCallback(() => {
+    if (containerRef?.current) {
       const { width, height } = containerRef.current.getBoundingClientRect();
       dragData.current.containerWidth = width;
       dragData.current.containerHeight = height;
-      console.log("useEffect", width, height);
     }
-  }, []);
+  }, [containerRef]);
+
+  // eslint-disable-next-line consistent-return
+  useEffect(() => {
+    // Call initially to set the dimensions
+    updateContainerDimensions();
+
+    if (containerRef?.current) {
+      const resizeObserver = new ResizeObserver(() => {
+        updateContainerDimensions();
+      });
+      resizeObserver.observe(containerRef.current);
+
+      return () => {
+        resizeObserver.disconnect();
+      };
+    }
+  }, [containerRef, updateContainerDimensions]);
 
   const handleMouseMove = useCallback(
     (event: { clientX: number; clientY: number }) => {
-      console.log("handleMouseMove", draggingItem);
       if (draggingItem === id) {
         const deltaX = event.clientX - dragData.current.originalX;
         const deltaY = event.clientY - dragData.current.originalY;
         const percentX = (deltaX / dragData.current.containerWidth) * 100;
         const percentY = (deltaY / dragData.current.containerHeight) * 100;
 
-        // console.log({
-        //   deltaX,
-        //   deltaY,
-        //   widthX: dragData.current.containerWidth,
-        //   widthY: dragData.current.containerHeight,
-        // });
+        // Calculate object width and height in percentage
+        const objectWidthInPercentage =
+          (LINK_WIDTH_PX / dragData.current.containerWidth) * 100;
+        const objectHeightInPercentage =
+          (LINK_WIDTH_PX / dragData.current.containerHeight) * 100;
+
+        // Calculate max allowed percentage
+        const maxPercentX = 100 - objectWidthInPercentage;
+        const maxPercentY = 100 - objectHeightInPercentage;
+
+        // Clamp the values between the minimum and maximum
+        const finalX = Math.min(
+          Math.max(0, dragData.current.startX + percentX),
+          maxPercentX
+        );
+        const finalY = Math.min(
+          Math.max(0, dragData.current.startY + percentY),
+          maxPercentY
+        );
 
         setPosition({
-          x: dragData.current.startX + percentX,
-          y: dragData.current.startY + percentY,
+          x: finalX,
+          y: finalY,
         });
       }
     },
@@ -88,15 +130,17 @@ export const MovableComponent = ({ id }: { id: string }) => {
   );
 
   const stopDragging = useCallback(() => {
-    console.log("stopDragging");
     if (draggingItem === id) {
       setDraggingItem(null);
+      callback(Number(id), {
+        x: position.x,
+        y: position.y,
+      });
     }
-  }, [draggingItem, id, setDraggingItem]);
+  }, [draggingItem, id, setDraggingItem, callback, position]);
 
   const handleMouseDown = useCallback(
     (event: React.MouseEvent<HTMLDivElement>) => {
-      console.log("handleMouseDown");
       if (!draggingItem) {
         setDraggingItem(id);
         dragData.current = {
@@ -135,9 +179,29 @@ export const MovableComponent = ({ id }: { id: string }) => {
         const percentX = (deltaX / dragData.current.containerWidth) * 100;
         const percentY = (deltaY / dragData.current.containerHeight) * 100;
 
+        // Calculate object width and height in percentage
+        const objectWidthInPercentage =
+          (LINK_WIDTH_PX / dragData.current.containerWidth) * 100;
+        const objectHeightInPercentage =
+          (LINK_WIDTH_PX / dragData.current.containerHeight) * 100;
+
+        // Calculate max allowed percentage
+        const maxPercentX = 100 - objectWidthInPercentage;
+        const maxPercentY = 100 - objectHeightInPercentage;
+
+        // Clamp the values between the minimum and maximum
+        const finalX = Math.min(
+          Math.max(0, dragData.current.startX + percentX),
+          maxPercentX
+        );
+        const finalY = Math.min(
+          Math.max(0, dragData.current.startY + percentY),
+          maxPercentY
+        );
+
         setPosition({
-          x: Math.max(0, dragData.current.startX + percentX),
-          y: Math.max(0, dragData.current.startY + percentY),
+          x: finalX,
+          y: finalY,
         });
       }
     },
@@ -147,7 +211,6 @@ export const MovableComponent = ({ id }: { id: string }) => {
   // Add event listeners
   useEffect(() => {
     if (draggingItem === id) {
-      console.log("Adding global listeners");
       // Mouse events
       window.addEventListener("mousemove", handleMouseMove);
       window.addEventListener("mouseup", stopDragging);
@@ -170,28 +233,15 @@ export const MovableComponent = ({ id }: { id: string }) => {
 
   return (
     <div
-      ref={containerRef}
+      className="absolute z-1 w-[90px] h-[90px]"
       style={{
-        width: "100%",
-        height: "100%",
-        position: "relative",
-        overflow: "hidden",
+        top: `${position.y}%`,
+        left: `${position.x}%`,
       }}
+      onMouseDown={handleMouseDown}
+      onTouchStart={handleTouchStart}
     >
-      <div
-        style={{
-          position: "absolute",
-          top: `${position.y}%`,
-          left: `${position.x}%`,
-          width: "100px",
-          height: "100px",
-          background: "red",
-        }}
-        onMouseDown={handleMouseDown}
-        onTouchStart={handleTouchStart}
-      >
-        {/* Drag Me! {id} */}
-      </div>
+      {children}
     </div>
   );
 };

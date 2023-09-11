@@ -115,6 +115,8 @@ export const loader = async ({ request }: DataFunctionArgs) => {
 
 function App({ rootLoaderData }: { rootLoaderData: RootLoaderData }) {
   const [theme] = useTheme();
+  const isHomepage = rootLoaderData.requestInfo.path === "/";
+  console.log(rootLoaderData.requestInfo.path);
 
   return (
     <html className={clsx(theme)} lang="en">
@@ -124,10 +126,14 @@ function App({ rootLoaderData }: { rootLoaderData: RootLoaderData }) {
         <Links />
         <ThemeScript serverTheme={rootLoaderData.requestInfo.session.theme} />
       </head>
-      <body className="bg-main dark:bg-main-dark">
-        <Navbar />
+      <body
+        className={clsx("bg-main dark:bg-main-dark min-h-full flex flex-col", {
+          "overflow-hidden": false,
+        })}
+      >
+        <Navbar isHomepage={isHomepage} />
         <Outlet />
-        <Footer />
+        <Footer isHomepage={isHomepage} />
         <ScrollRestoration />
         <script
           dangerouslySetInnerHTML={{

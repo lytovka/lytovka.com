@@ -53,6 +53,7 @@ export const MovableComponent = ({
   callback,
   children,
 }: PropsWithChildren<Props>) => {
+  const [hasMoved, setHasMoved] = useState(false);
   const [position, setPosition] = useState({
     x: initialPosition[0] || 0,
     y: initialPosition[1] || 0,
@@ -100,17 +101,14 @@ export const MovableComponent = ({
         const percentX = (deltaX / dragData.current.containerWidth) * 100;
         const percentY = (deltaY / dragData.current.containerHeight) * 100;
 
-        // Calculate object width and height in percentage
         const objectWidthInPercentage =
           (LINK_WIDTH_PX / dragData.current.containerWidth) * 100;
         const objectHeightInPercentage =
           (LINK_WIDTH_PX / dragData.current.containerHeight) * 100;
 
-        // Calculate max allowed percentage
         const maxPercentX = 100 - objectWidthInPercentage;
         const maxPercentY = 100 - objectHeightInPercentage;
 
-        // Clamp the values between the minimum and maximum
         const finalX = Math.min(
           Math.max(0, dragData.current.startX + percentX),
           maxPercentX
@@ -124,6 +122,7 @@ export const MovableComponent = ({
           x: finalX,
           y: finalY,
         });
+        setHasMoved(true);
       }
     },
     [draggingItem, id]
@@ -141,6 +140,8 @@ export const MovableComponent = ({
 
   const handleMouseDown = useCallback(
     (event: React.MouseEvent<HTMLDivElement>) => {
+      console.log("handleMouseDown");
+      setHasMoved(true);
       if (!draggingItem) {
         setDraggingItem(id);
         dragData.current = {
@@ -208,12 +209,23 @@ export const MovableComponent = ({
     [draggingItem, id]
   );
 
+  const handleAnchorClick = useCallback(
+    (event: React.MouseEvent<HTMLAnchorElement>) => {
+      console.log("handleAnchorClick");
+      if (hasMoved) {
+        event.preventDefault();
+      }
+    },
+    [hasMoved]
+  );
+
   // Add event listeners
   useEffect(() => {
     if (draggingItem === id) {
       // Mouse events
       window.addEventListener("mousemove", handleMouseMove);
       window.addEventListener("mouseup", stopDragging);
+      document.body.style.overflow = "hidden";
 
       // Touch events
       window.addEventListener("touchmove", handleTouchMove);
@@ -224,6 +236,7 @@ export const MovableComponent = ({
       // Mouse events
       window.removeEventListener("mousemove", handleMouseMove);
       window.removeEventListener("mouseup", stopDragging);
+      document.body.style.overflow = "";
 
       // Touch events
       window.removeEventListener("touchmove", handleTouchMove);
@@ -231,13 +244,26 @@ export const MovableComponent = ({
     };
   }, [draggingItem, handleMouseMove, handleTouchMove, id, stopDragging]);
 
+  const handleWrapperClick = useCallback(
+    (event: React.MouseEvent<HTMLDivElement>) => {
+      console.log("handleWrapperClick", hasMoved);
+      if (hasMoved) {
+        console.log(event)
+        event.preventDefault();
+      }
+    },
+    [hasMoved]
+  );
+
   return (
+    // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions
     <div
       className="absolute z-1 w-[90px] h-[90px]"
       style={{
         top: `${position.y}%`,
         left: `${position.x}%`,
       }}
+      onClick={handleWrapperClick}
       onMouseDown={handleMouseDown}
       onTouchStart={handleTouchStart}
     >

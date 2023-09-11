@@ -112,6 +112,14 @@ export default function TestPage() {
 
   return (
     <main className="h-full w-full" ref={containerRef}>
+      <a
+        className="flex flex-col items-center no-underline active:outline-dashed outline-1 outline-gray-500"
+        draggable={false}
+        href="/"
+      >
+        Hello
+        <Paragraph className="text-center">hey</Paragraph>
+      </a>
       <DraggingProvider localStoragePositionsCopy={localStoragePositionsCopy}>
         {show
           ? HOMEPAGE_LINKS.map((item, index) => (
@@ -122,14 +130,14 @@ export default function TestPage() {
                 initialPosition={defaultPositions[index]}
                 key={index}
               >
-                <Link
+                <a
                   className="flex flex-col items-center no-underline active:outline-dashed outline-1 outline-gray-500"
-                  prefetch="intent"
-                  to={item.href}
+                  draggable={false}
+                  href={item.href}
                 >
                   {item.imgSrc}
                   <Paragraph className="text-center">{item.title}</Paragraph>
-                </Link>
+                </a>
               </MovableComponent>
             ))
           : null}

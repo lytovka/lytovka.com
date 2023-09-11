@@ -43,6 +43,8 @@ interface Props {
   id: string;
   initialPosition: Position;
   containerRef: React.RefObject<HTMLDivElement> | null;
+  onMouseDown: (event: React.MouseEvent<HTMLDivElement>) => void;
+  onMouseMove: (event: MouseEvent) => void;
   callback: (id: number, { x, y }: { x: number; y: number }) => void;
 }
 
@@ -50,10 +52,11 @@ export const MovableComponent = ({
   id,
   containerRef,
   initialPosition,
-  callback,
   children,
+  callback,
+  onMouseDown,
+  onMouseMove,
 }: PropsWithChildren<Props>) => {
-  const [hasMoved, setHasMoved] = useState(false);
   const [position, setPosition] = useState({
     x: initialPosition[0] || 0,
     y: initialPosition[1] || 0,
@@ -93,8 +96,36 @@ export const MovableComponent = ({
     }
   }, [containerRef, updateContainerDimensions]);
 
+  const stopDragging = useCallback(() => {
+    if (draggingItem === id) {
+      setDraggingItem(null);
+      callback(Number(id), {
+        x: position.x,
+        y: position.y,
+      });
+    }
+  }, [draggingItem, id, setDraggingItem, callback, position]);
+
+  const handleMouseDown = useCallback(
+    (event: React.MouseEvent<HTMLDivElement>) => {
+      console.log("handleMouseDown");
+      if (!draggingItem) {
+        setDraggingItem(id);
+        dragData.current = {
+          ...dragData.current,
+          originalX: event.clientX,
+          originalY: event.clientY,
+          startX: position.x,
+          startY: position.y,
+        };
+        onMouseDown(event);
+      }
+    },
+    [draggingItem, id, position.x, position.y, onMouseDown, setDraggingItem]
+  );
+
   const handleMouseMove = useCallback(
-    (event: { clientX: number; clientY: number }) => {
+    (event: MouseEvent) => {
       if (draggingItem === id) {
         const deltaX = event.clientX - dragData.current.originalX;
         const deltaY = event.clientY - dragData.current.originalY;
@@ -122,38 +153,10 @@ export const MovableComponent = ({
           x: finalX,
           y: finalY,
         });
-        setHasMoved(true);
+        onMouseMove(event);
       }
     },
-    [draggingItem, id]
-  );
-
-  const stopDragging = useCallback(() => {
-    if (draggingItem === id) {
-      setDraggingItem(null);
-      callback(Number(id), {
-        x: position.x,
-        y: position.y,
-      });
-    }
-  }, [draggingItem, id, setDraggingItem, callback, position]);
-
-  const handleMouseDown = useCallback(
-    (event: React.MouseEvent<HTMLDivElement>) => {
-      console.log("handleMouseDown");
-      setHasMoved(true);
-      if (!draggingItem) {
-        setDraggingItem(id);
-        dragData.current = {
-          ...dragData.current,
-          originalX: event.clientX,
-          originalY: event.clientY,
-          startX: position.x,
-          startY: position.y,
-        };
-      }
-    },
-    [draggingItem, id, position.x, position.y, setDraggingItem]
+    [draggingItem, onMouseMove, id]
   );
 
   const handleTouchStart = useCallback(
@@ -209,16 +212,6 @@ export const MovableComponent = ({
     [draggingItem, id]
   );
 
-  const handleAnchorClick = useCallback(
-    (event: React.MouseEvent<HTMLAnchorElement>) => {
-      console.log("handleAnchorClick");
-      if (hasMoved) {
-        event.preventDefault();
-      }
-    },
-    [hasMoved]
-  );
-
   // Add event listeners
   useEffect(() => {
     if (draggingItem === id) {
@@ -244,17 +237,6 @@ export const MovableComponent = ({
     };
   }, [draggingItem, handleMouseMove, handleTouchMove, id, stopDragging]);
 
-  const handleWrapperClick = useCallback(
-    (event: React.MouseEvent<HTMLDivElement>) => {
-      console.log("handleWrapperClick", hasMoved);
-      if (hasMoved) {
-        console.log(event)
-        event.preventDefault();
-      }
-    },
-    [hasMoved]
-  );
-
   return (
     // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions
     <div
@@ -263,7 +245,6 @@ export const MovableComponent = ({
         top: `${position.y}%`,
         left: `${position.x}%`,
       }}
-      onClick={handleWrapperClick}
       onMouseDown={handleMouseDown}
       onTouchStart={handleTouchStart}
     >

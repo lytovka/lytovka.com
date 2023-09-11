@@ -1,5 +1,12 @@
 import { Link } from "@remix-run/react";
-import type { MutableRefObject, PropsWithChildren, ReactNode } from "react";
+import type {
+  EventHandler,
+  MouseEventHandler,
+  MutableRefObject,
+  PropsWithChildren,
+  ReactNode,
+} from "react";
+import type React from "react";
 import { useCallback, useEffect, useRef, useState } from "react";
 import {
   FileTextIcon,
@@ -68,6 +75,7 @@ export const DraggingProvider = ({
 export default function TestPage() {
   const containerRef = useRef<HTMLDivElement>(null);
   const [show, setShow] = useState(false);
+  const [hasMoved, setHasMoved] = useState(false);
   const [defaultPositions, setDefaultPositions] = useState<Positions>(
     Array(HOMEPAGE_LINKS.length).fill([0, 0])
   );
@@ -110,6 +118,22 @@ export default function TestPage() {
     []
   );
 
+  const handleMouseDown = () => {
+    setHasMoved(false);
+  };
+
+  const handleMouseMove = () => {
+    setHasMoved(true);
+  };
+
+  const handleLinkClick = (
+    event: React.MouseEvent<HTMLAnchorElement, MouseEvent>
+  ) => {
+    if (hasMoved) {
+      event.preventDefault();
+    }
+  };
+
   return (
     <main className="h-full w-full" ref={containerRef}>
       <DraggingProvider localStoragePositionsCopy={localStoragePositionsCopy}>
@@ -121,12 +145,17 @@ export default function TestPage() {
                 id={`${index}`}
                 initialPosition={defaultPositions[index]}
                 key={index}
+                onMouseDown={handleMouseDown}
+                onMouseMove={handleMouseMove}
               >
                 <Link
                   className="flex flex-col items-center no-underline active:outline-dashed outline-1 outline-gray-500"
                   draggable={false}
                   prefetch="intent"
                   to={item.href}
+                  onClick={(e) => {
+                    handleLinkClick(e);
+                  }}
                 >
                   {item.imgSrc}
                   <Paragraph className="text-center">{item.title}</Paragraph>

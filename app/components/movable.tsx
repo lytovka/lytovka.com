@@ -1,4 +1,4 @@
-import type { Dispatch, HTMLAttributes, PropsWithChildren } from "react";
+import type { CSSProperties, Dispatch, PropsWithChildren } from "react";
 import React, {
   useState,
   useContext,
@@ -32,14 +32,16 @@ export const useDragging = () => {
   return useContext(DraggingContext);
 };
 
-interface Props
-  extends PropsWithChildren,
-    Omit<HTMLAttributes<HTMLElement>, "onMouseDown" | "onMouseMove"> {
+interface Props extends PropsWithChildren {
   id: string;
+  style: CSSProperties | undefined;
   initialPosition: Position;
   containerRef: React.RefObject<HTMLDivElement> | null;
-  onMouseDown: (event: React.MouseEvent<HTMLDivElement>, id: string) => void;
-  onMouseMove: (event: MouseEvent, id: string) => void;
+  onMouseDown: (
+    event: React.MouseEvent<HTMLDivElement> | React.TouchEvent,
+    id: string,
+  ) => void;
+  onMouseMove: (event: MouseEvent | TouchEvent, id: string) => void;
   callback: (id: number, { x, y }: { x: number; y: number }) => void;
 }
 
@@ -125,8 +127,9 @@ export const MovableComponent = ({
         startX: position.x,
         startY: position.y,
       };
+      onMouseDown(event, id);
     },
-    [id, position.x, position.y, setDraggingItem],
+    [id, position.x, position.y, onMouseDown, setDraggingItem],
   );
 
   const handleTouchMove = useCallback(
@@ -161,9 +164,10 @@ export const MovableComponent = ({
           x: finalX,
           y: finalY,
         });
+        onMouseMove(event, id);
       }
     },
-    [draggingItem, id],
+    [draggingItem, onMouseMove, id],
   );
 
   const stopDragging = useCallback(() => {
@@ -202,7 +206,7 @@ export const MovableComponent = ({
       // Mouse events
       window.addEventListener("mousemove", handleMouseMove);
       window.addEventListener("mouseup", stopDragging);
-      document.body.style.overflow = "hidden";
+      document.documentElement.style.overflow = "hidden";
 
       // Touch events
       window.addEventListener("touchmove", handleTouchMove);
@@ -213,7 +217,7 @@ export const MovableComponent = ({
       // Mouse events
       window.removeEventListener("mousemove", handleMouseMove);
       window.removeEventListener("mouseup", stopDragging);
-      document.body.style.overflow = "";
+      document.documentElement.style.overflow = "hidden";
 
       // Touch events
       window.removeEventListener("touchmove", handleTouchMove);

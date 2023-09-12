@@ -101,7 +101,7 @@ export default function TestPage() {
   );
 
   const handleMouseDown = (
-    event: React.MouseEvent<HTMLDivElement>,
+    event: React.MouseEvent<HTMLDivElement, MouseEvent> | React.TouchEvent,
     index: string,
   ) => {
     setHasMoved(false);
@@ -119,6 +119,7 @@ export default function TestPage() {
   ) => {
     if (hasMoved) {
       event.preventDefault();
+      setHasMoved(false);
     }
   };
 

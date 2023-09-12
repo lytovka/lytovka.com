@@ -1,5 +1,5 @@
 import { Link } from "@remix-run/react";
-import type { MutableRefObject, PropsWithChildren, ReactNode } from "react";
+import type { PropsWithChildren, ReactNode } from "react";
 import type React from "react";
 import { useCallback, useEffect, useRef, useState } from "react";
 import {
@@ -43,24 +43,11 @@ const HOMEPAGE_LINKS: Array<{
   },
 ];
 
-interface DraggingProviderProps extends PropsWithChildren {
-  localStoragePositionsCopy: MutableRefObject<Positions>;
-}
-
-export const DraggingProvider = ({
-  children,
-  localStoragePositionsCopy,
-}: DraggingProviderProps) => {
+export const DraggingProvider = ({ children }: PropsWithChildren) => {
   const [draggingItem, setDraggingItem] = useState<string | null>(null);
 
   return (
-    <DraggingContext.Provider
-      value={{
-        draggingItem,
-        setDraggingItem,
-        state: { localStoragePositionsCopy },
-      }}
-    >
+    <DraggingContext.Provider value={{ draggingItem, setDraggingItem }}>
       {children}
     </DraggingContext.Provider>
   );
@@ -73,15 +60,16 @@ export default function TestPage() {
   const [defaultPositions, setDefaultPositions] = useState<Positions>(
     Array(HOMEPAGE_LINKS.length).fill([0, 0]),
   );
+  const [zIndexes, setZIndexes] = useState<Array<number>>(
+    Array(HOMEPAGE_LINKS.length).fill(0),
+  );
   const localStoragePositionsCopy = useRef<Positions>(
     HOMEPAGE_LINKS.map((item) => item.position),
   );
 
   useEffect(() => {
     const transformedPositions: Positions = HOMEPAGE_LINKS.map(
-      ({ position }) => {
-        return [position[0], position[1]];
-      },
+      ({ position }) => [position[0], position[1]],
     );
     const lc = localStorageGetItem(LYT_STORAGE_KEY);
     if (lc === null) {
@@ -112,8 +100,14 @@ export default function TestPage() {
     [],
   );
 
-  const handleMouseDown = () => {
+  const handleMouseDown = (
+    event: React.MouseEvent<HTMLDivElement>,
+    index: string,
+  ) => {
     setHasMoved(false);
+    setZIndexes((prev) =>
+      replaceAt<number>(prev, Number(index), Math.max(...prev) + 1),
+    );
   };
 
   const handleMouseMove = () => {
@@ -130,7 +124,7 @@ export default function TestPage() {
 
   return (
     <main className="h-full w-full" ref={containerRef}>
-      <DraggingProvider localStoragePositionsCopy={localStoragePositionsCopy}>
+      <DraggingProvider>
         {show
           ? HOMEPAGE_LINKS.map((item, index) => (
               <MovableComponent
@@ -139,11 +133,12 @@ export default function TestPage() {
                 id={`${index}`}
                 initialPosition={defaultPositions[index]}
                 key={index}
+                style={{ zIndex: zIndexes[index] }}
                 onMouseDown={handleMouseDown}
                 onMouseMove={handleMouseMove}
               >
                 <Link
-                  className="flex flex-col items-center no-underline active:outline-dashed outline-1 outline-gray-500"
+                  className="flex flex-col items-center no-underline active:outline-dashed outline-1 outline-gray-500 }"
                   draggable={false}
                   prefetch="intent"
                   to={item.href}

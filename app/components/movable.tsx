@@ -1,4 +1,4 @@
-import type { Dispatch, MutableRefObject, PropsWithChildren } from "react";
+import type { Dispatch, HTMLAttributes, PropsWithChildren } from "react";
 import React, {
   useState,
   useContext,
@@ -6,24 +6,17 @@ import React, {
   useEffect,
   useCallback,
 } from "react";
-import { LINK_WIDTH_PX } from "~/constants";
-import type { Position, Positions } from "~/typings/Coordinates";
+import { LINK_HEIGHT_PX, LINK_WIDTH_PX } from "~/constants";
+import type { Position } from "~/typings/Coordinates";
 
 interface DraggingContextType {
-  state: {
-    localStoragePositionsCopy: MutableRefObject<Positions> | null;
-  };
   draggingItem: string | null;
   setDraggingItem: Dispatch<React.SetStateAction<string | null>>;
 }
 
 export const DraggingContext = React.createContext<DraggingContextType>({
   draggingItem: null,
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
   setDraggingItem: () => {},
-  state: {
-    localStoragePositionsCopy: null,
-  },
 });
 
 interface DragData {
@@ -39,12 +32,14 @@ export const useDragging = () => {
   return useContext(DraggingContext);
 };
 
-interface Props {
+interface Props
+  extends PropsWithChildren,
+    Omit<HTMLAttributes<HTMLElement>, "onMouseDown" | "onMouseMove"> {
   id: string;
   initialPosition: Position;
   containerRef: React.RefObject<HTMLDivElement> | null;
-  onMouseDown: (event: React.MouseEvent<HTMLDivElement>) => void;
-  onMouseMove: (event: MouseEvent) => void;
+  onMouseDown: (event: React.MouseEvent<HTMLDivElement>, id: string) => void;
+  onMouseMove: (event: MouseEvent, id: string) => void;
   callback: (id: number, { x, y }: { x: number; y: number }) => void;
 }
 
@@ -56,6 +51,7 @@ export const MovableComponent = ({
   callback,
   onMouseDown,
   onMouseMove,
+  ...rest
 }: PropsWithChildren<Props>) => {
   const [position, setPosition] = useState({
     x: initialPosition[0] || 0,
@@ -71,107 +67,66 @@ export const MovableComponent = ({
   });
   const { draggingItem, setDraggingItem } = useDragging();
 
-  const updateContainerDimensions = useCallback(() => {
-    if (containerRef?.current) {
-      const { width, height } = containerRef.current.getBoundingClientRect();
-      dragData.current.containerWidth = width;
-      dragData.current.containerHeight = height;
-    }
-  }, [containerRef]);
-
-  // eslint-disable-next-line consistent-return
-  useEffect(() => {
-    // Call initially to set the dimensions
-    updateContainerDimensions();
-
-    if (containerRef?.current) {
-      const resizeObserver = new ResizeObserver(() => {
-        updateContainerDimensions();
-      });
-      resizeObserver.observe(containerRef.current);
-
-      return () => {
-        resizeObserver.disconnect();
-      };
-    }
-  }, [containerRef, updateContainerDimensions]);
-
-  const stopDragging = useCallback(() => {
-    if (draggingItem === id) {
-      setDraggingItem(null);
-      callback(Number(id), {
-        x: position.x,
-        y: position.y,
-      });
-    }
-  }, [draggingItem, id, setDraggingItem, callback, position]);
-
   const handleMouseDown = useCallback(
     (event: React.MouseEvent<HTMLDivElement>) => {
-      if (!draggingItem) {
-        setDraggingItem(id);
-        dragData.current = {
-          ...dragData.current,
-          originalX: event.clientX,
-          originalY: event.clientY,
-          startX: position.x,
-          startY: position.y,
-        };
-        onMouseDown(event);
-      }
+      setDraggingItem(id);
+      dragData.current = {
+        ...dragData.current,
+        originalX: event.clientX,
+        originalY: event.clientY,
+        startX: position.x,
+        startY: position.y,
+      };
+      onMouseDown(event, id);
     },
-    [draggingItem, id, position.x, position.y, onMouseDown, setDraggingItem],
+    [id, position.x, position.y, onMouseDown, setDraggingItem],
   );
 
   const handleMouseMove = useCallback(
     (event: MouseEvent) => {
-      if (draggingItem === id) {
-        const deltaX = event.clientX - dragData.current.originalX;
-        const deltaY = event.clientY - dragData.current.originalY;
-        const percentX = (deltaX / dragData.current.containerWidth) * 100;
-        const percentY = (deltaY / dragData.current.containerHeight) * 100;
+      const deltaX = event.clientX - dragData.current.originalX;
+      const deltaY = event.clientY - dragData.current.originalY;
+      const percentX = (deltaX / dragData.current.containerWidth) * 100;
+      const percentY = (deltaY / dragData.current.containerHeight) * 100;
 
-        const objectWidthInPercentage =
-          (LINK_WIDTH_PX / dragData.current.containerWidth) * 100;
-        const objectHeightInPercentage =
-          (LINK_WIDTH_PX / dragData.current.containerHeight) * 100;
+      const objectWidthInPercentage =
+        (LINK_WIDTH_PX / dragData.current.containerWidth) * 100;
+      const objectHeightInPercentage =
+        (LINK_WIDTH_PX / dragData.current.containerHeight) * 100;
 
-        const maxPercentX = 100 - objectWidthInPercentage;
-        const maxPercentY = 100 - objectHeightInPercentage;
+      const maxPercentX = 100 - objectWidthInPercentage;
+      const maxPercentY = 100 - objectHeightInPercentage;
 
-        const finalX = Math.min(
-          Math.max(0, dragData.current.startX + percentX),
-          maxPercentX,
-        );
-        const finalY = Math.min(
-          Math.max(0, dragData.current.startY + percentY),
-          maxPercentY,
-        );
+      const finalX = Math.min(
+        Math.max(0, dragData.current.startX + percentX),
+        maxPercentX,
+      );
+      const finalY = Math.min(
+        Math.max(0, dragData.current.startY + percentY),
+        maxPercentY,
+      );
 
-        setPosition({
-          x: finalX,
-          y: finalY,
-        });
-        onMouseMove(event);
-      }
+      setPosition({
+        x: finalX,
+        y: finalY,
+      });
+      onMouseMove(event, id);
     },
-    [draggingItem, onMouseMove, id],
+    [onMouseMove, id],
   );
 
   const handleTouchStart = useCallback(
     (event: React.TouchEvent<HTMLDivElement>) => {
-      if (!draggingItem) {
-        setDraggingItem(id);
-        dragData.current = {
-          ...dragData.current,
-          originalX: event.touches[0].clientX,
-          originalY: event.touches[0].clientY,
-          startX: position.x,
-          startY: position.y,
-        };
-      }
+      setDraggingItem(id);
+      dragData.current = {
+        ...dragData.current,
+        originalX: event.touches[0].clientX,
+        originalY: event.touches[0].clientY,
+        startX: position.x,
+        startY: position.y,
+      };
     },
-    [draggingItem, id, position.x, position.y, setDraggingItem],
+    [id, position.x, position.y, setDraggingItem],
   );
 
   const handleTouchMove = useCallback(
@@ -211,7 +166,37 @@ export const MovableComponent = ({
     [draggingItem, id],
   );
 
-  // Add event listeners
+  const stopDragging = useCallback(() => {
+    setDraggingItem(null);
+    callback(Number(id), {
+      x: position.x,
+      y: position.y,
+    });
+  }, [id, setDraggingItem, callback, position]);
+
+  const updateContainerDimensions = useCallback((current: HTMLDivElement) => {
+    const { width, height } = current.getBoundingClientRect();
+    dragData.current.containerWidth = width;
+    dragData.current.containerHeight = height;
+  }, []);
+
+  useEffect(() => {
+    const current = containerRef?.current;
+    if (current) {
+      // Call initially to set the dimensions
+      updateContainerDimensions(current);
+
+      const resizeObserver = new ResizeObserver(() => {
+        updateContainerDimensions(current);
+      });
+      resizeObserver.observe(current);
+
+      return () => {
+        resizeObserver.disconnect();
+      };
+    }
+  }, [containerRef, updateContainerDimensions]);
+
   useEffect(() => {
     if (draggingItem === id) {
       // Mouse events
@@ -239,8 +224,11 @@ export const MovableComponent = ({
   return (
     // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions
     <div
-      className="absolute z-1 w-[90px] h-[90px]"
       style={{
+        ...rest.style,
+        position: "absolute",
+        width: `${LINK_WIDTH_PX}px`,
+        height: `${LINK_HEIGHT_PX}px`,
         top: `${position.y}%`,
         left: `${position.x}%`,
       }}

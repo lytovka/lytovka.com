@@ -34,7 +34,7 @@ const ThemeToggle = () => {
 
 function Navbar() {
   return (
-    <div className="py-9 fixed left-7 right-7">
+    <div className="py-9">
       <nav className="flex justify-between items-center sm:max-w-5xl md:max-w-7xl mx-auto px-8">
         <div className="flex justify-start h-10 w-10 md:h-8 md:w-8" />
         <Link

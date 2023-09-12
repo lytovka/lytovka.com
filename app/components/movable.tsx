@@ -206,8 +206,6 @@ export const MovableComponent = ({
       // Mouse events
       window.addEventListener("mousemove", handleMouseMove);
       window.addEventListener("mouseup", stopDragging);
-      document.documentElement.style.overflow = "hidden";
-      document.body.style.overscrollBehaviorY = "none";
 
       // Touch events
       window.addEventListener("touchmove", handleTouchMove);
@@ -218,14 +216,22 @@ export const MovableComponent = ({
       // Mouse events
       window.removeEventListener("mousemove", handleMouseMove);
       window.removeEventListener("mouseup", stopDragging);
-      document.documentElement.style.overflow = "";
-      document.body.style.overscrollBehaviorY = "";
 
       // Touch events
       window.removeEventListener("touchmove", handleTouchMove);
       window.removeEventListener("touchend", stopDragging);
     };
   }, [draggingItem, handleMouseMove, handleTouchMove, id, stopDragging]);
+
+  useEffect(() => {
+    document.documentElement.style.overflow = "hidden";
+    document.body.style.overscrollBehavior = "contain";
+
+    return () => {
+      document.documentElement.style.overflow = "";
+      document.body.style.overscrollBehavior = "";
+    };
+  }, []);
 
   return (
     // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions

@@ -3,7 +3,7 @@ import { INSTAGRAM_LINK, TELEGRAM_LINK, GITHUB_LINK } from "~/constants";
 
 function Footer() {
   return (
-    <footer className="flex flex-col items-center py-9 text-xl fixed bottom-0 left-7 right-7">
+    <footer className="flex flex-col items-center py-9 text-xl">
       <div className="flex gap-4 text-zinc-200">
         <ExternalLink
           className="hover:opacity-75 transition-opacity z-30"

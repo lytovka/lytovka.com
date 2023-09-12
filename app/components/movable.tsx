@@ -207,6 +207,7 @@ export const MovableComponent = ({
       window.addEventListener("mousemove", handleMouseMove);
       window.addEventListener("mouseup", stopDragging);
       document.documentElement.style.overflow = "hidden";
+      document.body.style.overscrollBehaviorY = "none";
 
       // Touch events
       window.addEventListener("touchmove", handleTouchMove);
@@ -217,7 +218,8 @@ export const MovableComponent = ({
       // Mouse events
       window.removeEventListener("mousemove", handleMouseMove);
       window.removeEventListener("mouseup", stopDragging);
-      document.documentElement.style.overflow = "hidden";
+      document.documentElement.style.overflow = "";
+      document.body.style.overscrollBehaviorY = "";
 
       // Touch events
       window.removeEventListener("touchmove", handleTouchMove);

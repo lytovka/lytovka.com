@@ -1,18 +1,9 @@
-import clsx from "clsx";
 import { ExternalLink } from "./external-link";
 import { INSTAGRAM_LINK, TELEGRAM_LINK, GITHUB_LINK } from "~/constants";
 
-interface Props {
-  isHomepage?: boolean;
-}
-
-function Footer({ isHomepage }: Props) {
+function Footer() {
   return (
-    <footer
-      className={clsx("flex flex-col items-center py-9 text-xl", {
-        "fixed bottom-0 left-7 right-7": true,
-      })}
-    >
+    <footer className="flex flex-col items-center py-9 text-xl fixed bottom-0 left-7 right-7">
       <div className="flex gap-4 text-zinc-200">
         <ExternalLink
           className="hover:opacity-75 transition-opacity z-30"

@@ -108,7 +108,6 @@ export const MovableComponent = ({
 
   const handleMouseDown = useCallback(
     (event: React.MouseEvent<HTMLDivElement>) => {
-      console.log("handleMouseDown");
       if (!draggingItem) {
         setDraggingItem(id);
         dragData.current = {
@@ -121,7 +120,7 @@ export const MovableComponent = ({
         onMouseDown(event);
       }
     },
-    [draggingItem, id, position.x, position.y, onMouseDown, setDraggingItem]
+    [draggingItem, id, position.x, position.y, onMouseDown, setDraggingItem],
   );
 
   const handleMouseMove = useCallback(
@@ -142,11 +141,11 @@ export const MovableComponent = ({
 
         const finalX = Math.min(
           Math.max(0, dragData.current.startX + percentX),
-          maxPercentX
+          maxPercentX,
         );
         const finalY = Math.min(
           Math.max(0, dragData.current.startY + percentY),
-          maxPercentY
+          maxPercentY,
         );
 
         setPosition({
@@ -156,7 +155,7 @@ export const MovableComponent = ({
         onMouseMove(event);
       }
     },
-    [draggingItem, onMouseMove, id]
+    [draggingItem, onMouseMove, id],
   );
 
   const handleTouchStart = useCallback(
@@ -172,7 +171,7 @@ export const MovableComponent = ({
         };
       }
     },
-    [draggingItem, id, position.x, position.y, setDraggingItem]
+    [draggingItem, id, position.x, position.y, setDraggingItem],
   );
 
   const handleTouchMove = useCallback(
@@ -196,11 +195,11 @@ export const MovableComponent = ({
         // Clamp the values between the minimum and maximum
         const finalX = Math.min(
           Math.max(0, dragData.current.startX + percentX),
-          maxPercentX
+          maxPercentX,
         );
         const finalY = Math.min(
           Math.max(0, dragData.current.startY + percentY),
-          maxPercentY
+          maxPercentY,
         );
 
         setPosition({
@@ -209,7 +208,7 @@ export const MovableComponent = ({
         });
       }
     },
-    [draggingItem, id]
+    [draggingItem, id],
   );
 
   // Add event listeners

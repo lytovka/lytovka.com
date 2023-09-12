@@ -115,8 +115,6 @@ export const loader = async ({ request }: DataFunctionArgs) => {
 
 function App({ rootLoaderData }: { rootLoaderData: RootLoaderData }) {
   const [theme] = useTheme();
-  const isHomepage = rootLoaderData.requestInfo.path === "/";
-  console.log(rootLoaderData.requestInfo.path);
 
   return (
     <html className={clsx(theme)} lang="en">
@@ -131,9 +129,9 @@ function App({ rootLoaderData }: { rootLoaderData: RootLoaderData }) {
           "overflow-hidden": false,
         })}
       >
-        <Navbar isHomepage={isHomepage} />
+        <Navbar />
         <Outlet />
-        <Footer isHomepage={isHomepage} />
+        <Footer />
         <ScrollRestoration />
         <script
           dangerouslySetInnerHTML={{

@@ -1,11 +1,5 @@
 import { Link } from "@remix-run/react";
-import type {
-  EventHandler,
-  MouseEventHandler,
-  MutableRefObject,
-  PropsWithChildren,
-  ReactNode,
-} from "react";
+import type { MutableRefObject, PropsWithChildren, ReactNode } from "react";
 import type React from "react";
 import { useCallback, useEffect, useRef, useState } from "react";
 import {
@@ -77,17 +71,17 @@ export default function TestPage() {
   const [show, setShow] = useState(false);
   const [hasMoved, setHasMoved] = useState(false);
   const [defaultPositions, setDefaultPositions] = useState<Positions>(
-    Array(HOMEPAGE_LINKS.length).fill([0, 0])
+    Array(HOMEPAGE_LINKS.length).fill([0, 0]),
   );
   const localStoragePositionsCopy = useRef<Positions>(
-    HOMEPAGE_LINKS.map((item) => item.position)
+    HOMEPAGE_LINKS.map((item) => item.position),
   );
 
   useEffect(() => {
     const transformedPositions: Positions = HOMEPAGE_LINKS.map(
       ({ position }) => {
         return [position[0], position[1]];
-      }
+      },
     );
     const lc = localStorageGetItem(LYT_STORAGE_KEY);
     if (lc === null) {
@@ -110,12 +104,12 @@ export default function TestPage() {
       const newPositions = replaceAt<Position>(
         localStoragePositionsCopy.current,
         index,
-        [x, y]
+        [x, y],
       );
       localStorageSetItem(LYT_STORAGE_KEY, JSON.stringify(newPositions));
       Object.assign(localStoragePositionsCopy.current, newPositions);
     },
-    []
+    [],
   );
 
   const handleMouseDown = () => {
@@ -127,7 +121,7 @@ export default function TestPage() {
   };
 
   const handleLinkClick = (
-    event: React.MouseEvent<HTMLAnchorElement, MouseEvent>
+    event: React.MouseEvent<HTMLAnchorElement, MouseEvent>,
   ) => {
     if (hasMoved) {
       event.preventDefault();

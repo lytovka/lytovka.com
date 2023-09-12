@@ -1,7 +1,6 @@
 import { themes, useTheme } from "~/providers/theme";
 import { DarkModeIcon, LightModeIcon } from "~/components/icons";
 import { Link } from "@remix-run/react";
-import clsx from "clsx";
 
 const ThemeToggle = () => {
   const [, setTheme] = useTheme();
@@ -11,7 +10,7 @@ const ThemeToggle = () => {
       className="group p-2 z-30 border rounded-full border-gray-600 dark:border-gray-300 hover:opacity-75 transition-opacity overflow-hidden"
       onClick={() => {
         setTheme((previousTheme) =>
-          previousTheme == "dark" ? themes.LIGHT : themes.DARK
+          previousTheme == "dark" ? themes.LIGHT : themes.DARK,
         );
       }}
     >
@@ -33,28 +32,18 @@ const ThemeToggle = () => {
   );
 };
 
-interface Props {
-  isHomepage?: boolean;
-}
-
-function Navbar({ isHomepage }: Props) {
+function Navbar() {
   return (
-    <div
-      className={clsx("py-9", {
-        "fixed left-7 right-7": true,
-      })}
-    >
+    <div className="py-9 fixed left-7 right-7">
       <nav className="flex justify-between items-center sm:max-w-5xl md:max-w-7xl mx-auto px-8">
-        <div />
+        <div className="flex justify-start h-10 w-10 md:h-8 md:w-8" />
         <Link
           className="justify-self-center z-30 text-black dark:text-white text-2xl hover:opacity-75 hover:transition-opacity"
           to="/"
         >
           Ivan Lytovka
         </Link>
-        <div className="flex justify-end">
-          <ThemeToggle />
-        </div>
+        <ThemeToggle />
       </nav>
     </div>
   );

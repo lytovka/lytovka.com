@@ -35,17 +35,15 @@ const ThemeToggle = () => {
 function Navbar() {
   return (
     <div className="py-9">
-      <nav className="grid grid-cols-3 items-center sm:max-w-5xl md:max-w-7xl mx-auto px-8">
-        <div />
+      <nav className="flex justify-between items-center sm:max-w-5xl md:max-w-7xl mx-auto px-8">
+        <div className="flex justify-start h-10 w-10 md:h-8 md:w-8" />
         <Link
           className="justify-self-center z-30 text-black dark:text-white text-2xl hover:opacity-75 hover:transition-opacity"
           to="/"
         >
           Ivan Lytovka
         </Link>
-        <div className="flex justify-end">
-          <ThemeToggle />
-        </div>
+        <ThemeToggle />
       </nav>
     </div>
   );

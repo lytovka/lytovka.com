@@ -1,24 +1,21 @@
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
-import { useNavigate } from "@remix-run/react";
-import { useEffect, useRef, useState } from "react";
-import type { PointerEvent, ReactNode } from "react";
-import type { DraggableData, DraggableEvent } from "react-draggable";
-
-import { LYT_STORAGE_KEY, LINK_HEIGHT_PX, LINK_WIDTH_PX } from "~/constants";
-import useWindowSize from "~/hooks/useWindowSize";
+import { Link } from "@remix-run/react";
+import type { PropsWithChildren, ReactNode } from "react";
+import type React from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
+import {
+  FileTextIcon,
+  FolderDocumentsIcon,
+  FolderMusicIcon,
+} from "~/components/icons";
+import { DraggingContext, MovableComponent } from "~/components/movable";
+import { Paragraph } from "~/components/typography";
+import { LYT_STORAGE_KEY } from "~/constants";
 import type { Position, Positions } from "~/typings/Coordinates";
 import { replaceAt } from "~/utils/array";
 import {
   localStorageGetItem,
   localStorageSetItem,
 } from "~/utils/local-storage";
-import { DraggableItem, HomepageLink } from "~/components/draggable-item";
-import MainLayout from "~/components/main-layout";
-import {
-  FileTextIcon,
-  FolderDocumentsIcon,
-  FolderMusicIcon,
-} from "~/components/icons";
 
 const HOMEPAGE_LINKS: Array<{
   title: string;
@@ -29,135 +26,132 @@ const HOMEPAGE_LINKS: Array<{
   {
     title: "notes",
     href: "/notes",
-    position: [0.55, 0.15],
+    position: [55, 15],
     imgSrc: <FolderDocumentsIcon />,
   },
   {
     title: "collectibles",
     href: "/collectibles",
-    position: [0.25, 0.2],
+    position: [25, 20],
     imgSrc: <FolderMusicIcon />,
   },
   {
     title: "intro.txt",
     href: "/intro",
-    position: [0.5, 0.35],
+    position: [50, 35],
     imgSrc: <FileTextIcon />,
   },
 ];
 
-export default function Index() {
-  const navigate = useNavigate();
-  const draggableElementRefs = useRef<Array<HTMLDivElement>>([]);
-  const localStoragePositionsCopy = useRef<Positions>(
-    HOMEPAGE_LINKS.map((item) => item.position),
+export const DraggingProvider = ({ children }: PropsWithChildren) => {
+  const [draggingItem, setDraggingItem] = useState<string | null>(null);
+
+  return (
+    <DraggingContext.Provider value={{ draggingItem, setDraggingItem }}>
+      {children}
+    </DraggingContext.Provider>
   );
-  const [windowSize] = useWindowSize();
+};
+
+export default function TestPage() {
+  const containerRef = useRef<HTMLDivElement>(null);
   const [show, setShow] = useState(false);
-  const [drag, setDrag] = useState(false);
-  const [zIndexes, setZIndexes] = useState<Array<number>>(
-    Array(HOMEPAGE_LINKS.length).fill(0),
-  );
+  const [hasMoved, setHasMoved] = useState(false);
   const [defaultPositions, setDefaultPositions] = useState<Positions>(
     Array(HOMEPAGE_LINKS.length).fill([0, 0]),
   );
-
-  const handleOnPointerEndCapture = (_event: PointerEvent, slug: string) => {
-    if (drag) {
-      return;
-    }
-    navigate(slug);
-  };
+  const [zIndexes, setZIndexes] = useState<Array<number>>(
+    Array(HOMEPAGE_LINKS.length).fill(0),
+  );
+  const localStoragePositionsCopy = useRef<Positions>(
+    HOMEPAGE_LINKS.map((item) => item.position),
+  );
 
   useEffect(() => {
-    const { height, width } = windowSize;
-    if (height === 0 || width === 0) {
+    const positions: Positions = HOMEPAGE_LINKS.map((item) => item.position);
+    const lcPositions = localStorageGetItem(LYT_STORAGE_KEY);
+    if (lcPositions === null) {
+      setDefaultPositions(positions);
+      setShow(true);
+
       return;
     }
+    const parsedPositions = JSON.parse(lcPositions) as Positions;
+    Object.assign(localStoragePositionsCopy.current, parsedPositions);
+    setDefaultPositions(parsedPositions);
 
-    const lc = localStorageGetItem(LYT_STORAGE_KEY);
-    if (lc !== null) {
-      const positions = JSON.parse(lc) as Positions;
-      Object.assign(localStoragePositionsCopy.current, positions);
-      const transformedPositions: Positions = positions.map((position) => {
-        return [
-          Math.min(position[0] * width, width - LINK_WIDTH_PX),
-          Math.min(position[1] * height, height - LINK_HEIGHT_PX),
-        ];
-      });
-      setDefaultPositions(transformedPositions);
-    } else {
-      const transformedPositions: Positions = HOMEPAGE_LINKS.map(
-        ({ position }) => {
-          return [
-            position[0] * (width - LINK_WIDTH_PX),
-            position[1] * (height - LINK_HEIGHT_PX),
-          ];
-        },
-      );
-      setDefaultPositions(transformedPositions);
-    }
     setShow(true);
-  }, [windowSize]);
+  }, []);
 
-  const onStart = (_e: DraggableEvent, data: DraggableData) => {
-    const { index } = data.node.dataset;
-    if (!index) return;
+  const savePositions = useCallback(
+    (index: number, { x, y }: { x: number; y: number }) => {
+      const positions = localStoragePositionsCopy.current;
+      localStorage.setItem(LYT_STORAGE_KEY, JSON.stringify(positions));
+      const newPositions = replaceAt<Position>(
+        localStoragePositionsCopy.current,
+        index,
+        [x, y],
+      );
+      localStorageSetItem(LYT_STORAGE_KEY, JSON.stringify(newPositions));
+      Object.assign(localStoragePositionsCopy.current, newPositions);
+    },
+    [],
+  );
+
+  const handleMouseDown = (
+    event: React.MouseEvent<HTMLDivElement, MouseEvent> | React.TouchEvent,
+    index: string,
+  ) => {
+    setHasMoved(false);
     setZIndexes((prev) =>
       replaceAt<number>(prev, Number(index), Math.max(...prev) + 1),
     );
   };
 
-  const onDrag = (e: DraggableEvent, _data: DraggableData) => {
-    setDrag(true);
-    if (!e.isTrusted) {
-      e.preventDefault();
-    }
+  const handleMouseMove = () => {
+    setHasMoved(true);
   };
 
-  const onStop = (e: DraggableEvent, data: DraggableData) => {
-    setDrag(false);
-    if (!windowSize.height || !windowSize.width) return;
-    const { index } = data.node.dataset;
-    if (!index) return;
-    if (e.isTrusted) {
-      const { x, y } = data;
-      const newPositions = replaceAt<Position>(
-        localStoragePositionsCopy.current,
-        Number(index),
-        [x / windowSize.width, y / windowSize.height],
-      );
-      localStorageSetItem(LYT_STORAGE_KEY, JSON.stringify(newPositions));
-      Object.assign(localStoragePositionsCopy.current, newPositions);
+  const handleLinkClick = (
+    event: React.MouseEvent<HTMLAnchorElement, MouseEvent>,
+  ) => {
+    if (hasMoved) {
+      event.preventDefault();
+      setHasMoved(false);
     }
   };
 
   return (
-    <MainLayout>
-      {show
-        ? HOMEPAGE_LINKS.map((item, key) => (
-            <DraggableItem
-              defaultPosition={defaultPositions[key]}
-              key={key}
-              onDrag={onDrag}
-              onStart={onStart}
-              onStop={onStop}
-            >
-              <HomepageLink
-                data-index={key}
-                href={item.href}
-                imgSrc={item.imgSrc}
-                isDraggable={drag}
-                ref={(el) => el && draggableElementRefs.current[key]}
-                style={{ zIndex: zIndexes[key] }}
-                title={item.title}
-                onPointerUp={(e) => {
-                  handleOnPointerEndCapture(e, item.href);
-                }}
-              />
-            </DraggableItem>
-          ))
-        : null}
-    </MainLayout>
+    <main className="h-full w-full" ref={containerRef}>
+      <DraggingProvider>
+        {show
+          ? HOMEPAGE_LINKS.map((item, index) => (
+              <MovableComponent
+                callback={savePositions}
+                containerRef={containerRef}
+                id={`${index}`}
+                initialPosition={defaultPositions[index]}
+                key={index}
+                style={{ zIndex: zIndexes[index] }}
+                onMouseDown={handleMouseDown}
+                onMouseMove={handleMouseMove}
+              >
+                <Link
+                  className="flex flex-col items-center no-underline active:outline-dashed outline-1 outline-gray-500 }"
+                  draggable={false}
+                  prefetch="intent"
+                  to={item.href}
+                  onClick={(e) => {
+                    handleLinkClick(e);
+                  }}
+                >
+                  {item.imgSrc}
+                  <Paragraph className="text-center">{item.title}</Paragraph>
+                </Link>
+              </MovableComponent>
+            ))
+          : null}
+      </DraggingProvider>
+    </main>
   );
 }

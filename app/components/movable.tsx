@@ -9,6 +9,8 @@ import React, {
 import { LINK_HEIGHT_PX, LINK_WIDTH_PX } from "~/constants";
 import type { Position } from "~/typings/Coordinates";
 
+const getPercentage = (value: number, max: number) => (value / max) * 100;
+
 interface DraggingContextType {
   draggingItem: string | null;
   setDraggingItem: Dispatch<React.SetStateAction<string | null>>;
@@ -88,13 +90,16 @@ export const MovableComponent = ({
     (event: MouseEvent) => {
       const deltaX = event.clientX - dragData.current.originalX;
       const deltaY = event.clientY - dragData.current.originalY;
-      const percentX = (deltaX / dragData.current.containerWidth) * 100;
-      const percentY = (deltaY / dragData.current.containerHeight) * 100;
-
-      const objectWidthInPercentage =
-        (LINK_WIDTH_PX / dragData.current.containerWidth) * 100;
-      const objectHeightInPercentage =
-        (LINK_WIDTH_PX / dragData.current.containerHeight) * 100;
+      const percentX = getPercentage(deltaX, dragData.current.containerWidth);
+      const percentY = getPercentage(deltaY, dragData.current.containerHeight);
+      const objectWidthInPercentage = getPercentage(
+        LINK_WIDTH_PX,
+        dragData.current.containerWidth,
+      );
+      const objectHeightInPercentage = getPercentage(
+        LINK_HEIGHT_PX,
+        dragData.current.containerHeight,
+      );
 
       const maxPercentX = 100 - objectWidthInPercentage;
       const maxPercentY = 100 - objectHeightInPercentage;
@@ -137,14 +142,20 @@ export const MovableComponent = ({
       if (draggingItem === id) {
         const deltaX = event.touches[0].clientX - dragData.current.originalX;
         const deltaY = event.touches[0].clientY - dragData.current.originalY;
-        const percentX = (deltaX / dragData.current.containerWidth) * 100;
-        const percentY = (deltaY / dragData.current.containerHeight) * 100;
+        const percentX = getPercentage(deltaX, dragData.current.containerWidth);
+        const percentY = getPercentage(
+          deltaY,
+          dragData.current.containerHeight,
+        );
 
-        // Calculate object width and height in percentage
-        const objectWidthInPercentage =
-          (LINK_WIDTH_PX / dragData.current.containerWidth) * 100;
-        const objectHeightInPercentage =
-          (LINK_WIDTH_PX / dragData.current.containerHeight) * 100;
+        const objectWidthInPercentage = getPercentage(
+          LINK_WIDTH_PX,
+          dragData.current.containerWidth,
+        );
+        const objectHeightInPercentage = getPercentage(
+          LINK_HEIGHT_PX,
+          dragData.current.containerHeight,
+        );
 
         // Calculate max allowed percentage
         const maxPercentX = 100 - objectWidthInPercentage;

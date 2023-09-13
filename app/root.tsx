@@ -124,11 +124,7 @@ function App({ rootLoaderData }: { rootLoaderData: RootLoaderData }) {
         <Links />
         <ThemeScript serverTheme={rootLoaderData.requestInfo.session.theme} />
       </head>
-      <body
-        className={clsx("bg-main dark:bg-main-dark min-h-full flex flex-col", {
-          "overflow-hidden": false,
-        })}
-      >
+      <body className="bg-main dark:bg-main-dark">
         <Navbar />
         <Outlet />
         <Footer />

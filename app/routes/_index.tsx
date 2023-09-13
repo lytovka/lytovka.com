@@ -68,19 +68,17 @@ export default function TestPage() {
   );
 
   useEffect(() => {
-    const transformedPositions: Positions = HOMEPAGE_LINKS.map(
-      ({ position }) => [position[0], position[1]],
-    );
-    const lc = localStorageGetItem(LYT_STORAGE_KEY);
-    if (lc === null) {
-      setDefaultPositions(transformedPositions);
+    const positions: Positions = HOMEPAGE_LINKS.map((item) => item.position);
+    const lcPositions = localStorageGetItem(LYT_STORAGE_KEY);
+    if (lcPositions === null) {
+      setDefaultPositions(positions);
       setShow(true);
 
       return;
     }
-    const positions = JSON.parse(lc) as Positions;
-    Object.assign(localStoragePositionsCopy.current, positions);
-    setDefaultPositions(positions);
+    const parsedPositions = JSON.parse(lcPositions) as Positions;
+    Object.assign(localStoragePositionsCopy.current, parsedPositions);
+    setDefaultPositions(parsedPositions);
 
     setShow(true);
   }, []);

@@ -19,6 +19,45 @@ import type { LinksFunction, LoaderArgs, V2_MetaFunction } from "@vercel/remix";
 import type { RootLoaderDataUnwrapped } from "~/root";
 import { ONE_MINUTE } from "~/constants";
 
+const ALBUMS = [
+  {
+    name: "Definitely Maybe",
+    spotifyId: "3LzKUdUTdJb6P7xGN6SotC",
+  },
+  {
+    name: "WTSMG",
+    spotifyId: "2u30gztZTylY4RG7IvfXs8",
+  },
+  {
+    name: "Be Here Now",
+    spotifyId: "021D07OEcg0c4tUCilc7ah",
+  },
+  {
+    name: "Elwan",
+    spotifyId: "41KpeN0qV6BBsuJgd8tZrE",
+  },
+  {
+    name: "The Queen Is Dead",
+    spotifyId: "5Y0p2XCgRRIjna91aQE8q7",
+  },
+  {
+    name: "Black Pumas",
+    spotifyId: "0VwJFPilOR47xaCXnJzB4u",
+  },
+  {
+    name: "Dummy",
+    spotifyId: "3539EbNgIdEDGBKkUf4wno",
+  },
+  {
+    name: "Unplugged In New York",
+    spotifyId: "1To7kv722A8SpZF789MZy7",
+  },
+  {
+    name: "Days Gone By",
+    spotifyId: "0u3Rl4KquP15smujFrgGz4",
+  },
+];
+
 export const meta: V2_MetaFunction<typeof loader> = ({ matches }) => {
   const { requestInfo } = (matches[0] as RootLoaderDataUnwrapped).data;
   const metadataUrl = getMetadataUrl(requestInfo);
@@ -43,24 +82,11 @@ export const meta: V2_MetaFunction<typeof loader> = ({ matches }) => {
 };
 
 export const loader = async (_: LoaderArgs) => {
-  return json(
-    await getAlbumsByIds([
-      "3LzKUdUTdJb6P7xGN6SotC",
-      "2u30gztZTylY4RG7IvfXs8",
-      "021D07OEcg0c4tUCilc7ah",
-      "41KpeN0qV6BBsuJgd8tZrE",
-      "5Y0p2XCgRRIjna91aQE8q7",
-      "0VwJFPilOR47xaCXnJzB4u",
-      "3539EbNgIdEDGBKkUf4wno",
-      "1To7kv722A8SpZF789MZy7",
-      "0u3Rl4KquP15smujFrgGz4",
-    ]),
-    {
-      headers: {
-        "Cache-Control": `max-age=${ONE_MINUTE}`,
-      },
+  return json(await getAlbumsByIds(ALBUMS.map((a) => a.spotifyId)), {
+    headers: {
+      "Cache-Control": `max-age=${ONE_MINUTE}`,
     },
-  );
+  });
 };
 
 export const links: LinksFunction = () => {

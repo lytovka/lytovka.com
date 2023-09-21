@@ -22,7 +22,7 @@ body {
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #797979;
+  background: #4a4646;
 }
 
 .dark ::-webkit-scrollbar-track {

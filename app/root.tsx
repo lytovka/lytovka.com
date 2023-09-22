@@ -13,7 +13,7 @@ import type {
   SerializeFrom,
   DataFunctionArgs,
   LinksFunction,
-  V2_MetaFunction,
+  MetaFunction,
 } from "@remix-run/node";
 import { getEnv } from "~/server/env.server";
 import { FourOhFour } from "./components/errors";
@@ -35,7 +35,7 @@ import { ThemeProvider, ThemeScript, useTheme } from "./providers/theme";
 import clsx from "clsx";
 import type { AppError } from "~/typings/AppError";
 
-export const meta: V2_MetaFunction<typeof loader> = ({ data }) => {
+export const meta: MetaFunction<typeof loader> = ({ data }) => {
   const metadataUrl = getMetadataUrl(data?.requestInfo);
 
   return [

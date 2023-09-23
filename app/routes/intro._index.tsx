@@ -1,5 +1,5 @@
 import { json } from "@vercel/remix";
-import type { LoaderArgs, V2_MetaFunction } from "@vercel/remix";
+import type { LoaderFunctionArgs, MetaFunction } from "@vercel/remix";
 import { useLoaderData } from "@remix-run/react";
 import type { ChangeEvent } from "react";
 import { useRef } from "react";
@@ -17,7 +17,7 @@ import {
 import { GITHUB_LINK, ONE_MINUTE } from "~/constants/index.ts";
 import { H2 } from "~/components/typography.tsx";
 
-export const meta: V2_MetaFunction<typeof loader> = ({ matches }) => {
+export const meta: MetaFunction<typeof loader> = ({ matches }) => {
   const { requestInfo } = (matches[0] as RootLoaderDataUnwrapped).data;
   const metadataUrl = getMetadataUrl(requestInfo);
 
@@ -40,7 +40,7 @@ export const meta: V2_MetaFunction<typeof loader> = ({ matches }) => {
   ];
 };
 
-export const loader = async (_: LoaderArgs) => {
+export const loader = async (_: LoaderFunctionArgs) => {
   const result = await getIntroFile();
 
   return json(result, {

@@ -15,8 +15,7 @@ import {
   getSocialMetas,
 } from "~/utils/seo.ts";
 import type { AppError } from "~/typings/AppError.ts";
-import { json } from "@vercel/remix";
-import type { LoaderArgs } from "@vercel/remix";
+import { LoaderFunctionArgs, json } from "@vercel/remix";
 
 export const meta: MetaFunction<typeof loader> = ({ data, matches }) => {
   const { requestInfo } = (matches[0] as RootLoaderDataUnwrapped).data;
@@ -42,7 +41,7 @@ export const meta: MetaFunction<typeof loader> = ({ data, matches }) => {
   ];
 };
 
-export const loader = async ({ params }: LoaderArgs) => {
+export const loader = async ({ params }: LoaderFunctionArgs) => {
   if (!params.slug) {
     throw new Error("params.slug is not defined.");
   }

@@ -15,7 +15,11 @@ import {
   getSocialMetas,
 } from "~/utils/seo.ts";
 import { json } from "@vercel/remix";
-import type { LinksFunction, LoaderArgs, V2_MetaFunction } from "@vercel/remix";
+import type {
+  LinksFunction,
+  LoaderFunctionArgs,
+  MetaFunction,
+} from "@vercel/remix";
 import type { RootLoaderDataUnwrapped } from "~/root.tsx";
 import { ONE_MINUTE } from "~/constants/index.ts";
 
@@ -58,7 +62,7 @@ const ALBUMS = [
   },
 ];
 
-export const meta: V2_MetaFunction<typeof loader> = ({ matches }) => {
+export const meta: MetaFunction<typeof loader> = ({ matches }) => {
   const { requestInfo } = (matches[0] as RootLoaderDataUnwrapped).data;
   const metadataUrl = getMetadataUrl(requestInfo);
 
@@ -81,7 +85,7 @@ export const meta: V2_MetaFunction<typeof loader> = ({ matches }) => {
   ];
 };
 
-export const loader = async (_: LoaderArgs) => {
+export const loader = async (_: LoaderFunctionArgs) => {
   return json(await getAlbumsByIds(ALBUMS.map((a) => a.spotifyId)), {
     headers: {
       "Cache-Control": `max-age=${ONE_MINUTE}`,

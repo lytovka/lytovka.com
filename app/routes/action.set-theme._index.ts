@@ -1,8 +1,7 @@
-import { json, redirect } from "@vercel/remix";
+import { ActionFunctionArgs, json, redirect } from "@vercel/remix";
 import { getThemeSession, isTheme } from "~/server/theme.server.ts";
-import type { ActionArgs } from "@vercel/remix";
 
-export const action = async ({ request }: ActionArgs) => {
+export const action = async ({ request }: ActionFunctionArgs) => {
   const [themeSession, formData] = await Promise.all([
     getThemeSession(request),
     request.formData(),

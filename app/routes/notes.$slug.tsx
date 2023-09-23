@@ -1,4 +1,4 @@
-import type { V2_MetaFunction } from "@remix-run/react";
+import type { MetaFunction } from "@remix-run/react";
 import { useRouteError, useLoaderData } from "@remix-run/react";
 
 import { FourOhFour, ServerError } from "~/components/errors";
@@ -18,7 +18,7 @@ import type { AppError } from "~/typings/AppError";
 import { json } from "@vercel/remix";
 import type { LoaderArgs } from "@vercel/remix";
 
-export const meta: V2_MetaFunction<typeof loader> = ({ data, matches }) => {
+export const meta: MetaFunction<typeof loader> = ({ data, matches }) => {
   const { requestInfo } = (matches[0] as RootLoaderDataUnwrapped).data;
   const metadataUrl = getMetadataUrl(requestInfo);
   const title = data?.attributes.title;

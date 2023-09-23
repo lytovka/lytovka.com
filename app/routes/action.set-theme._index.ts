@@ -1,4 +1,5 @@
-import { ActionFunctionArgs, json, redirect } from "@vercel/remix";
+import { json, redirect } from "@vercel/remix";
+import type { ActionFunctionArgs } from "@vercel/remix";
 import { getThemeSession, isTheme } from "~/server/theme.server.ts";
 
 export const action = async ({ request }: ActionFunctionArgs) => {

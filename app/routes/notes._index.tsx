@@ -14,7 +14,8 @@ import {
 } from "~/utils/seo.ts";
 import type { RootLoaderDataUnwrapped } from "~/root.tsx";
 import { ONE_MINUTE } from "~/constants/index.ts";
-import { LoaderFunctionArgs, json } from "@vercel/remix";
+import { json } from "@vercel/remix";
+import type { LoaderFunctionArgs } from "@vercel/remix";
 
 export const loader = async (_: LoaderFunctionArgs) => {
   const [notes] = await Promise.all([fetchPreviews()]);

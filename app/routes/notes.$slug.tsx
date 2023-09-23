@@ -15,7 +15,8 @@ import {
   getSocialMetas,
 } from "~/utils/seo.ts";
 import type { AppError } from "~/typings/AppError.ts";
-import { LoaderFunctionArgs, json } from "@vercel/remix";
+import { json } from "@vercel/remix";
+import type { LoaderFunctionArgs } from "@vercel/remix";
 
 export const meta: MetaFunction<typeof loader> = ({ data, matches }) => {
   const { requestInfo } = (matches[0] as RootLoaderDataUnwrapped).data;

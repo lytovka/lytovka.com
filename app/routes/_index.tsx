@@ -7,15 +7,15 @@ import {
   FolderDocumentsIcon,
   FolderMusicIcon,
 } from "~/components/icons";
-import { DraggingContext, MovableComponent } from "~/components/movable.tsx";
-import { Paragraph } from "~/components/typography.tsx";
-import { LYT_STORAGE_KEY } from "~/constants/index.ts";
-import type { Position, Positions } from "~/typings/Coordinates.ts";
-import { replaceAt } from "~/utils/array.ts";
+import { DraggingContext, MovableComponent } from "~/components/movable";
+import { Paragraph } from "~/components/typography";
+import { LYT_STORAGE_KEY } from "~/constants";
+import type { Position, Positions } from "~/typings/Coordinates";
+import { replaceAt } from "~/utils/array";
 import {
   localStorageGetItem,
   localStorageSetItem,
-} from "~/utils/local-storage.ts";
+} from "~/utils/local-storage";
 
 const HOMEPAGE_LINKS: Array<{
   title: string;
@@ -53,7 +53,7 @@ export const DraggingProvider = ({ children }: PropsWithChildren) => {
   );
 };
 
-export default function TestPage() {
+export default function IndexPage() {
   const containerRef = useRef<HTMLDivElement>(null);
   const [show, setShow] = useState(false);
   const [hasMoved, setHasMoved] = useState(false);

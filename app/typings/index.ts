@@ -1,1 +1,1 @@
-export type { Coordinates } from "./Coordinates";
+export type { Coordinates } from "./Coordinates.ts";

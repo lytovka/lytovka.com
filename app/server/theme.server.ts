@@ -1,7 +1,7 @@
 import { createCookieSessionStorage } from "@remix-run/node";
-import { ONE_YEAR, THEME_SESSION_KEY } from "~/constants";
-import type { Theme } from "~/providers/theme";
-import { isTheme } from "~/providers/theme";
+import { ONE_YEAR, THEME_SESSION_KEY } from "~/constants/index.ts";
+import type { Theme } from "~/providers/theme.tsx";
+import { isTheme } from "~/providers/theme.tsx";
 
 const themeSessionStorage = createCookieSessionStorage({
   cookie: {

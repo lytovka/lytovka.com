@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { isMobile } from "~/utils/user-agent";
+import { isMobile } from "~/utils/user-agent.ts";
 
 type DeviceType = "desktop" | "mobile" | null;
 

@@ -1,23 +1,27 @@
 import { useLoaderData } from "@remix-run/react";
 import collectiblesStylesheet from "~/styles/collectibles.css";
 
-import { getAlbumsByIds } from "~/server/spotify.server";
-import GoBack from "~/components/go-back";
-import { ExternalLink } from "~/components/external-link";
-import { useDeviceType } from "~/hooks/useDeviceType";
-import { ServerError } from "~/components/errors";
-import { H1, Paragraph } from "~/components/typography";
-import MainLayout from "~/components/main-layout";
+import { getAlbumsByIds } from "~/server/spotify.server.ts";
+import GoBack from "~/components/go-back.tsx";
+import { ExternalLink } from "~/components/external-link.tsx";
+import { useDeviceType } from "~/hooks/useDeviceType.ts";
+import { ServerError } from "~/components/errors.tsx";
+import { H1, Paragraph } from "~/components/typography.tsx";
+import MainLayout from "~/components/main-layout.tsx";
 import {
   getMetadataUrl,
   getPreviewUrl,
   getSocialImagePreview,
   getSocialMetas,
-} from "~/utils/seo";
+} from "~/utils/seo.ts";
 import { json } from "@vercel/remix";
-import type { LinksFunction, LoaderArgs, V2_MetaFunction } from "@vercel/remix";
-import type { RootLoaderDataUnwrapped } from "~/root";
-import { ONE_MINUTE } from "~/constants";
+import type {
+  LinksFunction,
+  LoaderFunctionArgs,
+  MetaFunction,
+} from "@vercel/remix";
+import type { RootLoaderDataUnwrapped } from "~/root.tsx";
+import { ONE_MINUTE } from "~/constants/index.ts";
 
 const ALBUMS = [
   {
@@ -58,7 +62,7 @@ const ALBUMS = [
   },
 ];
 
-export const meta: V2_MetaFunction<typeof loader> = ({ matches }) => {
+export const meta: MetaFunction<typeof loader> = ({ matches }) => {
   const { requestInfo } = (matches[0] as RootLoaderDataUnwrapped).data;
   const metadataUrl = getMetadataUrl(requestInfo);
 
@@ -81,7 +85,7 @@ export const meta: V2_MetaFunction<typeof loader> = ({ matches }) => {
   ];
 };
 
-export const loader = async (_: LoaderArgs) => {
+export const loader = async (_: LoaderFunctionArgs) => {
   return json(await getAlbumsByIds(ALBUMS.map((a) => a.spotifyId)), {
     headers: {
       "Cache-Control": `max-age=${ONE_MINUTE}`,

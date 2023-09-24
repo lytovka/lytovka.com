@@ -1,24 +1,24 @@
-import type { V2_MetaFunction } from "@remix-run/react";
+import type { MetaFunction } from "@remix-run/react";
 import { useRouteError, useLoaderData } from "@remix-run/react";
 
-import { FourOhFour, ServerError } from "~/components/errors";
-import { getSlugContent } from "~/server/markdown.server";
-import { ago, dateFormatter } from "~/utils/date";
-import MainLayout from "~/components/main-layout";
-import { H1 } from "~/components/typography";
-import GoBack from "~/components/go-back";
-import type { RootLoaderDataUnwrapped } from "~/root";
+import { FourOhFour, ServerError } from "~/components/errors.tsx";
+import { getSlugContent } from "~/server/markdown.server.ts";
+import { ago, dateFormatter } from "~/utils/date.ts";
+import MainLayout from "~/components/main-layout.tsx";
+import { H1 } from "~/components/typography.tsx";
+import GoBack from "~/components/go-back.tsx";
+import type { RootLoaderDataUnwrapped } from "~/root.tsx";
 import {
   getMetadataUrl,
   getPreviewUrl,
   getSocialImagePreview,
   getSocialMetas,
-} from "~/utils/seo";
-import type { AppError } from "~/typings/AppError";
+} from "~/utils/seo.ts";
+import type { AppError } from "~/typings/AppError.ts";
 import { json } from "@vercel/remix";
-import type { LoaderArgs } from "@vercel/remix";
+import type { LoaderFunctionArgs } from "@vercel/remix";
 
-export const meta: V2_MetaFunction<typeof loader> = ({ data, matches }) => {
+export const meta: MetaFunction<typeof loader> = ({ data, matches }) => {
   const { requestInfo } = (matches[0] as RootLoaderDataUnwrapped).data;
   const metadataUrl = getMetadataUrl(requestInfo);
   const title = data?.attributes.title;
@@ -42,7 +42,7 @@ export const meta: V2_MetaFunction<typeof loader> = ({ data, matches }) => {
   ];
 };
 
-export const loader = async ({ params }: LoaderArgs) => {
+export const loader = async ({ params }: LoaderFunctionArgs) => {
   if (!params.slug) {
     throw new Error("params.slug is not defined.");
   }

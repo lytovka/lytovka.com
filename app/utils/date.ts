@@ -5,8 +5,8 @@ import {
   ONE_MONTH,
   ONE_SECOND,
   ONE_YEAR,
-} from "~/constants";
-import { formatPlural } from "~/utils/misc";
+} from "~/constants/index.ts";
+import { formatPlural } from "~/utils/misc.ts";
 
 export const dateFormatter = new Intl.DateTimeFormat("en-US", {
   year: "numeric",

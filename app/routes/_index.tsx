@@ -53,7 +53,7 @@ export const DraggingProvider = ({ children }: PropsWithChildren) => {
   );
 };
 
-export default function TestPage() {
+export default function IndexPage() {
   const containerRef = useRef<HTMLDivElement>(null);
   const [show, setShow] = useState(false);
   const [hasMoved, setHasMoved] = useState(false);

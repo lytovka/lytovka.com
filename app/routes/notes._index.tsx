@@ -1,23 +1,23 @@
 /* eslint-disable @typescript-eslint/no-unnecessary-condition */
-import type { V2_MetaFunction } from "@remix-run/react";
+import type { MetaFunction } from "@remix-run/react";
 import { Link, useLoaderData } from "@remix-run/react";
-import GoBack from "~/components/go-back";
-import { dateFormatter } from "~/utils/date";
-import { fetchPreviews } from "~/server/markdown.server";
-import MainLayout from "~/components/main-layout";
-import { H1, Paragraph } from "~/components/typography";
+import GoBack from "~/components/go-back.tsx";
+import { dateFormatter } from "~/utils/date.ts";
+import { fetchPreviews } from "~/server/markdown.server.ts";
+import MainLayout from "~/components/main-layout.tsx";
+import { H1, Paragraph } from "~/components/typography.tsx";
 import {
   getMetadataUrl,
   getPreviewUrl,
   getSocialImagePreview,
   getSocialMetas,
-} from "~/utils/seo";
-import type { RootLoaderDataUnwrapped } from "~/root";
-import { ONE_MINUTE } from "~/constants";
-import type { LoaderArgs } from "@vercel/remix";
+} from "~/utils/seo.ts";
+import type { RootLoaderDataUnwrapped } from "~/root.tsx";
+import { ONE_MINUTE } from "~/constants/index.ts";
 import { json } from "@vercel/remix";
+import type { LoaderFunctionArgs } from "@vercel/remix";
 
-export const loader = async (_: LoaderArgs) => {
+export const loader = async (_: LoaderFunctionArgs) => {
   const [notes] = await Promise.all([fetchPreviews()]);
   const notesExtended = notes.map((note) => ({
     ...note,
@@ -31,7 +31,7 @@ export const loader = async (_: LoaderArgs) => {
   });
 };
 
-export const meta: V2_MetaFunction = ({ matches }) => {
+export const meta: MetaFunction = ({ matches }) => {
   const { requestInfo } = (matches[0] as RootLoaderDataUnwrapped).data;
   const metadataUrl = getMetadataUrl(requestInfo);
 

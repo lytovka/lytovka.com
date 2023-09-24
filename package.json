@@ -4,7 +4,7 @@
   "description": "My personal site",
   "author": "Ivan Lytovka <ivanlytovka@gmail.com> (https://github.com/lytovka)",
   "engines": {
-    "node": ">=18"
+    "node": ">=18.0.0"
   },
   "type": "module",
   "repository": {
@@ -16,7 +16,7 @@
   "scripts": {
     "build": "remix build",
     "dev": "remix dev",
-    "start": "remix-serve build",
+    "start": "remix-serve ./build/index.js",
     "format": "prettier --check .",
     "format:fix": "prettier --write .",
     "lint:fix": "eslint --fix .",

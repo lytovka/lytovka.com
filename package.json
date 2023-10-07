@@ -55,7 +55,7 @@
     "autoprefixer": "10.4.16",
     "concurrently": "8.2.1",
     "cross-env": "7.0.3",
-    "eslint": "8.50.0",
+    "eslint": "8.51.0",
     "eslint-config-prettier": "9.0.0",
     "happy-dom": "12.5.0",
     "husky": "^8.0.2",

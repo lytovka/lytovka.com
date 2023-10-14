@@ -57,7 +57,7 @@
     "cross-env": "7.0.3",
     "eslint": "8.51.0",
     "eslint-config-prettier": "9.0.0",
-    "happy-dom": "12.9.0",
+    "happy-dom": "12.9.1",
     "husky": "^8.0.2",
     "postcss": "8.4.31",
     "postcss-import": "^15.1.0",

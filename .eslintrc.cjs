@@ -23,5 +23,6 @@ module.exports = {
     "@typescript-eslint/no-unsafe-return": "off",
     "@typescript-eslint/no-empty-function": "off",
     "consistent-return": "off",
+    "import/no-extraneous-dependencies": "off"
   },
 };

@@ -1,5 +1,5 @@
 import { Link } from "@remix-run/react";
-import type { PropsWithChildren, ReactNode } from "react";
+import type { ReactNode } from "react";
 import type React from "react";
 import { useCallback, useEffect, useRef, useState } from "react";
 import {
@@ -7,10 +7,10 @@ import {
   FolderDocumentsIcon,
   FolderMusicIcon,
 } from "~/components/icons";
-import { DraggingContext, MovableComponent } from "~/components/movable";
+import { DraggableComponent, DraggingProvider } from "@lytovka/draggable";
+import type { Position, Positions } from "@lytovka/draggable";
 import { Paragraph } from "~/components/typography";
 import { LYT_STORAGE_KEY } from "~/constants";
-import type { Position, Positions } from "~/typings/Coordinates";
 import { replaceAt } from "~/utils/array";
 import {
   localStorageGetItem,
@@ -43,22 +43,14 @@ const HOMEPAGE_LINKS: Array<{
   },
 ];
 
-export const DraggingProvider = ({ children }: PropsWithChildren) => {
-  const [draggingItem, setDraggingItem] = useState<string | null>(null);
-
-  return (
-    <DraggingContext.Provider value={{ draggingItem, setDraggingItem }}>
-      {children}
-    </DraggingContext.Provider>
-  );
-};
+const initialPositions = Array(HOMEPAGE_LINKS.length).fill([0, 0]);
 
 export default function IndexPage() {
   const containerRef = useRef<HTMLDivElement>(null);
   const [show, setShow] = useState(false);
   const [hasMoved, setHasMoved] = useState(false);
   const [defaultPositions, setDefaultPositions] = useState<Positions>(
-    Array(HOMEPAGE_LINKS.length).fill([0, 0]),
+    initialPositions,
   );
   const [zIndexes, setZIndexes] = useState<Array<number>>(
     Array(HOMEPAGE_LINKS.length).fill(0),
@@ -83,20 +75,18 @@ export default function IndexPage() {
     setShow(true);
   }, []);
 
-  const savePositions = useCallback(
-    (index: number, { x, y }: { x: number; y: number }) => {
-      const positions = localStoragePositionsCopy.current;
-      localStorage.setItem(LYT_STORAGE_KEY, JSON.stringify(positions));
-      const newPositions = replaceAt<Position>(
-        localStoragePositionsCopy.current,
-        index,
-        [x, y],
-      );
-      localStorageSetItem(LYT_STORAGE_KEY, JSON.stringify(newPositions));
-      Object.assign(localStoragePositionsCopy.current, newPositions);
-    },
-    [],
-  );
+  const savePositions = useCallback((id: string, stats: DragData) => {
+    console.log(id, stats);
+    const positions = localStoragePositionsCopy.current;
+    localStorage.setItem(LYT_STORAGE_KEY, JSON.stringify(positions));
+    const newPositions = replaceAt<Position>(
+      localStoragePositionsCopy.current,
+      parseInt(id),
+      stats.positionPercent,
+    );
+    localStorageSetItem(LYT_STORAGE_KEY, JSON.stringify(newPositions));
+    Object.assign(localStoragePositionsCopy.current, newPositions);
+  }, []);
 
   const handleMouseDown = (
     event: React.MouseEvent<HTMLDivElement, MouseEvent> | React.TouchEvent,
@@ -104,7 +94,7 @@ export default function IndexPage() {
   ) => {
     setHasMoved(false);
     setZIndexes((prev) =>
-      replaceAt<number>(prev, Number(index), Math.max(...prev) + 1),
+      replaceAt<number>(prev, Number(index), Math.max(...prev) + 1)
     );
   };
 
@@ -121,35 +111,45 @@ export default function IndexPage() {
     }
   };
 
+  useEffect(() => {
+    document.documentElement.style.overflow = "hidden";
+    document.body.style.overscrollBehavior = "contain";
+
+    return () => {
+      document.documentElement.style.overflow = "";
+      document.body.style.overscrollBehavior = "";
+    };
+  }, []);
+
   return (
-    <main className="h-full w-full" ref={containerRef}>
+    <main className="h-full w-full relative" ref={containerRef}>
       <DraggingProvider>
         {show
           ? HOMEPAGE_LINKS.map((item, index) => (
-              <MovableComponent
-                callback={savePositions}
-                containerRef={containerRef}
-                id={`${index}`}
-                initialPosition={defaultPositions[index]}
-                key={index}
-                style={{ zIndex: zIndexes[index] }}
-                onMouseDown={handleMouseDown}
-                onMouseMove={handleMouseMove}
+            <DraggableComponent
+              callback={savePositions}
+              containerRef={containerRef}
+              id={`${index}`}
+              initialPosition={defaultPositions[index]}
+              key={index}
+              style={{ zIndex: zIndexes[index] }}
+              onDragMove={handleMouseMove}
+              onDragStart={handleMouseDown}
+            >
+              <Link
+                className="flex flex-col items-center no-underline active:outline-dashed outline-1 outline-gray-500 }"
+                draggable={false}
+                prefetch="intent"
+                to={item.href}
+                onClick={(e) => {
+                  handleLinkClick(e);
+                }}
               >
-                <Link
-                  className="flex flex-col items-center no-underline active:outline-dashed outline-1 outline-gray-500 }"
-                  draggable={false}
-                  prefetch="intent"
-                  to={item.href}
-                  onClick={(e) => {
-                    handleLinkClick(e);
-                  }}
-                >
-                  {item.imgSrc}
-                  <Paragraph className="text-center">{item.title}</Paragraph>
-                </Link>
-              </MovableComponent>
-            ))
+                {item.imgSrc}
+                <Paragraph className="text-center">{item.title}</Paragraph>
+              </Link>
+            </DraggableComponent>
+          ))
           : null}
       </DraggingProvider>
     </main>

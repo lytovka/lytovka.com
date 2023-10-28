@@ -47,7 +47,7 @@
     "@testing-library/react": "14.0.0",
     "@types/eslint": "8.44.6",
     "@types/marked": "5.0.2",
-    "@types/react": "18.2.31",
+    "@types/react": "18.2.33",
     "@types/react-dom": "18.2.14",
     "@types/spotify-api": "^0.0.24",
     "@vitejs/plugin-react": "4.1.0",

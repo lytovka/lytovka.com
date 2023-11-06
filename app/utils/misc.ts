@@ -31,7 +31,7 @@ export function formatPlural(
 }
 
 export function invariantResponse(
-  condition: boolean,
+  condition: unknown,
   message: string | (() => string),
   responseConfig?: ResponseInit,
 ): asserts condition {

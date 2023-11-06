@@ -44,14 +44,9 @@ export const meta: MetaFunction<typeof loader> = ({ data, matches }) => {
 };
 
 export const loader = async ({ params }: LoaderFunctionArgs) => {
-  invariantResponse(
-    params.slug != null,
-    "Route parameter $slug was not supplied",
-  );
+  invariantResponse(params.slug, "Route parameter $slug was not supplied");
   const note = await getSlugContent(params.slug);
-  invariantResponse(note != null, `Note ${params.slug} not found`, {
-    status: 404,
-  });
+  invariantResponse(note, `Note ${params.slug} not found`, { status: 404 });
 
   const d = new Date(note.attributes.date);
   const noteExtended = {

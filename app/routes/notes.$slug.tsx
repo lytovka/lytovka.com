@@ -1,5 +1,5 @@
 import type { MetaFunction } from "@remix-run/react";
-import { useRouteError, useLoaderData } from "@remix-run/react";
+import { useLoaderData, useRouteError } from "@remix-run/react";
 
 import { FourOhFour, ServerError } from "~/components/errors.tsx";
 import { getSlugContent } from "~/server/markdown.server.ts";
@@ -17,6 +17,7 @@ import {
 import type { AppError } from "~/typings/AppError.ts";
 import { json } from "@vercel/remix";
 import type { LoaderFunctionArgs } from "@vercel/remix";
+import { invariantResponse } from "~/utils/misc";
 
 export const meta: MetaFunction<typeof loader> = ({ data, matches }) => {
   const { requestInfo } = (matches[0] as RootLoaderDataUnwrapped).data;
@@ -43,14 +44,9 @@ export const meta: MetaFunction<typeof loader> = ({ data, matches }) => {
 };
 
 export const loader = async ({ params }: LoaderFunctionArgs) => {
-  if (!params.slug) {
-    throw new Error("params.slug is not defined.");
-  }
-
-  const [note] = await Promise.all([getSlugContent(params.slug)]);
-  if (!note) {
-    throw new Response("Note not found.", { status: 404 });
-  }
+  invariantResponse(params.slug, "Route parameter $slug was not supplied");
+  const note = await getSlugContent(params.slug);
+  invariantResponse(note, `Note ${params.slug} not found`, { status: 404 });
 
   const d = new Date(note.attributes.date);
   const noteExtended = {

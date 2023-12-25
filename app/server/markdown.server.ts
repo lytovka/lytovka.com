@@ -28,6 +28,23 @@ export type Note = {
   attributes: Metadata;
 };
 
+const assertMetadata = (metadata: unknown): metadata is Metadata => {
+  if (typeof metadata !== "object" || metadata === null) {
+    return false;
+  }
+
+  return (
+    "title" in metadata &&
+    typeof metadata.title === "string" &&
+    "date" in metadata &&
+    typeof metadata.date === "string" &&
+    "slug" in metadata &&
+    typeof metadata.slug === "string" &&
+    "languages" in metadata &&
+    typeof metadata.languages === "string"
+  );
+};
+
 // This method is separate from other fetchers because of additional split operation.
 export const getIntroFile = async (): Promise<{
   short: string;
@@ -36,7 +53,7 @@ export const getIntroFile = async (): Promise<{
   const pathToIntro = `${root}/markdown/intro.md`;
   const file = (await fs.readFile(pathToIntro)).toString();
   const { content } = matter(file);
-  const [short, extended] = marked(content, { mangle: false }).split("<hr>");
+  const [short, extended] = (await marked.parse(content)).split("<hr>");
 
   return { short, extended };
 };
@@ -44,18 +61,16 @@ export const getIntroFile = async (): Promise<{
 export const getSlugContent = async (slug: string): Promise<Note | null> => {
   const realSlug = slug.replace(/\.md$/, "");
 
-  return fs
-    .readFile(`${root}/markdown/notes/${realSlug}.md`)
-    .then((res) => {
-      const file = res.toString();
-      const { data, content } = matter(file);
-      const html = marked(content, { mangle: false });
+  const buff = await fs.readFile(`${root}/markdown/notes/${realSlug}.md`);
+  const buffString = buff.toString();
+  const { data: metadata, content } = matter(buffString);
+  const html = await marked(content);
 
-      return { attributes: data as Metadata, body: html };
-    })
-    .catch((_) => {
-      return null;
-    });
+  if (!assertMetadata(metadata)) {
+    return null;
+  }
+
+  return { attributes: metadata, body: html };
 };
 
 const getAllNoteSlugs = async (): Promise<Array<string>> => {

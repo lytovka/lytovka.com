@@ -32,6 +32,7 @@ const assertMetadata = (metadata: unknown): metadata is Metadata => {
   if (typeof metadata !== "object" || metadata === null) {
     return false;
   }
+
   return (
     "title" in metadata &&
     typeof metadata.title === "string" &&
@@ -68,8 +69,7 @@ export const getSlugContent = async (slug: string): Promise<Note | null> => {
   if (!assertMetadata(metadata)) {
     return null;
   }
-  console.log(metadata);
-  console.log(html);
+
   return { attributes: metadata, body: html };
 };
 

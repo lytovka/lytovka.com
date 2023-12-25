@@ -13,8 +13,8 @@ const root =
   process.env.CI === "true"
     ? `${path.resolve()}/app`
     : process.env.NODE_ENV === "test"
-    ? `${__dirname}/..`
-    : `${__dirname}/../app`;
+      ? `${__dirname}/..`
+      : `${__dirname}/../app`;
 
 type Metadata = {
   title: string;

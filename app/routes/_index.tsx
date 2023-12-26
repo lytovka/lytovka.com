@@ -8,7 +8,11 @@ import {
   FolderMusicIcon,
 } from "~/components/icons";
 import { DraggableComponent, DraggingProvider } from "@lytovka/draggable";
-import type { Position, Positions } from "@lytovka/draggable";
+import type {
+  DraggableItemStats,
+  Position,
+  Positions,
+} from "@lytovka/draggable";
 import { Paragraph } from "~/components/typography";
 import { LYT_STORAGE_KEY } from "~/constants";
 import { replaceAt } from "~/utils/array";
@@ -49,9 +53,8 @@ export default function IndexPage() {
   const containerRef = useRef<HTMLDivElement>(null);
   const [show, setShow] = useState(false);
   const [hasMoved, setHasMoved] = useState(false);
-  const [defaultPositions, setDefaultPositions] = useState<Positions>(
-    initialPositions,
-  );
+  const [defaultPositions, setDefaultPositions] =
+    useState<Positions>(initialPositions);
   const [zIndexes, setZIndexes] = useState<Array<number>>(
     Array(HOMEPAGE_LINKS.length).fill(0),
   );
@@ -75,13 +78,12 @@ export default function IndexPage() {
     setShow(true);
   }, []);
 
-  const savePositions = useCallback((id: string, stats: DragData) => {
-    console.log(id, stats);
+  const savePositions = useCallback((id: string, stats: DraggableItemStats) => {
     const positions = localStoragePositionsCopy.current;
     localStorage.setItem(LYT_STORAGE_KEY, JSON.stringify(positions));
     const newPositions = replaceAt<Position>(
       localStoragePositionsCopy.current,
-      parseInt(id),
+      parseInt(id, 10),
       stats.positionPercent,
     );
     localStorageSetItem(LYT_STORAGE_KEY, JSON.stringify(newPositions));
@@ -89,12 +91,12 @@ export default function IndexPage() {
   }, []);
 
   const handleMouseDown = (
-    event: React.MouseEvent<HTMLDivElement, MouseEvent> | React.TouchEvent,
+    _: React.MouseEvent<Element, MouseEvent> | React.TouchEvent,
     index: string,
   ) => {
     setHasMoved(false);
     setZIndexes((prev) =>
-      replaceAt<number>(prev, Number(index), Math.max(...prev) + 1)
+      replaceAt<number>(prev, Number(index), Math.max(...prev) + 1),
     );
   };
 
@@ -126,30 +128,30 @@ export default function IndexPage() {
       <DraggingProvider>
         {show
           ? HOMEPAGE_LINKS.map((item, index) => (
-            <DraggableComponent
-              callback={savePositions}
-              containerRef={containerRef}
-              id={`${index}`}
-              initialPosition={defaultPositions[index]}
-              key={index}
-              style={{ zIndex: zIndexes[index] }}
-              onDragMove={handleMouseMove}
-              onDragStart={handleMouseDown}
-            >
-              <Link
-                className="flex flex-col items-center no-underline active:outline-dashed outline-1 outline-gray-500 }"
-                draggable={false}
-                prefetch="intent"
-                to={item.href}
-                onClick={(e) => {
-                  handleLinkClick(e);
-                }}
+              <DraggableComponent
+                callback={savePositions}
+                containerRef={containerRef}
+                id={`${index}`}
+                initialPosition={defaultPositions[index]}
+                key={index}
+                style={{ zIndex: zIndexes[index] }}
+                onDragMove={handleMouseMove}
+                onDragStart={handleMouseDown}
               >
-                {item.imgSrc}
-                <Paragraph className="text-center">{item.title}</Paragraph>
-              </Link>
-            </DraggableComponent>
-          ))
+                <Link
+                  className="flex flex-col items-center no-underline active:outline-dashed outline-1 outline-gray-500 }"
+                  draggable={false}
+                  prefetch="intent"
+                  to={item.href}
+                  onClick={(e) => {
+                    handleLinkClick(e);
+                  }}
+                >
+                  {item.imgSrc}
+                  <Paragraph className="text-center">{item.title}</Paragraph>
+                </Link>
+              </DraggableComponent>
+            ))
           : null}
       </DraggingProvider>
     </main>

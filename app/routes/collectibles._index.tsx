@@ -86,11 +86,20 @@ export const meta: MetaFunction<typeof loader> = ({ matches }) => {
 };
 
 export const loader = async (_: LoaderFunctionArgs) => {
-  return json(await getAlbumsByIds(ALBUMS.map((a) => a.spotifyId)), {
+  const albums = await getAlbumsByIds(ALBUMS.map((a) => a.spotifyId));
+  const images = albums.map((a) => ({
+    image: a.images[0],
+    altName: a.name,
+    href: a.external_urls.spotify,
+  }));
+
+  const requestInit = {
     headers: {
       "Cache-Control": `max-age=${ONE_MINUTE}`,
     },
-  });
+  };
+
+  return json({ albums: images }, requestInit);
 };
 
 export const links: LinksFunction = () => {
@@ -105,11 +114,6 @@ export const links: LinksFunction = () => {
 export default function CollectiblesPage() {
   const deviceType = useDeviceType();
   const { albums } = useLoaderData<typeof loader>();
-  const images = albums.map((a) => ({
-    image: a.images[0],
-    altName: a.name,
-    href: a.external_urls.spotify,
-  }));
 
   return (
     <MainLayout>
@@ -119,7 +123,7 @@ export default function CollectiblesPage() {
       </Paragraph>
 
       <div className="mb-10 grid sm:grid-cols-2 md:grid-cols-3 gap-6 justify-items-center items-center">
-        {images.map((i, index) => (
+        {albums.map((i, index) => (
           <ExternalLink
             className="relative"
             href={i.href}

@@ -37,6 +37,10 @@ const ALBUMS = [
     spotifyId: "021D07OEcg0c4tUCilc7ah",
   },
   {
+    name: "The Masterplan",
+    spotifyId: "15D0D1mafSX8Vx5a7w2ZR4",
+  },
+  {
     name: "Elwan",
     spotifyId: "41KpeN0qV6BBsuJgd8tZrE",
   },
@@ -59,6 +63,10 @@ const ALBUMS = [
   {
     name: "Days Gone By",
     spotifyId: "0u3Rl4KquP15smujFrgGz4",
+  },
+  {
+    name: "Screamadelica",
+    spotifyId: "4TECsw2dFHZ1ULrT7OA3OL",
   },
 ];
 
@@ -122,10 +130,10 @@ export default function CollectiblesPage() {
         Vinyl records I&apos;ve collected over the years. Images are clickable.
       </Paragraph>
 
-      <div className="mb-10 grid sm:grid-cols-2 md:grid-cols-3 gap-6 justify-items-center items-center">
+      <div className="mb-10 flex justify-center flex-wrap flex-row gap-2">
         {albums.map((i, index) => (
           <ExternalLink
-            className="relative"
+            className="relative flex-grow-0 flex-shrink-0 basis-[47%] md:basis-[32%] lg:basis-[24%]"
             href={i.href}
             key={index}
             rel="noreferrer noopener"
@@ -139,7 +147,7 @@ export default function CollectiblesPage() {
             ) : null}
             <img
               alt={i.altName}
-              className="w-full border border-gray-300 dark:border-gray-700 hover:opacity-75 transition-opacity md:w-[300px]"
+              className="border border-gray-300 dark:border-gray-700 hover:opacity-75 transition-opacity"
               src={i.image.url}
             />
           </ExternalLink>

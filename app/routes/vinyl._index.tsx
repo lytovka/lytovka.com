@@ -1,5 +1,5 @@
 import { useLoaderData } from "@remix-run/react";
-import collectiblesStylesheet from "~/styles/collectibles.css";
+import vinylStylesheet from "~/styles/vinyl.css";
 
 import { getAlbumsByIds } from "~/server/spotify.server.ts";
 import GoBack from "~/components/go-back.tsx";
@@ -80,14 +80,14 @@ export const meta: MetaFunction<typeof loader> = ({ matches }) => {
       content: "width=device-width,initial-scale=1,viewport-fit=cover",
     },
     ...getSocialMetas({
-      title: "Ivan's collectibles",
+      title: "Ivan's vinyl collection",
       description: "A collection of vinyl records Ivan owns.",
-      keywords: "collectibles, vinyl, ivan lytovka, lytovka",
+      keywords: "vinyl, collectibles, ivan lytovka, lytovka",
       url: metadataUrl,
       image: getSocialImagePreview({
-        title: "collectibles",
+        title: "vinyl",
         url: getPreviewUrl(metadataUrl),
-        featuredImage: "collectibles",
+        featuredImage: "vinyl",
       }),
     }),
   ];
@@ -114,20 +114,20 @@ export const links: LinksFunction = () => {
   return [
     {
       rel: "stylesheet",
-      href: collectiblesStylesheet,
+      href: vinylStylesheet,
     },
   ];
 };
 
-export default function CollectiblesPage() {
+export default function VinylPage() {
   const deviceType = useDeviceType();
   const { albums } = useLoaderData<typeof loader>();
 
   return (
     <MainLayout>
-      <H1 className="mb-2">Collectibles</H1>
+      <H1 className="mb-2">Vinyl</H1>
       <Paragraph className="mb-10 italic" variant="secondary">
-        Vinyl records I&apos;ve collected over the years. Images are clickable.
+        A small collection of vinyl records I own. Images are clickable.
       </Paragraph>
 
       <div className="mb-10 flex justify-center flex-wrap flex-row gap-2">

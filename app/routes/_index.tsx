@@ -36,8 +36,8 @@ const HOMEPAGE_LINKS: Array<{
     imgSrc: <FolderDocumentsIcon />,
   },
   {
-    title: "collectibles",
-    href: "/collectibles",
+    title: "vinyl",
+    href: "/vinyl",
     position: [25, 20],
     imgSrc: <FolderMusicIcon />,
   },

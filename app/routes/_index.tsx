@@ -36,14 +36,14 @@ const HOMEPAGE_LINKS: Array<{
     imgSrc: <FolderDocumentsIcon />,
   },
   {
-    title: "collectibles",
-    href: "/collectibles",
+    title: "vinyl",
+    href: "/vinyl",
     position: [25, 20],
     imgSrc: <FolderMusicIcon />,
   },
   {
-    title: "intro.txt",
-    href: "/intro",
+    title: "about.txt",
+    href: "/about",
     position: [50, 35],
     imgSrc: <FileTextIcon />,
   },

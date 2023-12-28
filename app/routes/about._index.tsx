@@ -27,14 +27,14 @@ export const meta: MetaFunction<typeof loader> = ({ matches }) => {
       content: "width=device-width,initial-scale=1,viewport-fit=cover",
     },
     ...getSocialMetas({
-      title: "Ivan's Intro",
-      description: "Get to know Ivan via this brief intro.",
-      keywords: "intro, ivan, ivan lytovka, lytovka",
+      title: "Ivan's bio",
+      description: "Get to know Ivan via this brief introduction.",
+      keywords: "about, intro, ivan, ivan lytovka, lytovka",
       url: metadataUrl,
       image: getSocialImagePreview({
-        title: "intro",
+        title: "about",
         url: getPreviewUrl(metadataUrl),
-        featuredImage: "intro",
+        featuredImage: "about",
       }),
     }),
   ];
@@ -50,7 +50,7 @@ export const loader = async (_: LoaderFunctionArgs) => {
   });
 };
 
-export default function IntroPage() {
+export default function AboutPage() {
   const root = useRef<HTMLDivElement>(null);
   const extendedContentRef = useRef<HTMLDivElement>(null);
   const { short, extended } = useLoaderData<typeof loader>();
@@ -75,7 +75,7 @@ export default function IntroPage() {
           />
         </a>
         <div className="flex gap-5 items-center mt-5 md:mt-0">
-          <H2 className="text-3xl font-extrabold">Intro</H2>
+          <H2 className="text-3xl font-extrabold">About</H2>
           <span className="text-zinc-600 dark:text-zinc-500 text-3xl">|</span>
           <ToggleButton
             defaultChecked={false}

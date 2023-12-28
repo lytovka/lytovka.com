@@ -8,7 +8,7 @@ import {
   FolderDocumentsIcon,
   FolderMusicIcon,
 } from "~/components/icons";
-import { DraggableComponent, DraggingProvider } from "@lytovka/draggable";
+import { DraggableComponent } from "@lytovka/draggable";
 import type {
   DraggableItemStats,
   Position,
@@ -126,35 +126,33 @@ export default function IndexPage() {
 
   return (
     <main className="h-full w-full relative" ref={containerRef}>
-      <DraggingProvider>
-        {show
-          ? HOMEPAGE_LINKS.map((item, index) => (
-              <DraggableComponent
-                callback={savePositions}
-                containerRef={containerRef}
-                id={`${index}`}
-                initialPosition={defaultPositions[index]}
-                key={index}
-                style={{ zIndex: zIndexes[index] }}
-                onDragMove={handleMouseMove}
-                onDragStart={handleMouseDown}
+      {show
+        ? HOMEPAGE_LINKS.map((item, index) => (
+            <DraggableComponent
+              callback={savePositions}
+              containerRef={containerRef}
+              id={`${index}`}
+              initialPosition={defaultPositions[index]}
+              key={index}
+              style={{ zIndex: zIndexes[index] }}
+              onDragMove={handleMouseMove}
+              onDragStart={handleMouseDown}
+            >
+              <Link
+                className="flex flex-col items-center no-underline active:outline-dashed outline-1 outline-gray-500 }"
+                draggable={false}
+                prefetch="intent"
+                to={item.href}
+                onClick={(e) => {
+                  handleLinkClick(e);
+                }}
               >
-                <Link
-                  className="flex flex-col items-center no-underline active:outline-dashed outline-1 outline-gray-500 }"
-                  draggable={false}
-                  prefetch="intent"
-                  to={item.href}
-                  onClick={(e) => {
-                    handleLinkClick(e);
-                  }}
-                >
-                  {item.imgSrc}
-                  <Paragraph className="text-center">{item.title}</Paragraph>
-                </Link>
-              </DraggableComponent>
-            ))
-          : null}
-      </DraggingProvider>
+                {item.imgSrc}
+                <Paragraph className="text-center">{item.title}</Paragraph>
+              </Link>
+            </DraggableComponent>
+          ))
+        : null}
     </main>
   );
 }

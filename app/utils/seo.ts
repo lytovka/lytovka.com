@@ -10,7 +10,7 @@ type SocialMeta = {
 
 const featureImageKeys = {
   homepage: "l_folder-documents",
-  intro: "l_file-text",
+  about: "l_file-text",
   vinyl: "l_folder-music",
   notes: "l_folder-documents",
   note: "l_file-text",

@@ -16,6 +16,12 @@ const featureImageKeys = {
   note: "l_file-text",
 } as const;
 
+const fonts = {
+  jetBrains: {
+    regular: "JetBrainsMono-Regular.ttf",
+  },
+} as const;
+
 // cloudinary needs double-encoding
 function doubleEncode(s: string) {
   return encodeURIComponent(encodeURIComponent(s));
@@ -50,13 +56,12 @@ export function getSocialImagePreview({
   const imageSection = `${encodedImage}/c_scale,h_350,w_350/fl_layer_apply,g_center`;
 
   const titleSection = encodedTitle
-    ? `co_rgb:FFFFFF,l_text:arial_64_normal_left:${encodedTitle}/fl_layer_apply,g_center,y_220`
+    ? `co_rgb:E4E4E7,l_text:${fonts.jetBrains.regular}_60:${encodedTitle}/fl_layer_apply,g_center,y_220`
     : null;
 
-  const ivanNameSection =
-    "co_rgb:A1A1AA,l_text:arial_88_normal_left:Ivan%20Lytovka/fl_layer_apply,g_south_west,x_100,y_250";
+  const ivanNameSection = `co_rgb:A1A1AA,l_text:${fonts.jetBrains.regular}_64:Ivan%20Lytovka/fl_layer_apply,g_south_west,x_100,y_250`;
 
-  const urlSection = `co_rgb:A1A1AA,l_text:arial_64_normal_left:${encodedUrl}/fl_layer_apply,g_south_west,x_100,y_180`;
+  const urlSection = `co_rgb:A1A1AA,l_text:${fonts.jetBrains.regular}_64:${encodedUrl}/fl_layer_apply,g_south_west,x_100,y_180`;
 
   return [
     CLOUDINARY_BASE_URL,

@@ -32,7 +32,7 @@ export const meta: MetaFunction<typeof loader> = ({ matches }) => {
       keywords: "about, intro, ivan, ivan lytovka, lytovka",
       url: metadataUrl,
       image: getSocialImagePreview({
-        title: "about",
+        title: "about.txt",
         url: getPreviewUrl(metadataUrl),
         featuredImage: "about",
       }),

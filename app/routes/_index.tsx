@@ -139,7 +139,7 @@ export default function IndexPage() {
               onDragStart={handleMouseDown}
             >
               <Link
-                className="flex flex-col items-center no-underline active:outline-dashed outline-1 outline-gray-500 }"
+                className="flex flex-col items-center no-underline active:outline-dashed outline-1 outline-gray-500"
                 draggable={false}
                 prefetch="intent"
                 to={item.href}

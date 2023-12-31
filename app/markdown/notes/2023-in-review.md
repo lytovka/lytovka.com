@@ -1,7 +1,7 @@
 ---
 title: 2023 in Review
 description: Another year is almost over. Time to reflect on it and look forward to what lies ahead.
-date: 2023-12-31T14:40:00Z
+date: 2023-12-31T16:30:00Z
 slug: 2023-in-review
 ---
 

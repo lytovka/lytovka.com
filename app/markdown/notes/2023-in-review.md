@@ -5,7 +5,7 @@ slug: 2023-in-review
 languages: en
 ---
 
-As I await my flight to Halifax to reconnect with my cousin, I find myself reflecting on the past year. Last year went in the worst possible way, making even minor wins seem insignificant in the grand scheme of things. However, this year, my introspective mood has taken over and inspires me to write a few words on how this year went.
+As I await my flight to Halifax to reconnect with my cousin, I find myself reflecting on the past year. 2022 was, by far, the worst, making even minor wins seem insignificant in the grand scheme of things. However, this year, I've been deeply introspective, which has inspired me to write a few words about how 2023 has unfolded.
 
 ## "She's Beautiful... She's From Texas"
 

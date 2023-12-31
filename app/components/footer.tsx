@@ -5,12 +5,15 @@ import {
   GITHUB_LINK,
 } from "~/constants/index.ts";
 
+const footerLinkClasses =
+  "hover:opacity-75 transition-opacity z-30 text-black dark:text-white";
+
 function Footer() {
   return (
     <footer className="flex flex-col items-center py-10 text-xl">
       <div className="flex gap-4 text-zinc-200">
         <ExternalLink
-          className="hover:opacity-75 transition-opacity z-30"
+          className={footerLinkClasses}
           href={GITHUB_LINK}
           rel="noreferrer noopener"
           target="_blank"
@@ -19,7 +22,7 @@ function Footer() {
         </ExternalLink>
         <span className="text-zinc-300 dark:text-zinc-500 z-30">/</span>
         <ExternalLink
-          className="hover:opacity-75 transition-opacity z-30"
+          className={footerLinkClasses}
           href={INSTAGRAM_LINK}
           rel="noreferrer noopener"
           target="_blank"
@@ -28,7 +31,7 @@ function Footer() {
         </ExternalLink>
         <span className="text-zinc-300 dark:text-zinc-500 z-30">/</span>
         <ExternalLink
-          className="hover:opacity-75 transition-opacity z-30"
+          className={footerLinkClasses}
           href={TELEGRAM_LINK}
           rel="noreferrer noopener"
           target="_blank"

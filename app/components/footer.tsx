@@ -7,7 +7,7 @@ import {
 
 function Footer() {
   return (
-    <footer className="flex flex-col items-center py-9 text-xl">
+    <footer className="flex flex-col items-center py-10 text-xl">
       <div className="flex gap-4 text-zinc-200">
         <ExternalLink
           className="hover:opacity-75 transition-opacity z-30"
@@ -36,8 +36,16 @@ function Footer() {
           Telegram
         </ExternalLink>
       </div>
-      <span className="text-stone-600 dark:text-stone-400 mt-2 z-30">
-        MIT © Ivan Lytovka 2022-{new Date().getFullYear()}
+      <span className="text-stone-600 dark:text-stone-400 mt-6 z-30">
+        <ExternalLink
+          className="hover:opacity-75 transition-opacity underline text-stone-600 dark:text-stone-400"
+          href="https://creativecommons.org/licenses/by-nc-sa/4.0/"
+          rel="noreferrer"
+          target="_blank"
+        >
+          CC BY-NC-SA 4.0
+        </ExternalLink>{" "}
+        2022-{new Date().getFullYear()} © Ivan Lytovka
       </span>
     </footer>
   );

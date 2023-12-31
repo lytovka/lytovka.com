@@ -1,5 +1,5 @@
 ---
-title: 2023 In Review
+title: 2023 in Review
 date: 2023-12-31T02:00:00Z
 slug: 2023-in-review
 languages: en

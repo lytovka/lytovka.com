@@ -43,3 +43,11 @@
 .prose ul > li {
   color: var(--typography-light-paragraph);
 }
+
+.prose h2 > a {
+  text-decoration: none;
+}
+
+.prose h2 > a:hover {
+  text-decoration: underline;
+}

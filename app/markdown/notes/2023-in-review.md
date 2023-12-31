@@ -1,8 +1,8 @@
 ---
 title: 2023 in Review
+description: Another year is almost over. Time to reflect on it and look forward to what lies ahead.
 date: 2023-12-31T02:00:00Z
 slug: 2023-in-review
-languages: en
 ---
 
 As I await my flight to Halifax to reconnect with my cousin, I find myself reflecting on the past year. 2022 was, by far, the worst, making even minor wins seem insignificant in the grand scheme of things. However, this year, I've been deeply introspective, which has inspired me to write a few words about how 2023 has unfolded.

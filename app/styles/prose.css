@@ -27,6 +27,8 @@
 
 .prose p {
   color: var(--typography-light-paragraph);
+  margin-top: 0.75em;
+  margin-bottom: 1.25em;
 }
 
 .prose a {

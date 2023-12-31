@@ -58,7 +58,7 @@ My remote job means I spend a significant portion of my day indoors. This was an
 
 Lack of physical interaction was also taking its toll. This led me to seek a hobby that could fulfill my need for more dynamic, bodily expression.
 
-Thus, I found myself attending my first hip-hop class at [Studio North Toronto](https://maps.app.goo.gl/k58T4N6p1VvtJqc38) in June. Since then, I've been regularly taking classes in various styles, learning from different, talented instructors. Engaging with the studio community has given me a profound sense of involvement.
+This is how I found myself attending my first hip-hop class at [Studio North Toronto](https://maps.app.goo.gl/k58T4N6p1VvtJqc38) in June. Since then, I've been regularly taking classes in various styles, learning from different, talented instructors. Engaging with the studio community has given me a profound sense of involvement.
 
 I am very excited to continue mastering my dance skills and exploring body's capabilities in the coming year.
 

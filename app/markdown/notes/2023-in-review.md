@@ -64,7 +64,7 @@ I am very excited to continue mastering my dance skills and exploring body's cap
 
 ## 2023 Wrapped
 
-As I look ahead to 2024, there are several areas I want to focus on. Firstly, I aim to drive more regularly to overcome my fear of accidents. Broadening my social circle beyond my current inner group is another goal, as it would greatly help me overcome social awkwardness. Additionally, I plan to increase my volunteering efforts to contribute more to the community and assist those in need. Revisiting the idea of traveling to South Korea in 2024 is also on the table.
+As I look ahead to 2024, there are several areas I want to focus on. Firstly, I aim to drive more regularly to overcome my fear of accidents. Broadening my social circle is another goal to help overcome social awkwardness. Additionally, I plan to increase my volunteering efforts to contribute more to the community. Revisiting the idea of traveling to South Korea in 2024 is also on the table.
 
 One thing I've learned is that the more specific my plans are, the more likely it is for life and fate to suprise me. So I'll let this year unfold as it may and hope for the best.
 

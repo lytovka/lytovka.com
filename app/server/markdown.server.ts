@@ -37,7 +37,6 @@ const assertMetadata = (metadata: unknown): metadata is Metadata => {
     "title" in metadata &&
     typeof metadata.title === "string" &&
     "date" in metadata &&
-    typeof metadata.date === "string" &&
     "slug" in metadata &&
     typeof metadata.slug === "string" &&
     "languages" in metadata &&

@@ -1,6 +1,6 @@
 ---
 title: 2023 In Review
-date: 12/30/2023
+date: 2023-12-31T02:00:00Z
 slug: 2023-in-review
 languages: en
 ---

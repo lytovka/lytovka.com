@@ -9,11 +9,7 @@ export const ExternalLink = forwardRef<
   const { className, ...rest } = props;
 
   return (
-    <a
-      className={[className, DEFAULT_STYLES].filter(Boolean).join(" ")}
-      ref={ref}
-      {...rest}
-    >
+    <a className={className ? className : DEFAULT_STYLES} ref={ref} {...rest}>
       {props.children}
     </a>
   );

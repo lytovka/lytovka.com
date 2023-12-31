@@ -19,10 +19,15 @@ import { json } from "@vercel/remix";
 import type { LoaderFunctionArgs } from "@vercel/remix";
 import { invariantResponse } from "~/utils/misc";
 
-export const meta: MetaFunction<typeof loader> = ({ data, matches }) => {
+export const meta: MetaFunction<typeof loader> = ({
+  params,
+  data,
+  matches,
+}) => {
   const { requestInfo } = (matches[0] as RootLoaderDataUnwrapped).data;
   const metadataUrl = getMetadataUrl(requestInfo);
-  const title = data?.attributes.title;
+  const title = data?.attributes.title ?? params.slug;
+  const description = data?.attributes.description ?? "A note.";
 
   return [
     {
@@ -31,7 +36,7 @@ export const meta: MetaFunction<typeof loader> = ({ data, matches }) => {
     },
     ...getSocialMetas({
       title,
-      description: "A note.",
+      description,
       keywords: "note, notes, ivan lytovka, lytovka",
       url: metadataUrl,
       image: getSocialImagePreview({
@@ -62,15 +67,15 @@ export default function PostSlug() {
 
   return (
     <MainLayout>
-      <div className="flex flex-col gap-1 mb-8">
-        <H1>{note.attributes.title}</H1>
+      <div className="flex flex-col gap-1">
+        <H1 className="font-bold">{note.attributes.title}</H1>
         <div className="flex justify-between flex-row">
           <time className="text-lg text-zinc-700 dark:text-zinc-500">
             {note.date} ({ago(new Date(note.attributes.date))})
           </time>
         </div>
       </div>
-      <div className="mb-10">
+      <div className="my-12">
         <article
           className="prose text-3xl"
           dangerouslySetInnerHTML={{ __html: note.body }}

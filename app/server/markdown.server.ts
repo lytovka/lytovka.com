@@ -18,6 +18,7 @@ const root =
 
 type Metadata = {
   title: string;
+  description: string;
   date: string;
   slug: string;
   languages: string;
@@ -28,6 +29,15 @@ export type Note = {
   attributes: Metadata;
 };
 
+const renderer = new marked.Renderer();
+renderer.heading = (text, level) => {
+  const slug = text.toLowerCase().replace(/\s+/g, "-");
+
+  return `<h${level} id="${slug}"><a href="#${slug}">${text}</a></h${level}>`;
+};
+
+marked.setOptions({ renderer });
+
 const assertMetadata = (metadata: unknown): metadata is Metadata => {
   if (typeof metadata !== "object" || metadata === null) {
     return false;
@@ -37,11 +47,8 @@ const assertMetadata = (metadata: unknown): metadata is Metadata => {
     "title" in metadata &&
     typeof metadata.title === "string" &&
     "date" in metadata &&
-    typeof metadata.date === "string" &&
     "slug" in metadata &&
-    typeof metadata.slug === "string" &&
-    "languages" in metadata &&
-    typeof metadata.languages === "string"
+    typeof metadata.slug === "string"
   );
 };
 

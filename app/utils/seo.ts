@@ -95,8 +95,10 @@ export function getSocialMetas({
     { property: "og:url", content: url },
     { name: "twitter:title", content: title },
     { name: "twitter:description", content: description },
-    { name: "twitter:image", content: image },
+    { name: "twitter:creator", content: "@ivanlytovka" },
+    { name: "twitter:site", content: "@ivanlytovka" },
     { name: "twitter:card", content: "summary_large_image" },
+    { name: "twitter:image", content: image },
     { name: "twitter:image:alt", content: title },
   ];
 }

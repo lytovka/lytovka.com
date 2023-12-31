@@ -5,7 +5,7 @@ import GoBack from "~/components/go-back.tsx";
 import { dateFormatter } from "~/utils/date.ts";
 import { fetchPreviews } from "~/server/markdown.server.ts";
 import MainLayout from "~/components/main-layout.tsx";
-import { H1, Paragraph } from "~/components/typography.tsx";
+import { H1 } from "~/components/typography.tsx";
 import {
   getMetadataUrl,
   getPreviewUrl,
@@ -60,16 +60,13 @@ export default function NotesRoute() {
   return (
     <MainLayout>
       <H1 className="mb-2">Notes</H1>
-      <Paragraph className="mb-5 italic" variant="secondary">
-        My perspective on various topics. All thoughts are my own.
-      </Paragraph>
       <ul className="mb-10">
         {posts.map((post, key) => (
           <li
             className="flex flex-col text-2xl pr-3 pt-3 pb-3 md:items-center md:flex-row md:gap-7"
             key={key}
           >
-            <span className="text-black dark:text-white opacity-75 text-2xl md:w-60">
+            <span className="text-black dark:text-white opacity-75 text-2xl md:w-80">
               {post.date}
             </span>
             <Link

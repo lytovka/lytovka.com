@@ -5,14 +5,6 @@
   --typography-light-anchor-hover: #d0d0d0;
 }
 
-/* For now, the default typography colors are good enough on light theme */
-.prose {
-  /* --typography-light-heading: #f1f1f1;
-  --typography-light-paragraph: #cacaca;
-  --typography-light-anchor: #f1f1f1;
-  --typography-light-anchor-hover: #d0d0d0; */
-}
-
 .prose h1 {
   color: var(--typography-light-heading);
 }
@@ -46,6 +38,7 @@
 
 .prose h2 > a {
   text-decoration: none;
+  font-weight: bold;
 }
 
 .prose h2 > a:hover {

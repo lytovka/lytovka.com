@@ -6,15 +6,9 @@ import previews from "~/markdown/notes/previews.json";
 import { fileURLToPath } from "url";
 
 //TODO: This is a hack to get the root path for the app for diff environments (test, CI, and deploy preview). Need to find a better way.
-
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-
 const root =
-  process.env.CI === "true"
-    ? `${path.resolve()}/app`
-    : process.env.NODE_ENV === "test"
-      ? `${__dirname}/..`
-      : `${__dirname}/../app`;
+  process.env.CI === "true" ? `${path.resolve()}/app` : `${__dirname}/../`;
 
 type Metadata = {
   title: string;

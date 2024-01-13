@@ -28,7 +28,7 @@
   },
   "dependencies": {
     "@lytovka/draggable": "^0.0.8",
-    "@remix-run/dev": "2.4.1",
+    "@remix-run/dev": "2.5.0",
     "@remix-run/node": "^2.4.1",
     "@remix-run/react": "^2.4.1",
     "@remix-run/serve": "^2.4.1",

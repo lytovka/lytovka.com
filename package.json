@@ -45,7 +45,7 @@
     "@lytovka/eslint-config": "^1.4.1",
     "@tailwindcss/typography": "0.5.10",
     "@testing-library/jest-dom": "6.4.1",
-    "@testing-library/react": "14.1.2",
+    "@testing-library/react": "14.2.1",
     "@types/eslint": "8.56.2",
     "@types/marked": "5.0.2",
     "@types/react": "18.2.52",

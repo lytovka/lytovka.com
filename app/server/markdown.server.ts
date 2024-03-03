@@ -51,9 +51,10 @@ export const getIntroFile = async (): Promise<{
   short: string;
   extended: string;
 }> => {
-  const pathToIntro = `${root}/markdown/intro.md`;
-  const file = (await fs.readFile(pathToIntro)).toString();
-  const { content } = matter(file);
+  const filePath = import.meta.glob("/app/markdown/intro.md");
+  const file = await filePath["/app/markdown/intro.md"]();
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-member-access
+  const { content } = matter((file as any).default);
   const [short, extended] = (await marked.parse(content)).split("<hr>");
 
   return { short, extended };

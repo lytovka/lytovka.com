@@ -71,26 +71,6 @@ export const getSlugContent = async (slug: string): Promise<Note | null> => {
   return { attributes: metadata, body: html };
 };
 
-const getAllNoteSlugs = async (): Promise<Array<string>> => {
-  const res = fs.readdir(`${root}/markdown/notes`);
-
-  return res;
-};
-
-export const fetchAllContent = async (): Promise<Array<Note>> => {
-  const slugs = await getAllNoteSlugs();
-  const notes = (await Promise.all(
-    slugs.map(async (slug) => getSlugContent(slug)).filter(Boolean),
-  )) as Array<Note>;
-  const sortedNotes = notes.sort(
-    (a, b) =>
-      new Date(b.attributes.date).getTime() -
-      new Date(a.attributes.date).getTime(),
-  );
-
-  return sortedNotes;
-};
-
 export const fetchPreviews = (): Array<Metadata> => {
   return (previews as Array<Metadata>).sort(
     (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime(),

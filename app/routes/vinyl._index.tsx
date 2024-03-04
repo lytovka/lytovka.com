@@ -1,5 +1,5 @@
 import { useLoaderData } from "@remix-run/react";
-import vinylStylesheet from "~/styles/vinyl.css";
+import "~/styles/vinyl.css";
 
 import { getAlbumsByIds } from "~/server/spotify.server.ts";
 import GoBack from "~/components/go-back.tsx";
@@ -15,11 +15,7 @@ import {
   getSocialMetas,
 } from "~/utils/seo.ts";
 import { json } from "@vercel/remix";
-import type {
-  LinksFunction,
-  LoaderFunctionArgs,
-  MetaFunction,
-} from "@vercel/remix";
+import type { LoaderFunctionArgs, MetaFunction } from "@vercel/remix";
 import type { RootLoaderDataUnwrapped } from "~/root.tsx";
 import { ONE_MINUTE } from "~/constants/index.ts";
 
@@ -108,15 +104,6 @@ export const loader = async (_: LoaderFunctionArgs) => {
   };
 
   return json({ albums: images }, requestInit);
-};
-
-export const links: LinksFunction = () => {
-  return [
-    {
-      rel: "stylesheet",
-      href: vinylStylesheet,
-    },
-  ];
 };
 
 export default function VinylPage() {

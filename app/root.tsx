@@ -19,9 +19,11 @@ import { getEnv } from "~/server/env.server.ts";
 import { FourOhFour } from "./components/errors.tsx";
 import Footer from "./components/footer.tsx";
 import Navbar from "./components/navbar.tsx";
-import tailwindStyles from "~/styles/tailwind.css";
-import proseStyles from "./styles/prose.css";
-import rootStyles from "./styles/root.css";
+
+import "./styles/tailwind.css";
+import "./styles/prose.css";
+import "./styles/root.css";
+
 import { getHostUrl } from "~/utils/misc.ts";
 import {
   getMetadataUrl,
@@ -71,18 +73,6 @@ export const links: LinksFunction = () => {
       href: "/fonts/JetBrainsMono-Bold.ttf",
       type: "font/ttf",
       crossOrigin: "anonymous",
-    },
-    {
-      rel: "stylesheet",
-      href: tailwindStyles,
-    },
-    {
-      rel: "stylesheet",
-      href: proseStyles,
-    },
-    {
-      rel: "stylesheet",
-      href: rootStyles,
     },
     { rel: "icon", href: "/images/favicon.ico" },
   ];

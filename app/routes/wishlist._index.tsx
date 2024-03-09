@@ -7,19 +7,19 @@ const data: Array<Payment> = [
   {
     id: "728ed52f",
     amount: 100,
-    status: "pending",
+    status: "active",
     email: "m@example.com",
   },
   {
-    id: "728ed52f",
+    id: "728ed52a",
     amount: 200,
     status: "pending",
     email: "m@example.com",
   },
   {
-    id: "728ed52f",
+    id: "728ed52d",
     amount: 300,
-    status: "pending",
+    status: "failed",
     email: "m@example.com",
   },
 ]

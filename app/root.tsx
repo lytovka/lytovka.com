@@ -1,6 +1,5 @@
 import {
   Links,
-  LiveReload,
   Meta,
   Outlet,
   Scripts,
@@ -142,7 +141,6 @@ function App({ rootLoaderData }: { rootLoaderData: RootLoaderData }) {
           }}
         />
         <Scripts />
-        {process.env.NODE_ENV === "development" ? <LiveReload /> : null}
       </body>
     </html>
   );

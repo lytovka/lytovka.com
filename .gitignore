@@ -14,4 +14,6 @@ node_modules
 /api/index.js.map
 /app/styles/app.css
 
-*.code-workspace
+*.code-workspaceprisma/dev.db
+prisma/dev.db-journal
+prisma/dev.db

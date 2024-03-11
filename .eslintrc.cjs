@@ -15,7 +15,7 @@ module.exports = {
     SpotifyApi: "readonly",
   },
   rules: {
-    "no-console": "warn",
+    "no-console": ["warn", { allow: ["warn", "error", "time", "timeEnd"] }],
     "@typescript-eslint/no-throw-literal": "off", // Remix throws objects, such as `Response`, in loaders,
     "react/hook-use-state": "off",
     "react/jsx-no-constructed-context-values": "off",
@@ -23,5 +23,7 @@ module.exports = {
     "@typescript-eslint/no-unsafe-return": "off",
     "@typescript-eslint/no-empty-function": "off",
     "consistent-return": "off",
+    "no-await-in-loop": "off",
+    "@typescript-eslint/promise-function-async": "off",
   },
 };

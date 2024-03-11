@@ -59,7 +59,6 @@ async function seed() {
     const localTags = Array.from(tags);
     const tagsLength = faker.number.int({ min: 0, max: TAGS.length - 1 });
     for (let i = 0; i <= tagsLength; i++) {
-      // eslint-disable-next-line no-await-in-loop
       await prisma.wishlistEntryTag.create({
         data: {
           wishlistEntryId: entry.id,

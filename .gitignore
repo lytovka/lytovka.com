@@ -16,3 +16,4 @@ node_modules
 
 *.code-workspaceprisma/dev.db
 prisma/dev.db-journal
+prisma/dev.db

@@ -25,10 +25,7 @@ async function seedWishlistEntries() {
         name: faker.lorem.words({ min: 1, max: 6 }),
         link: faker.internet.url(),
         price: faker.number.float({ min: 0.01, max: 1_000, fractionDigits: 2 }),
-        status:
-          WISHLIST_STATUS[
-            faker.number.int({ min: 0, max: WISHLIST_STATUS.length - 1 })
-          ],
+        status: faker.helpers.shuffle(WISHLIST_STATUS)[0],
       },
     });
 

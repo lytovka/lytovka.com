@@ -87,23 +87,6 @@ export type RootLoaderDataUnwrapped = {
 };
 
 export const loader = async ({ request }: DataFunctionArgs) => {
-  /*   
-   *   This is the actual query for future reference:
-   *   const wishlistEntries = await prisma.$queryRaw`
-    SELECT WishlistEntry.id, 
-           WishlistEntry.name, 
-           WishlistEntry.link, 
-           WishlistEntry.linkText,
-           WishlistEntry.price,
-           WishlistEntry.status, 
-           WishlistEntry.comments, 
-           WishlistEntry.updatedAt,
-           GROUP_CONCAT(Tag.name, ', ') AS tags
-    FROM WishlistEntry
-    LEFT JOIN WishlistEntryTag ON wishlistEntryId = WishlistEntry.id
-    LEFT JOIN Tag ON Tag.id = WishlistEntryTag.tagId
-    GROUP BY WishlistEntry.id
-    ` */
   const themeSession = await getThemeSession(request);
   const data = {
     ENV: getEnv(),

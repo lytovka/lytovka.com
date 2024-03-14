@@ -18,6 +18,8 @@ export const columns: Array<ColumnDef<Payment>> = [
   {
     accessorKey: "name",
     header: "Name",
+    enableColumnFilter: true,
+    filterFn: "includesString",
     cell: ({ row }) => {
       return (
         <ExternalLink
@@ -37,7 +39,9 @@ export const columns: Array<ColumnDef<Payment>> = [
       return (
         <button
           className="flex flex-row items-center"
-          onClick={() => { column.toggleSorting(column.getIsSorted() === "asc"); }}
+          onClick={() => {
+            column.toggleSorting(column.getIsSorted() === "asc");
+          }}
         >
           Amount (USD)
           <ArrowUpDown className="ml-2 h-4 w-4" />
@@ -53,16 +57,16 @@ export const columns: Array<ColumnDef<Payment>> = [
     accessorKey: "tags",
     header: "Tags",
     cell: ({ row }) => {
-      const tags = row.getValue("tags")
+      const tags = row.getValue("tags");
 
-      return tags && typeof tags === "string" ? tags : ""
+      return tags && typeof tags === "string" ? tags : "";
     },
   },
   {
     accessorKey: "updatedAt",
     header: "Updated At",
     cell: ({ row }) => {
-      return dateFormatterShort.format(new Date(row.getValue("updatedAt")))
-    }
+      return dateFormatterShort.format(new Date(row.getValue("updatedAt")));
+    },
   },
 ];

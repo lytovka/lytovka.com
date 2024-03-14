@@ -7,13 +7,13 @@ const WISHLIST_STATUS = ["Wanted", "Received", "Fulfilled"] as const;
 const TAGS = ["Electronics", "Books", "Misc"] as const;
 
 async function seedTags() {
-  console.time("Seeding tag");
+  console.time("Seeding tags");
   const tags = await Promise.all(
     Array.from({ length: TAGS.length }).map((_, index) =>
       prisma.tag.create({ data: { name: TAGS[index] } }),
     ),
   );
-  console.timeEnd("Seeding tag");
+  console.timeEnd("Seeding tags");
 
   return tags;
 }

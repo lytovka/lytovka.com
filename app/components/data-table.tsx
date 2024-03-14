@@ -22,6 +22,8 @@ import {
 } from "~/components/ui/table";
 import { Input } from "./ui/input";
 import { useSearchParams } from "@remix-run/react";
+import { Paragraph } from "./typography";
+import { updateQueryParameterInCurrentHistoryEntry } from "~/utils/wishlist";
 
 interface DataTableProps<TData, TValue> {
   columns: Array<ColumnDef<TData, TValue>>;
@@ -33,7 +35,7 @@ export function DataTable<TData, TValue>({
   data,
 }: DataTableProps<TData, TValue>) {
   const [searchParams] = useSearchParams();
-  const [sorting, setSorting] = React.useState<SortingState>([]);
+  const [sorting, setSorting] = React.useState<SortingState>([{ id: "price", desc: searchParams.get("sort") === "desc" }]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([
     { id: "name", value: searchParams.get("q") ?? "" },
   ]);
@@ -50,22 +52,6 @@ export function DataTable<TData, TValue>({
       columnFilters,
     },
   });
-
-  const updateQueryParameterInCurrentHistoryEntry = (
-    queryKey: string,
-    queryValue: string,
-  ) => {
-    const currentSearchParams = new URLSearchParams(window.location.search);
-    if (queryValue) {
-      currentSearchParams.set(queryKey, queryValue);
-    } else {
-      currentSearchParams.delete(queryKey);
-    }
-    const newUrl = [window.location.pathname, currentSearchParams.toString()]
-      .filter(Boolean)
-      .join("?");
-    window.history.replaceState(null, "", newUrl);
-  };
 
   return (
     <>
@@ -93,9 +79,9 @@ export function DataTable<TData, TValue>({
                       {header.isPlaceholder
                         ? null
                         : flexRender(
-                            header.column.columnDef.header,
-                            header.getContext(),
-                          )}
+                          header.column.columnDef.header,
+                          header.getContext(),
+                        )}
                     </TableHead>
                   );
                 })}
@@ -107,7 +93,6 @@ export function DataTable<TData, TValue>({
               table.getRowModel().rows.map((row) => (
                 <TableRow
                   className="border-black dark:border-white"
-                  data-state={row.getIsSelected() ? "selected" : null}
                   key={row.id}
                 >
                   {row.getVisibleCells().map((cell) => (
@@ -126,10 +111,13 @@ export function DataTable<TData, TValue>({
             ) : (
               <TableRow>
                 <TableCell
-                  className="h-24 text-center"
+                  className="h-24 text-lg text-center text-black dark:text-white"
                   colSpan={columns.length}
                 >
-                  No results.
+                  <Paragraph>
+                    Looks like we&apos;ve hit a ghost town 🌵
+                  </Paragraph>
+                  <Paragraph>Try a different search term.</Paragraph>
                 </TableCell>
               </TableRow>
             )}

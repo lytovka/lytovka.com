@@ -7,13 +7,13 @@ const WISHLIST_STATUS = ["Wanted", "Received", "Fulfilled"] as const;
 const TAGS = ["Electronics", "Books", "Misc"] as const;
 
 async function seedTags() {
-  console.time("Seeding tag");
+  console.time("Seeding tags");
   const tags = await Promise.all(
     Array.from({ length: TAGS.length }).map((_, index) =>
       prisma.tag.create({ data: { name: TAGS[index] } }),
     ),
   );
-  console.timeEnd("Seeding tag");
+  console.timeEnd("Seeding tags");
 
   return tags;
 }
@@ -24,9 +24,7 @@ async function seedWishlistEntries() {
       data: {
         name: faker.lorem.words({ min: 1, max: 6 }),
         link: faker.internet.url(),
-        linkText: faker.lorem.words({ min: 1, max: 3 }),
         price: faker.number.float({ min: 0.01, max: 1_000, fractionDigits: 2 }),
-        comments: faker.lorem.sentence(),
         status:
           WISHLIST_STATUS[
             faker.number.int({ min: 0, max: WISHLIST_STATUS.length - 1 })

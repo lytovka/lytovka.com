@@ -35,7 +35,9 @@ export function DataTable<TData, TValue>({
   data,
 }: DataTableProps<TData, TValue>) {
   const [searchParams] = useSearchParams();
-  const [sorting, setSorting] = React.useState<SortingState>([{ id: "price", desc: searchParams.get("sort") === "desc" }]);
+  const [sorting, setSorting] = React.useState<SortingState>([
+    { id: "price", desc: searchParams.get("sort") === "desc" },
+  ]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([
     { id: "name", value: searchParams.get("q") ?? "" },
   ]);
@@ -79,9 +81,9 @@ export function DataTable<TData, TValue>({
                       {header.isPlaceholder
                         ? null
                         : flexRender(
-                          header.column.columnDef.header,
-                          header.getContext(),
-                        )}
+                            header.column.columnDef.header,
+                            header.getContext(),
+                          )}
                     </TableHead>
                   );
                 })}
@@ -117,7 +119,7 @@ export function DataTable<TData, TValue>({
                   <Paragraph>
                     Looks like we&apos;ve hit a ghost town 🌵
                   </Paragraph>
-                  <Paragraph>Try a different search term.</Paragraph>
+                  <Paragraph>Try a different search query.</Paragraph>
                 </TableCell>
               </TableRow>
             )}

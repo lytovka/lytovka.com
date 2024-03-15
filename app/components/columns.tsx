@@ -39,9 +39,12 @@ export const columns: Array<ColumnDef<Payment>> = [
         <button
           className="flex flex-row items-center"
           onClick={() => {
-            const isSorted = column.getIsSorted()
+            const isSorted = column.getIsSorted();
             column.toggleSorting(isSorted === "asc");
-            updateQueryParameterInCurrentHistoryEntry("sort", isSorted === "asc" ? "desc" : "asc")
+            updateQueryParameterInCurrentHistoryEntry(
+              "sort",
+              isSorted === "asc" ? "desc" : "asc",
+            );
           }}
         >
           Amount (USD)

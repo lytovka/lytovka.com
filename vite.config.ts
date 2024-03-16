@@ -2,8 +2,15 @@ import { vitePlugin as remix } from "@remix-run/dev";
 import { defineConfig } from "vite";
 import { installGlobals } from "@remix-run/node";
 import tsconfigPaths from "vite-tsconfig-paths";
+import { fileURLToPath } from "node:url";
 
 installGlobals();
+
+const filesNeedToExclude = ["app/routes/wishlist._index.tsx"];
+
+const filesPathToExclude = filesNeedToExclude.map((src) => {
+  return fileURLToPath(new URL(src, import.meta.url));
+});
 
 export default defineConfig({
   plugins: [
@@ -24,5 +31,10 @@ export default defineConfig({
   ],
   ssr: {
     noExternal: [/^marked/],
+  },
+  build: {
+    rollupOptions: {
+      external: [...filesPathToExclude],
+    },
   },
 });

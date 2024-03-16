@@ -36,7 +36,6 @@
     "@spotify/web-api-ts-sdk": "^1.1.2",
     "@tanstack/react-table": "^8.13.2",
     "@vercel/remix": "^2.8.0",
-    "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.0",
     "dotenv": "16.4.5",
     "gray-matter": "^4.0.3",

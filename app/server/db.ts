@@ -9,7 +9,7 @@ const libsql = createClient({
 
 const adapter = new PrismaLibSQL(libsql);
 export const prisma = new PrismaClient({
-  adapter: process.env.NODE_ENV === "production" ? adapter : null,
+  adapter: process.env.NODE_ENV === "development" ? null : adapter,
   log: [
     { level: "query", emit: "event" },
     { level: "error", emit: "stdout" },

@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
-import { json } from "@remix-run/node";
+import { MetaFunction, json } from "@remix-run/node";
 import {
   isRouteErrorResponse,
   useLoaderData,
@@ -11,7 +11,6 @@ import MainLayout from "~/components/main-layout";
 import { prisma } from "~/server/db";
 import { z } from "zod";
 import { Prisma } from "@prisma/client";
-import { H1, Paragraph } from "~/components/typography";
 import { CLOUDINARY_BASE_URL } from "~/constants";
 
 const WishlistEntrySchema = z.object({
@@ -39,7 +38,6 @@ export async function loader() {
     LEFT JOIN Tag ON Tag.id = WishlistEntryTag.tagId
     GROUP BY WishlistEntry.id
 `;
-
   const result = WishlistEntriesSchema.safeParse(wishlistEntriesRaw);
 
   if (!result.success) {
@@ -68,32 +66,32 @@ export default function WishlistPage() {
 export function ErrorBoundary() {
   const error = useRouteError();
 
-  if (isRouteErrorResponse(error)) {
-    console.error(error.data);
+  const parseError = (e: unknown) => {
+    if (isRouteErrorResponse(e)) {
+      console.error(e.data);
 
-    return (
-      <MainLayout>
-        <figure>
-          <img
-            alt="Sad Stanley from The Office"
-            src={`${CLOUDINARY_BASE_URL}/image/upload/v1703986825/sad-stanley.webp`}
-          />
-          <figcaption className="mt-4 text-2xl text-black dark:text-white text-center">
-            {error.status} {error.statusText}
-          </figcaption>
-        </figure>
-      </MainLayout>
-    );
-  } else if (error instanceof Error) {
-    console.error(error);
+      return `${e.status} ${e.statusText}`;
+    }
+    if (e instanceof Error) {
+      console.error(e);
 
-    return (
-      <MainLayout>
-        <H1>Error</H1>
-        <Paragraph>{error.message}</Paragraph>
-      </MainLayout>
-    );
-  } else {
-    return <H1>Unknown Error</H1>;
-  }
+      return e.message;
+    }
+
+    return "Unknown Error";
+  };
+
+  return (
+    <MainLayout>
+      <figure className="flex flex-col items-center">
+        <img
+          alt="Sad Stanley from The Office"
+          src={`${CLOUDINARY_BASE_URL}/image/upload/v1703986825/sad-stanley.webp`}
+        />
+        <figcaption className="mt-4 text-2xl text-black dark:text-white text-center">
+          {parseError(error)}
+        </figcaption>
+      </figure>
+    </MainLayout>
+  );
 }

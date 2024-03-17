@@ -53,7 +53,7 @@ async function seed() {
   wishlistEntries.forEach(async (entry) => {
     const localTags = Array.from(tags);
     const tagsLength = faker.number.int({ min: 0, max: TAGS.length - 1 });
-    for (let i = 0; i <= tagsLength; i++) {
+    for (let i = 0; i < tagsLength; i++) {
       await prisma.wishlistEntryTag.create({
         data: {
           wishlistEntryId: entry.id,

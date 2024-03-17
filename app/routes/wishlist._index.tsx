@@ -26,7 +26,7 @@ const WishlistEntrySchema = z.object({
   link: z.string(),
   price: z.instanceof(Prisma.Decimal).transform((p) => p.toNumber()),
   status: z.enum(["Wanted", "Received", "Fulfilled"]),
-  tags: z.string(),
+  tags: z.string().nullable(),
   updatedAt: z.date().transform((d) => d.toISOString()),
 });
 

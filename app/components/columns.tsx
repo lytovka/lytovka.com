@@ -3,19 +3,9 @@ import { ArrowUpDown } from "lucide-react";
 import { dateFormatterShort } from "~/utils/date";
 import { ExternalLink } from "./external-link";
 import { updateQueryParameterInCurrentHistoryEntry } from "~/utils/wishlist";
+import type { WishlistEntrySchemaType } from "~/routes/wishlist._index";
 
-export type Payment = {
-  id: string;
-  name: string;
-  link: string;
-  comments?: string;
-  price: number;
-  tags: string;
-  status: "failed" | "pending" | "processing" | "success";
-  updatedAt: string;
-};
-
-export const columns: Array<ColumnDef<Payment>> = [
+export const columns: Array<ColumnDef<WishlistEntrySchemaType>> = [
   {
     accessorKey: "name",
     header: "Name",

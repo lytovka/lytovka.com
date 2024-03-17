@@ -1,5 +1,5 @@
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
-import { MetaFunction, json } from "@remix-run/node";
+import type { MetaFunction } from "@remix-run/node";
+import { json } from "@remix-run/node";
 import {
   isRouteErrorResponse,
   useLoaderData,
@@ -12,6 +12,13 @@ import { prisma } from "~/server/db";
 import { z } from "zod";
 import { Prisma } from "@prisma/client";
 import { CLOUDINARY_BASE_URL } from "~/constants";
+import type { RootLoaderDataUnwrapped } from "~/root";
+import {
+  getMetadataUrl,
+  getPreviewUrl,
+  getSocialImagePreview,
+  getSocialMetas,
+} from "~/utils/seo";
 
 const WishlistEntrySchema = z.object({
   id: z.string(),
@@ -19,8 +26,10 @@ const WishlistEntrySchema = z.object({
   link: z.string(),
   price: z.instanceof(Prisma.Decimal).transform((p) => p.toNumber()),
   status: z.enum(["Wanted", "Received", "Fulfilled"]),
-  updatedAt: z.date(),
+  updatedAt: z.date().transform((d) => d.toISOString()),
 });
+
+export type WishlistEntrySchemaType = z.infer<typeof WishlistEntrySchema>;
 
 const WishlistEntriesSchema = z.array(WishlistEntrySchema);
 
@@ -50,13 +59,35 @@ export async function loader() {
   return json({ wishlistEntries: result.data } as const);
 }
 
+export const meta: MetaFunction<typeof loader> = ({ matches }) => {
+  const { requestInfo } = (matches[0] as RootLoaderDataUnwrapped).data;
+  const metadataUrl = getMetadataUrl(requestInfo);
+
+  return [
+    {
+      name: "viewport",
+      content: "width=device-width,initial-scale=1,viewport-fit=cover",
+    },
+    ...getSocialMetas({
+      title: "Ivan's wishlist",
+      description: "All the stuff Ivan wants to buy",
+      keywords: "wishlist, ivan lytovka, lytovka",
+      url: metadataUrl,
+      image: getSocialImagePreview({
+        title: "wishlist",
+        url: getPreviewUrl(metadataUrl),
+        featuredImage: "wishlist",
+      }),
+    }),
+  ];
+};
+
 export default function WishlistPage() {
   const data = useLoaderData<typeof loader>();
 
   return (
     <MainLayout>
       <div className="container mx-auto py-10">
-        {/* @ts-ignore  figure out how to disambiguate error response from success response */}
         <DataTable columns={columns} data={data.wishlistEntries} />
       </div>
     </MainLayout>

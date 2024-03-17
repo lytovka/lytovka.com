@@ -14,6 +14,7 @@ const featureImageKeys = {
   vinyl: "l_folder-music",
   notes: "l_folder-documents",
   note: "l_file-text",
+  wishlist: "l_folder-favorites",
 } as const;
 
 const fonts = {

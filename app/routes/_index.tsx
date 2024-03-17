@@ -6,6 +6,7 @@ import "~/styles/index.css";
 import {
   FileTextIcon,
   FolderDocumentsIcon,
+  FolderFavoritesIcon,
   FolderMusicIcon,
 } from "~/components/icons";
 import { DraggableComponent } from "@lytovka/draggable";
@@ -45,6 +46,12 @@ const HOMEPAGE_LINKS: Array<{
     href: "/about",
     position: [50, 35],
     imgSrc: <FileTextIcon />,
+  },
+  {
+    title: "wishlist",
+    href: "/wishlist",
+    position: [30, 40],
+    imgSrc: <FolderFavoritesIcon />,
   },
 ];
 

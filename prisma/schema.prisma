@@ -17,7 +17,7 @@ model WishlistEntry {
   price            Decimal
   status           String
   createdAt        DateTime           @default(now())
-  updatedAt        DateTime           @updatedAt
+  updatedAt        DateTime           @default(now()) @updatedAt
   WishlistEntryTag WishlistEntryTag[]
 }
 

@@ -69,7 +69,7 @@ export function DataTable<TData, TValue>({
       />
       <div className="mt-4 rounded-md border border-black dark:border-white">
         <Table>
-          <caption className="mt-4 text-sm text-muted-foreground">
+          <caption className="my-5 text-md text-black dark:text-white text-muted-foreground">
             Wishlist items.
           </caption>
           <TableHeader>

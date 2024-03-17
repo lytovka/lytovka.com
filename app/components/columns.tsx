@@ -12,7 +12,7 @@ export const columns: Array<ColumnDef<WishlistEntrySchemaType>> = [
     cell: ({ row }) => {
       return (
         <ExternalLink
-          className="underline hover:opacity-75 transition-opacity text-black dark:text-white"
+          className="flex underline hover:opacity-75 transition-opacity text-black dark:text-white min-w-[200px]"
           href={row.original.link}
           rel="noreferrer noopener"
           target="__blank"

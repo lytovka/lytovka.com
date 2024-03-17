@@ -19,7 +19,7 @@ const featureImageKeys = {
 
 const fonts = {
   jetBrains: {
-    regular: "JetBrainsMono-Regular.ttf",
+    regular: "fonts:JetBrainsMono-Regular.ttf",
   },
 } as const;
 
@@ -68,9 +68,9 @@ export function getSocialImagePreview({
     CLOUDINARY_BASE_URL,
     "image/upload",
     imageSection,
-    titleSection,
     ivanNameSection,
     urlSection,
+    titleSection,
     "background.jpg", // background that's uploaded to cloudinary
   ]
     .filter(Boolean)

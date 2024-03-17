@@ -34,5 +34,5 @@ model WishlistEntryTag {
   wishlistEntry   WishlistEntry @relation(fields: [wishlistEntryId], references: [id], onDelete: Cascade)
   tag             Tag           @relation(fields: [tagId], references: [id], onDelete: Cascade)
 
-  @@unique([wishlistEntryId, tagId])
+  @@id([wishlistEntryId, tagId])
 }

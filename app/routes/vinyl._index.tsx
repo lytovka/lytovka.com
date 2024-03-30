@@ -64,6 +64,14 @@ const ALBUMS = [
     name: "Screamadelica",
     spotifyId: "4TECsw2dFHZ1ULrT7OA3OL",
   },
+  {
+    name: "Counsil Skies",
+    spotifyId: "3chNtIzZ4hmmMVeq723m3f",
+  },
+  {
+    name: "72 Seasons",
+    spotifyId: "70uejEPPRPSLBrTRdfghP5",
+  },
 ];
 
 export const meta: MetaFunction<typeof loader> = ({ matches }) => {

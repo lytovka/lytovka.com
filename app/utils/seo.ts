@@ -14,11 +14,12 @@ const featureImageKeys = {
   vinyl: "l_folder-music",
   notes: "l_folder-documents",
   note: "l_file-text",
+  wishlist: "l_folder-favorites",
 } as const;
 
 const fonts = {
   jetBrains: {
-    regular: "JetBrainsMono-Regular.ttf",
+    regular: "fonts:JetBrainsMono-Regular.ttf",
   },
 } as const;
 
@@ -67,9 +68,9 @@ export function getSocialImagePreview({
     CLOUDINARY_BASE_URL,
     "image/upload",
     imageSection,
-    titleSection,
     ivanNameSection,
     urlSection,
+    titleSection,
     "background.jpg", // background that's uploaded to cloudinary
   ]
     .filter(Boolean)

@@ -25,10 +25,7 @@ async function seedWishlistEntries() {
         name: faker.lorem.words({ min: 1, max: 6 }),
         link: faker.internet.url(),
         price: faker.number.float({ min: 0.01, max: 1_000, fractionDigits: 2 }),
-        status:
-          WISHLIST_STATUS[
-            faker.number.int({ min: 0, max: WISHLIST_STATUS.length - 1 })
-          ],
+        status: faker.helpers.shuffle(WISHLIST_STATUS)[0],
       },
     });
 
@@ -56,7 +53,7 @@ async function seed() {
   wishlistEntries.forEach(async (entry) => {
     const localTags = Array.from(tags);
     const tagsLength = faker.number.int({ min: 0, max: TAGS.length - 1 });
-    for (let i = 0; i <= tagsLength; i++) {
+    for (let i = 0; i < tagsLength; i++) {
       await prisma.wishlistEntryTag.create({
         data: {
           wishlistEntryId: entry.id,

@@ -2,12 +2,13 @@
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
+  previewFeatures = ["driverAdapters"]
 }
 
 datasource db {
   provider = "sqlite"
-  url      = env("DATABASE_URL")
+  url      = "file:./dev.db"
 }
 
 model WishlistEntry {
@@ -33,5 +34,5 @@ model WishlistEntryTag {
   wishlistEntry   WishlistEntry @relation(fields: [wishlistEntryId], references: [id], onDelete: Cascade)
   tag             Tag           @relation(fields: [tagId], references: [id], onDelete: Cascade)
 
-  @@unique([wishlistEntryId, tagId])
+  @@id([wishlistEntryId, tagId])
 }

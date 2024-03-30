@@ -14,6 +14,12 @@ export const dateFormatter = new Intl.DateTimeFormat("en-US", {
   day: "numeric",
 });
 
+export const dateFormatterShort = new Intl.DateTimeFormat("en-US", {
+  year: "numeric",
+  month: "short",
+  day: "numeric",
+});
+
 export function ago(date: Date): string {
   const now = new Date();
   const utcTimestamp = Date.UTC(

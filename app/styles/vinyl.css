@@ -9,3 +9,27 @@
     opacity: 0;
   }
 }
+
+.row-scroll {
+  animation: scroll 15s cubic-bezier(0, 0, 0.2, 1) infinite;
+}
+
+/* Disable animation on hover or touch */
+.row-scroll:hover,
+.row-scroll:active {
+  animation-play-state: paused;
+}
+
+/* Hide scroll bar for Chrome, Safari and Opera */
+.scroll-container {
+  width: 100%;
+  overflow: hidden; /* Hide the scroll bar */
+}
+
+.scroll-container:hover {
+  overflow: auto; /* Show the scroll bar on hover */
+}
+
+.scroll-container::-webkit-scrollbar {
+  display: none; /* Hide scroll bar for webkit browsers */
+}

@@ -17,6 +17,7 @@ import {
 import type { MetaFunction } from "@vercel/remix";
 import type { RootLoaderDataUnwrapped } from "~/root.tsx";
 import { prisma } from "~/server/db";
+import { useEffect, useRef } from "react";
 
 export const meta: MetaFunction<typeof loader> = ({ matches }) => {
   const { requestInfo } = (matches[0] as RootLoaderDataUnwrapped).data;
@@ -63,6 +64,32 @@ export async function loader() {
 
 export default function VinylPage() {
   const data = useLoaderData<typeof loader>();
+  const containerRefs = useRef<Array<HTMLDivElement | null>>([]);
+
+  useEffect(() => {
+    const step = 0.5;
+    const delay = 20;
+    let lastFrameTime = performance.now();
+
+    console.log(containerRefs);
+    const autoScroll = (currentTime: number) => {
+      if (currentTime - lastFrameTime >= delay) {
+        containerRefs.current.forEach((ref) => {
+          if (!ref) return;
+          ref.scrollLeft += step;
+          // Reset scroll amount if end is reached to create an infinite loop
+          if (ref.scrollLeft >= ref.scrollWidth - ref.clientWidth) {
+            ref.scrollLeft = 0;
+          }
+        });
+        lastFrameTime = currentTime;
+      }
+
+      requestAnimationFrame(autoScroll);
+    };
+
+    requestAnimationFrame(autoScroll);
+  }, []);
 
   return (
     <MainLayout>
@@ -74,8 +101,13 @@ export default function VinylPage() {
       <div className="w-full">
         {data.albumRows.map((albumRow, index) => (
           <div
-            className="mb-10 flex flex-row grow overflow-x-scroll relative"
+            className="scroll-container mb-10 flex flex-row grow overflow-x-scroll relative"
             key={index}
+            ref={(ref) => {
+              containerRefs.current[index] = ref;
+
+              return ref;
+            }}
           >
             {albumRow.map((album, i) => (
               <div className="shrink-0 w-[300px] p-3" key={i}>

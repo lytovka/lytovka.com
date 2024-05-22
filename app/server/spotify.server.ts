@@ -8,7 +8,9 @@ const spotifyClient = SpotifyApi.withClientCredentials(
   SPOTIFY_SECRET,
 );
 
-async function getAlbumsByIds(ids: Array<string>) {
+async function getAlbumsByIds(
+  ids: Parameters<typeof spotifyClient.albums.get>[0],
+) {
   const albumsResponse = await spotifyClient.albums.get(ids, "US");
 
   return albumsResponse.map((a) => ({

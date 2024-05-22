@@ -1,12 +1,12 @@
 import { useLoaderData } from "@remix-run/react";
 import "~/styles/vinyl.css";
 
+import type { MetaFunction } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import { getAlbumsByIds } from "~/server/spotify.server.ts";
 import GoBack from "~/components/go-back.tsx";
-import { ExternalLink } from "~/components/external-link.tsx";
 import { ServerError } from "~/components/errors.tsx";
-import { H1, Paragraph } from "~/components/typography.tsx";
+import { H1, H2, Paragraph } from "~/components/typography.tsx";
 import MainLayout from "~/components/main-layout.tsx";
 import {
   getMetadataUrl,
@@ -14,11 +14,10 @@ import {
   getSocialImagePreview,
   getSocialMetas,
 } from "~/utils/seo.ts";
-import type { MetaFunction } from "@vercel/remix";
 import type { RootLoaderDataUnwrapped } from "~/root.tsx";
-import { prisma } from "~/server/db";
 
 export const meta: MetaFunction<typeof loader> = ({ matches }) => {
+  console.log("matches", matches);
   const { requestInfo } = (matches[0] as RootLoaderDataUnwrapped).data;
   const metadataUrl = getMetadataUrl(requestInfo);
 
@@ -42,21 +41,21 @@ export const meta: MetaFunction<typeof loader> = ({ matches }) => {
 };
 
 export async function loader() {
-  const albumsDb = await prisma.album.findMany({
-    select: { spotifyId: true, description: true },
-    take: 20,
-  });
-  const albumsSpotify = await getAlbumsByIds(albumsDb.map((a) => a.spotifyId));
+  const albumsSpotify = await getAlbumsByIds([
+    "3LzKUdUTdJb6P7xGN6SotC",
+    "2u30gztZTylY4RG7IvfXs8",
+    "021D07OEcg0c4tUCilc7ah",
+  ]);
 
-  const albumsSplitted = [];
+  // const albumsSplitted = [];
+  //
+  // const chunk = 5;
+  // for (let i = 0; i < albumsDb.length; i += chunk) {
+  //   const albums = albumsSpotify.slice(i, i + chunk);
+  //   albumsSplitted.push(albums);
+  // }
 
-  const chunk = 5;
-  for (let i = 0; i < albumsDb.length; i += chunk) {
-    const albums = albumsSpotify.slice(i, i + chunk);
-    albumsSplitted.push(albums);
-  }
-
-  return json({ albumRows: albumsSplitted } as const);
+  return json({ albumRows: albumsSpotify } as const);
 }
 
 export default function VinylPage() {
@@ -70,28 +69,8 @@ export default function VinylPage() {
       </Paragraph>
 
       <div className="w-full">
-        {data.albumRows.map((albumRow, index) => (
-          <div
-            className="mb-10 flex flex-row grow overflow-x-scroll relative"
-            key={index}
-          >
-            {albumRow.map((album, i) => (
-              <div className="shrink-0 w-[300px] p-3" key={i}>
-                <ExternalLink
-                  href={album.href}
-                  rel="noreferrer noopener"
-                  target="_blank"
-                >
-                  <img
-                    alt={album.altName}
-                    className="border border-gray-300 dark:border-gray-700 hover:opacity-75 transition-opacity"
-                    src={album.image.url}
-                  />
-                </ExternalLink>
-              </div>
-            ))}
-          </div>
-        ))}
+        <H1 className="mb-2">Albums</H1>
+        <H2>{data.albumRows.length}</H2>
       </div>
       <GoBack />
     </MainLayout>

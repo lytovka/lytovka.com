@@ -20,9 +20,6 @@ export default {
       maxWidth: {
         "8xl": "120rem",
       },
-      gridTemplateColumns: {
-        albums: "repeat(5, minmax(300px, 1fr))",
-      },
       transitionProperty: {
         height: "height",
         filter: "filter",

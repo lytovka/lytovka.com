@@ -2,7 +2,7 @@ import { Link } from "@remix-run/react";
 import type { ReactNode } from "react";
 import type React from "react";
 import { useCallback, useEffect, useRef, useState } from "react";
-import styles from "~/styles/index.css?url";
+import "~/styles/index.css";
 import {
   FileTextIcon,
   FolderDocumentsIcon,
@@ -22,9 +22,6 @@ import {
   localStorageGetItem,
   localStorageSetItem,
 } from "~/utils/local-storage";
-import type { LinksFunction } from "@remix-run/node";
-
-export const links: LinksFunction = () => [{ rel: "stylesheet", href: styles }];
 
 const HOMEPAGE_LINKS: Array<{
   title: string;

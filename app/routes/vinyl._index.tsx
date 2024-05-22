@@ -4,7 +4,6 @@ import "~/styles/vinyl.css";
 import { getAlbumsByIds } from "~/server/spotify.server.ts";
 import GoBack from "~/components/go-back.tsx";
 import { ExternalLink } from "~/components/external-link.tsx";
-import { useDeviceType } from "~/hooks/useDeviceType.ts";
 import { ServerError } from "~/components/errors.tsx";
 import { H1, Paragraph } from "~/components/typography.tsx";
 import MainLayout from "~/components/main-layout.tsx";
@@ -17,62 +16,7 @@ import {
 import { json } from "@vercel/remix";
 import type { LoaderFunctionArgs, MetaFunction } from "@vercel/remix";
 import type { RootLoaderDataUnwrapped } from "~/root.tsx";
-import { ONE_MINUTE } from "~/constants/index.ts";
-
-const ALBUMS = [
-  {
-    name: "Definitely Maybe",
-    spotifyId: "3LzKUdUTdJb6P7xGN6SotC",
-  },
-  {
-    name: "WTSMG",
-    spotifyId: "2u30gztZTylY4RG7IvfXs8",
-  },
-  {
-    name: "Be Here Now",
-    spotifyId: "021D07OEcg0c4tUCilc7ah",
-  },
-  {
-    name: "The Masterplan",
-    spotifyId: "15D0D1mafSX8Vx5a7w2ZR4",
-  },
-  {
-    name: "Elwan",
-    spotifyId: "41KpeN0qV6BBsuJgd8tZrE",
-  },
-  {
-    name: "The Queen Is Dead",
-    spotifyId: "5Y0p2XCgRRIjna91aQE8q7",
-  },
-  {
-    name: "Black Pumas",
-    spotifyId: "0VwJFPilOR47xaCXnJzB4u",
-  },
-  {
-    name: "Dummy",
-    spotifyId: "3539EbNgIdEDGBKkUf4wno",
-  },
-  {
-    name: "Unplugged In New York",
-    spotifyId: "1To7kv722A8SpZF789MZy7",
-  },
-  {
-    name: "Days Gone By",
-    spotifyId: "0u3Rl4KquP15smujFrgGz4",
-  },
-  {
-    name: "Screamadelica",
-    spotifyId: "4TECsw2dFHZ1ULrT7OA3OL",
-  },
-  {
-    name: "Counsil Skies",
-    spotifyId: "3chNtIzZ4hmmMVeq723m3f",
-  },
-  {
-    name: "72 Seasons",
-    spotifyId: "70uejEPPRPSLBrTRdfghP5",
-  },
-];
+import { prisma } from "~/server/db";
 
 export const meta: MetaFunction<typeof loader> = ({ matches }) => {
   const { requestInfo } = (matches[0] as RootLoaderDataUnwrapped).data;
@@ -98,25 +42,24 @@ export const meta: MetaFunction<typeof loader> = ({ matches }) => {
 };
 
 export const loader = async (_: LoaderFunctionArgs) => {
-  const albums = await getAlbumsByIds(ALBUMS.map((a) => a.spotifyId));
-  const images = albums.map((a) => ({
-    image: a.images[0],
-    altName: a.name,
-    href: a.external_urls.spotify,
-  }));
+  const albumsDb = await prisma.album.findMany({
+    select: { spotifyId: true, description: true },
+  });
+  const albumsSpotify = await getAlbumsByIds(albumsDb.map((a) => a.spotifyId));
 
-  const requestInit = {
-    headers: {
-      "Cache-Control": `max-age=${ONE_MINUTE}`,
-    },
-  };
+  const albumsSplitted = [];
 
-  return json({ albums: images }, requestInit);
+  const chunk = 5;
+  for (let i = 0; i < albumsDb.length; i += chunk) {
+    const albums = albumsSpotify.slice(i, i + chunk);
+    albumsSplitted.push(albums);
+  }
+
+  return json({ albumRows: albumsSplitted });
 };
 
 export default function VinylPage() {
-  const deviceType = useDeviceType();
-  const { albums } = useLoaderData<typeof loader>();
+  const { albumRows } = useLoaderData<typeof loader>();
 
   return (
     <MainLayout>
@@ -125,27 +68,28 @@ export default function VinylPage() {
         A small collection of vinyl records I own. Images are clickable.
       </Paragraph>
 
-      <div className="mb-10 flex justify-center flex-wrap flex-row gap-2">
-        {albums.map((i, index) => (
-          <ExternalLink
-            className="relative flex-grow-0 flex-shrink-0 basis-[47%] md:basis-[32%] lg:basis-[24%]"
-            href={i.href}
+      <div className="w-full">
+        {albumRows.map((albumRow, index) => (
+          <div
+            className="mb-10 flex flex-row grow overflow-x-scroll relative"
             key={index}
-            rel="noreferrer noopener"
-            target="_blank"
           >
-            {deviceType === "mobile" ? (
-              <span className="flex h-5 w-5 absolute right-3 top-3">
-                <span className="ping-class absolute inline-flex h-full w-full rounded-full bg-gray-300" />
-                <span className="absolute inline-flex rounded-full h-full w-full bg-gray-300" />
-              </span>
-            ) : null}
-            <img
-              alt={i.altName}
-              className="border border-gray-300 dark:border-gray-700 hover:opacity-75 transition-opacity"
-              src={i.image.url}
-            />
-          </ExternalLink>
+            {albumRow.map((album, i) => (
+              <div className="shrink-0 w-[300px] p-3" key={i}>
+                <ExternalLink
+                  href={album.href}
+                  rel="noreferrer noopener"
+                  target="_blank"
+                >
+                  <img
+                    alt={album.altName}
+                    className="border border-gray-300 dark:border-gray-700 hover:opacity-75 transition-opacity"
+                    src={album.image.url}
+                  />
+                </ExternalLink>
+              </div>
+            ))}
+          </div>
         ))}
       </div>
       <GoBack />

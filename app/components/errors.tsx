@@ -9,9 +9,9 @@ type ErrorPageProps = {
 function ErrorPage({ title, subtitle }: ErrorPageProps) {
   return (
     <main className="h-screen">
-      <div className="h-full flex items-center justify-center flex-col">
-        <H1>{title}</H1>
-        <Paragraph>{subtitle}</Paragraph>
+      <div className="h-full flex items-center justify-center flex-col gap-3">
+        <H1 className="text-center">{title}</H1>
+        <Paragraph className="text-center">{subtitle}</Paragraph>
       </div>
     </main>
   );

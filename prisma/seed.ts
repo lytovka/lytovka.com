@@ -18,6 +18,72 @@ async function seedTags() {
   return tags;
 }
 
+async function seedAlbums() {
+  const ALBUMS = [
+    {
+      name: "Definitely Maybe",
+      spotifyId: "3LzKUdUTdJb6P7xGN6SotC",
+      description: "Best album of all time!",
+    },
+    {
+      name: "WTSMG",
+      spotifyId: "2u30gztZTylY4RG7IvfXs8",
+    },
+    {
+      name: "Be Here Now",
+      spotifyId: "021D07OEcg0c4tUCilc7ah",
+    },
+    {
+      name: "The Masterplan",
+      spotifyId: "15D0D1mafSX8Vx5a7w2ZR4",
+    },
+    {
+      name: "Elwan",
+      spotifyId: "41KpeN0qV6BBsuJgd8tZrE",
+    },
+    {
+      name: "The Queen Is Dead",
+      spotifyId: "5Y0p2XCgRRIjna91aQE8q7",
+    },
+    {
+      name: "Black Pumas",
+      spotifyId: "0VwJFPilOR47xaCXnJzB4u",
+    },
+    {
+      name: "Dummy",
+      spotifyId: "3539EbNgIdEDGBKkUf4wno",
+    },
+    {
+      name: "Unplugged In New York",
+      spotifyId: "1To7kv722A8SpZF789MZy7",
+    },
+    {
+      name: "Days Gone By",
+      spotifyId: "0u3Rl4KquP15smujFrgGz4",
+    },
+    {
+      name: "Screamadelica",
+      spotifyId: "4TECsw2dFHZ1ULrT7OA3OL",
+    },
+    {
+      name: "Counsil Skies",
+      spotifyId: "3chNtIzZ4hmmMVeq723m3f",
+    },
+    {
+      name: "72 Seasons",
+      spotifyId: "70uejEPPRPSLBrTRdfghP5",
+    },
+    {
+      name: "Volcano",
+      spotifyId: "5xnXOCf5aZgZ43DgGN4EDv",
+    },
+  ];
+
+  console.time("Seeding albums");
+  await prisma.album.createMany({ data: [...ALBUMS] });
+  console.timeEnd("Seeding albums");
+}
+
 async function seedWishlistEntries() {
   const seedOne = async () =>
     prisma.wishlistEntry.create({
@@ -43,11 +109,13 @@ async function seed() {
   console.time("Cleaned up the database...");
   await prisma.wishlistEntry.deleteMany();
   await prisma.tag.deleteMany();
+  await prisma.album.deleteMany();
   console.timeEnd("Cleaned up the database...");
 
   const [wishlistEntries, tags] = await Promise.all([
     seedWishlistEntries(),
     seedTags(),
+    seedAlbums(),
   ]);
 
   wishlistEntries.forEach(async (entry) => {

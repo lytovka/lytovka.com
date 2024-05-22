@@ -1,6 +1,7 @@
 import { useLoaderData } from "@remix-run/react";
 import "~/styles/vinyl.css";
 
+import { json } from "@remix-run/node";
 import { getAlbumsByIds } from "~/server/spotify.server.ts";
 import GoBack from "~/components/go-back.tsx";
 import { ExternalLink } from "~/components/external-link.tsx";
@@ -13,8 +14,7 @@ import {
   getSocialImagePreview,
   getSocialMetas,
 } from "~/utils/seo.ts";
-import { json } from "@vercel/remix";
-import type { LoaderFunctionArgs, MetaFunction } from "@vercel/remix";
+import type { MetaFunction } from "@vercel/remix";
 import type { RootLoaderDataUnwrapped } from "~/root.tsx";
 import { prisma } from "~/server/db";
 
@@ -41,9 +41,10 @@ export const meta: MetaFunction<typeof loader> = ({ matches }) => {
   ];
 };
 
-export const loader = async (_: LoaderFunctionArgs) => {
+export async function loader() {
   const albumsDb = await prisma.album.findMany({
     select: { spotifyId: true, description: true },
+    take: 20,
   });
   const albumsSpotify = await getAlbumsByIds(albumsDb.map((a) => a.spotifyId));
 
@@ -55,11 +56,11 @@ export const loader = async (_: LoaderFunctionArgs) => {
     albumsSplitted.push(albums);
   }
 
-  return json({ albumRows: albumsSplitted });
-};
+  return json({ albumRows: albumsSplitted } as const);
+}
 
 export default function VinylPage() {
-  const { albumRows } = useLoaderData<typeof loader>();
+  const data = useLoaderData<typeof loader>();
 
   return (
     <MainLayout>
@@ -69,7 +70,7 @@ export default function VinylPage() {
       </Paragraph>
 
       <div className="w-full">
-        {albumRows.map((albumRow, index) => (
+        {data.albumRows.map((albumRow, index) => (
           <div
             className="mb-10 flex flex-row grow overflow-x-scroll relative"
             key={index}

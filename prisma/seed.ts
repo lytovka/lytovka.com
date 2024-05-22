@@ -1,7 +1,7 @@
 import { PrismaClient } from "@prisma/client";
 import { faker } from "@faker-js/faker";
 
-const prisma = new PrismaClient();
+export const prisma = new PrismaClient();
 
 const WISHLIST_STATUS = ["Wanted", "Received", "Fulfilled"] as const;
 const TAGS = ["Electronics", "Books", "Misc"] as const;

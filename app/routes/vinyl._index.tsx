@@ -18,6 +18,7 @@ import type { MetaFunction } from "@vercel/remix";
 import type { RootLoaderDataUnwrapped } from "~/root.tsx";
 import { prisma } from "~/server/db";
 import { useEffect, useRef } from "react";
+import { isMobile } from "~/utils/user-agent";
 
 export const meta: MetaFunction<typeof loader> = ({ matches }) => {
   const { requestInfo } = (matches[0] as RootLoaderDataUnwrapped).data;
@@ -67,19 +68,29 @@ export default function VinylPage() {
   const containerRefs = useRef<Array<HTMLDivElement | null>>([]);
 
   useEffect(() => {
-    const step = 0.5;
-    const delay = 20;
+    const step = isMobile() ? 1 : 0.5; // step increment starts from 1 on mobile
+    const delay = isMobile() ? 0 : 30;
     let lastFrameTime = performance.now();
 
-    console.log(containerRefs);
     const autoScroll = (currentTime: number) => {
       if (currentTime - lastFrameTime >= delay) {
-        containerRefs.current.forEach((ref) => {
-          if (!ref) return;
-          ref.scrollLeft += step;
-          // Reset scroll amount if end is reached to create an infinite loop
-          if (ref.scrollLeft >= ref.scrollWidth - ref.clientWidth) {
-            ref.scrollLeft = 0;
+        containerRefs.current.forEach((ref, index) => {
+          if (!ref) {
+            requestAnimationFrame(autoScroll);
+
+            return;
+          }
+          if (index % 2 === 0) {
+            ref.scrollLeft += step;
+            if (ref.scrollLeft >= ref.scrollWidth / 2) {
+              ref.scrollLeft = 0;
+            }
+          }
+          if (index % 2 === 1) {
+            ref.scrollLeft -= step;
+            if (ref.scrollLeft <= 0) {
+              ref.scrollLeft = ref.scrollWidth / 2;
+            }
           }
         });
         lastFrameTime = currentTime;
@@ -88,7 +99,7 @@ export default function VinylPage() {
       requestAnimationFrame(autoScroll);
     };
 
-    requestAnimationFrame(autoScroll);
+    autoScroll(lastFrameTime);
   }, []);
 
   return (
@@ -109,7 +120,7 @@ export default function VinylPage() {
               return ref;
             }}
           >
-            {albumRow.map((album, i) => (
+            {[...albumRow, ...albumRow].map((album, i) => (
               <div className="shrink-0 w-[300px] p-3" key={i}>
                 <ExternalLink
                   href={album.href}

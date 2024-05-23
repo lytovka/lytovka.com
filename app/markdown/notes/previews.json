@@ -7,8 +7,14 @@
   },
   {
     "title": "2023 In Review",
-    "date": "12/29/2023",
+    "date": "12/31/2023",
     "slug": "2023-in-review",
+    "languages": "en"
+  },
+  {
+    "title": "Love Letter to the Hometown",
+    "date": "05/23/2024",
+    "slug": "love-letter-to-the-hometown",
     "languages": "en"
   }
 ]

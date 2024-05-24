@@ -45,7 +45,6 @@
   text-decoration: underline;
 }
 
-
 .prose blockquote {
   border-left: 3px solid;
 }
@@ -55,6 +54,7 @@
 }
 
 /* Reset default quotes */
-.prose blockquote > p::before, .prose blockquote > p::after {
+.prose blockquote > p::before,
+.prose blockquote > p::after {
   content: "";
 }

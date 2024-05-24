@@ -29,9 +29,7 @@ function doubleEncode(s: string) {
 }
 
 export function getMetadataUrl(requestInfo?: { origin: string; path: string }) {
-  const rawUrl = `${requestInfo?.origin ?? APP_BASE_URL}${
-    requestInfo?.path ?? ""
-  }`;
+  const rawUrl = `${APP_BASE_URL}${requestInfo?.path ?? ""}`;
   const final = rawUrl.replace(/\/$/, ""); // remove trailing slash, if exists
 
   return final;

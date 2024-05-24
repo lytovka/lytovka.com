@@ -1,13 +1,13 @@
 ---
 title: Hometown Memories
 description: A retrospective on my old hometown that holds significant memories and nostalgic value.
-date: 2024-05-24T07:00:00Z
+date: 2024-05-24T13:00:00Z
 slug: hometown-memories
 ---
 
 > "I wish there was a way to know you're in the good old days before you've actually left them." - Andy Bernard (The Office)
 
-This month marks 10 years since my family and I moved from our hometown, Donetsk. I find myself reminiscing about the city I once knew so well. The city where I spent my childhood and early adolescence, made life-long friends, and built memories I cherish, and developed the skills I carry with me to this day. The craziest part is that this is the place where I have lived the longest in my life, and yet it feels like a distant memory.
+This month marks 10 years since my family and I moved from our hometown, Donetsk. I find myself reminiscing about the city I once knew so well. The city where I spent my childhood and early adolescence, made life-long friends, built memories I cherish, and developed the skills I carry with me to this day. The craziest part is that this is the place where I have lived the longest in my life, and yet it feels like a distant memory.
 
 There, I learned to ride rollerblades in [the park](https://maps.app.goo.gl/FonQ9QotWuAKKSyu5) next to where I lived, and I remember falling down and scrapping my knees and elbows as I was uncontrollably accelerating on the track. I spent countless hours in [the biggest amusement center](https://maps.app.goo.gl/sNzL3TmunKJPkn588) with my friends, playing arcade games, ice skating, and catching movies.
 

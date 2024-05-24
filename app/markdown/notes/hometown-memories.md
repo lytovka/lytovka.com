@@ -23,6 +23,6 @@ Many people were forced to flee their homes, shut down their businesses, and rel
 
 Despite what the region has become, the nostalgia and romanticization of those carefree days in Donetsk is a recurring theme for me. Especially now, living a life in an environment so different from what it was back then. Sometimes I wonder how things would have turned out if none of this had happened and my family had stayed in Donetsk. Would I have left my parents' nest early on and moved somewhere far away, as I did when I left for Canada? Would the same ambitious opportunities have presented themselves to me? Would my life and the lives of everyone who moved out be better than they are now? The spiral of hypothetical questions without answers goes on and on.
 
-I am unlikely to ever step my foot in Donetsk again, but the memories of the places and people I knew will always be with me.
+I am unlikely to ever set foot in Donetsk again, but the memories of the places and people I knew will always be with me.
 
 Where have you all been these past 10 years? :)

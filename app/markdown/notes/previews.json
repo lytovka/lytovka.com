@@ -7,8 +7,14 @@
   },
   {
     "title": "2023 In Review",
-    "date": "12/29/2023",
+    "date": "12/31/2023",
     "slug": "2023-in-review",
+    "languages": "en"
+  },
+  {
+    "title": "Hometown Memories",
+    "date": "05/24/2024",
+    "slug": "hometown-memories",
     "languages": "en"
   }
 ]

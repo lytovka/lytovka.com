@@ -77,7 +77,7 @@ export default function PostSlug() {
       </div>
       <div className="my-12">
         <article
-          className="prose text-3xl"
+          className="prose text-3xl/[3rem]"
           dangerouslySetInnerHTML={{ __html: note.body }}
         />
       </div>

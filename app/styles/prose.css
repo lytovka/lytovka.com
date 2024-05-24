@@ -44,3 +44,17 @@
 .prose h2 > a:hover {
   text-decoration: underline;
 }
+
+
+.prose blockquote {
+  border-left: 3px solid;
+}
+
+.dark .prose blockquote {
+  border-left: 3px solid var(--typography-light-heading);
+}
+
+/* Reset default quotes */
+.prose blockquote > p::before, .prose blockquote > p::after {
+  content: "";
+}

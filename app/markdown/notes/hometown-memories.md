@@ -1,8 +1,8 @@
 ---
-title: Love Letter To My Hometown
+title: Hometown Memories
 description: A retrospective on my old hometown that holds significant memories and nostalgic value.
 date: 2024-05-24T07:00:00Z
-slug: love-letter-to-my-hometown
+slug: hometown-memories
 ---
 
 > "I wish there was a way to know you're in the good old days before you've actually left them." - Andy Bernard (The Office)

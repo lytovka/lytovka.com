@@ -30,8 +30,10 @@ export const meta: MetaFunction<typeof loader> = ({
   const articleAttributes = {
     title: data?.attributes.title ?? params.slug,
     description: data?.attributes.description ?? "A note.",
-    date: data?.attributes.date ? new Date(data.attributes.date).toISOString() : undefined,
-  }
+    date: data?.attributes.date
+      ? new Date(data.attributes.date).toISOString()
+      : undefined,
+  };
 
   return [
     {
@@ -51,7 +53,12 @@ export const meta: MetaFunction<typeof loader> = ({
     }),
     { property: "og:type", content: "article" },
     { property: "article:author", content: "Ivan Lytovka" },
-    articleAttributes.date ? { property: "og:article:published_time", content: articleAttributes.date } : {},
+    articleAttributes.date
+      ? {
+          property: "og:article:published_time",
+          content: articleAttributes.date,
+        }
+      : {},
   ];
 };
 

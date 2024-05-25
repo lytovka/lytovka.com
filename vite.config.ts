@@ -8,9 +8,7 @@ installGlobals();
 
 export default defineConfig({
   plugins: [
-    remix({
-      presets: [vercelPreset],
-    }),
+    remix({ presets: [vercelPreset()] }),
     // Custom plugin to load markdown files
     {
       name: "markdown-loader",

@@ -48,17 +48,9 @@ export async function loader() {
     select: { spotifyId: true, description: true },
     take: 20,
   });
-  const albumsSpotify = await getAlbumsByIds(albumsDb.map((a) => a.spotifyId));
+  const albumsSpotify = getAlbumsByIds(albumsDb.map((a) => a.spotifyId));
 
-  const albumsSplitted = [];
-
-  const chunk = 5;
-  for (let i = 0; i < albumsDb.length; i += chunk) {
-    const albums = albumsSpotify.slice(i, i + chunk);
-    albumsSplitted.push(albums);
-  }
-
-  return defer({ albumRows: albumsSplitted } as const);
+  return defer({ albumRows: albumsSpotify } as const);
 }
 
 export default function VinylPage() {
@@ -110,47 +102,59 @@ export default function VinylPage() {
       </div>
 
       <Suspense fallback={<Paragraph>Loading...</Paragraph>}>
-        <Await resolve={dataStream}>
-          {(data) => (
-            <div className="w-full">
-              {data.albumRows.map((albumRow, index) => (
-                <div
-                  className="scroll-container mb-5 flex flex-row grow overflow-x-scroll relative"
-                  key={index}
-                  ref={(ref) => {
-                    containerRefs.current[index] = ref;
+        <Await resolve={dataStream.albumRows}>
+          {(data) => {
+            const chunk = 5;
+            const albumsSplitted = data.reduce((result, item, index) => {
+              const chunkIndex = Math.floor(index / chunk);
+              if (!result[chunkIndex]) {
+                result[chunkIndex] = []; // start a new chunk
+              }
+              result[chunkIndex].push(item);
+              return result;
+            }, []);
 
-                    return ref;
-                  }}
-                >
-                  {[...albumRow, ...albumRow].map((album, i) => (
-                    <div
-                      className="shrink-0 flex items-center w-[300px] px-2"
-                      key={i}
-                    >
-                      <ExternalLink
-                        href={album.href}
-                        rel="noreferrer noopener"
-                        target="_blank"
+            return (
+              <div className="w-full">
+                {albumsSplitted.map((albumRow, index) => (
+                  <div
+                    className="scroll-container mb-5 flex flex-row grow overflow-x-scroll relative"
+                    key={index}
+                    ref={(ref) => {
+                      containerRefs.current[index] = ref;
+
+                      return ref;
+                    }}
+                  >
+                    {[...albumRow, ...albumRow].map((album, i) => (
+                      <div
+                        className="shrink-0 flex items-center w-[300px] px-2"
+                        key={i}
                       >
-                        <figure className="flex flex-col gap-1">
-                          <img
-                            alt={album.altName}
-                            className="border border-gray-300 dark:border-gray-700 hover:opacity-75 transition-opacity"
-                            src={album.image.url}
-                          />
-                          <figcaption className="flex flex-col gap-1 items-center justify-center">
-                            <span>{album.name}</span>
-                            <span className="text-sm">{album.artists}</span>
-                          </figcaption>
-                        </figure>
-                      </ExternalLink>
-                    </div>
-                  ))}
-                </div>
-              ))}
-            </div>
-          )}
+                        <ExternalLink
+                          href={album.href}
+                          rel="noreferrer noopener"
+                          target="_blank"
+                        >
+                          <figure className="flex flex-col gap-1">
+                            <img
+                              alt={album.altName}
+                              className="border border-gray-300 dark:border-gray-700 hover:opacity-75 transition-opacity"
+                              src={album.image.url}
+                            />
+                            <figcaption className="flex flex-col gap-1 items-center justify-center">
+                              <span>{album.name}</span>
+                              <span className="text-sm">{album.artists}</span>
+                            </figcaption>
+                          </figure>
+                        </ExternalLink>
+                      </div>
+                    ))}
+                  </div>
+                ))}
+              </div>
+            );
+          }}
         </Await>
       </Suspense>
       <GoBack />

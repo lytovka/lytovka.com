@@ -26,8 +26,12 @@ export const meta: MetaFunction<typeof loader> = ({
 }) => {
   const { requestInfo } = (matches[0] as RootLoaderDataUnwrapped).data;
   const metadataUrl = getMetadataUrl(requestInfo);
-  const title = data?.attributes.title ?? params.slug;
-  const description = data?.attributes.description ?? "A note.";
+
+  const articleAttributes = {
+    title: data?.attributes.title ?? params.slug,
+    description: data?.attributes.description ?? "A note.",
+    date: data?.attributes.date ? new Date(data.attributes.date).toISOString() : undefined,
+  }
 
   return [
     {
@@ -35,16 +39,19 @@ export const meta: MetaFunction<typeof loader> = ({
       content: "width=device-width,initial-scale=1,viewport-fit=cover",
     },
     ...getSocialMetas({
-      title,
-      description,
+      title: articleAttributes.title,
+      description: articleAttributes.description,
       keywords: "note, notes, ivan lytovka, lytovka",
       url: metadataUrl,
       image: getSocialImagePreview({
-        title,
+        title: articleAttributes.title,
         url: getPreviewUrl(metadataUrl),
         featuredImage: "note",
       }),
     }),
+    { property: "og:type", content: "article" },
+    { property: "article:author", content: "Ivan Lytovka" },
+    articleAttributes.date ? { property: "og:article:published_time", content: articleAttributes.date } : {},
   ];
 };
 

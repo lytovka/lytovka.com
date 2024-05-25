@@ -104,15 +104,17 @@ export default function VinylPage() {
 
   return (
     <MainLayout>
-      <H1 className="mb-2">Vinyl</H1>
-      <Paragraph className="mb-10 italic" variant="secondary">
-        A small collection of vinyl records I own. Images are clickable.
-      </Paragraph>
+      <div className="flex flex-col gap-1 mb-10">
+        <H1 className="font-bold">Vinyl</H1>
+        <Paragraph className="italic" variant="secondary">
+          A small collection of vinyl records I own. Images are clickable.
+        </Paragraph>
+      </div>
 
       <div className="w-full">
         {data.albumRows.map((albumRow, index) => (
           <div
-            className="scroll-container mb-10 flex flex-row grow overflow-x-scroll relative"
+            className="scroll-container mb-5 flex flex-row grow overflow-x-scroll relative"
             key={index}
             ref={(ref) => {
               containerRefs.current[index] = ref;
@@ -121,17 +123,23 @@ export default function VinylPage() {
             }}
           >
             {[...albumRow, ...albumRow].map((album, i) => (
-              <div className="shrink-0 w-[300px] p-3" key={i}>
+              <div className="shrink-0 flex items-center w-[300px] px-2" key={i}>
                 <ExternalLink
                   href={album.href}
                   rel="noreferrer noopener"
                   target="_blank"
                 >
-                  <img
-                    alt={album.altName}
-                    className="border border-gray-300 dark:border-gray-700 hover:opacity-75 transition-opacity"
-                    src={album.image.url}
-                  />
+                  <figure className="flex flex-col gap-1">
+                    <img
+                      alt={album.altName}
+                      className="border border-gray-300 dark:border-gray-700 hover:opacity-75 transition-opacity"
+                      src={album.image.url}
+                    />
+                    <figcaption className="flex flex-col gap-1 items-center justify-center">
+                      <span>{album.name}</span>
+                      <span className="text-sm">{album.artists}</span>
+                    </figcaption>
+                  </figure>
                 </ExternalLink>
               </div>
             ))}

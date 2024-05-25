@@ -1,7 +1,7 @@
-import { useLoaderData } from "@remix-run/react";
+import { Await, useLoaderData } from "@remix-run/react";
 import "~/styles/vinyl.css";
 
-import { json } from "@remix-run/node";
+import { defer } from "@remix-run/node";
 import { getAlbumsByIds } from "~/server/spotify.server.ts";
 import GoBack from "~/components/go-back.tsx";
 import { ExternalLink } from "~/components/external-link.tsx";
@@ -17,7 +17,7 @@ import {
 import type { MetaFunction } from "@vercel/remix";
 import type { RootLoaderDataUnwrapped } from "~/root.tsx";
 import { prisma } from "~/server/db";
-import { useEffect, useRef } from "react";
+import { Suspense, useEffect, useRef } from "react";
 import { isMobile } from "~/utils/user-agent";
 
 export const meta: MetaFunction<typeof loader> = ({ matches }) => {
@@ -58,13 +58,11 @@ export async function loader() {
     albumsSplitted.push(albums);
   }
 
-  return json({ albumRows: albumsSplitted } as const, {
-    headers: { "Cache-Control": "public, max-age=86000}" },
-  });
+  return defer({ albumRows: albumsSplitted } as const);
 }
 
 export default function VinylPage() {
-  const data = useLoaderData<typeof loader>();
+  const dataStream = useLoaderData<typeof loader>();
   const containerRefs = useRef<Array<HTMLDivElement | null>>([]);
 
   useEffect(() => {
@@ -111,41 +109,50 @@ export default function VinylPage() {
         </Paragraph>
       </div>
 
-      <div className="w-full">
-        {data.albumRows.map((albumRow, index) => (
-          <div
-            className="scroll-container mb-5 flex flex-row grow overflow-x-scroll relative"
-            key={index}
-            ref={(ref) => {
-              containerRefs.current[index] = ref;
+      <Suspense fallback={<Paragraph>Loading...</Paragraph>}>
+        <Await resolve={dataStream}>
+          {(data) => (
+            <div className="w-full">
+              {data.albumRows.map((albumRow, index) => (
+                <div
+                  className="scroll-container mb-5 flex flex-row grow overflow-x-scroll relative"
+                  key={index}
+                  ref={(ref) => {
+                    containerRefs.current[index] = ref;
 
-              return ref;
-            }}
-          >
-            {[...albumRow, ...albumRow].map((album, i) => (
-              <div className="shrink-0 flex items-center w-[300px] px-2" key={i}>
-                <ExternalLink
-                  href={album.href}
-                  rel="noreferrer noopener"
-                  target="_blank"
+                    return ref;
+                  }}
                 >
-                  <figure className="flex flex-col gap-1">
-                    <img
-                      alt={album.altName}
-                      className="border border-gray-300 dark:border-gray-700 hover:opacity-75 transition-opacity"
-                      src={album.image.url}
-                    />
-                    <figcaption className="flex flex-col gap-1 items-center justify-center">
-                      <span>{album.name}</span>
-                      <span className="text-sm">{album.artists}</span>
-                    </figcaption>
-                  </figure>
-                </ExternalLink>
-              </div>
-            ))}
-          </div>
-        ))}
-      </div>
+                  {[...albumRow, ...albumRow].map((album, i) => (
+                    <div
+                      className="shrink-0 flex items-center w-[300px] px-2"
+                      key={i}
+                    >
+                      <ExternalLink
+                        href={album.href}
+                        rel="noreferrer noopener"
+                        target="_blank"
+                      >
+                        <figure className="flex flex-col gap-1">
+                          <img
+                            alt={album.altName}
+                            className="border border-gray-300 dark:border-gray-700 hover:opacity-75 transition-opacity"
+                            src={album.image.url}
+                          />
+                          <figcaption className="flex flex-col gap-1 items-center justify-center">
+                            <span>{album.name}</span>
+                            <span className="text-sm">{album.artists}</span>
+                          </figcaption>
+                        </figure>
+                      </ExternalLink>
+                    </div>
+                  ))}
+                </div>
+              ))}
+            </div>
+          )}
+        </Await>
+      </Suspense>
       <GoBack />
     </MainLayout>
   );

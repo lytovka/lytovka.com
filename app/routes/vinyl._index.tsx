@@ -19,6 +19,7 @@ import type { RootLoaderDataUnwrapped } from "~/root.tsx";
 import { prisma } from "~/server/db";
 import { Suspense, useEffect, useRef } from "react";
 import { isMobile } from "~/utils/user-agent";
+import { splitIntoChunks } from "~/utils/array";
 
 export const meta: MetaFunction<typeof loader> = ({ matches }) => {
   const { requestInfo } = (matches[0] as RootLoaderDataUnwrapped).data;
@@ -93,8 +94,8 @@ export default function VinylPage() {
   }, []);
 
   return (
-    <MainLayout>
-      <div className="flex flex-col gap-1 mb-10">
+    <MainLayout className="px-0 md:px-8">
+      <div className="flex flex-col gap-1 mb-10 px-8 md:px-0">
         <H1 className="font-bold">Vinyl</H1>
         <Paragraph className="italic" variant="secondary">
           A small collection of vinyl records I own. Images are clickable.
@@ -104,19 +105,11 @@ export default function VinylPage() {
       <Suspense fallback={<Paragraph>Loading...</Paragraph>}>
         <Await resolve={dataStream.albumRows}>
           {(data) => {
-            const chunk = 5;
-            const albumsSplitted = data.reduce((result, item, index) => {
-              const chunkIndex = Math.floor(index / chunk);
-              if (!result[chunkIndex]) {
-                result[chunkIndex] = []; // start a new chunk
-              }
-              result[chunkIndex].push(item);
-              return result;
-            }, []);
+            const albumChunks = splitIntoChunks(data, 5);
 
             return (
               <div className="w-full">
-                {albumsSplitted.map((albumRow, index) => (
+                {albumChunks.map((albumRow, index) => (
                   <div
                     className="scroll-container mb-5 flex flex-row grow overflow-x-scroll relative"
                     key={index}

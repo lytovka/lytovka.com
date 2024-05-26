@@ -1,15 +1,16 @@
+import clsx from "clsx";
 import { forwardRef } from "react";
 
 const MainLayout = forwardRef<HTMLElement, JSX.IntrinsicElements["main"]>(
-  function MainLayout(props, ref) {
+  function MainLayout({ className, ...rest }, ref) {
     return (
       <div className="flex-1">
         <main
-          className="mx-auto px-8 sm:max-w-5xl md:max-w-7xl mb-10"
+          className={clsx("mx-auto px-8 sm:max-w-5xl md:max-w-7xl mb-10", className)}
           ref={ref}
-          {...props}
+          {...rest}
         >
-          {props.children}
+          {rest.children}
         </main>
       </div>
     );

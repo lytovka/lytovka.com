@@ -108,7 +108,7 @@ export default function VinylPage() {
             const albumChunks = splitIntoChunks(data, 5);
 
             return (
-              <div className="w-full">
+              <div className="w-full mb-12">
                 {albumChunks.map((albumRow, index) => (
                   <div
                     className="scroll-container mb-5 flex flex-row grow overflow-x-scroll relative"
@@ -150,7 +150,7 @@ export default function VinylPage() {
           }}
         </Await>
       </Suspense>
-      <GoBack />
+      <GoBack className="px-8 md:px-0" />
     </MainLayout>
   );
 }

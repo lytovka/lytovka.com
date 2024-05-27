@@ -18,7 +18,6 @@ import type { MetaFunction } from "@vercel/remix";
 import type { RootLoaderDataUnwrapped } from "~/root.tsx";
 import { prisma } from "~/server/db";
 import { Suspense, useEffect, useRef } from "react";
-import { isMobile } from "~/utils/user-agent";
 import { splitIntoChunks } from "~/utils/array";
 import { Skeleton } from "~/components/ui/skeleton";
 
@@ -88,8 +87,8 @@ export default function VinylPage() {
   const containerRefs = useRef<Array<HTMLDivElement | null>>([]);
 
   useEffect(() => {
-    const step = isMobile() ? 1 : 0.5; // step increment starts from 1 on mobile
-    const delay = isMobile() ? 0 : 30;
+    const step = 1
+    const delay = 1000 / 60;
     let lastFrameTime = performance.now();
 
     const autoScroll = (currentTime: number) => {
@@ -101,7 +100,7 @@ export default function VinylPage() {
             return;
           }
           if (index % 2 === 0) {
-            ref.scrollLeft += step;
+            ref.scrollLeft = Math.ceil(ref.scrollLeft + step);
             if (ref.scrollLeft >= ref.scrollWidth / 2) {
               ref.scrollLeft = 0;
             }

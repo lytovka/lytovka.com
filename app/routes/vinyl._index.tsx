@@ -52,7 +52,7 @@ export function loader() {
     })
     .then((albumsDb) => getAlbumsByIds(albumsDb.map((a) => a.spotifyId)));
 
-  return defer({ albumRows: albums } as const);
+  return defer({ albumRows: albums } as const, { headers: { 'Cache-Control': 'public, max-age=86400' } });
 }
 
 function VinylSkeleton() {

@@ -20,6 +20,7 @@ import { prisma } from "~/server/db";
 import { Suspense, useEffect, useRef } from "react";
 import { isMobile } from "~/utils/user-agent";
 import { splitIntoChunks } from "~/utils/array";
+import { Skeleton } from "~/components/ui/skeleton";
 
 export const meta: MetaFunction<typeof loader> = ({ matches }) => {
   const { requestInfo } = (matches[0] as RootLoaderDataUnwrapped).data;
@@ -44,14 +45,42 @@ export const meta: MetaFunction<typeof loader> = ({ matches }) => {
   ];
 };
 
-export async function loader() {
-  const albumsDb = await prisma.album.findMany({
-    select: { spotifyId: true, description: true },
-    take: 20,
-  });
-  const albumsSpotify = getAlbumsByIds(albumsDb.map((a) => a.spotifyId));
+export function loader() {
+  const albums = prisma.album
+    .findMany({
+      select: { spotifyId: true, description: true },
+      take: 20,
+    })
+    .then((albumsDb) => getAlbumsByIds(albumsDb.map((a) => a.spotifyId)));
 
-  return defer({ albumRows: albumsSpotify } as const);
+  return defer({ albumRows: albums } as const);
+}
+
+function VinylSkeleton() {
+  return (
+    <div className="w-full mb-12">
+      {[1, 2].map((_, index) => (
+        <div
+          className="scroll-container overflow-scroll mb-5 flex flex-row grow gap-2 relative"
+          key={index}
+        >
+          {[1, 2, 3].map((album, i) => (
+            <div className="shrink-0 flex items-center px-2" key={i}>
+              <div className="inline-flex">
+                <figure className="flex flex-col gap-1">
+                  <Skeleton className="w-[290px] h-[290px]" />
+                  <figcaption className="flex flex-col gap-1 items-center justify-center">
+                    <Skeleton className="w-[100px] h-4" />
+                    <Skeleton className="w-[100px] h-4" />
+                  </figcaption>
+                </figure>
+              </div>
+            </div>
+          ))}
+        </div>
+      ))}
+    </div>
+  );
 }
 
 export default function VinylPage() {
@@ -102,7 +131,7 @@ export default function VinylPage() {
         </Paragraph>
       </div>
 
-      <Suspense fallback={<Paragraph>Loading...</Paragraph>}>
+      <Suspense fallback={<VinylSkeleton />}>
         <Await resolve={dataStream.albumRows}>
           {(data) => {
             const albumChunks = splitIntoChunks(data, 5);

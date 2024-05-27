@@ -87,7 +87,7 @@ export default function VinylPage() {
   const containerRefs = useRef<Array<HTMLDivElement | null>>([]);
 
   useEffect(() => {
-    const step = 1
+    const step = 1;
     const delay = 1000 / 60;
     let lastFrameTime = performance.now();
 

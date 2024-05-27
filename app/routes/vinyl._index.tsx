@@ -160,7 +160,7 @@ export default function VinylPage() {
                           <figure className="flex flex-col gap-1">
                             <img
                               alt={album.altName}
-                              className="border border-gray-300 dark:border-gray-700 hover:opacity-75 transition-opacity"
+                              className="w-[290px] h-[290px] border border-gray-300 dark:border-gray-700 hover:opacity-75 transition-opacity"
                               src={album.image.url}
                             />
                             <figcaption className="flex flex-col gap-1 items-center justify-center">

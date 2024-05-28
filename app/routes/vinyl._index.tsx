@@ -108,7 +108,7 @@ export default function VinylPage() {
             }
           }
           if (index % 2 === 1) {
-            ref.scrollLeft -= step;
+            ref.scrollLeft = Math.ceil(ref.scrollLeft - step);
             if (ref.scrollLeft <= 0) {
               ref.scrollLeft = ref.scrollWidth / 2;
             }

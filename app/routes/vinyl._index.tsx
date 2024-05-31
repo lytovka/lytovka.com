@@ -32,9 +32,9 @@ export const meta: MetaFunction<typeof loader> = ({ matches }) => {
     },
     ...getSocialMetas({
       title: "Ivan's vinyl collection",
-      description: "A collection of vinyl records Ivan owns.",
       keywords: "vinyl, collectibles, ivan lytovka, lytovka",
       url: metadataUrl,
+      description: "A collection of vinyl records Ivan owns.",
       image: getSocialImagePreview({
         title: "vinyl",
         url: getPreviewUrl(metadataUrl),
@@ -53,7 +53,7 @@ export function loader() {
     .then((albumsDb) => getAlbumsByIds(albumsDb.map((a) => a.spotifyId)));
 
   return defer({ albumRows: albums } as const, {
-    headers: { "Cache-Control": "public, max-age=86400" },
+    headers: { "Cache-Control": "public, max-age=96400" },
   });
 }
 

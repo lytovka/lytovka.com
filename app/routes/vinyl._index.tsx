@@ -2,7 +2,10 @@ import { Await, useLoaderData } from "@remix-run/react";
 import "~/styles/vinyl.css";
 
 import { defer } from "@remix-run/node";
-import { getAlbumsByIds } from "~/server/spotify.server.ts";
+import {
+  SPOTIFY_COUNT_LIMIT,
+  getAlbumsByIds,
+} from "~/server/spotify.server.ts";
 import GoBack from "~/components/go-back.tsx";
 import { ExternalLink } from "~/components/external-link.tsx";
 import { ServerError } from "~/components/errors.tsx";
@@ -48,9 +51,17 @@ export function loader() {
   const albums = prisma.album
     .findMany({
       select: { spotifyId: true, description: true },
-      take: 20,
     })
-    .then((albumsDb) => getAlbumsByIds(albumsDb.map((a) => a.spotifyId)));
+    .then((albumsDb) =>
+      splitIntoChunks(albumsDb, SPOTIFY_COUNT_LIMIT).map((albumChunk) =>
+        getAlbumsByIds(albumChunk.map((a) => a.spotifyId)),
+      ),
+    )
+    .then((all) => Promise.all(all))
+    .then((arrays) => arrays.flat())
+    .catch((error) => {
+      throw new Error(`Could not load albums from Spotify: ${error}`);
+    });
 
   return defer({ albumRows: albums } as const, {
     headers: { "Cache-Control": "public, max-age=96400" },

@@ -1,11 +1,13 @@
-.ping-class {
-  animation: ping-class 2s cubic-bezier(0, 0, 0.2, 1) infinite;
+/* Hide scroll bar for Chrome, Safari and Opera */
+.scroll-container {
+  width: 100%;
+  overflow: scroll; /* Hide the scroll bar */
 }
 
-@keyframes ping-class {
-  75%,
-  100% {
-    transform: scale(2);
-    opacity: 0;
-  }
+.scroll-container:hover {
+  overflow: auto; /* Show the scroll bar on hover */
+}
+
+.scroll-container::-webkit-scrollbar {
+  display: none; /* Hide scroll bar for webkit browsers */
 }

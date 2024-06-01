@@ -36,3 +36,12 @@ model WishlistEntryTag {
 
   @@id([wishlistEntryId, tagId])
 }
+
+model Album {
+  id          String   @id @default(cuid())
+  spotifyId   String   @unique
+  name        String
+  description String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @default(now()) @updatedAt
+}

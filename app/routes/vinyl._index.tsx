@@ -1,10 +1,13 @@
-import { useLoaderData } from "@remix-run/react";
+import { Await, useLoaderData } from "@remix-run/react";
 import "~/styles/vinyl.css";
 
-import { getAlbumsByIds } from "~/server/spotify.server.ts";
+import { defer } from "@remix-run/node";
+import {
+  SPOTIFY_COUNT_LIMIT,
+  getAlbumsByIds,
+} from "~/server/spotify.server.ts";
 import GoBack from "~/components/go-back.tsx";
 import { ExternalLink } from "~/components/external-link.tsx";
-import { useDeviceType } from "~/hooks/useDeviceType.ts";
 import { ServerError } from "~/components/errors.tsx";
 import { H1, Paragraph } from "~/components/typography.tsx";
 import MainLayout from "~/components/main-layout.tsx";
@@ -14,65 +17,12 @@ import {
   getSocialImagePreview,
   getSocialMetas,
 } from "~/utils/seo.ts";
-import { json } from "@vercel/remix";
-import type { LoaderFunctionArgs, MetaFunction } from "@vercel/remix";
+import type { MetaFunction } from "@vercel/remix";
 import type { RootLoaderDataUnwrapped } from "~/root.tsx";
-import { ONE_MINUTE } from "~/constants/index.ts";
-
-const ALBUMS = [
-  {
-    name: "Definitely Maybe",
-    spotifyId: "3LzKUdUTdJb6P7xGN6SotC",
-  },
-  {
-    name: "WTSMG",
-    spotifyId: "2u30gztZTylY4RG7IvfXs8",
-  },
-  {
-    name: "Be Here Now",
-    spotifyId: "021D07OEcg0c4tUCilc7ah",
-  },
-  {
-    name: "The Masterplan",
-    spotifyId: "15D0D1mafSX8Vx5a7w2ZR4",
-  },
-  {
-    name: "Elwan",
-    spotifyId: "41KpeN0qV6BBsuJgd8tZrE",
-  },
-  {
-    name: "The Queen Is Dead",
-    spotifyId: "5Y0p2XCgRRIjna91aQE8q7",
-  },
-  {
-    name: "Black Pumas",
-    spotifyId: "0VwJFPilOR47xaCXnJzB4u",
-  },
-  {
-    name: "Dummy",
-    spotifyId: "3539EbNgIdEDGBKkUf4wno",
-  },
-  {
-    name: "Unplugged In New York",
-    spotifyId: "1To7kv722A8SpZF789MZy7",
-  },
-  {
-    name: "Days Gone By",
-    spotifyId: "0u3Rl4KquP15smujFrgGz4",
-  },
-  {
-    name: "Screamadelica",
-    spotifyId: "4TECsw2dFHZ1ULrT7OA3OL",
-  },
-  {
-    name: "Counsil Skies",
-    spotifyId: "3chNtIzZ4hmmMVeq723m3f",
-  },
-  {
-    name: "72 Seasons",
-    spotifyId: "70uejEPPRPSLBrTRdfghP5",
-  },
-];
+import { prisma } from "~/server/db";
+import { Suspense, useEffect, useRef } from "react";
+import { splitIntoChunks } from "~/utils/array";
+import { Skeleton } from "~/components/ui/skeleton";
 
 export const meta: MetaFunction<typeof loader> = ({ matches }) => {
   const { requestInfo } = (matches[0] as RootLoaderDataUnwrapped).data;
@@ -85,9 +35,9 @@ export const meta: MetaFunction<typeof loader> = ({ matches }) => {
     },
     ...getSocialMetas({
       title: "Ivan's vinyl collection",
-      description: "A collection of vinyl records Ivan owns.",
       keywords: "vinyl, collectibles, ivan lytovka, lytovka",
       url: metadataUrl,
+      description: "A collection of vinyl records Ivan owns.",
       image: getSocialImagePreview({
         title: "vinyl",
         url: getPreviewUrl(metadataUrl),
@@ -97,58 +47,151 @@ export const meta: MetaFunction<typeof loader> = ({ matches }) => {
   ];
 };
 
-export const loader = async (_: LoaderFunctionArgs) => {
-  const albums = await getAlbumsByIds(ALBUMS.map((a) => a.spotifyId));
-  const images = albums.map((a) => ({
-    image: a.images[0],
-    altName: a.name,
-    href: a.external_urls.spotify,
-  }));
+export function loader() {
+  const albums = prisma.album
+    .findMany({
+      select: { spotifyId: true, description: true },
+    })
+    .then((albumsDb) =>
+      splitIntoChunks(albumsDb, SPOTIFY_COUNT_LIMIT).map((albumChunk) =>
+        getAlbumsByIds(albumChunk.map((a) => a.spotifyId)),
+      ),
+    )
+    .then((all) => Promise.all(all))
+    .then((arrays) => arrays.flat())
+    .catch((error) => {
+      throw new Error(`Could not load albums from Spotify: ${error}`);
+    });
 
-  const requestInit = {
-    headers: {
-      "Cache-Control": `max-age=${ONE_MINUTE}`,
-    },
-  };
+  return defer({ albumRows: albums } as const, {
+    headers: { "Cache-Control": "public, max-age=96400" },
+  });
+}
 
-  return json({ albums: images }, requestInit);
-};
+function VinylSkeleton() {
+  return (
+    <div className="w-full mb-12">
+      {[1, 2].map((_, index) => (
+        <div
+          className="scroll-container overflow-scroll mb-5 flex flex-row grow gap-2 relative"
+          key={index}
+        >
+          {[1, 2, 3].map((album, i) => (
+            <div className="shrink-0 flex items-center px-2" key={i}>
+              <div className="inline-flex">
+                <figure className="flex flex-col gap-1">
+                  <Skeleton className="w-[290px] h-[290px]" />
+                  <figcaption className="flex flex-col gap-1 items-center justify-center">
+                    <Skeleton className="w-[100px] h-4" />
+                    <Skeleton className="w-[100px] h-4" />
+                  </figcaption>
+                </figure>
+              </div>
+            </div>
+          ))}
+        </div>
+      ))}
+    </div>
+  );
+}
 
 export default function VinylPage() {
-  const deviceType = useDeviceType();
-  const { albums } = useLoaderData<typeof loader>();
+  const dataStream = useLoaderData<typeof loader>();
+  const containerRefs = useRef<Array<HTMLDivElement | null>>([]);
+
+  useEffect(() => {
+    const step = 1;
+    const delay = 20;
+    let lastFrameTime = performance.now();
+
+    const autoScroll = (currentTime: number) => {
+      if (currentTime - lastFrameTime >= delay) {
+        containerRefs.current.forEach((ref, index) => {
+          if (!ref) {
+            requestAnimationFrame(autoScroll);
+
+            return;
+          }
+          if (index % 2 === 0) {
+            ref.scrollLeft = Math.ceil(ref.scrollLeft + step);
+            if (ref.scrollLeft >= ref.scrollWidth / 2) {
+              ref.scrollLeft = 0;
+            }
+          }
+          if (index % 2 === 1) {
+            ref.scrollLeft = Math.ceil(ref.scrollLeft - step);
+            if (ref.scrollLeft <= 0) {
+              ref.scrollLeft = ref.scrollWidth / 2;
+            }
+          }
+        });
+        lastFrameTime = currentTime;
+      }
+
+      requestAnimationFrame(autoScroll);
+    };
+
+    autoScroll(lastFrameTime);
+  }, []);
 
   return (
-    <MainLayout>
-      <H1 className="mb-2">Vinyl</H1>
-      <Paragraph className="mb-10 italic" variant="secondary">
-        A small collection of vinyl records I own. Images are clickable.
-      </Paragraph>
-
-      <div className="mb-10 flex justify-center flex-wrap flex-row gap-2">
-        {albums.map((i, index) => (
-          <ExternalLink
-            className="relative flex-grow-0 flex-shrink-0 basis-[47%] md:basis-[32%] lg:basis-[24%]"
-            href={i.href}
-            key={index}
-            rel="noreferrer noopener"
-            target="_blank"
-          >
-            {deviceType === "mobile" ? (
-              <span className="flex h-5 w-5 absolute right-3 top-3">
-                <span className="ping-class absolute inline-flex h-full w-full rounded-full bg-gray-300" />
-                <span className="absolute inline-flex rounded-full h-full w-full bg-gray-300" />
-              </span>
-            ) : null}
-            <img
-              alt={i.altName}
-              className="border border-gray-300 dark:border-gray-700 hover:opacity-75 transition-opacity"
-              src={i.image.url}
-            />
-          </ExternalLink>
-        ))}
+    <MainLayout className="px-0 md:px-8">
+      <div className="flex flex-col gap-1 mb-10 px-8 md:px-0">
+        <H1 className="font-bold">Vinyl</H1>
+        <Paragraph className="italic" variant="secondary">
+          A small collection of vinyl records I own. Images are clickable.
+        </Paragraph>
       </div>
-      <GoBack />
+
+      <Suspense fallback={<VinylSkeleton />}>
+        <Await resolve={dataStream.albumRows}>
+          {(data) => {
+            const albumChunks = splitIntoChunks(data, 5);
+
+            return (
+              <div className="w-full mb-12">
+                {albumChunks.map((albumRow, index) => (
+                  <div
+                    className="scroll-container mb-5 flex flex-row grow overflow-x-scroll relative"
+                    key={index}
+                    ref={(ref) => {
+                      containerRefs.current[index] = ref;
+
+                      return ref;
+                    }}
+                  >
+                    {[...albumRow, ...albumRow].map((album, i) => (
+                      <div
+                        className="shrink-0 flex items-center w-[300px] px-2"
+                        key={i}
+                      >
+                        <ExternalLink
+                          href={album.href}
+                          rel="noreferrer noopener"
+                          target="_blank"
+                        >
+                          <figure className="flex flex-col gap-1">
+                            <img
+                              alt={album.altName}
+                              className="w-[290px] h-[290px] border border-gray-300 dark:border-gray-700 hover:opacity-75 transition-opacity"
+                              src={album.image.url}
+                            />
+                            <figcaption className="flex flex-col gap-1 items-center justify-center">
+                              <span>{album.name}</span>
+                              <span className="text-sm">{album.artists}</span>
+                            </figcaption>
+                          </figure>
+                        </ExternalLink>
+                      </div>
+                    ))}
+                  </div>
+                ))}
+              </div>
+            );
+          }}
+        </Await>
+      </Suspense>
+      <GoBack className="px-8 md:px-0" />
     </MainLayout>
   );
 }

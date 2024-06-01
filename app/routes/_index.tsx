@@ -2,7 +2,7 @@ import { Link } from "@remix-run/react";
 import type { ReactNode } from "react";
 import type React from "react";
 import { useCallback, useEffect, useRef, useState } from "react";
-import "~/styles/index.css";
+import styles from "~/styles/index.css?url";
 import {
   FileTextIcon,
   FolderDocumentsIcon,
@@ -22,6 +22,7 @@ import {
   localStorageGetItem,
   localStorageSetItem,
 } from "~/utils/local-storage";
+import type { LinksFunction } from "@remix-run/node";
 
 const HOMEPAGE_LINKS: Array<{
   title: string;
@@ -54,6 +55,8 @@ const HOMEPAGE_LINKS: Array<{
     imgSrc: <FolderFavoritesIcon />,
   },
 ];
+
+export const links: LinksFunction = () => [{ rel: "stylesheet", href: styles }];
 
 const initialPositions = Array(HOMEPAGE_LINKS.length).fill([0, 0]);
 

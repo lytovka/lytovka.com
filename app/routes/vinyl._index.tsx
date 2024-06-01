@@ -101,7 +101,7 @@ export default function VinylPage() {
 
   useEffect(() => {
     const step = 1;
-    const delay = 1000 / 60;
+    const delay = 1;
     let lastFrameTime = performance.now();
 
     const autoScroll = (currentTime: number) => {

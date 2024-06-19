@@ -35,6 +35,7 @@ export type WishlistEntrySchemaType = z.infer<typeof WishlistEntrySchema>;
 const WishlistEntriesSchema = z.array(WishlistEntrySchema);
 
 export async function loader() {
+  console.log("url:", process.env.TURSO_DATABASE_URL);
   const wishlistEntriesRaw = await prisma.$queryRaw`
     SELECT WishlistEntry.id, 
     WishlistEntry.name, 

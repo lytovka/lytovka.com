@@ -38,7 +38,7 @@
     "@remix-run/serve": "2.9.1",
     "@spotify/web-api-ts-sdk": "^1.1.2",
     "@tanstack/react-table": "^8.13.2",
-    "@vercel/remix": "2.9.1",
+    "@vercel/remix": "2.10.3",
     "clsx": "^2.1.0",
     "dotenv": "16.4.5",
     "gray-matter": "^4.0.3",

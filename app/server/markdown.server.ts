@@ -1,6 +1,7 @@
 import path from "path";
 import matter from "gray-matter";
 import fs from "fs/promises";
+import type { MarkedExtension } from "marked";
 import { marked } from "marked";
 import previews from "~/markdown/notes/previews.json";
 
@@ -19,14 +20,22 @@ export type Note = {
   attributes: Metadata;
 };
 
-const renderer = new marked.Renderer();
-renderer.heading = (text, level) => {
-  const slug = text.toLowerCase().replace(/\s+/g, "-");
+const extension: MarkedExtension = {
+  useNewRenderer: true,
+  renderer: {
+    heading(token) {
+      //@ts-ignore @ts-expect-error this includes parser object
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
+      const text = this.parser.parseInline(token.tokens) as String;
+      const level = token.depth;
+      const slug = text.toLowerCase().replace(/\s+/g, "-");
 
-  return `<h${level} id="${slug}"><a href="#${slug}">${text}</a></h${level}>`;
+      return `<h${level} id="${slug}"><a href="#${slug}">${text}</a></h${level}>`;
+    },
+  },
 };
 
-marked.setOptions({ renderer });
+marked.use(extension);
 
 const assertMetadata = (metadata: unknown): metadata is Metadata => {
   if (typeof metadata !== "object" || metadata === null) {

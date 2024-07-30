@@ -1,6 +1,7 @@
 import type { MetaFunction } from "@remix-run/node";
-import { json } from "@remix-run/node";
+import { defer } from "@remix-run/node";
 import {
+  Await,
   isRouteErrorResponse,
   useLoaderData,
   useRouteError,
@@ -19,6 +20,7 @@ import {
   getSocialImagePreview,
   getSocialMetas,
 } from "~/utils/seo";
+import { Suspense } from "react";
 
 const WishlistEntrySchema = z.object({
   id: z.string(),
@@ -33,32 +35,6 @@ const WishlistEntrySchema = z.object({
 export type WishlistEntrySchemaType = z.infer<typeof WishlistEntrySchema>;
 
 const WishlistEntriesSchema = z.array(WishlistEntrySchema);
-
-export async function loader() {
-  const wishlistEntriesRaw = await prisma.$queryRaw`
-    SELECT WishlistEntry.id, 
-    WishlistEntry.name, 
-    WishlistEntry.link, 
-    WishlistEntry.price,
-    WishlistEntry.status, 
-    WishlistEntry.updatedAt,
-    GROUP_CONCAT(Tag.name, ', ') AS tags
-    FROM WishlistEntry
-    LEFT JOIN WishlistEntryTag ON wishlistEntryId = WishlistEntry.id
-    LEFT JOIN Tag ON Tag.id = WishlistEntryTag.tagId
-    GROUP BY WishlistEntry.id
-`;
-  const result = WishlistEntriesSchema.safeParse(wishlistEntriesRaw);
-
-  if (!result.success) {
-    throw new Response(result.error.message, {
-      status: 400,
-      statusText: "Bad Request",
-    });
-  }
-
-  return json({ wishlistEntries: result.data } as const);
-}
 
 export const meta: MetaFunction<typeof loader> = ({ matches }) => {
   const { requestInfo } = (matches[0] as RootLoaderDataUnwrapped).data;
@@ -83,13 +59,47 @@ export const meta: MetaFunction<typeof loader> = ({ matches }) => {
   ];
 };
 
+export function loader() {
+  const wishlist = prisma.$queryRaw`
+    SELECT WishlistEntry.id, 
+    WishlistEntry.name, 
+    WishlistEntry.link, 
+    WishlistEntry.price,
+    WishlistEntry.status, 
+    WishlistEntry.updatedAt,
+    GROUP_CONCAT(Tag.name, ', ') AS tags
+    FROM WishlistEntry
+    LEFT JOIN WishlistEntryTag ON wishlistEntryId = WishlistEntry.id
+    LEFT JOIN Tag ON Tag.id = WishlistEntryTag.tagId
+    GROUP BY WishlistEntry.id
+`.then((data) => {
+    const result = WishlistEntriesSchema.safeParse(data);
+    if (!result.success) {
+      throw new Response(result.error.message, {
+        status: 400,
+        statusText: "Bad Request",
+      });
+    }
+
+    return result.data;
+  });
+
+  return defer({ wishlist } as const);
+}
+
 export default function WishlistPage() {
-  const data = useLoaderData<typeof loader>();
+  const { wishlist } = useLoaderData<typeof loader>();
 
   return (
     <MainLayout>
       <div className="container mx-auto py-10">
-        <DataTable columns={columns} data={data.wishlistEntries} />
+        <Suspense fallback={<h1>Loading...</h1>}>
+          <Await resolve={wishlist}>
+            {(resolvedWishlist) => (
+              <DataTable columns={columns} data={resolvedWishlist} />
+            )}
+          </Await>
+        </Suspense>
       </div>
     </MainLayout>
   );

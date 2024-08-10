@@ -55,7 +55,7 @@
   "devDependencies": {
     "@faker-js/faker": "^8.4.1",
     "@lytovka/eslint-config": "^1.4.1",
-    "@tailwindcss/typography": "0.5.13",
+    "@tailwindcss/typography": "0.5.14",
     "@testing-library/jest-dom": "6.4.8",
     "@testing-library/react": "16.0.0",
     "@types/eslint": "8.56.11",

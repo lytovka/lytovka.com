@@ -58,7 +58,7 @@
     "@tailwindcss/typography": "0.5.15",
     "@testing-library/jest-dom": "6.4.8",
     "@testing-library/react": "16.0.0",
-    "@types/eslint": "8.56.11",
+    "@types/eslint": "8.56.12",
     "@types/marked": "6.0.0",
     "@types/react": "18.3.3",
     "@types/react-dom": "18.3.0",

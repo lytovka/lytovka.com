@@ -7,4 +7,4 @@ slug: hometown-memories
 
 # Hello
 
-<hello-world />
+<hello-world class="prose text-3xl/[3rem]" />

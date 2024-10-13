@@ -55,10 +55,10 @@ export const meta: MetaFunction<typeof loader> = ({
     { property: "article:author", content: "Ivan Lytovka" },
     articleAttributes.date
       ? {
-        property: "og:article:published_time",
-        content: articleAttributes.date,
-      }
-      : { },   
+          property: "og:article:published_time",
+          content: articleAttributes.date,
+        }
+      : {},
   ];
 };
 

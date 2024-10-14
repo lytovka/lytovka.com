@@ -1,9 +1,12 @@
-import path from "path";
+import path from "node:path";
 import matter from "gray-matter";
-import fs from "fs/promises";
+import fs from "node:fs/promises";
+import { bundleMDX } from 'mdx-bundler'
 import type { MarkedExtension } from "marked";
 import { marked } from "marked";
 import previews from "~/markdown/notes/previews.json";
+import rehypeSlug from "rehype-slug"
+import rehypeAutoLinkHeadings from "rehype-autolink-headings"
 
 const root = `${path.resolve()}/app`;
 
@@ -65,10 +68,33 @@ export const getIntroFile = async (): Promise<{
   return { short, extended };
 };
 
-export const getSlugContent = async (slug: string): Promise<Note | null> => {
-  const realSlug = slug.replace(/\.md$/, "");
+export const getMdxSerialize = async (mdxString: string) => {
+  const { frontmatter, code } = await bundleMDX({
+    source: mdxString,
+    mdxOptions(options, frontmatter) {
+      options.rehypePlugins = [...(options.rehypePlugins || []), rehypeSlug,
+      [
+        rehypeAutoLinkHeadings,
+        {
+          behavior: 'wrap',
+          properties: {
+            className: ['anchor']
+          }
+        }
+      ]
+      ]
 
-  const buff = await fs.readFile(`${root}/markdown/notes/${realSlug}.md`);
+      return options;
+    }
+  })
+
+  return { frontmatter: frontmatter as Record<string, string>, code }
+};
+
+export const getSlugContent = async (slug: string): Promise<Note | null> => {
+  const realSlug = slug.replace(/\{.md,.mdx}$/, "");
+
+  const buff = await fs.readFile(`${root}/markdown/notes/${realSlug}.mdx`);
   const buffString = buff.toString();
   const { data: metadata, content } = matter(buffString);
   const html = await marked(content);

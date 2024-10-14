@@ -32,17 +32,16 @@
   color: var(--typography-light-anchor-hover);
 }
 
+.prose a.anchor {
+  @apply no-underline;
+}
+
+.prose a.anchor:hover, a.anchor:focus {
+  @apply underline;
+}
+
 .prose ul > li {
   color: var(--typography-light-paragraph);
-}
-
-.prose h2 > a {
-  text-decoration: none;
-  font-weight: bold;
-}
-
-.prose h2 > a:hover {
-  text-decoration: underline;
 }
 
 .prose blockquote {

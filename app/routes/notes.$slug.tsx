@@ -2,7 +2,8 @@ import type { MetaFunction } from "@remix-run/react";
 import { useLoaderData, useRouteError } from "@remix-run/react";
 
 import { FourOhFour, ServerError } from "~/components/errors.tsx";
-import { getSlugContent } from "~/server/markdown.server.ts";
+import { getMDXComponent } from 'mdx-bundler/client'
+import { getMdxSerialize, getSlugContent } from "~/server/markdown.server.ts";
 import { ago, dateFormatter } from "~/utils/date.ts";
 import MainLayout from "~/components/main-layout.tsx";
 import { H1 } from "~/components/typography.tsx";
@@ -18,6 +19,8 @@ import type { AppError } from "~/typings/AppError.ts";
 import { json } from "@vercel/remix";
 import type { LoaderFunctionArgs } from "@vercel/remix";
 import { invariantResponse } from "~/utils/misc";
+import { getContent } from "~/server/blog.server";
+import { useMemo } from "react";
 
 export const meta: MetaFunction<typeof loader> = ({
   params,
@@ -28,10 +31,10 @@ export const meta: MetaFunction<typeof loader> = ({
   const metadataUrl = getMetadataUrl(requestInfo);
 
   const articleAttributes = {
-    title: data?.attributes.title ?? params.slug,
-    description: data?.attributes.description ?? "A note.",
-    date: data?.attributes.date
-      ? new Date(data.attributes.date).toISOString()
+    title: data.frontmatter?.title ?? params.slug,
+    description: data?.frontmatter.description ?? "A note.",
+    date: data?.frontmatter.date
+      ? new Date(data?.frontmatter.date).toISOString()
       : undefined,
   };
 
@@ -55,45 +58,48 @@ export const meta: MetaFunction<typeof loader> = ({
     { property: "article:author", content: "Ivan Lytovka" },
     articleAttributes.date
       ? {
-          property: "og:article:published_time",
-          content: articleAttributes.date,
-        }
+        property: "og:article:published_time",
+        content: articleAttributes.date,
+      }
       : {},
   ];
 };
 
 export const loader = async ({ params }: LoaderFunctionArgs) => {
   invariantResponse(params.slug, "Route parameter $slug was not supplied");
-  const note = await getSlugContent(params.slug);
-  invariantResponse(note, `Note ${params.slug} not found`, { status: 404 });
+  const content = await getContent(params.slug) ?? { content: "" };
+  const code = await getMdxSerialize(content.content);
 
-  const d = new Date(note.attributes.date);
+  const d = new Date(code.frontmatter.date);
   const noteExtended = {
-    ...note,
-    date: dateFormatter.format(d),
+    code: code.code,
+    frontmatter: {
+      ...code.frontmatter,
+      prettyDate: dateFormatter.format(d),
+    },
   };
 
   return json(noteExtended);
 };
 
 export default function PostSlug() {
-  const note = useLoaderData<typeof loader>();
+  const { code, frontmatter } = useLoaderData<typeof loader>();
+  const Component = useMemo(() => getMDXComponent(code), [code])
 
   return (
     <MainLayout>
       <div className="flex flex-col gap-1">
-        <H1 className="font-bold">{note.attributes.title}</H1>
+        <H1 className="font-bold">{frontmatter.title}</H1>
         <div className="flex justify-between flex-row">
           <time className="text-lg text-zinc-700 dark:text-zinc-500">
-            {note.date} ({ago(new Date(note.attributes.date))})
+            {frontmatter.prettyDate} ({ago(new Date(frontmatter.date))})
           </time>
         </div>
       </div>
       <div className="my-12">
-        <article
-          className="prose text-3xl/[3rem]"
-          dangerouslySetInnerHTML={{ __html: note.body }}
-        />
+        <article className="prose text-3xl/[3rem]" >
+          <Component />
+        </article>
       </div>
       <GoBack />
     </MainLayout>

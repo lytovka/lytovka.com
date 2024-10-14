@@ -4,8 +4,8 @@ import { hydrateRoot } from "react-dom/client";
 import HelloWorld from "~/components/hello-world";
 
 // initialize all web components
-customElements.define("hello-world", HelloWorld);
 startTransition(() => {
+  customElements.define("image-carousel", HelloWorld);
   hydrateRoot(
     document,
     <StrictMode>

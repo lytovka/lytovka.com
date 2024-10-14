@@ -43,7 +43,6 @@
     "clsx": "^2.1.0",
     "dotenv": "16.4.5",
     "gray-matter": "^4.0.3",
-    "grey-matter": "^0.0.0",
     "isbot": "^5.0.0",
     "lucide-react": "^0.395.0",
     "marked": "^14.1.2",

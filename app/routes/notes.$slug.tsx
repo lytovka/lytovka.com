@@ -3,7 +3,7 @@ import { useLoaderData, useRouteError } from "@remix-run/react";
 
 import { FourOhFour, ServerError } from "~/components/errors.tsx";
 import { getMDXComponent } from "mdx-bundler/client";
-import { getMdxSerialize, getSlugContent } from "~/server/markdown.server.ts";
+import { getMdxSerialize } from "~/server/markdown.server.ts";
 import { ago, dateFormatter } from "~/utils/date.ts";
 import MainLayout from "~/components/main-layout.tsx";
 import { H1 } from "~/components/typography.tsx";
@@ -19,7 +19,7 @@ import type { AppError } from "~/typings/AppError.ts";
 import { json } from "@vercel/remix";
 import type { LoaderFunctionArgs } from "@vercel/remix";
 import { invariantResponse } from "~/utils/misc";
-import { getContent } from "~/server/blog.server";
+import { getFileContent } from "~/server/blog.server";
 import { useMemo } from "react";
 
 export const meta: MetaFunction<typeof loader> = ({
@@ -31,10 +31,10 @@ export const meta: MetaFunction<typeof loader> = ({
   const metadataUrl = getMetadataUrl(requestInfo);
 
   const articleAttributes = {
-    title: data.frontmatter?.title ?? params.slug,
+    title: data?.frontmatter.title ?? params.slug,
     description: data?.frontmatter.description ?? "A note.",
     date: data?.frontmatter.date
-      ? new Date(data?.frontmatter.date).toISOString()
+      ? new Date(data.frontmatter.date).toISOString()
       : undefined,
   };
 
@@ -67,15 +67,16 @@ export const meta: MetaFunction<typeof loader> = ({
 
 export const loader = async ({ params }: LoaderFunctionArgs) => {
   invariantResponse(params.slug, "Route parameter $slug was not supplied");
-  const content = (await getContent(params.slug)) ?? { content: "" };
-  const code = await getMdxSerialize(content.content);
 
-  const d = new Date(code.frontmatter.date);
+  const content = await getFileContent(`markdown/notes/${params.slug}`);
+  invariantResponse(content, "Could not fetch the content");
+
+  const code = await getMdxSerialize(content.content);
   const noteExtended = {
     code: code.code,
     frontmatter: {
       ...code.frontmatter,
-      prettyDate: dateFormatter.format(d),
+      prettyDate: dateFormatter.format(new Date(code.frontmatter.date)),
     },
   };
 

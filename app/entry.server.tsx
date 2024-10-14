@@ -13,9 +13,9 @@ export default function handleRequest(
   responseStatusCode: number,
   responseHeaders: Headers,
   remixContext: EntryContext,
-  loadContext: AppLoadContext,
+  _loadContext: AppLoadContext,
 ) {
-  let prohibitOutOfOrderStreaming =
+  const prohibitOutOfOrderStreaming =
     isBotRequest(request.headers.get("user-agent")) || remixContext.isSpaMode;
 
   return prohibitOutOfOrderStreaming
@@ -41,17 +41,7 @@ function isBotRequest(userAgent: string | null) {
     return false;
   }
 
-  // isbot >= 3.8.0, >4
-  if ("isbot" in isbotModule && typeof isbotModule.isbot === "function") {
-    return isbotModule.isbot(userAgent);
-  }
-
-  // isbot < 3.8.0
-  if ("default" in isbotModule && typeof isbotModule.default === "function") {
-    return isbotModule.default(userAgent);
-  }
-
-  return false;
+  return isbotModule.isbot(userAgent);
 }
 
 function handleBotRequest(
@@ -64,9 +54,9 @@ function handleBotRequest(
     let shellRendered = false;
     const { pipe, abort } = renderToPipeableStream(
       <RemixServer
+        abortDelay={ABORT_DELAY}
         context={remixContext}
         url={request.url}
-        abortDelay={ABORT_DELAY}
       />,
       {
         onAllReady() {
@@ -114,9 +104,9 @@ function handleBrowserRequest(
     let shellRendered = false;
     const { pipe, abort } = renderToPipeableStream(
       <RemixServer
+        abortDelay={ABORT_DELAY}
         context={remixContext}
         url={request.url}
-        abortDelay={ABORT_DELAY}
       />,
       {
         onShellReady() {

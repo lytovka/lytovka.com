@@ -3,13 +3,11 @@ import { defineConfig } from "vite";
 import { installGlobals } from "@remix-run/node";
 import { vercelPreset } from "@vercel/remix/vite";
 import tsconfigPaths from "vite-tsconfig-paths";
-import mdx from "@mdx-js/rollup";
 
 installGlobals();
 
 export default defineConfig({
   plugins: [
-    mdx(),
     remix({ presets: [vercelPreset()] }),
     // Custom plugin to load markdown files
     {

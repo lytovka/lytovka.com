@@ -2,7 +2,7 @@ import type { MetaFunction } from "@remix-run/react";
 import { useLoaderData, useRouteError } from "@remix-run/react";
 
 import { FourOhFour, ServerError } from "~/components/errors.tsx";
-import { getMDXComponent } from 'mdx-bundler/client'
+import { getMDXComponent } from "mdx-bundler/client";
 import { getMdxSerialize, getSlugContent } from "~/server/markdown.server.ts";
 import { ago, dateFormatter } from "~/utils/date.ts";
 import MainLayout from "~/components/main-layout.tsx";
@@ -58,16 +58,16 @@ export const meta: MetaFunction<typeof loader> = ({
     { property: "article:author", content: "Ivan Lytovka" },
     articleAttributes.date
       ? {
-        property: "og:article:published_time",
-        content: articleAttributes.date,
-      }
+          property: "og:article:published_time",
+          content: articleAttributes.date,
+        }
       : {},
   ];
 };
 
 export const loader = async ({ params }: LoaderFunctionArgs) => {
   invariantResponse(params.slug, "Route parameter $slug was not supplied");
-  const content = await getContent(params.slug) ?? { content: "" };
+  const content = (await getContent(params.slug)) ?? { content: "" };
   const code = await getMdxSerialize(content.content);
 
   const d = new Date(code.frontmatter.date);
@@ -84,7 +84,7 @@ export const loader = async ({ params }: LoaderFunctionArgs) => {
 
 export default function PostSlug() {
   const { code, frontmatter } = useLoaderData<typeof loader>();
-  const Component = useMemo(() => getMDXComponent(code), [code])
+  const Component = useMemo(() => getMDXComponent(code), [code]);
 
   return (
     <MainLayout>
@@ -97,7 +97,7 @@ export default function PostSlug() {
         </div>
       </div>
       <div className="my-12">
-        <article className="prose text-3xl/[3rem]" >
+        <article className="prose text-3xl/[3rem]">
           <Component />
         </article>
       </div>

@@ -36,7 +36,8 @@
   @apply no-underline;
 }
 
-.prose a.anchor:hover, a.anchor:focus {
+.prose a.anchor:hover,
+a.anchor:focus {
   @apply underline;
 }
 

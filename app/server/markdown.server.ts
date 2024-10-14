@@ -1,12 +1,12 @@
 import path from "node:path";
 import matter from "gray-matter";
 import fs from "node:fs/promises";
-import { bundleMDX } from 'mdx-bundler'
+import { bundleMDX } from "mdx-bundler";
 import type { MarkedExtension } from "marked";
 import { marked } from "marked";
 import previews from "~/markdown/notes/previews.json";
-import rehypeSlug from "rehype-slug"
-import rehypeAutoLinkHeadings from "rehype-autolink-headings"
+import rehypeSlug from "rehype-slug";
+import rehypeAutoLinkHeadings from "rehype-autolink-headings";
 
 const root = `${path.resolve()}/app`;
 
@@ -72,23 +72,25 @@ export const getMdxSerialize = async (mdxString: string) => {
   const { frontmatter, code } = await bundleMDX({
     source: mdxString,
     mdxOptions(options, frontmatter) {
-      options.rehypePlugins = [...(options.rehypePlugins || []), rehypeSlug,
-      [
-        rehypeAutoLinkHeadings,
-        {
-          behavior: 'wrap',
-          properties: {
-            className: ['anchor']
-          }
-        }
-      ]
-      ]
+      options.rehypePlugins = [
+        ...(options.rehypePlugins || []),
+        rehypeSlug,
+        [
+          rehypeAutoLinkHeadings,
+          {
+            behavior: "wrap",
+            properties: {
+              className: ["anchor"],
+            },
+          },
+        ],
+      ];
 
       return options;
-    }
-  })
+    },
+  });
 
-  return { frontmatter: frontmatter as Record<string, string>, code }
+  return { frontmatter: frontmatter as Record<string, string>, code };
 };
 
 export const getSlugContent = async (slug: string): Promise<Note | null> => {

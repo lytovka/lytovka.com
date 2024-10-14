@@ -21,9 +21,9 @@ class ImageCarousel extends HTMLElement {
 
     // slides
     slides.forEach((image, index) => {
-      console.log(image)
-      const slide = document.createElement("div")
-      slide.setAttribute("id", `slide-${index}`)
+      console.log(image);
+      const slide = document.createElement("div");
+      slide.setAttribute("id", `slide-${index}`);
       slide.setAttribute("aria-hidden", "true");
       slide.setAttribute("tabindex", "-1");
       slide.setAttribute("role", "group");
@@ -32,31 +32,30 @@ class ImageCarousel extends HTMLElement {
         "aria-label",
         `Slide ${index + 1} of ${this.numberOfItems}`,
       );
-      const slideTitleTag = document.createElement("h2")
-      slideTitleTag.id = `item-${index}-heading`
-      slideTitleTag.textContent = image.getAttribute("alt") || `Slide ${index}`
-      slide.setAttribute("style", image.getAttribute("style") || "")
-      slide.appendChild(image)
-      slide.appendChild(slideTitleTag)
+      const slideTitleTag = document.createElement("h2");
+      slideTitleTag.id = `item-${index}-heading`;
+      slideTitleTag.textContent = image.getAttribute("alt") || `Slide ${index}`;
+      slide.setAttribute("style", image.getAttribute("style") || "");
+      slide.appendChild(image);
+      slide.appendChild(slideTitleTag);
 
       carousel.appendChild(slide);
     });
 
-
     // controls
-    const controlWrapper = document.createElement("div")
-    controlWrapper.setAttribute("role", "group")
+    const controlWrapper = document.createElement("div");
+    controlWrapper.setAttribute("role", "group");
     controlWrapper.setAttribute("aria-label", "Slide controls");
 
-    const buttonLeft = document.createElement("button")
-    buttonLeft.textContent = "Previous slide"
-    const buttonRight = document.createElement("button")
-    buttonRight.textContent = "Next slide"
+    const buttonLeft = document.createElement("button");
+    buttonLeft.textContent = "Previous slide";
+    const buttonRight = document.createElement("button");
+    buttonRight.textContent = "Next slide";
 
-    controlWrapper.appendChild(buttonLeft)
-    controlWrapper.appendChild(buttonRight)
+    controlWrapper.appendChild(buttonLeft);
+    controlWrapper.appendChild(buttonRight);
 
-    carousel.appendChild(controlWrapper)
+    carousel.appendChild(controlWrapper);
   }
 
   connectedCallback() {
@@ -71,4 +70,3 @@ class ImageCarousel extends HTMLElement {
 customElements.define("image-carousel", ImageCarousel);
 
 export default ImageCarousel;
-

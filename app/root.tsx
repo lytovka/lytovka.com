@@ -19,9 +19,9 @@ import { FourOhFour } from "./components/errors.tsx";
 import Footer from "./components/footer.tsx";
 import Navbar from "./components/navbar.tsx";
 
-import "./styles/tailwind.css";
-import "./styles/prose.css";
-import "./styles/root.css";
+import tailwildStyles from "./styles/tailwind.css?url";
+import proseStyles from "./styles/prose.css?url";
+import rootStyles from "./styles/root.css?url";
 
 import { getHostUrl } from "~/utils/misc.ts";
 import {
@@ -62,18 +62,21 @@ export const links: LinksFunction = () => {
     {
       rel: "preload",
       as: "font",
-      href: "/fonts/JetBrainsMono-Regular.ttf",
-      type: "font/ttf",
+      href: "/fonts/JetBrainsMono-Regular.woff2",
+      type: "font/woff2",
       crossOrigin: "anonymous",
     },
     {
       rel: "preload",
       as: "font",
-      href: "/fonts/JetBrainsMono-Bold.ttf",
-      type: "font/ttf",
+      href: "/fonts/JetBrainsMono-Bold.woff2",
+      type: "font/woff2",
       crossOrigin: "anonymous",
     },
     { rel: "icon", href: "/images/favicon.ico" },
+    { rel: "stylesheet", href: tailwildStyles },
+    { rel: "stylesheet", href: proseStyles },
+    { rel: "stylesheet", href: rootStyles },
   ];
 };
 

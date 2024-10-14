@@ -7,15 +7,17 @@ import GoBack from "~/components/go-back.tsx";
 import MainLayout from "~/components/main-layout.tsx";
 import ToggleButton from "~/components/toggle-button.tsx";
 import type { RootLoaderDataUnwrapped } from "~/root.tsx";
-import { getIntroFile } from "~/server/markdown.server.ts";
 import {
   getMetadataUrl,
   getPreviewUrl,
   getSocialImagePreview,
   getSocialMetas,
 } from "~/utils/seo.ts";
-import { GITHUB_LINK, ONE_MINUTE } from "~/constants/index.ts";
+import { GITHUB_LINK } from "~/constants/index.ts";
 import { H2 } from "~/components/typography.tsx";
+import { getFileContent } from "~/server/blog.server";
+import { invariantResponse } from "~/utils/misc";
+import { getAboutPageSerialize } from "~/server/markdown.server";
 
 export const meta: MetaFunction<typeof loader> = ({ matches }) => {
   const { requestInfo } = (matches[0] as RootLoaderDataUnwrapped).data;
@@ -41,13 +43,12 @@ export const meta: MetaFunction<typeof loader> = ({ matches }) => {
 };
 
 export const loader = async (_: LoaderFunctionArgs) => {
-  const result = await getIntroFile();
+  const fileContent = await getFileContent(`markdown/about`, { ext: "md" });
+  invariantResponse(fileContent, "File content could not be fetched.");
+  const result = await getAboutPageSerialize(fileContent.content);
+  invariantResponse(result, "File content could not be fetched.");
 
-  return json(result, {
-    headers: {
-      "Cache-Control": `max-age=${ONE_MINUTE}`,
-    },
-  });
+  return json(result);
 };
 
 export default function AboutPage() {

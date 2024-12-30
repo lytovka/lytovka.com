@@ -28,7 +28,7 @@
     "typecheck": "tsc --build"
   },
   "dependencies": {
-    "@libsql/client": "0.8.0",
+    "@libsql/client": "0.5.6",
     "@lytovka/draggable": "^0.0.8",
     "@prisma/adapter-libsql": "^6.1.0",
     "@prisma/client": "^6.1.0",

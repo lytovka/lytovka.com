@@ -154,6 +154,7 @@ export default function VinylPage() {
                   <div
                     className="scroll-container mb-5 flex flex-row grow overflow-x-scroll relative"
                     key={index}
+                    // @ts-ignore TODO
                     ref={(ref) => {
                       containerRefs.current[index] = ref;
 

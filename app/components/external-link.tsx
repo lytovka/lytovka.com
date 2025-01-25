@@ -1,3 +1,4 @@
+import type { JSX } from "react";
 import { forwardRef } from "react";
 
 const DEFAULT_STYLES = "text-black dark:text-white";

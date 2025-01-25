@@ -130,6 +130,7 @@ export default function IndexPage() {
         ? HOMEPAGE_LINKS.map((item, index) => (
             <DraggableComponent
               callback={savePositions}
+              // @ts-ignore TODO
               containerRef={containerRef}
               id={`${index}`}
               initialPosition={defaultPositions[index]}

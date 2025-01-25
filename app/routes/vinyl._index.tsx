@@ -1,7 +1,6 @@
 import { Await, useLoaderData } from "@remix-run/react";
 import "~/styles/vinyl.css";
 
-import { defer } from "@remix-run/node";
 import {
   SPOTIFY_COUNT_LIMIT,
   getAlbumsByIds,
@@ -18,6 +17,7 @@ import {
   getSocialMetas,
 } from "~/utils/seo.ts";
 import type { MetaFunction } from "@vercel/remix";
+import { defer } from "@vercel/remix";
 import type { RootLoaderDataUnwrapped } from "~/root.tsx";
 import { prisma } from "~/server/db";
 import { Suspense, useEffect, useRef } from "react";
@@ -63,9 +63,7 @@ export function loader() {
       throw new Error(`Could not load albums from Spotify: ${error}`);
     });
 
-  return defer({ albumRows: albums } as const, {
-    headers: { "Cache-Control": "public, max-age=96400" },
-  });
+  return defer({ albumRows: albums });
 }
 
 function VinylSkeleton() {
@@ -142,7 +140,6 @@ export default function VinylPage() {
           A small collection of vinyl records I own. Images are clickable.
         </Paragraph>
       </div>
-
       <Suspense fallback={<VinylSkeleton />}>
         <Await resolve={dataStream.albumRows}>
           {(data) => {
@@ -154,6 +151,7 @@ export default function VinylPage() {
                   <div
                     className="scroll-container mb-5 flex flex-row grow overflow-x-scroll relative"
                     key={index}
+                    // @ts-ignore TODO
                     ref={(ref) => {
                       containerRefs.current[index] = ref;
 

@@ -10,7 +10,6 @@ export function splitIntoChunks<T>(
   capacity: number,
 ): Array<Array<T>> {
   const chunkCount = Math.ceil(data.length / capacity);
-  console.log(data.length, capacity);
   const result = Array(chunkCount)
     .fill(null)
     .map(() => []);

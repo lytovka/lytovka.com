@@ -1,4 +1,4 @@
-import { Await, useLoaderData, useRouteError } from "@remix-run/react";
+import { Await, useLoaderData } from "@remix-run/react";
 import "~/styles/vinyl.css";
 
 import {
@@ -16,8 +16,8 @@ import {
   getSocialImagePreview,
   getSocialMetas,
 } from "~/utils/seo.ts";
-import type { MetaFunction} from "@vercel/remix";
-import { defer , json } from "@vercel/remix";
+import type { MetaFunction } from "@vercel/remix";
+import { defer } from "@vercel/remix";
 import type { RootLoaderDataUnwrapped } from "~/root.tsx";
 import { prisma } from "~/server/db";
 import { Suspense, useEffect, useRef } from "react";
@@ -195,8 +195,5 @@ export default function VinylPage() {
 }
 
 export function ErrorBoundary() {
-  const error = useRouteError();
-  console.log("ErrorBoundary", error);
-
   return <ServerError title="Could not load albums from Spotify." />;
 }

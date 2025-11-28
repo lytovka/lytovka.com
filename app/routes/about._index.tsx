@@ -67,7 +67,7 @@ export default function AboutPage() {
   return (
     <MainLayout>
       <div className="mb-10">
-        <a href={GITHUB_LINK} target="_blank" rel="noreferrer noopener">
+        <a href={GITHUB_LINK} rel="noreferrer noopener" target="_blank">
           <img
             alt="Ivan's avatar"
             className="transition-filter grayscale hover:grayscale-0 rounded-full mx-auto md:float-right md:mr-5 md:mb-5 border-2 border-gray-300 dark:border-gray-700"
@@ -78,7 +78,9 @@ export default function AboutPage() {
         </a>
         <div className="flex flex-wrap gap-3 md:gap-5 items-center mt-5 md:mt-0">
           <H2 className="text-2xl md:text-3xl font-extrabold">About</H2>
-          <span className="text-zinc-600 dark:text-zinc-500 text-2xl md:text-3xl">|</span>
+          <span className="text-zinc-600 dark:text-zinc-500 text-2xl md:text-3xl">
+            |
+          </span>
           <ToggleButton
             defaultChecked={false}
             title="Long"

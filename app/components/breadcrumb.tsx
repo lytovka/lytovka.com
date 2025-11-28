@@ -15,12 +15,12 @@ export function Breadcrumb({ className }: BreadcrumbProps) {
 
   return (
     <nav
-      className={clsx("flex items-center gap-2 text-lg mb-6", className)}
       aria-label="Breadcrumb"
+      className={clsx("flex items-center gap-2 text-lg mb-6", className)}
     >
       <Link
-        to="/"
         className="text-stone-600 dark:text-stone-400 hover:text-black dark:hover:text-white transition-colors"
+        to="/"
       >
         ~
       </Link>
@@ -29,16 +29,16 @@ export function Breadcrumb({ className }: BreadcrumbProps) {
         const isLast = index === pathSegments.length - 1;
 
         return (
-          <div key={path} className="flex items-center gap-2">
+          <div className="flex items-center gap-2" key={path}>
             <span className="text-stone-400 dark:text-stone-600">/</span>
             {isLast ? (
-              <span className="text-black dark:text-white font-semibold">
+              <span className="font-semibold text-black dark:text-white">
                 {segment}
               </span>
             ) : (
               <Link
-                to={path}
                 className="text-stone-600 dark:text-stone-400 hover:text-black dark:hover:text-white transition-colors"
+                to={path}
               >
                 {segment}
               </Link>

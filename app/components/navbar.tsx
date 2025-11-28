@@ -8,13 +8,13 @@ const ThemeToggle = () => {
 
   return (
     <button
+      aria-label="Toggle theme"
       className="group p-2 z-30 border rounded-full border-gray-600 dark:border-gray-300 hover:opacity-75 transition-opacity overflow-hidden"
       onClick={() => {
         setTheme((previousTheme) =>
           previousTheme == "dark" ? themes.LIGHT : themes.DARK,
         );
       }}
-      aria-label="Toggle theme"
     >
       <div className="relative h-6 w-6 md:h-8 md:w-8">
         <span

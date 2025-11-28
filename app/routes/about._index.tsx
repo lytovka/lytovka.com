@@ -24,6 +24,7 @@ export const meta: MetaFunction<typeof loader> = ({ matches }) => {
   const metadataUrl = getMetadataUrl(requestInfo);
 
   return [
+    { title: "About | Ivan Lytovka" },
     {
       name: "viewport",
       content: "width=device-width,initial-scale=1,viewport-fit=cover",
@@ -66,18 +67,18 @@ export default function AboutPage() {
   return (
     <MainLayout>
       <div className="mb-10">
-        <a href={GITHUB_LINK}>
+        <a href={GITHUB_LINK} target="_blank" rel="noreferrer noopener">
           <img
             alt="Ivan's avatar"
-            className="transition-filter grayscale hover:grayscale-0 rounded-full mx-auto md:float-right md:mr-5 md:mb-5"
+            className="transition-filter grayscale hover:grayscale-0 rounded-full mx-auto md:float-right md:mr-5 md:mb-5 border-2 border-gray-300 dark:border-gray-700"
             height="160"
             src="/images/ivan_avatar.png"
             width="160"
           />
         </a>
-        <div className="flex gap-5 items-center mt-5 md:mt-0">
-          <H2 className="text-3xl font-extrabold">About</H2>
-          <span className="text-zinc-600 dark:text-zinc-500 text-3xl">|</span>
+        <div className="flex flex-wrap gap-3 md:gap-5 items-center mt-5 md:mt-0">
+          <H2 className="text-2xl md:text-3xl font-extrabold">About</H2>
+          <span className="text-zinc-600 dark:text-zinc-500 text-2xl md:text-3xl">|</span>
           <ToggleButton
             defaultChecked={false}
             title="Long"
@@ -87,7 +88,7 @@ export default function AboutPage() {
           />
         </div>
         <article
-          className="prose text-3xl mt-7 mb-7"
+          className="prose text-xl md:text-3xl mt-7 mb-7"
           dangerouslySetInnerHTML={{ __html: short }}
         />
         <article
@@ -96,7 +97,7 @@ export default function AboutPage() {
           style={{ height: 0 }}
         >
           <div
-            className="prose text-3xl"
+            className="prose text-xl md:text-3xl"
             dangerouslySetInnerHTML={{ __html: extended }}
             ref={extendedContentRef}
           />

@@ -1,6 +1,7 @@
 import { themes, useTheme } from "~/providers/theme.tsx";
 import { DarkModeIcon, LightModeIcon } from "~/components/icons.tsx";
 import { Link } from "@remix-run/react";
+import { NavigationMenu } from "~/components/navigation-menu.tsx";
 
 const ThemeToggle = () => {
   const [, setTheme] = useTheme();
@@ -13,6 +14,7 @@ const ThemeToggle = () => {
           previousTheme == "dark" ? themes.LIGHT : themes.DARK,
         );
       }}
+      aria-label="Toggle theme"
     >
       <div className="relative h-6 w-6 md:h-8 md:w-8">
         <span
@@ -34,16 +36,18 @@ const ThemeToggle = () => {
 
 function Navbar() {
   return (
-    <div className="py-9">
-      <nav className="flex justify-between items-center sm:max-w-5xl md:max-w-7xl mx-auto px-8">
-        <div className="flex justify-start h-10 w-10 md:h-8 md:w-8" />
+    <div className="py-6 md:py-9 sticky top-0 z-40 bg-main dark:bg-main-dark border-b border-gray-200 dark:border-gray-800">
+      <nav className="flex justify-between items-center sm:max-w-5xl md:max-w-7xl mx-auto px-8 gap-4">
         <Link
-          className="justify-self-center z-30 text-black dark:text-white text-2xl hover:opacity-75 hover:transition-opacity"
+          className="z-30 text-black dark:text-white text-xl md:text-2xl hover:opacity-75 hover:transition-opacity font-bold"
           to="/"
         >
           Ivan Lytovka
         </Link>
-        <ThemeToggle />
+        <div className="flex items-center gap-4">
+          <NavigationMenu />
+          <ThemeToggle />
+        </div>
       </nav>
     </div>
   );

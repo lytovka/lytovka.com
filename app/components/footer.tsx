@@ -6,12 +6,12 @@ import {
 } from "~/constants/index.ts";
 
 const footerLinkClasses =
-  "hover:opacity-75 transition-opacity z-30 text-black dark:text-white";
+  "hover:opacity-75 transition-opacity z-30 text-black dark:text-white text-base md:text-xl";
 
 function Footer() {
   return (
-    <footer className="flex flex-col items-center py-10 text-xl">
-      <div className="flex gap-4 text-zinc-200">
+    <footer className="flex flex-col items-center py-10 px-8 text-xl border-t border-gray-200 dark:border-gray-800 mt-auto">
+      <div className="flex flex-wrap justify-center gap-3 md:gap-4 text-zinc-200">
         <ExternalLink
           className={footerLinkClasses}
           href={GITHUB_LINK}
@@ -39,7 +39,7 @@ function Footer() {
           Telegram
         </ExternalLink>
       </div>
-      <span className="text-stone-600 dark:text-stone-400 mt-6 z-30">
+      <span className="text-stone-600 dark:text-stone-400 mt-6 z-30 text-center text-base md:text-xl">
         <ExternalLink
           className="hover:opacity-75 transition-opacity underline text-stone-600 dark:text-stone-400"
           href="https://creativecommons.org/licenses/by-nc-sa/4.0/"

@@ -61,6 +61,7 @@ export const links: LinksFunction = () => [{ rel: "stylesheet", href: styles }];
 const initialPositions = Array(HOMEPAGE_LINKS.length).fill([0, 0]);
 
 export default function IndexPage() {
+  // Disable breadcrumb on homepage by wrapping in MainLayout if needed
   const containerRef = useRef<HTMLDivElement>(null);
   const [show, setShow] = useState(false);
   const [hasMoved, setHasMoved] = useState(false);
@@ -125,35 +126,62 @@ export default function IndexPage() {
   };
 
   return (
-    <main className="h-full w-full relative" ref={containerRef}>
-      {show
-        ? HOMEPAGE_LINKS.map((item, index) => (
-            <DraggableComponent
-              callback={savePositions}
-              // @ts-ignore TODO
-              containerRef={containerRef}
-              id={`${index}`}
-              initialPosition={defaultPositions[index]}
+    <>
+      {/* Mobile-friendly list view */}
+      <div className="md:hidden px-8 py-12">
+        <h1 className="text-3xl font-bold text-black dark:text-white mb-8">
+          Welcome
+        </h1>
+        <nav className="flex flex-col gap-6">
+          {HOMEPAGE_LINKS.map((item, index) => (
+            <Link
               key={index}
-              style={{ zIndex: zIndexes[index] }}
-              onDragMove={handleMouseMove}
-              onDragStart={handleMouseDown}
+              to={item.href}
+              className="flex items-center gap-4 p-4 rounded-lg border border-gray-300 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
             >
-              <Link
-                className="flex flex-col items-center no-underline active:outline-dashed outline-1 outline-gray-500"
-                draggable={false}
-                prefetch="intent"
-                to={item.href}
-                onClick={(e) => {
-                  handleLinkClick(e);
-                }}
+              <div className="w-12 h-12 flex-shrink-0">{item.imgSrc}</div>
+              <span className="text-2xl text-black dark:text-white">
+                {item.title}
+              </span>
+            </Link>
+          ))}
+        </nav>
+      </div>
+
+      {/* Desktop draggable view */}
+      <main
+        className="hidden md:block h-full w-full relative"
+        ref={containerRef}
+      >
+        {show
+          ? HOMEPAGE_LINKS.map((item, index) => (
+              <DraggableComponent
+                callback={savePositions}
+                // @ts-ignore TODO
+                containerRef={containerRef}
+                id={`${index}`}
+                initialPosition={defaultPositions[index]}
+                key={index}
+                style={{ zIndex: zIndexes[index] }}
+                onDragMove={handleMouseMove}
+                onDragStart={handleMouseDown}
               >
-                {item.imgSrc}
-                <Paragraph className="text-center">{item.title}</Paragraph>
-              </Link>
-            </DraggableComponent>
-          ))
-        : null}
-    </main>
+                <Link
+                  className="flex flex-col items-center no-underline active:outline-dashed outline-1 outline-gray-500"
+                  draggable={false}
+                  prefetch="intent"
+                  to={item.href}
+                  onClick={(e) => {
+                    handleLinkClick(e);
+                  }}
+                >
+                  {item.imgSrc}
+                  <Paragraph className="text-center">{item.title}</Paragraph>
+                </Link>
+              </DraggableComponent>
+            ))
+          : null}
+      </main>
+    </>
   );
 }

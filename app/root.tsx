@@ -116,9 +116,11 @@ function App({ rootLoaderData }: { rootLoaderData: RootLoaderData }) {
         <Links />
         <ThemeScript serverTheme={rootLoaderData.requestInfo.session.theme} />
       </head>
-      <body className="bg-main dark:bg-main-dark">
+      <body className="bg-main dark:bg-main-dark min-h-screen flex flex-col">
         <Navbar />
-        <Outlet />
+        <div className="flex-1 flex flex-col">
+          <Outlet />
+        </div>
         <Footer />
         <ScrollRestoration />
         <script

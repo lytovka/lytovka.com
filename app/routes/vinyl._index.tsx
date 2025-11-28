@@ -29,6 +29,7 @@ export const meta: MetaFunction<typeof loader> = ({ matches }) => {
   const metadataUrl = getMetadataUrl(requestInfo);
 
   return [
+    { title: "Vinyl Collection | Ivan Lytovka" },
     {
       name: "viewport",
       content: "width=device-width,initial-scale=1,viewport-fit=cover",
@@ -134,9 +135,9 @@ export default function VinylPage() {
 
   return (
     <MainLayout className="px-0 md:px-8">
-      <div className="flex flex-col gap-1 mb-10 px-8 md:px-0">
-        <H1 className="font-bold">Vinyl</H1>
-        <Paragraph className="italic" variant="secondary">
+      <div className="flex flex-col gap-2 mb-10 px-8 md:px-0">
+        <H1 className="font-bold text-3xl md:text-4xl">Vinyl</H1>
+        <Paragraph className="italic text-lg md:text-xl" variant="secondary">
           A small collection of vinyl records I own. Images are clickable.
         </Paragraph>
       </div>

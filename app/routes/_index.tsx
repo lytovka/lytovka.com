@@ -125,7 +125,7 @@ export default function IndexPage() {
   };
 
   return (
-    <main className="h-full w-full relative" ref={containerRef}>
+    <main className="h-full w-full relative overflow-hidden touch-none" ref={containerRef}>
       {show
         ? HOMEPAGE_LINKS.map((item, index) => (
             <DraggableComponent

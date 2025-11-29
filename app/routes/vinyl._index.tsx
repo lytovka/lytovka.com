@@ -134,8 +134,8 @@ export default function VinylPage() {
   }, []);
 
   return (
-    <MainLayout className="px-0 md:px-8">
-      <div className="flex flex-col gap-2 mb-10 px-8 md:px-0">
+    <MainLayout>
+      <div className="flex flex-col gap-2 mb-10">
         <H1 className="font-bold text-3xl md:text-4xl">Vinyl</H1>
         <Paragraph className="italic text-lg md:text-xl" variant="secondary">
           A small collection of vinyl records I own. Images are clickable.
@@ -190,7 +190,7 @@ export default function VinylPage() {
           }}
         </Await>
       </Suspense>
-      <GoBack className="px-8 md:px-0" />
+      <GoBack />
     </MainLayout>
   );
 }

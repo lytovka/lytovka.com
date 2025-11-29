@@ -63,11 +63,13 @@ export function NavigationMenu() {
       {/* Mobile Menu */}
       <nav
         className={clsx(
-          "fixed top-0 right-0 h-full w-64 bg-main dark:bg-main-dark z-50 transform transition-transform duration-300 md:hidden border-l border-gray-300 dark:border-gray-700",
-          isOpen ? "translate-x-0" : "translate-x-full",
+          "fixed top-16 right-4 w-64 bg-main dark:bg-main-dark z-50 transform transition-all duration-300 md:hidden border border-gray-300 dark:border-gray-700 rounded-lg shadow-lg",
+          isOpen
+            ? "scale-100 opacity-100"
+            : "scale-95 opacity-0 pointer-events-none",
         )}
       >
-        <div className="flex flex-col p-8 gap-6 mt-20">
+        <div className="flex flex-col p-6 gap-4">
           {NAV_LINKS.map((link) => (
             <Link
               className={clsx(

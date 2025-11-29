@@ -20,9 +20,10 @@ import type { MetaFunction } from "@vercel/remix";
 import { defer } from "@vercel/remix";
 import type { RootLoaderDataUnwrapped } from "~/root.tsx";
 import { prisma } from "~/server/db";
-import { Suspense, useEffect, useRef } from "react";
+import { Suspense, useRef } from "react";
 import { splitIntoChunks } from "~/utils/array";
 import { Skeleton } from "~/components/ui/skeleton";
+import { useAutoScroll } from "~/hooks/useAutoScroll";
 
 export const meta: MetaFunction<typeof loader> = ({ matches }) => {
   const { requestInfo } = (matches[0] as RootLoaderDataUnwrapped).data;
@@ -97,41 +98,7 @@ function VinylSkeleton() {
 export default function VinylPage() {
   const dataStream = useLoaderData<typeof loader>();
   const containerRefs = useRef<Array<HTMLDivElement | null>>([]);
-
-  useEffect(() => {
-    const step = 1;
-    const delay = 20;
-    let lastFrameTime = performance.now();
-
-    const autoScroll = (currentTime: number) => {
-      if (currentTime - lastFrameTime >= delay) {
-        containerRefs.current.forEach((ref, index) => {
-          if (!ref) {
-            requestAnimationFrame(autoScroll);
-
-            return;
-          }
-          if (index % 2 === 0) {
-            ref.scrollLeft = Math.ceil(ref.scrollLeft + step);
-            if (ref.scrollLeft >= ref.scrollWidth / 2) {
-              ref.scrollLeft = 0;
-            }
-          }
-          if (index % 2 === 1) {
-            ref.scrollLeft = Math.ceil(ref.scrollLeft - step);
-            if (ref.scrollLeft <= 0) {
-              ref.scrollLeft = ref.scrollWidth / 2;
-            }
-          }
-        });
-        lastFrameTime = currentTime;
-      }
-
-      requestAnimationFrame(autoScroll);
-    };
-
-    autoScroll(lastFrameTime);
-  }, []);
+  useAutoScroll(containerRefs);
 
   return (
     <MainLayout>
@@ -150,19 +117,16 @@ export default function VinylPage() {
               <div className="w-full mb-12">
                 {albumChunks.map((albumRow, index) => (
                   <div
-                    className="scroll-container mb-5 flex flex-row grow overflow-x-scroll relative"
+                    className="scroll-container mb-5 overflow-x-scroll relative flex flex-row"
                     key={index}
-                    // @ts-ignore TODO
                     ref={(ref) => {
                       containerRefs.current[index] = ref;
-
-                      return ref;
                     }}
                   >
                     {[...albumRow, ...albumRow].map((album, i) => (
                       <div
                         className="shrink-0 flex items-center w-[300px] px-2"
-                        key={i}
+                        key={`${album.href}-${i}`}
                       >
                         <ExternalLink
                           href={album.href}

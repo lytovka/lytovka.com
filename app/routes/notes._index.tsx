@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unnecessary-condition */
 import type { MetaFunction } from "@remix-run/react";
 import { Link, useLoaderData } from "@remix-run/react";
 import GoBack from "~/components/go-back.tsx";
@@ -42,7 +41,7 @@ export const meta: MetaFunction = ({ matches }) => {
     },
     ...getSocialMetas({
       title: "Ivan's notes",
-      description: "Notes on various topics.",
+      description: "Things I find worth writing down. Mostly in English, occasionally in Russian.",
       keywords: "notes, blog, ivan lytovka, lytovka",
       url: metadataUrl,
       image: getSocialImagePreview({
@@ -59,7 +58,11 @@ export default function NotesRoute() {
 
   return (
     <MainLayout>
-      <PageHeader className="mb-6" title="Notes" />
+      <PageHeader
+        className="mb-6"
+        subtitle="Things I find worth writing down. Mostly in English, occasionally in Russian."
+        title="Notes"
+      />
       <ul className="mb-10 space-y-4">
         {posts.map((post, key) => (
           <li

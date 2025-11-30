@@ -36,6 +36,7 @@ export const meta: MetaFunction = ({ matches }) => {
   const metadataUrl = getMetadataUrl(requestInfo);
 
   return [
+    { title: "Notes | Ivan Lytovka" },
     {
       name: "viewport",
       content: "width=device-width,initial-scale=1,viewport-fit=cover",
@@ -59,18 +60,18 @@ export default function NotesRoute() {
 
   return (
     <MainLayout>
-      <H1 className="mb-2">Notes</H1>
-      <ul className="mb-10">
+      <H1 className="mb-6">Notes</H1>
+      <ul className="mb-10 space-y-4">
         {posts.map((post, key) => (
           <li
-            className="flex flex-col text-2xl pr-3 pt-3 pb-3 md:items-center md:flex-row md:gap-7"
+            className="flex flex-col gap-2 p-4 rounded-lg border border-gray-200 dark:border-gray-800 hover:bg-gray-50 dark:hover:bg-gray-900 transition-colors md:flex-row md:items-center md:gap-7"
             key={key}
           >
-            <span className="text-black dark:text-white opacity-75 text-2xl md:w-80">
+            <span className="text-stone-600 dark:text-stone-400 text-lg md:text-xl md:w-80 flex-shrink-0">
               {post.date}
             </span>
             <Link
-              className="text-black dark:text-white underline text-2xl hover:opacity-75 hover:transition-opacity"
+              className="text-black dark:text-white underline text-xl md:text-2xl hover:opacity-75 hover:transition-opacity"
               to={`/notes/${post.slug}`}
             >
               {post.title}

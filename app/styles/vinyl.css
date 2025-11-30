@@ -1,13 +1,8 @@
-/* Hide scroll bar for Chrome, Safari and Opera */
 .scroll-container {
-  width: 100%;
-  overflow: scroll; /* Hide the scroll bar */
-}
-
-.scroll-container:hover {
-  overflow: auto; /* Show the scroll bar on hover */
+  scrollbar-width: none;
+  -ms-overflow-style: none;
 }
 
 .scroll-container::-webkit-scrollbar {
-  display: none; /* Hide scroll bar for webkit browsers */
+  display: none;
 }

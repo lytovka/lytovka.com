@@ -65,6 +65,7 @@ export const meta: MetaFunction<typeof loader> = ({ matches }) => {
   const metadataUrl = getMetadataUrl(requestInfo);
 
   return [
+    { title: "Wishlist | Ivan Lytovka" },
     {
       name: "viewport",
       content: "width=device-width,initial-scale=1,viewport-fit=cover",
@@ -88,7 +89,7 @@ export default function WishlistPage() {
 
   return (
     <MainLayout>
-      <div className="container mx-auto py-10">
+      <div className="container mx-auto">
         <DataTable columns={columns} data={data.wishlistEntries} />
       </div>
     </MainLayout>

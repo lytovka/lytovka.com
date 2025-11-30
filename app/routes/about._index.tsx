@@ -25,13 +25,12 @@ export const meta: MetaFunction<typeof loader> = ({ matches }) => {
   const metadataUrl = getMetadataUrl(requestInfo);
 
   return [
-    { title: "About | Ivan Lytovka" },
     {
       name: "viewport",
       content: "width=device-width,initial-scale=1,viewport-fit=cover",
     },
     ...getSocialMetas({
-      title: "Ivan's bio",
+      title: "About | Ivan Lytovka",
       description: "Get to know Ivan via this brief introduction.",
       keywords: "about, intro, ivan, ivan lytovka, lytovka",
       url: metadataUrl,

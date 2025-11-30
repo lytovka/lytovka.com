@@ -41,7 +41,8 @@ export const meta: MetaFunction = ({ matches }) => {
     },
     ...getSocialMetas({
       title: "Ivan's notes",
-      description: "Things I find worth writing down. Mostly in English, occasionally in Russian.",
+      description:
+        "Things I find worth writing down. Mostly in English, occasionally in Russian.",
       keywords: "notes, blog, ivan lytovka, lytovka",
       url: metadataUrl,
       image: getSocialImagePreview({

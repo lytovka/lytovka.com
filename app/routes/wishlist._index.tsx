@@ -72,7 +72,8 @@ export const meta: MetaFunction<typeof loader> = ({ matches }) => {
     },
     ...getSocialMetas({
       title: "Wishlist | Ivan Lytovka",
-      description: "Things I want but probably don't need. Feel free to judge my taste.",
+      description:
+        "Things I want but probably don't need. Feel free to judge my taste.",
       keywords: "wishlist, ivan lytovka, lytovka",
       url: metadataUrl,
       image: getSocialImagePreview({

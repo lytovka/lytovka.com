@@ -103,7 +103,11 @@ export default function VinylPage() {
     <MainLayout>
       <PageHeader
         className="mb-10"
-        subtitle={<span className="italic">A small collection of vinyl records I own. Images are clickable.</span>}
+        subtitle={
+          <span className="italic">
+            A small collection of vinyl records I own. Images are clickable.
+          </span>
+        }
         title="Vinyl"
       />
       <Suspense fallback={<VinylSkeleton />}>

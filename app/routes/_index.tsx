@@ -126,7 +126,7 @@ export default function IndexPage() {
 
   return (
     <main
-      className="h-full w-full relative overflow-hidden touch-none"
+      className="flex-1 w-full relative overflow-hidden touch-none"
       ref={containerRef}
     >
       {show

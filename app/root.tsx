@@ -45,7 +45,7 @@ export const meta: MetaFunction<typeof loader> = ({ data }) => {
       content: "width=device-width,initial-scale=1,viewport-fit=cover",
     },
     ...getSocialMetas({
-      title: "Ivan Lytovka",
+      title: "Homepage | Ivan Lytovka",
       description: "Ivan's homepage.",
       keywords: "ivan lytovka, lytovka, homepage, blog",
       url: metadataUrl,

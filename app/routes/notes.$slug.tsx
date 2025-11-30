@@ -6,9 +6,10 @@ import { getMDXComponent } from "mdx-bundler/client";
 import { getMdxSerialize } from "~/server/markdown.server.ts";
 import { ago, dateFormatter } from "~/utils/date.ts";
 import MainLayout from "~/components/main-layout.tsx";
-import { H1 } from "~/components/typography.tsx";
 import GoBack from "~/components/go-back.tsx";
+import { PageHeader } from "~/components/page-header.tsx";
 import type { RootLoaderDataUnwrapped } from "~/root.tsx";
+import { ProseContent } from "~/components/prose-content.tsx";
 import {
   getMetadataUrl,
   getPreviewUrl,
@@ -89,18 +90,19 @@ export default function PostSlug() {
 
   return (
     <MainLayout>
-      <div className="flex flex-col gap-1">
-        <H1 className="font-bold">{frontmatter.title}</H1>
-        <div className="flex justify-between flex-row">
-          <time className="text-lg text-zinc-700 dark:text-zinc-500">
+      <PageHeader
+        className="mb-8"
+        subtitle={
+          <time>
             {frontmatter.prettyDate} ({ago(new Date(frontmatter.date))})
           </time>
-        </div>
-      </div>
-      <div className="my-12">
-        <article className="prose text-3xl/[3rem]">
+        }
+        title={frontmatter.title}
+      />
+      <div className="mb-12">
+        <ProseContent>
           <Component />
-        </article>
+        </ProseContent>
       </div>
       <GoBack />
     </MainLayout>

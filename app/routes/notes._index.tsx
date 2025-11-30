@@ -5,7 +5,7 @@ import GoBack from "~/components/go-back.tsx";
 import { dateFormatter } from "~/utils/date.ts";
 import { fetchPreviews } from "~/server/markdown.server.ts";
 import MainLayout from "~/components/main-layout.tsx";
-import { H1 } from "~/components/typography.tsx";
+import { PageHeader } from "~/components/page-header.tsx";
 import {
   getMetadataUrl,
   getPreviewUrl,
@@ -36,7 +36,6 @@ export const meta: MetaFunction = ({ matches }) => {
   const metadataUrl = getMetadataUrl(requestInfo);
 
   return [
-    { title: "Notes | Ivan Lytovka" },
     {
       name: "viewport",
       content: "width=device-width,initial-scale=1,viewport-fit=cover",
@@ -60,7 +59,7 @@ export default function NotesRoute() {
 
   return (
     <MainLayout>
-      <H1 className="mb-6">Notes</H1>
+      <PageHeader className="mb-6" title="Notes" />
       <ul className="mb-10 space-y-4">
         {posts.map((post, key) => (
           <li

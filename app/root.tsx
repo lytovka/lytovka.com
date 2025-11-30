@@ -116,7 +116,7 @@ function App({ rootLoaderData }: { rootLoaderData: RootLoaderData }) {
         <Links />
         <ThemeScript serverTheme={rootLoaderData.requestInfo.session.theme} />
       </head>
-      <body className="bg-main dark:bg-main-dark min-h-screen flex flex-col">
+      <body className="bg-main dark:bg-main-dark flex flex-col">
         <Navbar />
         <div className="flex-1 flex flex-col">
           <Outlet />

@@ -1,10 +1,10 @@
 ## What's up nerds 🤓
 
-I'm Ivan, a software engineer at [Marqeta](https://marqeta.com) and a lifelong [Oasis](<https://en.wikipedia.org/wiki/Oasis_(band)>) fan. I spend my days writing application and library code, fixing bugs in things I shipped, and obsessing over bundle sizes nobody asked me to optimize.
+I'm Ivan (pronounced `/ee-van/` <span id="play-ivan-audio" role="button" tabindex="0" aria-label="Play pronunciation" onclick="document.getElementById('ivan-audio').play();" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();document.getElementById('ivan-audio').play();}" style="cursor: pointer; display: inline-block; vertical-align: middle; padding: 2px;"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/></svg></span>), a software engineer at [Marqeta](https://marqeta.com) and a lifelong [Oasis](<https://en.wikipedia.org/wiki/Oasis_(band)>) fan. I spend my days writing application and library code, fixing bugs in things I shipped, and obsessing over bundle sizes nobody asked me to optimize.
 
 Outside of work, I have a passion for cooking, street-style dancing (hip-hop, locking, popping, house), resistance training, running, books, and live concerts.
 
-You can find social links in the footer section of this site. Or, if you prefer email, feel free to reach out at <a href="mailto:ivanlytovka@gmail.com">ivanlytovka@gmail.com</a>.
+My social links are available in the footer. You can also contact me at <a href="mailto:ivanlytovka@gmail.com">ivanlytovka@gmail.com</a>.
 
 ---
 
@@ -27,3 +27,5 @@ A full-stack engineer with a focus on translating business ideas into code while
 - **CI/CD**: GitHub Actions;
 - **Platforms**: Postman, Figma, Sentry, Grafana, DataDog;
 - **Others**: git, GitHub (it goes without saying), neovim (btw), IntelliJ IDEA.
+
+<audio id="ivan-audio"><source src="/audio/ivan.mp3" type="audio/mpeg"></audio>

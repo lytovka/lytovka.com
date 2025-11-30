@@ -1,11 +1,10 @@
-/* eslint-disable @typescript-eslint/no-unnecessary-condition */
 import type { MetaFunction } from "@remix-run/react";
 import { Link, useLoaderData } from "@remix-run/react";
 import GoBack from "~/components/go-back.tsx";
 import { dateFormatter } from "~/utils/date.ts";
 import { fetchPreviews } from "~/server/markdown.server.ts";
 import MainLayout from "~/components/main-layout.tsx";
-import { H1 } from "~/components/typography.tsx";
+import { PageHeader } from "~/components/page-header.tsx";
 import {
   getMetadataUrl,
   getPreviewUrl,
@@ -36,14 +35,14 @@ export const meta: MetaFunction = ({ matches }) => {
   const metadataUrl = getMetadataUrl(requestInfo);
 
   return [
-    { title: "Notes | Ivan Lytovka" },
     {
       name: "viewport",
       content: "width=device-width,initial-scale=1,viewport-fit=cover",
     },
     ...getSocialMetas({
       title: "Ivan's notes",
-      description: "Notes on various topics.",
+      description:
+        "Things I find worth writing down. Mostly in English, occasionally in Russian.",
       keywords: "notes, blog, ivan lytovka, lytovka",
       url: metadataUrl,
       image: getSocialImagePreview({
@@ -60,7 +59,11 @@ export default function NotesRoute() {
 
   return (
     <MainLayout>
-      <H1 className="mb-6">Notes</H1>
+      <PageHeader
+        className="mb-6"
+        subtitle="Things I find worth writing down. Mostly in English, occasionally in Russian."
+        title="Notes"
+      />
       <ul className="mb-10 space-y-4">
         {posts.map((post, key) => (
           <li

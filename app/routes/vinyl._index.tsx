@@ -8,8 +8,8 @@ import {
 import GoBack from "~/components/go-back.tsx";
 import { ExternalLink } from "~/components/external-link.tsx";
 import { ServerError } from "~/components/errors.tsx";
-import { H1, Paragraph } from "~/components/typography.tsx";
 import MainLayout from "~/components/main-layout.tsx";
+import { PageHeader } from "~/components/page-header.tsx";
 import {
   getMetadataUrl,
   getPreviewUrl,
@@ -35,7 +35,7 @@ export const meta: MetaFunction<typeof loader> = ({ matches }) => {
       content: "width=device-width,initial-scale=1,viewport-fit=cover",
     },
     ...getSocialMetas({
-      title: "Vinyl Collection | Ivan Lytovka",
+      title: "Ivan's vinyl collection",
       keywords: "vinyl, collectibles, ivan lytovka, lytovka",
       url: metadataUrl,
       description: "A collection of vinyl records Ivan owns.",
@@ -101,12 +101,15 @@ export default function VinylPage() {
 
   return (
     <MainLayout>
-      <div className="flex flex-col gap-2 mb-10">
-        <H1 className="font-bold text-3xl md:text-4xl">Vinyl</H1>
-        <Paragraph className="italic text-lg md:text-xl" variant="secondary">
-          A small collection of vinyl records I own. Images are clickable.
-        </Paragraph>
-      </div>
+      <PageHeader
+        className="mb-10"
+        subtitle={
+          <span className="italic">
+            A small collection of vinyl records I own. Images are clickable.
+          </span>
+        }
+        title="Vinyl"
+      />
       <Suspense fallback={<VinylSkeleton />}>
         <Await resolve={dataStream.albumRows}>
           {(data) => {

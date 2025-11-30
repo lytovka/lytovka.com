@@ -56,4 +56,16 @@
     white-space: nowrap;
     border-width: 0;
   }
+
+  .pronunciation {
+    font-family: monospace;
+    padding: 2px 6px;
+    border-radius: 3px;
+  }
+  .light .pronunciation {
+    background-color: rgba(0, 0, 0, 0.08);
+  }
+  .dark .pronunciation {
+    background-color: rgba(255, 255, 255, 0.1);
+  }
 }

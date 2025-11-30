@@ -8,6 +8,7 @@ import {
 import { columns } from "~/components/columns";
 import { DataTable } from "~/components/data-table";
 import MainLayout from "~/components/main-layout";
+import { PageHeader } from "~/components/page-header";
 import { prisma } from "~/server/db";
 import { z } from "zod";
 import { Prisma } from "@prisma/client";
@@ -65,14 +66,14 @@ export const meta: MetaFunction<typeof loader> = ({ matches }) => {
   const metadataUrl = getMetadataUrl(requestInfo);
 
   return [
-    { title: "Wishlist | Ivan Lytovka" },
     {
       name: "viewport",
       content: "width=device-width,initial-scale=1,viewport-fit=cover",
     },
     ...getSocialMetas({
-      title: "Ivan's wishlist",
-      description: "All the stuff Ivan wants to buy",
+      title: "Wishlist | Ivan Lytovka",
+      description:
+        "Things I want but probably don't need. Feel free to judge my taste.",
       keywords: "wishlist, ivan lytovka, lytovka",
       url: metadataUrl,
       image: getSocialImagePreview({
@@ -89,6 +90,11 @@ export default function WishlistPage() {
 
   return (
     <MainLayout>
+      <PageHeader
+        className="mb-10"
+        subtitle="Things I want but probably don't need. Feel free to judge my taste."
+        title="Wishlist"
+      />
       <div className="container mx-auto">
         <DataTable columns={columns} data={data.wishlistEntries} />
       </div>

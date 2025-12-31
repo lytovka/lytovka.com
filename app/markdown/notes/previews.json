@@ -1,11 +1,5 @@
 [
   {
-    "title": "Мысли о войне",
-    "date": "03/11/2022",
-    "slug": "thoughts",
-    "languages": "rus"
-  },
-  {
     "title": "2023 In Review",
     "date": "12/31/2023",
     "slug": "2023-in-review",
@@ -15,6 +9,12 @@
     "title": "Hometown Memories",
     "date": "05/24/2024",
     "slug": "hometown-memories",
+    "languages": "en"
+  },
+  {
+    "title": "2025 In Review",
+    "date": "12/30/2025",
+    "slug": "2025-in-review",
     "languages": "en"
   }
 ]

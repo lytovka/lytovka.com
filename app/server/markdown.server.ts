@@ -11,6 +11,7 @@ type Metadata = {
   date: string;
   slug: string;
   languages: string;
+  hidden?: boolean;
 };
 
 export type Note = {
@@ -58,7 +59,7 @@ export const getMdxSerialize = async (mdxString: string) => {
 };
 
 export const fetchPreviews = (): Array<Metadata> => {
-  return (previews as Array<Metadata>).sort(
-    (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime(),
-  );
+  return (previews as Array<Metadata>)
+    .filter((p) => !p.hidden)
+    .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 };

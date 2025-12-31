@@ -3,7 +3,6 @@ import type { LoaderFunctionArgs, MetaFunction } from "@vercel/remix";
 import { useLoaderData } from "@remix-run/react";
 import type { ChangeEvent } from "react";
 import { useRef } from "react";
-import GoBack from "~/components/go-back.tsx";
 import MainLayout from "~/components/main-layout.tsx";
 import ToggleButton from "~/components/toggle-button.tsx";
 import type { RootLoaderDataUnwrapped } from "~/root.tsx";
@@ -108,7 +107,6 @@ export default function AboutPage() {
           />
         </article>
       </div>
-      <GoBack />
     </MainLayout>
   );
 }

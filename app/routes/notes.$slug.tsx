@@ -6,7 +6,6 @@ import { getMDXComponent } from "mdx-bundler/client";
 import { getMdxSerialize } from "~/server/markdown.server.ts";
 import { ago, dateFormatter } from "~/utils/date.ts";
 import MainLayout from "~/components/main-layout.tsx";
-import GoBack from "~/components/go-back.tsx";
 import { PageHeader } from "~/components/page-header.tsx";
 import type { RootLoaderDataUnwrapped } from "~/root.tsx";
 import { ProseContent } from "~/components/prose-content.tsx";
@@ -73,6 +72,10 @@ export const loader = async ({ params }: LoaderFunctionArgs) => {
   invariantResponse(content, "Could not fetch the content");
 
   const code = await getMdxSerialize(content.content);
+  if (code.frontmatter.hidden) {
+    throw new Response("Could not find content", { status: 404 });
+  }
+
   const noteExtended = {
     code: code.code,
     frontmatter: {
@@ -104,7 +107,6 @@ export default function PostSlug() {
           <Component />
         </ProseContent>
       </div>
-      <GoBack />
     </MainLayout>
   );
 }

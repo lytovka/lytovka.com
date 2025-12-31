@@ -43,7 +43,7 @@
     "dotenv": "16.4.7",
     "gray-matter": "^4.0.3",
     "isbot": "^5.1.19",
-    "lucide-react": "^0.469.0",
+    "lucide-react": "^0.562.0",
     "marked": "^15.0.4",
     "mdx-bundler": "^10.0.3",
     "react": "18.3.1",

@@ -8,8 +8,8 @@ type ErrorPageProps = {
 
 function ErrorPage({ title, subtitle }: ErrorPageProps) {
   return (
-    <main className="h-screen">
-      <div className="h-full flex items-center justify-center flex-col gap-3">
+    <main className="h-full flex items-center justify-center">
+      <div className="flex items-center justify-center flex-col gap-3">
         <H1 className="text-center">{title}</H1>
         <Paragraph className="text-center">{subtitle}</Paragraph>
       </div>
@@ -23,8 +23,8 @@ export function FourOhFour() {
 
   return (
     <ErrorPage
-      subtitle={`"${last}" is not a page on lytovka.com.`}
-      title="Yikes, you hit that 404."
+      subtitle={`"${last}" doesn't exist here. Maybe it's hiding, or maybe you typo'd 🤔`}
+      title="This is awkward..."
     />
   );
 }

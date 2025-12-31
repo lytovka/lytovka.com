@@ -73,6 +73,10 @@ export const loader = async ({ params }: LoaderFunctionArgs) => {
   invariantResponse(content, "Could not fetch the content");
 
   const code = await getMdxSerialize(content.content);
+  if (code.frontmatter.hidden) {
+    throw new Response("Could not find content", { status: 404 });
+  }
+
   const noteExtended = {
     code: code.code,
     frontmatter: {

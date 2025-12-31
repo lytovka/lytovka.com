@@ -45,6 +45,10 @@ a.anchor:focus {
   color: var(--typography-light-paragraph);
 }
 
+.prose ol > li {
+  color: var(--typography-light-paragraph);
+}
+
 .prose blockquote {
   border-left: 3px solid;
 }

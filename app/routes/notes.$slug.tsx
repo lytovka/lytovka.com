@@ -6,7 +6,6 @@ import { getMDXComponent } from "mdx-bundler/client";
 import { getMdxSerialize } from "~/server/markdown.server.ts";
 import { ago, dateFormatter } from "~/utils/date.ts";
 import MainLayout from "~/components/main-layout.tsx";
-import GoBack from "~/components/go-back.tsx";
 import { PageHeader } from "~/components/page-header.tsx";
 import type { RootLoaderDataUnwrapped } from "~/root.tsx";
 import { ProseContent } from "~/components/prose-content.tsx";
@@ -59,9 +58,9 @@ export const meta: MetaFunction<typeof loader> = ({
     { property: "article:author", content: "Ivan Lytovka" },
     articleAttributes.date
       ? {
-          property: "og:article:published_time",
-          content: articleAttributes.date,
-        }
+        property: "og:article:published_time",
+        content: articleAttributes.date,
+      }
       : {},
   ];
 };
@@ -108,7 +107,6 @@ export default function PostSlug() {
           <Component />
         </ProseContent>
       </div>
-      <GoBack />
     </MainLayout>
   );
 }

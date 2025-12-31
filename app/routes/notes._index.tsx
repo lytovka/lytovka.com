@@ -1,6 +1,5 @@
 import type { MetaFunction } from "@remix-run/react";
 import { Link, useLoaderData } from "@remix-run/react";
-import GoBack from "~/components/go-back.tsx";
 import { dateFormatter } from "~/utils/date.ts";
 import { fetchPreviews } from "~/server/markdown.server.ts";
 import MainLayout from "~/components/main-layout.tsx";
@@ -82,7 +81,6 @@ export default function NotesRoute() {
           </li>
         ))}
       </ul>
-      <GoBack />
     </MainLayout>
   );
 }

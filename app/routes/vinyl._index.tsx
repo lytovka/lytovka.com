@@ -5,7 +5,6 @@ import {
   SPOTIFY_COUNT_LIMIT,
   getAlbumsByIds,
 } from "~/server/spotify.server.ts";
-import GoBack from "~/components/go-back.tsx";
 import { ExternalLink } from "~/components/external-link.tsx";
 import { ServerError } from "~/components/errors.tsx";
 import MainLayout from "~/components/main-layout.tsx";
@@ -156,7 +155,6 @@ export default function VinylPage() {
           }}
         </Await>
       </Suspense>
-      <GoBack />
     </MainLayout>
   );
 }

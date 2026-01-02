@@ -17,6 +17,10 @@
   color: var(--typography-light-heading);
 }
 
+.prose :is(h1, h2, h3, h4, h5, h6) {
+  margin-top: 3em;
+}
+
 .prose p {
   color: var(--typography-light-paragraph);
   margin-top: 0.75em;

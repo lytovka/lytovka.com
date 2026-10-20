@@ -16,7 +16,7 @@ After graduation, I landed a full-time position at a fintech startup [Power Fina
 
 ## Profile
 
-A full-stack engineer with a focus on translating business ideas into code while adhering to industry standards and established best practices. For a detailed look at my experience and qualifications, please visit my [LinkedIn profile](https://www.linkedin.com/in/ivanlytovka/) (let's connect and never interact again).
+A full-stack engineer with a focus on translating business ideas into code while adhering to industry standards and established best practices. For a detailed look at my experience and qualifications, please visit my [LinkedIn profile](https://www.linkedin.com/in/ivanlytovka/).
 
 ## Skills & tools
 
